@@ -1,0 +1,361 @@
+import { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { PawPrint, ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { BRAND } from "@/lib/brand";
+import type { TributeFormData, TributeStyle } from "@/lib/types";
+
+const PERSONALITY_OPTIONS = [
+  "Loyal", "Playful", "Gentle", "Adventurous", "Funny", "Cuddly",
+  "Brave", "Mischievous", "Calm", "Energetic", "Stubborn", "Sweet",
+];
+
+const TONE_OPTIONS: { value: TributeStyle; label: string; desc: string }[] = [
+  { value: "warm", label: "Warm & Heartfelt", desc: "Tender and comforting" },
+  { value: "celebratory", label: "Celebratory", desc: "Joyful and uplifting" },
+  { value: "gentle", label: "Gentle", desc: "Soft and peaceful" },
+  { value: "lighthearted", label: "Lighthearted", desc: "Fun and loving" },
+];
+
+const STEPS = [
+  "About Your Pet",
+  "Personality",
+  "Memories",
+  "What They Loved",
+  "Your Message",
+  "Style",
+];
+
+const defaultForm: TributeFormData = {
+  pet_name: "",
+  pet_type: "",
+  breed: "",
+  years_of_life: "",
+  owner_name: "",
+  photo_urls: [],
+  personality_traits: [],
+  personality_description: "",
+  memories: [""],
+  special_habits: "",
+  favorite_activities: "",
+  favorite_people_or_animals: "",
+  owner_message: "",
+  tone: "warm",
+};
+
+const Questionnaire = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const tier = searchParams.get("tier") || "story";
+  const [step, setStep] = useState(0);
+  const [form, setForm] = useState<TributeFormData>(defaultForm);
+
+  const update = <K extends keyof TributeFormData>(key: K, value: TributeFormData[K]) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const toggleTrait = (trait: string) => {
+    update(
+      "personality_traits",
+      form.personality_traits.includes(trait)
+        ? form.personality_traits.filter((t) => t !== trait)
+        : [...form.personality_traits, trait]
+    );
+  };
+
+  const addMemory = () => update("memories", [...form.memories, ""]);
+  const updateMemory = (i: number, val: string) => {
+    const updated = [...form.memories];
+    updated[i] = val;
+    update("memories", updated);
+  };
+
+  const canProceed = () => {
+    if (step === 0) return form.pet_name.trim() && form.pet_type.trim();
+    return true;
+  };
+
+  const handleGenerate = () => {
+    // Pass form data via state to the tribute page
+    navigate(`/tribute?tier=${tier}`, { state: { formData: form } });
+  };
+
+  const renderStep = () => {
+    switch (step) {
+      case 0:
+        return (
+          <div className="space-y-5">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <Label>Pet's Name *</Label>
+                <Input
+                  placeholder="e.g., Buddy"
+                  value={form.pet_name}
+                  onChange={(e) => update("pet_name", e.target.value)}
+                />
+              </div>
+              <div>
+                <Label>Type of Pet *</Label>
+                <Input
+                  placeholder="e.g., Dog, Cat, Bird"
+                  value={form.pet_type}
+                  onChange={(e) => update("pet_type", e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <Label>Breed (optional)</Label>
+                <Input
+                  placeholder="e.g., Golden Retriever"
+                  value={form.breed}
+                  onChange={(e) => update("breed", e.target.value)}
+                />
+              </div>
+              <div>
+                <Label>Years of Life</Label>
+                <Input
+                  placeholder="e.g., 2010–2024 or 12 years"
+                  value={form.years_of_life}
+                  onChange={(e) => update("years_of_life", e.target.value)}
+                />
+              </div>
+            </div>
+            <div>
+              <Label>Your Name (optional)</Label>
+              <Input
+                placeholder="Your first name"
+                value={form.owner_name}
+                onChange={(e) => update("owner_name", e.target.value)}
+              />
+            </div>
+          </div>
+        );
+
+      case 1:
+        return (
+          <div className="space-y-5">
+            <div>
+              <Label className="mb-3 block">
+                What words describe {form.pet_name || "your pet"}?
+              </Label>
+              <div className="flex flex-wrap gap-2">
+                {PERSONALITY_OPTIONS.map((trait) => (
+                  <button
+                    key={trait}
+                    type="button"
+                    onClick={() => toggleTrait(trait)}
+                    className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
+                      form.personality_traits.includes(trait)
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border bg-card text-foreground hover:border-primary/50"
+                    }`}
+                  >
+                    {trait}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <Label>Describe their personality in a few words</Label>
+              <Textarea
+                placeholder="e.g., Always the first to greet visitors, loved belly rubs..."
+                value={form.personality_description}
+                onChange={(e) => update("personality_description", e.target.value)}
+                rows={3}
+              />
+            </div>
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="space-y-5">
+            <div>
+              <Label className="mb-3 block">
+                Share your favorite memories with {form.pet_name || "your pet"}
+              </Label>
+              {form.memories.map((m, i) => (
+                <Textarea
+                  key={i}
+                  className="mb-3"
+                  placeholder={`Memory ${i + 1}...`}
+                  value={m}
+                  onChange={(e) => updateMemory(i, e.target.value)}
+                  rows={2}
+                />
+              ))}
+              <Button variant="outline" size="sm" onClick={addMemory}>
+                + Add another memory
+              </Button>
+            </div>
+            <div>
+              <Label>Any special habits or quirks?</Label>
+              <Textarea
+                placeholder="e.g., Always stole socks, slept in funny positions..."
+                value={form.special_habits}
+                onChange={(e) => update("special_habits", e.target.value)}
+                rows={2}
+              />
+            </div>
+          </div>
+        );
+
+      case 3:
+        return (
+          <div className="space-y-5">
+            <div>
+              <Label>Favorite activities or hobbies</Label>
+              <Textarea
+                placeholder="e.g., Chasing squirrels, swimming, car rides..."
+                value={form.favorite_activities}
+                onChange={(e) => update("favorite_activities", e.target.value)}
+                rows={3}
+              />
+            </div>
+            <div>
+              <Label>Favorite people or animal friends</Label>
+              <Textarea
+                placeholder="e.g., Best friends with the neighbor's cat..."
+                value={form.favorite_people_or_animals}
+                onChange={(e) => update("favorite_people_or_animals", e.target.value)}
+                rows={3}
+              />
+            </div>
+          </div>
+        );
+
+      case 4:
+        return (
+          <div className="space-y-5">
+            <div>
+              <Label>
+                A personal message to {form.pet_name || "your pet"} (optional)
+              </Label>
+              <Textarea
+                placeholder="Say anything you'd like them to know..."
+                value={form.owner_message}
+                onChange={(e) => update("owner_message", e.target.value)}
+                rows={5}
+              />
+            </div>
+          </div>
+        );
+
+      case 5:
+        return (
+          <div className="space-y-5">
+            <Label className="mb-3 block">Choose a tone for the tribute</Label>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {TONE_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => update("tone", opt.value)}
+                  className={`rounded-lg border p-4 text-left transition-colors ${
+                    form.tone === opt.value
+                      ? "border-primary bg-accent"
+                      : "border-border bg-card hover:border-primary/50"
+                  }`}
+                >
+                  <span className="font-display text-base font-semibold text-foreground">
+                    {opt.label}
+                  </span>
+                  <p className="mt-1 text-sm text-muted-foreground">{opt.desc}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border/50">
+        <div className="tribute-container flex items-center justify-between py-4">
+          <div className="flex items-center gap-2">
+            <PawPrint className="h-6 w-6 text-primary" />
+            <span className="font-display text-xl font-semibold text-foreground">
+              {BRAND.name}
+            </span>
+          </div>
+          <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
+            <ArrowLeft className="mr-1 h-4 w-4" /> Back
+          </Button>
+        </div>
+      </header>
+
+      <div className="tribute-container max-w-2xl py-8">
+        {/* Encouraging message */}
+        <div className="mb-8 rounded-lg bg-accent/60 p-4 text-center text-sm text-accent-foreground">
+          Take your time. There are no right or wrong answers. Even small memories create meaningful tributes.
+        </div>
+
+        {/* Progress */}
+        <div className="mb-8">
+          <div className="mb-2 flex justify-between text-xs text-muted-foreground">
+            <span>Step {step + 1} of {STEPS.length}</span>
+            <span>{STEPS[step]}</span>
+          </div>
+          <div className="h-1.5 overflow-hidden rounded-full bg-secondary">
+            <div
+              className="h-full rounded-full bg-primary transition-all duration-300"
+              style={{ width: `${((step + 1) / STEPS.length) * 100}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Step Title */}
+        <h2 className="mb-6 font-display text-2xl font-bold text-foreground">
+          {STEPS[step]}
+        </h2>
+
+        {/* Step Content */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            {renderStep()}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Navigation */}
+        <div className="mt-8 flex justify-between">
+          <Button
+            variant="outline"
+            onClick={() => setStep((s) => s - 1)}
+            disabled={step === 0}
+          >
+            <ArrowLeft className="mr-1 h-4 w-4" /> Previous
+          </Button>
+          {step < STEPS.length - 1 ? (
+            <Button
+              onClick={() => setStep((s) => s + 1)}
+              disabled={!canProceed()}
+            >
+              Next <ArrowRight className="ml-1 h-4 w-4" />
+            </Button>
+          ) : (
+            <Button onClick={handleGenerate}>
+              <Sparkles className="mr-1 h-4 w-4" /> Generate Tribute
+            </Button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Questionnaire;

@@ -1,0 +1,138 @@
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Heart, PawPrint, FileText, Share2, BookOpen } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { BRAND } from "@/lib/brand";
+import { TIERS } from "@/lib/types";
+import TierCard from "@/components/TierCard";
+
+const Landing = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-border/50">
+        <div className="tribute-container flex items-center justify-between py-4">
+          <div className="flex items-center gap-2">
+            <PawPrint className="h-6 w-6 text-primary" />
+            <span className="font-display text-xl font-semibold text-foreground">
+              {BRAND.name}
+            </span>
+          </div>
+          <Button
+            size="sm"
+            onClick={() => navigate("/create")}
+          >
+            Create Your Tribute
+          </Button>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <section className="tribute-section text-center">
+        <div className="tribute-container max-w-3xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            <div className="mb-6 flex justify-center">
+              <div className="rounded-full bg-accent p-4">
+                <Heart className="h-8 w-8 text-primary" />
+              </div>
+            </div>
+            <h1 className="mb-6 text-4xl font-bold leading-tight text-foreground md:text-5xl lg:text-6xl">
+              {BRAND.tagline}
+            </h1>
+            <p className="mb-10 text-lg text-muted-foreground md:text-xl">
+              {BRAND.subtitle}
+            </p>
+            <Button
+              size="lg"
+              className="px-8 py-6 text-lg shadow-glow"
+              onClick={() => navigate("/create")}
+            >
+              <PawPrint className="mr-2 h-5 w-5" />
+              Create Your Tribute
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="bg-secondary/40 tribute-section">
+        <div className="tribute-container text-center">
+          <h2 className="mb-12 text-3xl font-bold text-foreground">
+            How It Works
+          </h2>
+          <div className="grid gap-8 md:grid-cols-3">
+            {[
+              { icon: PawPrint, title: "Share Your Memories", desc: "Answer a few gentle questions about your pet's life and personality." },
+              { icon: BookOpen, title: "We Craft Your Story", desc: "Our AI creates a heartfelt tribute capturing your pet's unique spirit." },
+              { icon: FileText, title: "Treasure Forever", desc: "Download, share, or print your beautiful tribute story." },
+            ].map((step, i) => (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.15, duration: 0.5 }}
+                viewport={{ once: true }}
+                className="flex flex-col items-center"
+              >
+                <div className="mb-4 rounded-full bg-accent p-4">
+                  <step.icon className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="mb-2 font-display text-xl font-semibold text-foreground">
+                  {step.title}
+                </h3>
+                <p className="text-muted-foreground">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Tiers */}
+      <section className="tribute-section">
+        <div className="tribute-container">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-foreground">
+              Choose Your Tribute
+            </h2>
+            <p className="text-muted-foreground">
+              Every pet deserves to be remembered beautifully.
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {TIERS.map((tier, i) => (
+              <motion.div
+                key={tier.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                viewport={{ once: true }}
+              >
+                <TierCard
+                  tier={tier}
+                  onSelect={() => navigate(`/create?tier=${tier.id}`)}
+                />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-border/50 py-8 text-center text-sm text-muted-foreground">
+        <div className="tribute-container">
+          <p>
+            Made with <Heart className="inline h-3 w-3 text-primary" /> by {BRAND.name}
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Landing;
