@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart, PawPrint, FileText, Share2, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
