@@ -42,6 +42,7 @@ export interface TierConfig {
   include_social_post: boolean;
   include_printable_pdf: boolean;
   include_memorial_page: boolean;
+  share_card_limit: number; // number of design templates available, -1 = unlimited
 }
 
 export const TIERS: TierConfig[] = [
@@ -53,13 +54,15 @@ export const TIERS: TierConfig[] = [
     features: [
       "Short, meaningful tribute story",
       "PDF download",
+      "1 memorial share card",
       "1 pet photo",
       "2 regenerations",
     ],
-    include_share_card: false,
+    include_share_card: true,
     include_social_post: false,
     include_printable_pdf: true,
     include_memorial_page: false,
+    share_card_limit: 1,
   },
   {
     id: "pack",
@@ -78,6 +81,7 @@ export const TIERS: TierConfig[] = [
     include_social_post: true,
     include_printable_pdf: true,
     include_memorial_page: false,
+    share_card_limit: 3,
   },
   {
     id: "legacy",
@@ -95,6 +99,7 @@ export const TIERS: TierConfig[] = [
     include_social_post: true,
     include_printable_pdf: true,
     include_memorial_page: true,
+    share_card_limit: -1,
   },
 ];
 
