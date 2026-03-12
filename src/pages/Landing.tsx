@@ -117,7 +117,7 @@ const Landing = () => {
           <div className="grid gap-8 md:grid-cols-3">
             {[
             { icon: PawPrint, title: "Share Your Memories", desc: "Answer a few gentle questions about your pet's life and personality." },
-            { icon: BookOpen, title: "We Craft Your Story", desc: "Our AI creates a heartfelt tribute capturing your pet's unique spirit." },
+            { icon: BookOpen, title: "We Craft Your Story", desc: "We transform your memories into a meaningful, heartfelt tribute capturing your pet's unique spirit. " },
             { icon: FileText, title: "Treasure Forever", desc: "Download, share, or print your beautiful tribute story." }].
             map((step, i) =>
             <motion.div
