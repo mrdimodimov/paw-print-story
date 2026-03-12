@@ -245,24 +245,24 @@ const Landing = () => {
               </h4>
               <ul className="space-y-2">
                 <li>
-                  <NavLink to="/dog-obituary-example" className="hover:text-primary transition-colors">
+                  <Link to="/dog-obituary-example" className="hover:text-primary transition-colors">
                     Dog Obituary Example
-                  </NavLink>
+                  </Link>
                 </li>
                 <li>
-                  <NavLink to="/cat-memorial-tribute-example" className="hover:text-primary transition-colors">
+                  <Link to="/cat-memorial-tribute-example" className="hover:text-primary transition-colors">
                     Cat Memorial Tribute Example
-                  </NavLink>
+                  </Link>
                 </li>
                 <li>
-                  <NavLink to="/pet-memorial-message" className="hover:text-primary transition-colors">
+                  <Link to="/pet-memorial-message" className="hover:text-primary transition-colors">
                     Pet Memorial Messages
-                  </NavLink>
+                  </Link>
                 </li>
                 <li>
-                  <NavLink to="/what-to-write-when-a-dog-dies" className="hover:text-primary transition-colors">
+                  <Link to="/what-to-write-when-a-dog-dies" className="hover:text-primary transition-colors">
                     What to Write When a Dog Dies
-                  </NavLink>
+                  </Link>
                 </li>
               </ul>
             </div>
