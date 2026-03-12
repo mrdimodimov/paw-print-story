@@ -64,6 +64,7 @@ export const TIERS: TierConfig[] = [
     include_printable_pdf: true,
     include_memorial_page: false,
     share_card_limit: 1,
+    photo_limit: 1,
   },
   {
     id: "pack",
