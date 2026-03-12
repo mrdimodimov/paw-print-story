@@ -232,6 +232,9 @@ const Landing = () => {
               </motion.div>
             )}
           </div>
+          <p className="mt-8 text-center text-sm text-muted-foreground">
+            Every tribute can be edited before downloading.
+          </p>
         </div>
       </section>
 
