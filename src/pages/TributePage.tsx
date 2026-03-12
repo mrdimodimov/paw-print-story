@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image } from "lucide-react";
 import TributeShareCard from "@/components/TributeShareCard";
+import PublicTributeToggle from "@/components/PublicTributeToggle";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -336,6 +337,19 @@ const TributePage = () => {
             </div>
           )}
 
+          {/* Public Tribute Page Toggle */}
+          <div className="mb-6">
+            <PublicTributeToggle
+              petName={formData?.pet_name || ""}
+              petType={formData?.pet_type || "dog"}
+              breed={formData?.breed}
+              yearsOfLife={formData?.years_of_life || ""}
+              tribute={tribute}
+              photoUrls={photoUrls}
+              tierId={tier.id}
+            />
+          </div>
+
           {/* Digital Memorial Page (Tier 3) */}
           {tier.include_memorial_page && (
             <div className="mb-6 rounded-xl border border-primary/30 bg-accent/50 p-6 shadow-soft">
@@ -353,9 +367,6 @@ const TributePage = () => {
                   Your {photoUrls.length} photo{photoUrls.length > 1 ? "s" : ""} will be included in the memorial gallery.
                 </p>
               )}
-              <Button variant="outline" size="sm" className="mt-3" disabled>
-                Coming Soon
-              </Button>
             </div>
           )}
         </motion.div>

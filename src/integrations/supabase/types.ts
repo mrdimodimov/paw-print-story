@@ -14,7 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      public_tributes: {
+        Row: {
+          breed: string | null
+          created_at: string
+          custom_slug: string | null
+          id: string
+          pet_name: string
+          pet_type: string
+          photo_urls: string[]
+          share_card_text: string | null
+          slug: string
+          social_post: string | null
+          story: string
+          tier_id: string
+          years_of_life: string | null
+        }
+        Insert: {
+          breed?: string | null
+          created_at?: string
+          custom_slug?: string | null
+          id?: string
+          pet_name: string
+          pet_type?: string
+          photo_urls?: string[]
+          share_card_text?: string | null
+          slug: string
+          social_post?: string | null
+          story: string
+          tier_id?: string
+          years_of_life?: string | null
+        }
+        Update: {
+          breed?: string | null
+          created_at?: string
+          custom_slug?: string | null
+          id?: string
+          pet_name?: string
+          pet_type?: string
+          photo_urls?: string[]
+          share_card_text?: string | null
+          slug?: string
+          social_post?: string | null
+          story?: string
+          tier_id?: string
+          years_of_life?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
