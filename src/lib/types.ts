@@ -54,13 +54,15 @@ export const TIERS: TierConfig[] = [
     features: [
       "Short, meaningful tribute story",
       "PDF download",
+      "1 memorial share card",
       "1 pet photo",
       "2 regenerations",
     ],
-    include_share_card: false,
+    include_share_card: true,
     include_social_post: false,
     include_printable_pdf: true,
     include_memorial_page: false,
+    share_card_limit: 1,
   },
   {
     id: "pack",
