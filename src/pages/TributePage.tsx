@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check } from "lucide-react";
+import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image } from "lucide-react";
 import TributeShareCard from "@/components/TributeShareCard";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -36,6 +36,7 @@ const TributePage = () => {
   const [regenCount, setRegenCount] = useState(0);
 
   const maxRegens = tier.id === "story" ? 2 : tier.id === "pack" ? 3 : Infinity;
+  const photoUrls = formData?.photo_urls || [];
 
   const runGeneration = (data: TributeFormData, tierConfig: TierConfig) => {
     setGenerating(true);
@@ -110,14 +111,13 @@ const TributePage = () => {
 
   const handleDownloadPDF = async () => {
     if (!tribute || !formData) return;
-    const photoUrl = formData.photo_urls?.[0];
-    await downloadTributePDF(formData.pet_name, formData.years_of_life, tribute.story, photoUrl);
+    await downloadTributePDF(formData.pet_name, formData.years_of_life, tribute.story, photoUrls);
     toast.success("PDF downloaded!");
   };
 
-  const handleDownloadMemorial = () => {
+  const handleDownloadMemorial = async () => {
     if (!tribute || !formData) return;
-    downloadMemorialPDF(formData.pet_name, formData.years_of_life, tribute.story);
+    await downloadMemorialPDF(formData.pet_name, formData.years_of_life, tribute.story, photoUrls);
     toast.success("Memorial PDF downloaded!");
   };
 
@@ -174,6 +174,31 @@ const TributePage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
+          {/* Photo Gallery Preview */}
+          {photoUrls.length > 0 && (
+            <div className="mb-6 rounded-xl border border-border bg-card p-5 shadow-soft">
+              <div className="mb-3 flex items-center gap-2">
+                <Image className="h-4 w-4 text-primary" />
+                <h3 className="font-display text-sm font-semibold text-foreground">
+                  {formData?.pet_name ? `${formData.pet_name}'s Photos` : "Pet Photos"}
+                </h3>
+                <span className="text-xs text-muted-foreground">
+                  — Photos help make your tribute personal and memorable.
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {photoUrls.map((url, i) => (
+                  <img
+                    key={i}
+                    src={url}
+                    alt={`${formData?.pet_name || "Pet"} photo ${i + 1}`}
+                    className="h-20 w-20 rounded-lg border border-border object-cover shadow-sm"
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Tribute Story */}
           <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
             <h2 className="mb-1 font-display text-2xl font-bold text-foreground">
@@ -230,6 +255,11 @@ const TributePage = () => {
             <Button size="sm" onClick={handleDownloadPDF}>
               <Download className="mr-1 h-4 w-4" /> Download PDF
             </Button>
+            {tier.include_printable_pdf && (tier.id === "pack" || tier.id === "legacy") && (
+              <Button variant="outline" size="sm" onClick={handleDownloadMemorial}>
+                <FileText className="mr-1 h-4 w-4" /> Printable Memorial
+              </Button>
+            )}
             <Button
               variant="outline"
               size="sm"
@@ -300,7 +330,7 @@ const TributePage = () => {
                 petName={formData?.pet_name || "Your Pet"}
                 years={formData?.years_of_life || ""}
                 excerpt={tribute.share_card_text}
-                photoUrl={formData?.photo_urls?.[0]}
+                photoUrls={photoUrls}
                 shareCardLimit={tier.share_card_limit}
               />
             </div>
@@ -318,6 +348,11 @@ const TributePage = () => {
               <p className="text-sm text-muted-foreground">
                 Your digital memorial page is being prepared. You'll receive a unique link to share with family and friends.
               </p>
+              {photoUrls.length > 0 && (
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Your {photoUrls.length} photo{photoUrls.length > 1 ? "s" : ""} will be included in the memorial gallery.
+                </p>
+              )}
               <Button variant="outline" size="sm" className="mt-3" disabled>
                 Coming Soon
               </Button>
