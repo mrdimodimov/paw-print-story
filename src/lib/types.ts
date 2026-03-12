@@ -99,6 +99,7 @@ export const TIERS: TierConfig[] = [
     include_social_post: true,
     include_printable_pdf: true,
     include_memorial_page: true,
+    share_card_limit: -1,
   },
 ];
 
