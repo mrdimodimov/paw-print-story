@@ -531,7 +531,7 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
           <Download className="mr-1 h-4 w-4" /> Download Share Card
         </Button>
 
-        <TooltipProvider>
+        <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger asChild>
               <div>
@@ -541,17 +541,24 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
                       <Share2 className="mr-1 h-4 w-4" /> Share Tribute
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-52">
+                  <DropdownMenuContent align="end" className="w-56">
                     <DropdownMenuItem onClick={() => handlePlatformShare("facebook")}>
                       <Facebook className="mr-2 h-4 w-4 text-[hsl(220,46%,48%)]" /> Facebook
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handlePlatformShare("instagram")}>
-                      <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="5" /><circle cx="17.5" cy="6.5" r="1.5" /></svg>
-                      Instagram
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handlePlatformShare("twitter")}>
-                      <Twitter className="mr-2 h-4 w-4" /> X (Twitter)
-                    </DropdownMenuItem>
+
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <DropdownMenuItem onClick={() => handlePlatformShare("instagram")}>
+                          <svg className="mr-2 h-4 w-4 text-[hsl(330,70%,50%)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="5" /><circle cx="17.5" cy="6.5" r="1.5" /></svg>
+                          Instagram
+                          <span className="ml-auto text-[10px] text-muted-foreground">Download</span>
+                        </DropdownMenuItem>
+                      </TooltipTrigger>
+                      <TooltipContent side="left" className="max-w-[200px] text-center text-xs">
+                        Instagram sharing is only available via download. We'll save the card for you to post.
+                      </TooltipContent>
+                    </Tooltip>
+
                     <DropdownMenuItem onClick={() => handlePlatformShare("whatsapp")}>
                       <MessageCircle className="mr-2 h-4 w-4 text-[hsl(142,70%,40%)]" /> WhatsApp
                     </DropdownMenuItem>
@@ -561,6 +568,9 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
                     <DropdownMenuItem onClick={() => handlePlatformShare("pinterest")}>
                       <svg className="mr-2 h-4 w-4 text-[hsl(0,78%,51%)]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.08 3.15 9.42 7.6 11.18-.1-.95-.19-2.41.04-3.45.21-.94 1.36-5.76 1.36-5.76s-.35-.7-.35-1.72c0-1.61.94-2.82 2.1-2.82.99 0 1.47.74 1.47 1.64 0 1-.64 2.49-.97 3.88-.27 1.16.58 2.1 1.72 2.1 2.07 0 3.66-2.18 3.66-5.33 0-2.79-2-4.74-4.87-4.74-3.32 0-5.27 2.49-5.27 5.06 0 1 .39 2.08.87 2.66.1.12.11.22.08.34-.09.37-.29 1.16-.33 1.32-.05.22-.18.26-.41.16-1.52-.71-2.47-2.93-2.47-4.72 0-3.84 2.79-7.37 8.04-7.37 4.22 0 7.5 3.01 7.5 7.02 0 4.19-2.64 7.57-6.32 7.57-1.23 0-2.39-.64-2.79-1.4l-.76 2.89c-.27 1.06-1.01 2.39-1.5 3.2A12 12 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
                       Pinterest
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handlePlatformShare("twitter")}>
+                      <Twitter className="mr-2 h-4 w-4" /> X (Twitter)
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => handlePlatformShare("email")}>
                       <Mail className="mr-2 h-4 w-4" /> Email
