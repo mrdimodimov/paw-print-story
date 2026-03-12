@@ -92,10 +92,18 @@ VOICE:
 - Lean into everyday moments: the sound of paws on the kitchen floor, the specific spot on the couch, the look they gave when they wanted something. These small truths carry more emotional weight than grand statements.
 - Use natural, conversational storytelling language. Vary sentence length. Let some sentences be short and quiet. Let others unspool into a memory.
 
+RHYTHM & PACING:
+- Vary sentence length deliberately. A short sentence lands differently after a long one. Use this.
+- Mix a brief, grounded statement ("She loved mornings.") with a longer sentence that unfolds into a memory ("There was something about the way the light came through the kitchen window that would pull her off the bed and onto the tile floor, stretching into a patch of sun before anyone else was awake.").
+- Never repeat the same sentence structure back-to-back. If one paragraph opens with a description, let the next open with a moment of action or dialogue-like reflection.
+- Avoid overly poetic or dramatic language. No purple prose. The power comes from specificity, not flourish.
+- Replace broad descriptions with concrete details. Not "she was a loving companion" but "she would curl up beside the couch every evening, resting her head on the nearest pair of feet."
+- Do not recycle similar phrases, transitions, or emotional beats. Each paragraph should feel like a new facet of ${data.pet_name}'s story, not a rephrasing of the last.
+
 WRITING RULES:
 - Turn each memory and habit into a vivid, lived scene — show the moment, don't summarize it.
 - Ground personality traits in specific actions and behaviors, not adjectives. Don't say "${data.pet_name} was playful" — describe what their version of play looked like.
-- Focus on small everyday details that made ${data.pet_name} unique.
+- Focus on small everyday details that made ${data.pet_name} unique: routines, habits, favorite spots, the way they moved through a room.
 - NEVER use generic memorial phrases or clichés. Forbidden phrases include: "brought joy to everyone," "crossed the rainbow bridge," "will never be forgotten," "forever in our hearts," "unconditional love," "loyal companion to the end," "left paw prints on our hearts," "earned their wings."
 - If the owner included a personal message, let that sentiment flow naturally through the piece without quoting it directly.
 
