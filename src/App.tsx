@@ -7,6 +7,10 @@ import Landing from "./pages/Landing";
 import Questionnaire from "./pages/Questionnaire";
 import TributePage from "./pages/TributePage";
 import NotFound from "./pages/NotFound";
+import DogObituaryExample from "./pages/seo/DogObituaryExample";
+import CatMemorialTributeExample from "./pages/seo/CatMemorialTributeExample";
+import PetMemorialMessage from "./pages/seo/PetMemorialMessage";
+import WhatToWriteWhenDogDies from "./pages/seo/WhatToWriteWhenDogDies";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +24,10 @@ const App = () => (
           <Route path="/" element={<Landing />} />
           <Route path="/create" element={<Questionnaire />} />
           <Route path="/tribute" element={<TributePage />} />
+          <Route path="/dog-obituary-example" element={<DogObituaryExample />} />
+          <Route path="/cat-memorial-tribute-example" element={<CatMemorialTributeExample />} />
+          <Route path="/pet-memorial-message" element={<PetMemorialMessage />} />
+          <Route path="/what-to-write-when-a-dog-dies" element={<WhatToWriteWhenDogDies />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
