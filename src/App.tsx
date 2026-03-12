@@ -15,6 +15,7 @@ import WhatToWriteWhenDogDies from "./pages/seo/WhatToWriteWhenDogDies";
 
 const queryClient = new QueryClient();
 
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
