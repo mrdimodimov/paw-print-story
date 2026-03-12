@@ -284,33 +284,21 @@ const TributePage = () => {
             </div>
           )}
 
-          {/* Share Card (Tier 2+) */}
-          {tribute.share_card_text && (
+          {/* Shareable Tribute Card (Tier 2+) */}
+          {tier.include_share_card && tribute.share_card_text && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
-              <div className="mb-3 flex items-center gap-2">
+              <div className="mb-4 flex items-center gap-2">
                 <FileText className="h-4 w-4 text-primary" />
                 <h3 className="font-display text-lg font-semibold text-foreground">
-                  Memorial Card
+                  Shareable Tribute Card
                 </h3>
               </div>
-              <div className="rounded-lg bg-accent p-6 text-center">
-                <PawPrint className="mx-auto mb-3 h-8 w-8 text-primary" />
-                <p className="whitespace-pre-line font-display text-lg text-foreground">
-                  {tribute.share_card_text}
-                </p>
-              </div>
-              <div className="mt-3 flex gap-2">
-                <Button variant="outline" size="sm" onClick={handleDownloadMemorial}>
-                  <Download className="mr-1 h-4 w-4" /> Download Memorial PDF
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleCopyToClipboard(tribute.share_card_text!)}
-                >
-                  <Copy className="mr-1 h-4 w-4" /> Copy Text
-                </Button>
-              </div>
+              <TributeShareCard
+                petName={formData?.pet_name || "Your Pet"}
+                years={formData?.years_of_life || ""}
+                excerpt={tribute.share_card_text}
+                photoUrl={formData?.photo_urls?.[0]}
+              />
             </div>
           )}
 
