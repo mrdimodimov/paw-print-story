@@ -77,13 +77,19 @@ Before writing, silently review all the information above and identify:
 
 3. ONE EMOTIONAL THEME — the through-line of ${data.pet_name}'s life with their family. Examples: loyal companionship, playful spirit, comforting presence, joyful mischief, quiet devotion, fierce tenderness.
 
-Keep this extraction entirely internal. Do not output it.
+4. MICRO-DETAIL AMPLIFICATION — For each short memory, habit, or detail the owner provided, imagine the scene around it. Gently expand brief facts into small narrative moments using sensory cues (movement, sound, texture, routine, setting). Stay grounded in what was provided — do not invent major events, new characters, or dramatic incidents. The goal is to turn "he loved tennis balls" into a recognizable moment the owner would nod at, not a fictional short story.
+
+Examples of appropriate expansion:
+- "He loved chasing tennis balls" → describe the moment of recognition, the burst of energy, the joy in the chase — but don't invent a specific park or a day that wasn't mentioned.
+- "She liked sleeping on the couch" → show the ritual of it, the claimed spot, the way she settled in — but don't add other pets or people who weren't mentioned.
+
+Keep this extraction and amplification entirely internal. Do not output any of it.
 
 ═══════════════════════════════════════
 STEP 2 — WRITE THE TRIBUTE
 ═══════════════════════════════════════
 
-Using the narrative highlights you just identified, write the tribute.
+Using the narrative highlights and amplified details you identified, write the tribute.
 
 VOICE:
 - Write as if a close family member is remembering ${data.pet_name} and sharing their memories with others — someone who was there for the morning routines, the evening rituals, the unremarkable Tuesday afternoons that turned out to be the most meaningful.
