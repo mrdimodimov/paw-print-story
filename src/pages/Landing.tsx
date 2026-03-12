@@ -60,7 +60,55 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* Remember Them */}
+      <section className="tribute-section bg-accent/30">
+        <div className="tribute-container max-w-2xl text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="mb-6 font-display text-3xl font-bold text-foreground">
+              Remember Them
+            </h2>
+            <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+              Before writing a tribute, take a quiet moment to think about what made your pet special.
+            </p>
+            <div className="mb-8 space-y-5">
+              {[
+                "What was their favorite place to sleep?",
+                "What small habit always made you smile?",
+                "What is one memory you will always carry with you?",
+              ].map((prompt, i) => (
+                <motion.p
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 + i * 0.15, duration: 0.4 }}
+                  viewport={{ once: true }}
+                  className="font-display text-lg italic text-foreground/80"
+                >
+                  {prompt}
+                </motion.p>
+              ))}
+            </div>
+            <p className="mb-8 text-base text-muted-foreground">
+              When you're ready, we'll help turn those memories into a beautiful tribute.
+            </p>
+            <Button
+              size="lg"
+              variant="outline"
+              className="px-8 py-5 text-base"
+              onClick={() => navigate("/create")}
+            >
+              <PawPrint className="mr-2 h-5 w-5" />
+              Start a Tribute
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
       <section className="bg-secondary/40 tribute-section">
         <div className="tribute-container text-center">
           <h2 className="mb-12 text-3xl font-bold text-foreground">
