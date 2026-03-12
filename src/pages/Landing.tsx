@@ -141,7 +141,71 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Pricing Tiers */}
+      {/* Example Tribute */}
+      <section className="tribute-section">
+        <div className="tribute-container max-w-2xl text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="mb-4 font-display text-3xl font-bold text-foreground">
+              See What a Tribute Looks Like
+            </h2>
+            <p className="mb-8 text-base text-muted-foreground">
+              Here is an example tribute created from just a few memories.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.6 }}
+            viewport={{ once: true }}
+            className="mb-6 rounded-xl border border-border bg-card p-8 text-left shadow-card md:p-10"
+          >
+            <h3 className="mb-5 text-center font-display text-xl font-semibold text-foreground">
+              In Loving Memory of Bella
+            </h3>
+            <div className="space-y-4 font-body text-sm leading-relaxed text-foreground/90">
+              <p>
+                Bella had a way of turning the simplest moments into something special. Every afternoon she waited by the front window, tail wagging the moment she heard the car pull into the driveway.
+              </p>
+              <p>
+                She loved long walks through the park, especially when the wind carried new smells and the promise of adventure. But her favorite place was always close to her family — curled up on the couch, quietly watching the room as if she knew she belonged exactly there.
+              </p>
+              <p>
+                Bella wasn't just a pet. She was part of the rhythm of everyday life — the soft footsteps behind you in the kitchen, the excited greeting at the door, the quiet comfort of her presence on difficult days.
+              </p>
+              <p>
+                Those small moments are what will be remembered most.
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            viewport={{ once: true }}
+            className="space-y-6"
+          >
+            <p className="text-sm italic text-muted-foreground">
+              Created from answers that took less than 5 minutes.
+            </p>
+            <Button
+              size="lg"
+              className="px-8 py-5 text-base shadow-glow"
+              onClick={() => navigate("/create")}
+            >
+              <PawPrint className="mr-2 h-5 w-5" />
+              Create a Tribute for Your Pet
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
       <section className="tribute-section">
         <div className="tribute-container">
           <div className="mb-12 text-center">
