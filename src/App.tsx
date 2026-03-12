@@ -25,6 +25,7 @@ const App = () => (
           <Route path="/" element={<Landing />} />
           <Route path="/create" element={<Questionnaire />} />
           <Route path="/tribute" element={<TributePage />} />
+          <Route path="/memory/:slug" element={<PublicMemorialPage />} />
           <Route path="/dog-obituary-example" element={<DogObituaryExample />} />
           <Route path="/cat-memorial-tribute-example" element={<CatMemorialTributeExample />} />
           <Route path="/pet-memorial-message" element={<PetMemorialMessage />} />
