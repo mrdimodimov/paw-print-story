@@ -1,45 +1,77 @@
 import jsPDF from "jspdf";
 import { BRAND } from "./brand";
 
-export function downloadTributePDF(
+async function loadImageAsDataURL(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url);
+    const blob = await res.blob();
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(blob);
+    });
+  } catch {
+    return null;
+  }
+}
+
+export async function downloadTributePDF(
   petName: string,
   years: string,
-  story: string
+  story: string,
+  photoUrl?: string
 ) {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   const margin = 20;
   const maxWidth = pageWidth - margin * 2;
+  let yPos = 20;
 
-  // Title
+  // Pet photo
+  if (photoUrl) {
+    const imgData = await loadImageAsDataURL(photoUrl);
+    if (imgData) {
+      const imgSize = 50;
+      doc.addImage(imgData, "JPEG", (pageWidth - imgSize) / 2, yPos, imgSize, imgSize);
+      yPos += imgSize + 8;
+    }
+  }
+
+  // Pet name
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(22);
-  doc.text(`In Loving Memory of ${petName}`, pageWidth / 2, 30, { align: "center" });
+  doc.setFontSize(24);
+  doc.setTextColor(50, 40, 30);
+  doc.text(petName, pageWidth / 2, yPos, { align: "center" });
+  yPos += 10;
 
-  // Years
+  // Years of life
   if (years) {
-    doc.setFont("helvetica", "normal");
+    doc.setFont("helvetica", "italic");
     doc.setFontSize(12);
-    doc.text(years, pageWidth / 2, 40, { align: "center" });
+    doc.setTextColor(120, 100, 80);
+    doc.text(years, pageWidth / 2, yPos, { align: "center" });
+    yPos += 8;
   }
 
   // Divider
   doc.setDrawColor(180, 160, 120);
   doc.setLineWidth(0.5);
-  doc.line(margin, 48, pageWidth - margin, 48);
+  doc.line(margin + 20, yPos, pageWidth - margin - 20, yPos);
+  yPos += 10;
 
-  // Story
+  // Tribute text
   doc.setFont("helvetica", "normal");
   doc.setFontSize(11);
+  doc.setTextColor(40);
   const lines = doc.splitTextToSize(story, maxWidth);
-  let y = 58;
   for (const line of lines) {
-    if (y > 270) {
+    if (yPos > 270) {
       doc.addPage();
-      y = 20;
+      yPos = 20;
     }
-    doc.text(line, margin, y);
-    y += 6;
+    doc.text(line, margin, yPos);
+    yPos += 6;
   }
 
   // Footer
