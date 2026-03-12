@@ -264,31 +264,78 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
     }
   };
 
-  const handleShare = async () => {
+  const getShareText = () => `In Loving Memory of ${petName} — "${shortQuote}" 🐾 Created with TributePaw`;
+
+  const getShareImageUrl = async (): Promise<string | null> => {
+    const canvas = await getCanvas();
+    if (!canvas) return null;
+    return canvas.toDataURL("image/png");
+  };
+
+  const openShareWindow = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer,width=600,height=500");
+  };
+
+  const handlePlatformShare = async (platform: string) => {
     setExporting(true);
+    const text = getShareText();
+    const encodedText = encodeURIComponent(text);
+    const pageUrl = encodeURIComponent(window.location.href);
+
     try {
-      const canvas = await getCanvas();
-      if (!canvas) return;
-
-      canvas.toBlob(async (blob) => {
-        if (!blob) return;
-        const file = new File([blob], `${petName}-memorial.png`, { type: "image/png" });
-
-        if (navigator.canShare?.({ files: [file] })) {
-          await navigator.share({
-            title: `In Loving Memory of ${petName}`,
-            text: shortQuote,
-            files: [file],
-          });
-        } else {
-          const url = URL.createObjectURL(blob);
-          window.open(url, "_blank");
-          toast.info("Image opened in new tab — save and share on social media.");
+      switch (platform) {
+        case "facebook":
+          openShareWindow(`https://www.facebook.com/sharer/sharer.php?u=${pageUrl}&quote=${encodedText}`);
+          break;
+        case "twitter":
+          openShareWindow(`https://twitter.com/intent/tweet?text=${encodedText}&url=${pageUrl}`);
+          break;
+        case "whatsapp":
+          openShareWindow(`https://api.whatsapp.com/send?text=${encodedText}%20${pageUrl}`);
+          break;
+        case "messenger":
+          openShareWindow(`https://www.facebook.com/dialog/send?link=${pageUrl}&app_id=&redirect_uri=${pageUrl}`);
+          break;
+        case "pinterest": {
+          const imgUrl = await getShareImageUrl();
+          const media = imgUrl ? encodeURIComponent(imgUrl) : "";
+          openShareWindow(`https://pinterest.com/pin/create/button/?url=${pageUrl}&media=${media}&description=${encodedText}`);
+          break;
         }
-        setExporting(false);
-      }, "image/png");
+        case "email": {
+          const subject = encodeURIComponent(`In Loving Memory of ${petName}`);
+          window.location.href = `mailto:?subject=${subject}&body=${encodedText}%0A%0A${pageUrl}`;
+          break;
+        }
+        case "instagram": {
+          // Instagram doesn't support web sharing links — download the image instead
+          await handleDownload();
+          toast.info("Image downloaded — open Instagram and share from your gallery.");
+          break;
+        }
+        case "native": {
+          const canvas = await getCanvas();
+          if (!canvas) break;
+          canvas.toBlob(async (blob) => {
+            if (!blob) return;
+            const file = new File([blob], `${petName}-memorial.png`, { type: "image/png" });
+            if (navigator.canShare?.({ files: [file] })) {
+              await navigator.share({ title: `In Loving Memory of ${petName}`, text: shortQuote, files: [file] });
+            } else {
+              const url = URL.createObjectURL(blob);
+              window.open(url, "_blank");
+              toast.info("Image opened in new tab — save and share.");
+            }
+          }, "image/png");
+          break;
+        }
+      }
+      if (platform !== "instagram" && platform !== "native") {
+        toast.success(`Opening ${platform}…`);
+      }
     } catch {
       toast.error("Sharing failed.");
+    } finally {
       setExporting(false);
     }
   };
