@@ -37,38 +37,59 @@ function buildPrompt(data: TributeRequest): string {
 
   const toneDesc = toneDescriptions[data.tone] || toneDescriptions.warm;
 
-  let prompt = `You are a compassionate writer creating a heartfelt tribute for a beloved pet.
+  // Build rich context blocks only when data exists
+  const contextSections: string[] = [];
 
-Pet name: ${data.pet_name}
-Pet type: ${data.pet_type}
-${data.breed && data.breed !== "unknown" ? `Breed: ${data.breed}` : ""}
-Years: ${data.years || "many wonderful years"}
-Owner: ${data.owner_name}
+  if (data.memories) {
+    contextSections.push(`MEMORIES (weave these as vivid scenes, not summaries):\n${data.memories}`);
+  }
+  if (data.special_habits) {
+    contextSections.push(`HABITS & QUIRKS (use as concrete details that show personality):\n${data.special_habits}`);
+  }
+  if (data.favorite_activities) {
+    contextSections.push(`WHAT THEY LOVED (bring these to life as small everyday moments):\n${data.favorite_activities}`);
+  }
+  if (data.favorite_people_or_animals) {
+    contextSections.push(`SPECIAL BONDS:\n${data.favorite_people_or_animals}`);
+  }
+  if (data.owner_message) {
+    contextSections.push(`OWNER'S WORDS (weave this sentiment naturally into the tribute):\n"${data.owner_message}"`);
+  }
 
-Personality traits: ${data.personality_traits || "loving and special"}
-${data.personality_description ? `Personality details: ${data.personality_description}` : ""}
+  let prompt = `Write a heartfelt tribute celebrating the life of ${data.pet_name}, a ${data.pet_type}${data.breed && data.breed !== "unknown" ? ` (${data.breed})` : ""} who was loved by ${data.owner_name}.
 
-${data.memories ? `Favorite memories: ${data.memories}` : ""}
-${data.special_habits ? `Special habits and quirks: ${data.special_habits}` : ""}
-${data.favorite_activities ? `Things they loved: ${data.favorite_activities}` : ""}
-${data.favorite_people_or_animals ? `Special bonds: ${data.favorite_people_or_animals}` : ""}
-${data.owner_message ? `Owner's personal message: "${data.owner_message}"` : ""}
+Years of life: ${data.years || "many wonderful years"}
+Personality: ${data.personality_traits || "loving and special"}
+${data.personality_description ? `In their own words: ${data.personality_description}` : ""}
 
-Tone: ${toneDesc}
+${contextSections.join("\n\n")}
 
-Instructions:
-Write a ${toneDesc} tribute celebrating this pet's life. Focus on small details that made them special. Avoid generic phrases. Make the tribute feel deeply personal and comforting. Include the owner's message naturally if provided.
+TONE: ${toneDesc}
 
-Target length: ${data.word_count_min}–${data.word_count_max} words.
+INSTRUCTIONS:
+- Use the specific memories, habits, and personality traits above to create vivid moments in the story. Show, don't tell — turn each memory into a small scene the reader can picture.
+- Focus on small everyday details that made ${data.pet_name} unique: the way they greeted their owner, where they liked to sleep, their little rituals.
+- AVOID generic memorial phrases and clichés. Never write: "brought joy to everyone," "will never be forgotten," "crossed the rainbow bridge," "forever in our hearts," or similar stock phrases.
+- Write in a natural storytelling voice, as if a close friend is sharing what made ${data.pet_name} special. Not a formal obituary.
+- If the owner included a personal message, let that feeling flow through the piece without quoting it directly.
 
-Return ONLY the tribute text, no titles or headers.`;
+STRUCTURE:
+1. Open with a warm memory or a small, specific moment that captures who ${data.pet_name} was.
+2. Describe ${data.pet_name}'s personality and spirit through actions and habits, not adjectives.
+3. Bring in favorite memories and daily rituals as lived scenes.
+4. Mention what ${data.pet_name} loved most and the bonds they formed.
+5. Close with a gentle, grounded reflection on the bond shared — honest and tender, not sentimental.
+
+TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.
+
+Return ONLY the tribute text. No titles, headers, or labels.`;
 
   if (data.include_social_post) {
-    prompt += `\n\nAfter the tribute, on a new line write "---SOCIAL_POST---" followed by a short social media post (under 280 characters) honoring the pet. Include relevant emojis and 2-3 hashtags.`;
+    prompt += `\n\nAfter the tribute, on a new line write "---SOCIAL_POST---" followed by a short social media post (under 280 characters) honoring ${data.pet_name}. Make it personal and specific to their story — not generic. Include relevant emojis and 2-3 hashtags.`;
   }
 
   if (data.include_share_card) {
-    prompt += `\n\nAfter that, on a new line write "---SHARE_CARD---" followed by a 2-3 line memorial card text with the pet's name, years, and a brief touching phrase.`;
+    prompt += `\n\nAfter that, on a new line write "---SHARE_CARD---" followed by a 2-3 line memorial card text with ${data.pet_name}'s name, years, and a brief touching phrase that reflects something specific about them.`;
   }
 
   return prompt;
@@ -100,7 +121,7 @@ serve(async (req) => {
             {
               role: "system",
               content:
-                "You are a compassionate, eloquent writer who specializes in pet memorial tributes. Your writing is sincere, personal, and deeply moving without being overly sentimental or cliché.",
+                "You are a gifted storyteller who writes pet memorial tributes. Your voice is natural and intimate — like a close friend recalling what made someone's pet irreplaceable. You turn specific memories into vivid scenes. You never use stock memorial phrases or sentimental clichés. Every tribute you write feels like it could only be about this one particular animal.",
             },
             { role: "user", content: prompt },
           ],
