@@ -93,8 +93,8 @@ export const TIERS: TierConfig[] = [
     word_count_target: [500, 650],
     features: [
       "Everything in Tribute Pack",
-      "Polished narrative with emotional depth",
-      "Multiple photos",
+      "Extended tribute narrative",
+      "Up to 5 photos",
       "Digital memorial page",
       "Unlimited regenerations",
     ],
