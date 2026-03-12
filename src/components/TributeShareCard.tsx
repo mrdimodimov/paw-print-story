@@ -1,7 +1,19 @@
 import { useRef, useState } from "react";
 import html2canvas from "html2canvas";
-import { Download, Share2, PawPrint, ChevronLeft, ChevronRight, Lock } from "lucide-react";
+import { Download, Share2, PawPrint, ChevronLeft, ChevronRight, Lock, Facebook, Twitter, Mail, MessageCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { toast } from "sonner";
 
 type TemplateId = "classic" | "modern" | "botanical";
@@ -252,31 +264,78 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
     }
   };
 
-  const handleShare = async () => {
+  const getShareText = () => `In Loving Memory of ${petName} — "${shortQuote}" 🐾 Created with TributePaw`;
+
+  const getShareImageUrl = async (): Promise<string | null> => {
+    const canvas = await getCanvas();
+    if (!canvas) return null;
+    return canvas.toDataURL("image/png");
+  };
+
+  const openShareWindow = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer,width=600,height=500");
+  };
+
+  const handlePlatformShare = async (platform: string) => {
     setExporting(true);
+    const text = getShareText();
+    const encodedText = encodeURIComponent(text);
+    const pageUrl = encodeURIComponent(window.location.href);
+
     try {
-      const canvas = await getCanvas();
-      if (!canvas) return;
-
-      canvas.toBlob(async (blob) => {
-        if (!blob) return;
-        const file = new File([blob], `${petName}-memorial.png`, { type: "image/png" });
-
-        if (navigator.canShare?.({ files: [file] })) {
-          await navigator.share({
-            title: `In Loving Memory of ${petName}`,
-            text: shortQuote,
-            files: [file],
-          });
-        } else {
-          const url = URL.createObjectURL(blob);
-          window.open(url, "_blank");
-          toast.info("Image opened in new tab — save and share on social media.");
+      switch (platform) {
+        case "facebook":
+          openShareWindow(`https://www.facebook.com/sharer/sharer.php?u=${pageUrl}&quote=${encodedText}`);
+          break;
+        case "twitter":
+          openShareWindow(`https://twitter.com/intent/tweet?text=${encodedText}&url=${pageUrl}`);
+          break;
+        case "whatsapp":
+          openShareWindow(`https://api.whatsapp.com/send?text=${encodedText}%20${pageUrl}`);
+          break;
+        case "messenger":
+          openShareWindow(`https://www.facebook.com/dialog/send?link=${pageUrl}&app_id=&redirect_uri=${pageUrl}`);
+          break;
+        case "pinterest": {
+          const imgUrl = await getShareImageUrl();
+          const media = imgUrl ? encodeURIComponent(imgUrl) : "";
+          openShareWindow(`https://pinterest.com/pin/create/button/?url=${pageUrl}&media=${media}&description=${encodedText}`);
+          break;
         }
-        setExporting(false);
-      }, "image/png");
+        case "email": {
+          const subject = encodeURIComponent(`In Loving Memory of ${petName}`);
+          window.location.href = `mailto:?subject=${subject}&body=${encodedText}%0A%0A${pageUrl}`;
+          break;
+        }
+        case "instagram": {
+          // Instagram doesn't support web sharing links — download the image instead
+          await handleDownload();
+          toast.info("Image downloaded — open Instagram and share from your gallery.");
+          break;
+        }
+        case "native": {
+          const canvas = await getCanvas();
+          if (!canvas) break;
+          canvas.toBlob(async (blob) => {
+            if (!blob) return;
+            const file = new File([blob], `${petName}-memorial.png`, { type: "image/png" });
+            if (navigator.canShare?.({ files: [file] })) {
+              await navigator.share({ title: `In Loving Memory of ${petName}`, text: shortQuote, files: [file] });
+            } else {
+              const url = URL.createObjectURL(blob);
+              window.open(url, "_blank");
+              toast.info("Image opened in new tab — save and share.");
+            }
+          }, "image/png");
+          break;
+        }
+      }
+      if (platform !== "instagram" && platform !== "native") {
+        toast.success(`Opening ${platform}…`);
+      }
     } catch {
       toast.error("Sharing failed.");
+    } finally {
       setExporting(false);
     }
   };
@@ -471,9 +530,55 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
         <Button size="sm" onClick={handleDownload} disabled={exporting}>
           <Download className="mr-1 h-4 w-4" /> Download Share Card
         </Button>
-        <Button variant="outline" size="sm" onClick={handleShare} disabled={exporting}>
-          <Share2 className="mr-1 h-4 w-4" /> Share on Social
-        </Button>
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" disabled={exporting}>
+                      <Share2 className="mr-1 h-4 w-4" /> Share Tribute
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-52">
+                    <DropdownMenuItem onClick={() => handlePlatformShare("facebook")}>
+                      <Facebook className="mr-2 h-4 w-4 text-[hsl(220,46%,48%)]" /> Facebook
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handlePlatformShare("instagram")}>
+                      <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="5" /><circle cx="17.5" cy="6.5" r="1.5" /></svg>
+                      Instagram
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handlePlatformShare("twitter")}>
+                      <Twitter className="mr-2 h-4 w-4" /> X (Twitter)
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handlePlatformShare("whatsapp")}>
+                      <MessageCircle className="mr-2 h-4 w-4 text-[hsl(142,70%,40%)]" /> WhatsApp
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handlePlatformShare("messenger")}>
+                      <Send className="mr-2 h-4 w-4 text-[hsl(214,89%,52%)]" /> Messenger
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handlePlatformShare("pinterest")}>
+                      <svg className="mr-2 h-4 w-4 text-[hsl(0,78%,51%)]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.08 3.15 9.42 7.6 11.18-.1-.95-.19-2.41.04-3.45.21-.94 1.36-5.76 1.36-5.76s-.35-.7-.35-1.72c0-1.61.94-2.82 2.1-2.82.99 0 1.47.74 1.47 1.64 0 1-.64 2.49-.97 3.88-.27 1.16.58 2.1 1.72 2.1 2.07 0 3.66-2.18 3.66-5.33 0-2.79-2-4.74-4.87-4.74-3.32 0-5.27 2.49-5.27 5.06 0 1 .39 2.08.87 2.66.1.12.11.22.08.34-.09.37-.29 1.16-.33 1.32-.05.22-.18.26-.41.16-1.52-.71-2.47-2.93-2.47-4.72 0-3.84 2.79-7.37 8.04-7.37 4.22 0 7.5 3.01 7.5 7.02 0 4.19-2.64 7.57-6.32 7.57-1.23 0-2.39-.64-2.79-1.4l-.76 2.89c-.27 1.06-1.01 2.39-1.5 3.2A12 12 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                      Pinterest
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handlePlatformShare("email")}>
+                      <Mail className="mr-2 h-4 w-4" /> Email
+                    </DropdownMenuItem>
+                    {typeof navigator !== "undefined" && navigator.share && (
+                      <DropdownMenuItem onClick={() => handlePlatformShare("native")}>
+                        <Share2 className="mr-2 h-4 w-4" /> More options…
+                      </DropdownMenuItem>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="max-w-[220px] text-center">
+              Share this tribute directly to your favorite social platform. Friends will see it and TributePaw attribution.
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   );
