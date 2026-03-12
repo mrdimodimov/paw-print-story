@@ -107,9 +107,10 @@ const TributePage = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = async () => {
     if (!tribute || !formData) return;
-    downloadTributePDF(formData.pet_name, formData.years_of_life, tribute.story);
+    const photoUrl = formData.photo_urls?.[0];
+    await downloadTributePDF(formData.pet_name, formData.years_of_life, tribute.story, photoUrl);
     toast.success("PDF downloaded!");
   };
 
