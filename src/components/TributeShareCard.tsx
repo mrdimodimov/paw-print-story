@@ -16,7 +16,6 @@ interface TemplateConfig {
   textColor: string;
   footerColor: string;
   accentColor: string;
-  overlayGradient?: string;
 }
 
 const TEMPLATES: TemplateConfig[] = [
@@ -59,21 +58,18 @@ interface TributeShareCardProps {
   petName: string;
   years: string;
   excerpt: string;
-  photoUrl?: string;
-  shareCardLimit: number; // -1 = unlimited
+  photoUrls: string[];
+  shareCardLimit: number;
 }
 
 function extractQuote(text: string): string {
-  // Pick the best 1-2 sentence quote from the text
   const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-  // Skip very short sentences, prefer ones 8-25 words
   const scored = sentences.map((s) => {
     const words = s.trim().split(/\s+/).length;
     const score = words >= 8 && words <= 25 ? words : words > 25 ? 10 : words;
     return { s: s.trim(), score };
   });
   scored.sort((a, b) => b.score - a.score);
-  // Take top 1-2 sentences that fit ~30 words
   let quote = scored[0]?.s || text;
   if (scored[1] && (quote.split(/\s+/).length + scored[1].s.split(/\s+/).length) <= 35) {
     quote += " " + scored[1].s;
@@ -81,7 +77,143 @@ function extractQuote(text: string): string {
   return quote;
 }
 
-const TributeShareCard = ({ petName, years, excerpt, photoUrl, shareCardLimit }: TributeShareCardProps) => {
+// Photo layout configurations for different counts
+function renderPhotos(photos: string[], tmpl: TemplateConfig, petName: string) {
+  if (photos.length === 0) {
+    // Paw icon fallback
+    return (
+      <div
+        style={{
+          width: 90,
+          height: 90,
+          borderRadius: "50%",
+          background: tmpl.accentColor.replace(/[\d.]+\)$/, "0.15)"),
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: 18,
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        <PawPrint style={{ width: 40, height: 40, color: tmpl.accentColor }} />
+      </div>
+    );
+  }
+
+  if (photos.length === 1) {
+    return (
+      <img
+        src={photos[0]}
+        alt={petName}
+        crossOrigin="anonymous"
+        style={{
+          width: 120,
+          height: 120,
+          borderRadius: "50%",
+          objectFit: "cover",
+          border: `3px solid ${tmpl.accentColor}`,
+          marginBottom: 18,
+          position: "relative",
+          zIndex: 1,
+        }}
+      />
+    );
+  }
+
+  if (photos.length <= 3) {
+    // Elegant collage: overlapping circles
+    const size = photos.length === 2 ? 90 : 75;
+    const overlap = photos.length === 2 ? -15 : -12;
+    const totalWidth = photos.length * size + (photos.length - 1) * overlap;
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: 18,
+          position: "relative",
+          zIndex: 1,
+          width: totalWidth,
+        }}
+      >
+        {photos.map((url, i) => (
+          <img
+            key={i}
+            src={url}
+            alt={`${petName} ${i + 1}`}
+            crossOrigin="anonymous"
+            style={{
+              width: size,
+              height: size,
+              borderRadius: "50%",
+              objectFit: "cover",
+              border: `3px solid ${tmpl.accentColor}`,
+              marginLeft: i === 0 ? 0 : overlap,
+              position: "relative",
+              zIndex: photos.length - i,
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  // 4-5 photos: featured large + small row
+  const featured = photos[0];
+  const rest = photos.slice(1);
+  const smallSize = 55;
+  const smallOverlap = -8;
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        marginBottom: 14,
+        position: "relative",
+        zIndex: 1,
+        gap: 8,
+      }}
+    >
+      <img
+        src={featured}
+        alt={petName}
+        crossOrigin="anonymous"
+        style={{
+          width: 100,
+          height: 100,
+          borderRadius: "50%",
+          objectFit: "cover",
+          border: `3px solid ${tmpl.accentColor}`,
+        }}
+      />
+      <div style={{ display: "flex", alignItems: "center" }}>
+        {rest.map((url, i) => (
+          <img
+            key={i}
+            src={url}
+            alt={`${petName} ${i + 2}`}
+            crossOrigin="anonymous"
+            style={{
+              width: smallSize,
+              height: smallSize,
+              borderRadius: "50%",
+              objectFit: "cover",
+              border: `2px solid ${tmpl.accentColor}`,
+              marginLeft: i === 0 ? 0 : smallOverlap,
+              position: "relative",
+              zIndex: rest.length - i,
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }: TributeShareCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
   const [activeTemplate, setActiveTemplate] = useState(0);
@@ -90,6 +222,9 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrl, shareCardLimit }:
   const quote = extractQuote(excerpt);
   const shortQuote = quote.split(/\s+/).slice(0, 30).join(" ") + (quote.split(/\s+/).length > 30 ? "…" : "");
   const tmpl = TEMPLATES[activeTemplate];
+
+  // Use background overlay from first photo if available
+  const bgPhotoUrl = photoUrls[0] || null;
 
   const getCanvas = async () => {
     if (!cardRef.current) return null;
@@ -154,13 +289,7 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrl, shareCardLimit }:
       {/* Template selector */}
       {TEMPLATES.length > 1 && (
         <div className="flex items-center justify-center gap-3">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={prevTemplate}
-            disabled={availableCount <= 1}
-            className="h-8 w-8"
-          >
+          <Button variant="ghost" size="icon" onClick={prevTemplate} disabled={availableCount <= 1} className="h-8 w-8">
             <ChevronLeft className="h-4 w-4" />
           </Button>
 
@@ -187,13 +316,7 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrl, shareCardLimit }:
             })}
           </div>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={nextTemplate}
-            disabled={availableCount <= 1}
-            className="h-8 w-8"
-          >
+          <Button variant="ghost" size="icon" onClick={nextTemplate} disabled={availableCount <= 1} className="h-8 w-8">
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
@@ -218,10 +341,10 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrl, shareCardLimit }:
           }}
         >
           {/* Photo background overlay */}
-          {photoUrl && (
+          {bgPhotoUrl && (
             <>
               <img
-                src={photoUrl}
+                src={bgPhotoUrl}
                 alt=""
                 crossOrigin="anonymous"
                 style={{
@@ -259,41 +382,8 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrl, shareCardLimit }:
             }}
           />
 
-          {/* Pet photo or paw icon */}
-          {photoUrl ? (
-            <img
-              src={photoUrl}
-              alt={petName}
-              crossOrigin="anonymous"
-              style={{
-                width: 120,
-                height: 120,
-                borderRadius: "50%",
-                objectFit: "cover",
-                border: `3px solid ${tmpl.accentColor}`,
-                marginBottom: 18,
-                position: "relative",
-                zIndex: 1,
-              }}
-            />
-          ) : (
-            <div
-              style={{
-                width: 90,
-                height: 90,
-                borderRadius: "50%",
-                background: tmpl.accentColor.replace(/[\d.]+\)$/, "0.15)"),
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: 18,
-                position: "relative",
-                zIndex: 1,
-              }}
-            >
-              <PawPrint style={{ width: 40, height: 40, color: tmpl.accentColor }} />
-            </div>
-          )}
+          {/* Photo(s) */}
+          {renderPhotos(photoUrls, tmpl, petName)}
 
           {/* Pet name */}
           <div

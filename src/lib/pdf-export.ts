@@ -16,11 +16,16 @@ async function loadImageAsDataURL(url: string): Promise<string | null> {
   }
 }
 
+async function loadImages(urls: string[]): Promise<string[]> {
+  const results = await Promise.all(urls.map(loadImageAsDataURL));
+  return results.filter((r): r is string => r !== null);
+}
+
 export async function downloadTributePDF(
   petName: string,
   years: string,
   story: string,
-  photoUrl?: string
+  photoUrls: string[] = []
 ) {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
@@ -28,14 +33,48 @@ export async function downloadTributePDF(
   const maxWidth = pageWidth - margin * 2;
   let yPos = 20;
 
-  // Pet photo
-  if (photoUrl) {
-    const imgData = await loadImageAsDataURL(photoUrl);
-    if (imgData) {
-      const imgSize = 50;
-      doc.addImage(imgData, "JPEG", (pageWidth - imgSize) / 2, yPos, imgSize, imgSize);
-      yPos += imgSize + 8;
+  const images = await loadImages(photoUrls);
+
+  // Photo layout based on count
+  if (images.length === 1) {
+    // Single centered photo
+    const imgSize = 50;
+    doc.addImage(images[0], "JPEG", (pageWidth - imgSize) / 2, yPos, imgSize, imgSize);
+    yPos += imgSize + 8;
+  } else if (images.length >= 2 && images.length <= 3) {
+    // Row of 2-3 photos
+    const imgSize = 45;
+    const totalWidth = images.length * imgSize + (images.length - 1) * 6;
+    let x = (pageWidth - totalWidth) / 2;
+    for (const img of images) {
+      doc.addImage(img, "JPEG", x, yPos, imgSize, imgSize);
+      x += imgSize + 6;
     }
+    yPos += imgSize + 8;
+  } else if (images.length >= 4) {
+    // Gallery: 3 on top row, rest below
+    const imgSize = 40;
+    const topRow = images.slice(0, 3);
+    const bottomRow = images.slice(3);
+
+    let totalWidth = topRow.length * imgSize + (topRow.length - 1) * 5;
+    let x = (pageWidth - totalWidth) / 2;
+    for (const img of topRow) {
+      doc.addImage(img, "JPEG", x, yPos, imgSize, imgSize);
+      x += imgSize + 5;
+    }
+    yPos += imgSize + 5;
+
+    if (bottomRow.length > 0) {
+      totalWidth = bottomRow.length * imgSize + (bottomRow.length - 1) * 5;
+      x = (pageWidth - totalWidth) / 2;
+      for (const img of bottomRow) {
+        doc.addImage(img, "JPEG", x, yPos, imgSize, imgSize);
+        x += imgSize + 5;
+      }
+      yPos += imgSize + 5;
+    }
+    yPos += 3;
   }
 
   // Pet name
@@ -82,15 +121,18 @@ export async function downloadTributePDF(
   doc.save(`${petName}-tribute.pdf`);
 }
 
-export function downloadMemorialPDF(
+export async function downloadMemorialPDF(
   petName: string,
   years: string,
-  story: string
+  story: string,
+  photoUrls: string[] = []
 ) {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   const margin = 25;
   const maxWidth = pageWidth - margin * 2;
+
+  const images = await loadImages(photoUrls);
 
   // Decorative border
   doc.setDrawColor(180, 160, 120);
@@ -120,17 +162,35 @@ export function downloadMemorialPDF(
     doc.text(years, pageWidth / 2, 72, { align: "center" });
   }
 
-  // Divider
-  doc.setDrawColor(180, 160, 120);
-  doc.setLineWidth(0.5);
-  doc.line(margin + 20, 78, pageWidth - margin - 20, 78);
+  // Featured photo(s)
+  let storyStartY = 90;
+  if (images.length === 1) {
+    const imgSize = 40;
+    doc.addImage(images[0], "JPEG", (pageWidth - imgSize) / 2, 78, imgSize, imgSize);
+    storyStartY = 78 + imgSize + 6;
+  } else if (images.length >= 2) {
+    const imgSize = 35;
+    const shown = images.slice(0, 3);
+    const totalWidth = shown.length * imgSize + (shown.length - 1) * 5;
+    let x = (pageWidth - totalWidth) / 2;
+    for (const img of shown) {
+      doc.addImage(img, "JPEG", x, 78, imgSize, imgSize);
+      x += imgSize + 5;
+    }
+    storyStartY = 78 + imgSize + 6;
+  } else {
+    // No photos — divider
+    doc.setDrawColor(180, 160, 120);
+    doc.setLineWidth(0.5);
+    doc.line(margin + 20, 78, pageWidth - margin - 20, 78);
+  }
 
   // Story
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
   doc.setTextColor(50);
   const lines = doc.splitTextToSize(story, maxWidth);
-  let y = 90;
+  let y = storyStartY;
   for (const line of lines) {
     if (y > 260) break; // Keep single page for memorial
     doc.text(line, margin, y);
