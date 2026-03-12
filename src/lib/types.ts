@@ -76,7 +76,7 @@ export const TIERS: TierConfig[] = [
       "Beautiful tribute story",
       "Shareable social media card",
       "Printable memorial page",
-      "1–2 pet photos",
+      "Up to 3 photos",
       "3 regenerations",
     ],
     include_share_card: true,
