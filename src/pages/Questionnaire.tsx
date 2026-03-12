@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { PawPrint, ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
+import { PawPrint, ArrowLeft, ArrowRight, Sparkles, ImagePlus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { BRAND } from "@/lib/brand";
+import { TIERS } from "@/lib/types";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 import type { TributeFormData, TributeStyle } from "@/lib/types";
 
 const PERSONALITY_OPTIONS = [
@@ -30,6 +33,9 @@ const STEPS = [
   "Style",
 ];
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ACCEPTED_TYPES = ["image/jpeg", "image/png"];
+
 const defaultForm: TributeFormData = {
   pet_name: "",
   pet_type: "",
@@ -51,8 +57,11 @@ const Questionnaire = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const tier = searchParams.get("tier") || "story";
+  const tierConfig = TIERS.find((t) => t.id === tier) || TIERS[0];
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<TributeFormData>(defaultForm);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const update = <K extends keyof TributeFormData>(key: K, value: TributeFormData[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -74,13 +83,62 @@ const Questionnaire = () => {
     update("memories", updated);
   };
 
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const remaining = tierConfig.photo_limit - form.photo_urls.length;
+    if (remaining <= 0) {
+      toast({
+        title: "Photo limit reached",
+        description: `You can upload up to ${tierConfig.photo_limit} photo${tierConfig.photo_limit > 1 ? "s" : ""} with your current plan.`,
+      });
+      return;
+    }
+
+    const filesToUpload = Array.from(files).slice(0, remaining);
+    setUploading(true);
+
+    const newUrls: string[] = [];
+    for (const file of filesToUpload) {
+      if (!ACCEPTED_TYPES.includes(file.type)) {
+        toast({ title: "Invalid file type", description: "Please upload JPG or PNG files only." });
+        continue;
+      }
+      if (file.size > MAX_FILE_SIZE) {
+        toast({ title: "File too large", description: `${file.name} exceeds the 5MB limit.` });
+        continue;
+      }
+
+      const ext = file.name.split(".").pop();
+      const path = `${crypto.randomUUID()}.${ext}`;
+      const { error } = await supabase.storage.from("pet-photos").upload(path, file);
+      if (error) {
+        toast({ title: "Upload failed", description: error.message });
+        continue;
+      }
+      const { data: urlData } = supabase.storage.from("pet-photos").getPublicUrl(path);
+      newUrls.push(urlData.publicUrl);
+    }
+
+    if (newUrls.length > 0) {
+      update("photo_urls", [...form.photo_urls, ...newUrls]);
+    }
+    setUploading(false);
+    // Reset input so same file can be re-selected
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const removePhoto = (index: number) => {
+    update("photo_urls", form.photo_urls.filter((_, i) => i !== index));
+  };
+
   const canProceed = () => {
     if (step === 0) return form.pet_name.trim() && form.pet_type.trim();
     return true;
   };
 
   const handleGenerate = () => {
-    // Pass form data via state to the tribute page
     navigate(`/tribute?tier=${tier}`, { state: { formData: form } });
   };
 
@@ -132,6 +190,65 @@ const Questionnaire = () => {
                 value={form.owner_name}
                 onChange={(e) => update("owner_name", e.target.value)}
               />
+            </div>
+
+            {/* Photo Upload */}
+            <div className="rounded-lg border border-border bg-accent/30 p-5">
+              <Label className="mb-1 block">Pet Photo (optional)</Label>
+              <p className="mb-4 text-sm text-muted-foreground">
+                Upload a photo of your pet to make the tribute more personal.
+                {tierConfig.photo_limit > 1 && (
+                  <> You can add up to {tierConfig.photo_limit} photos with your current plan.</>
+                )}
+              </p>
+
+              {/* Photo Previews */}
+              {form.photo_urls.length > 0 && (
+                <div className="mb-4 flex flex-wrap gap-3">
+                  {form.photo_urls.map((url, i) => (
+                    <div key={i} className="group relative h-24 w-24 overflow-hidden rounded-lg border border-border">
+                      <img src={url} alt={`Pet photo ${i + 1}`} className="h-full w-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => removePhoto(i)}
+                        className="absolute right-1 top-1 rounded-full bg-foreground/70 p-0.5 text-background opacity-0 transition-opacity group-hover:opacity-100"
+                        aria-label="Remove photo"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {form.photo_urls.length < tierConfig.photo_limit && (
+                <>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".jpg,.jpeg,.png"
+                    multiple={tierConfig.photo_limit > 1}
+                    onChange={handlePhotoUpload}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    disabled={uploading}
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <ImagePlus className="mr-1.5 h-4 w-4" />
+                    {uploading ? "Uploading…" : "Choose Photo"}
+                  </Button>
+                </>
+              )}
+
+              {form.photo_urls.length >= tierConfig.photo_limit && tierConfig.photo_limit > 0 && (
+                <p className="text-xs text-muted-foreground">
+                  You've reached the {tierConfig.photo_limit}-photo limit for your plan.
+                </p>
+              )}
             </div>
           </div>
         );
@@ -294,12 +411,10 @@ const Questionnaire = () => {
       </header>
 
       <div className="tribute-container max-w-2xl py-8">
-        {/* Encouraging message */}
         <div className="mb-8 rounded-lg bg-accent/60 p-4 text-center text-sm text-accent-foreground">
           Take your time. There are no right or wrong answers. Even small memories create meaningful tributes.
         </div>
 
-        {/* Progress */}
         <div className="mb-8">
           <div className="mb-2 flex justify-between text-xs text-muted-foreground">
             <span>Step {step + 1} of {STEPS.length}</span>
@@ -313,12 +428,10 @@ const Questionnaire = () => {
           </div>
         </div>
 
-        {/* Step Title */}
         <h2 className="mb-6 font-display text-2xl font-bold text-foreground">
           {STEPS[step]}
         </h2>
 
-        {/* Step Content */}
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
@@ -331,7 +444,6 @@ const Questionnaire = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation */}
         <div className="mt-8 flex justify-between">
           <Button
             variant="outline"
