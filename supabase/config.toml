@@ -1,0 +1,4 @@
+project_id = "ppfrtdbjsagytuhweywd"
+
+[functions.generate-tribute]
+verify_jwt = false

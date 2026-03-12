@@ -1,42 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe } from "lucide-react";
+import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 import { BRAND } from "@/lib/brand";
-import { TIERS, buildPromptVariables } from "@/lib/types";
+import { TIERS } from "@/lib/types";
+import { generateTribute } from "@/lib/tribute-api";
+import { downloadTributePDF, downloadMemorialPDF } from "@/lib/pdf-export";
 import type { TributeFormData, GeneratedTribute, TierConfig } from "@/lib/types";
-
-// Mock tribute generation — replace with AI backend call
-function generateMockTribute(form: TributeFormData, tier: TierConfig): GeneratedTribute {
-  const vars = buildPromptVariables(form, tier);
-  const story = `A Tribute to ${vars.pet_name}
-
-${vars.pet_name} was more than just a ${vars.pet_type.toLowerCase()}${vars.breed !== "unknown" ? ` — a beautiful ${vars.breed}` : ""}. For ${vars.years || "many wonderful years"}, ${vars.pet_name} filled ${vars.owner_name}'s life with unconditional love and joy.
-
-${vars.personality_traits ? `Known for being ${vars.personality_traits}, ` : ""}${vars.pet_name} had a way of making every day brighter. ${vars.personality_description || ""}
-
-${vars.memories ? `Among the most cherished memories: ${vars.memories}.` : ""} ${vars.special_habits ? `And who could forget — ${vars.special_habits}.` : ""}
-
-${vars.favorite_activities ? `${vars.pet_name} loved nothing more than ${vars.favorite_activities.toLowerCase()}.` : ""} ${vars.favorite_people_or_animals ? `A true social spirit, ${vars.pet_name} shared a special bond with ${vars.favorite_people_or_animals}.` : ""}
-
-${vars.owner_message ? `\n"${vars.owner_message}"\n— ${vars.owner_name}` : ""}
-
-${vars.pet_name} may have crossed the rainbow bridge, but the pawprints left on our hearts will last forever. Until we meet again, dear friend.`;
-
-  const result: GeneratedTribute = { story };
-
-  if (tier.include_social_post) {
-    result.social_post = `Forever in our hearts 🐾 Today we honor ${vars.pet_name}, who filled our lives with love for ${vars.years || "so many years"}. ${vars.personality_traits ? `A truly ${vars.personality_traits.split(",")[0].trim().toLowerCase()} soul.` : ""} #PetTribute #ForeverLoved #${vars.pet_name.replace(/\s/g, "")}`;
-  }
-
-  if (tier.include_share_card) {
-    result.share_card_text = `In Loving Memory of ${vars.pet_name} 🕊️\n${vars.years || ""}\nForever in our hearts.`;
-  }
-
-  return result;
-}
 
 const TributePage = () => {
   const navigate = useNavigate();
@@ -45,37 +19,77 @@ const TributePage = () => {
   const tierId = searchParams.get("tier") || "story";
   const tier = TIERS.find((t) => t.id === tierId) || TIERS[0];
 
-  const formData = (location.state as { formData?: TributeFormData })?.formData;
+  const formDataRef = useRef<TributeFormData | null>(
+    (location.state as { formData?: TributeFormData })?.formData || null
+  );
+  const formData = formDataRef.current;
 
   const [tribute, setTribute] = useState<GeneratedTribute | null>(null);
+  const [streamingText, setStreamingText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editedStory, setEditedStory] = useState("");
   const [generating, setGenerating] = useState(true);
+  const [additionalMemory, setAdditionalMemory] = useState("");
+  const [showMemoryInput, setShowMemoryInput] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [regenCount, setRegenCount] = useState(0);
+
+  const maxRegens = tier.id === "story" ? 2 : tier.id === "pack" ? 3 : Infinity;
+
+  const runGeneration = (data: TributeFormData, tierConfig: TierConfig) => {
+    setGenerating(true);
+    setStreamingText("");
+    setTribute(null);
+
+    generateTribute(data, tierConfig, {
+      onDelta: (text) => {
+        setStreamingText((prev) => prev + text);
+      },
+      onDone: (result) => {
+        setTribute(result);
+        setEditedStory(result.story);
+        setGenerating(false);
+      },
+      onError: (error) => {
+        toast.error(error);
+        setGenerating(false);
+      },
+    });
+  };
 
   useEffect(() => {
     if (!formData) {
       navigate("/");
       return;
     }
-    // Simulate generation delay
-    const timer = setTimeout(() => {
-      const result = generateMockTribute(formData, tier);
-      setTribute(result);
-      setEditedStory(result.story);
-      setGenerating(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, [formData, tier, navigate]);
+    runGeneration(formData, tier);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleRegenerate = () => {
     if (!formData) return;
-    setGenerating(true);
-    setTimeout(() => {
-      const result = generateMockTribute(formData, tier);
-      setTribute(result);
-      setEditedStory(result.story);
-      setGenerating(false);
-    }, 1500);
+    if (regenCount >= maxRegens && maxRegens !== Infinity) {
+      toast.error("You've used all your regenerations for this tier.");
+      return;
+    }
+    setRegenCount((c) => c + 1);
+    runGeneration(formData, tier);
+  };
+
+  const handleAddMemoryAndRegenerate = () => {
+    if (!formData || !additionalMemory.trim()) return;
+    if (regenCount >= maxRegens && maxRegens !== Infinity) {
+      toast.error("You've used all your regenerations for this tier.");
+      return;
+    }
+    formDataRef.current = {
+      ...formData,
+      memories: [...formData.memories, additionalMemory.trim()],
+    };
+    setAdditionalMemory("");
+    setShowMemoryInput(false);
+    setRegenCount((c) => c + 1);
+    runGeneration(formDataRef.current, tier);
   };
 
   const handleSaveEdit = () => {
@@ -83,11 +97,32 @@ const TributePage = () => {
       setTribute({ ...tribute, story: editedStory });
     }
     setIsEditing(false);
+    toast.success("Changes saved!");
   };
 
+  const handleCopyToClipboard = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    toast.success("Copied to clipboard!");
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDownloadPDF = () => {
+    if (!tribute || !formData) return;
+    downloadTributePDF(formData.pet_name, formData.years_of_life, tribute.story);
+    toast.success("PDF downloaded!");
+  };
+
+  const handleDownloadMemorial = () => {
+    if (!tribute || !formData) return;
+    downloadMemorialPDF(formData.pet_name, formData.years_of_life, tribute.story);
+    toast.success("Memorial PDF downloaded!");
+  };
+
+  // Loading / streaming state
   if (generating) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-background">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
         <motion.div
           animate={{ scale: [1, 1.15, 1] }}
           transition={{ repeat: Infinity, duration: 1.5 }}
@@ -101,6 +136,14 @@ const TributePage = () => {
         <p className="mt-2 text-sm text-muted-foreground">
           Turning your memories into something beautiful
         </p>
+        {streamingText && (
+          <div className="mt-8 max-w-2xl rounded-xl border border-border bg-card p-6 shadow-card">
+            <p className="whitespace-pre-line font-body text-sm leading-relaxed text-foreground">
+              {streamingText}
+              <span className="animate-pulse">▌</span>
+            </p>
+          </div>
+        )}
       </div>
     );
   }
@@ -145,16 +188,11 @@ const TributePage = () => {
                   className="font-body text-foreground"
                 />
                 <div className="flex gap-2">
-                  <Button size="sm" onClick={handleSaveEdit}>
-                    Save Changes
-                  </Button>
+                  <Button size="sm" onClick={handleSaveEdit}>Save Changes</Button>
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => {
-                      setEditedStory(tribute.story);
-                      setIsEditing(false);
-                    }}
+                    onClick={() => { setEditedStory(tribute.story); setIsEditing(false); }}
                   >
                     Cancel
                   </Button>
@@ -168,19 +206,59 @@ const TributePage = () => {
           </div>
 
           {/* Actions */}
-          <div className="mb-8 flex flex-wrap gap-3">
+          <div className="mb-6 flex flex-wrap gap-3">
             {!isEditing && (
               <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
                 <Edit className="mr-1 h-4 w-4" /> Edit Story
               </Button>
             )}
-            <Button variant="outline" size="sm" onClick={handleRegenerate}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleRegenerate}
+              disabled={regenCount >= maxRegens && maxRegens !== Infinity}
+            >
               <RefreshCw className="mr-1 h-4 w-4" /> Regenerate
+              {maxRegens !== Infinity && (
+                <span className="ml-1 text-xs text-muted-foreground">
+                  ({maxRegens - regenCount} left)
+                </span>
+              )}
             </Button>
-            <Button size="sm">
+            <Button size="sm" onClick={handleDownloadPDF}>
               <Download className="mr-1 h-4 w-4" /> Download PDF
             </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowMemoryInput(!showMemoryInput)}
+            >
+              <Plus className="mr-1 h-4 w-4" /> Add Memory
+            </Button>
           </div>
+
+          {/* Add Memory Input */}
+          {showMemoryInput && (
+            <div className="mb-6 rounded-xl border border-border bg-card p-4 shadow-soft">
+              <p className="mb-2 text-sm font-medium text-foreground">
+                Add another memory to enrich the tribute
+              </p>
+              <Textarea
+                value={additionalMemory}
+                onChange={(e) => setAdditionalMemory(e.target.value)}
+                placeholder="Share another special memory..."
+                rows={3}
+              />
+              <div className="mt-3 flex gap-2">
+                <Button size="sm" onClick={handleAddMemoryAndRegenerate} disabled={!additionalMemory.trim()}>
+                  <RefreshCw className="mr-1 h-4 w-4" /> Regenerate with Memory
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => { setShowMemoryInput(false); setAdditionalMemory(""); }}>
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          )}
 
           {/* Social Post (Tier 2+) */}
           {tribute.social_post && (
@@ -191,11 +269,15 @@ const TributePage = () => {
                   Social Media Post
                 </h3>
               </div>
-              <p className="text-sm leading-relaxed text-foreground">
-                {tribute.social_post}
-              </p>
-              <Button variant="outline" size="sm" className="mt-3">
-                Copy to Clipboard
+              <p className="text-sm leading-relaxed text-foreground">{tribute.social_post}</p>
+              <Button
+                variant="outline"
+                size="sm"
+                className="mt-3"
+                onClick={() => handleCopyToClipboard(tribute.social_post!)}
+              >
+                {copied ? <Check className="mr-1 h-4 w-4" /> : <Copy className="mr-1 h-4 w-4" />}
+                {copied ? "Copied!" : "Copy to Clipboard"}
               </Button>
             </div>
           )}
@@ -215,9 +297,18 @@ const TributePage = () => {
                   {tribute.share_card_text}
                 </p>
               </div>
-              <Button variant="outline" size="sm" className="mt-3">
-                <Download className="mr-1 h-4 w-4" /> Download Card
-              </Button>
+              <div className="mt-3 flex gap-2">
+                <Button variant="outline" size="sm" onClick={handleDownloadMemorial}>
+                  <Download className="mr-1 h-4 w-4" /> Download Memorial PDF
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleCopyToClipboard(tribute.share_card_text!)}
+                >
+                  <Copy className="mr-1 h-4 w-4" /> Copy Text
+                </Button>
+              </div>
             </div>
           )}
 
