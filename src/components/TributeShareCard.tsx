@@ -16,6 +16,9 @@ import {
 } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 
+// Facebook App ID for Messenger sharing — replace with your own app ID when available
+const FACEBOOK_APP_ID = "";
+
 type TemplateId = "classic" | "modern" | "botanical";
 
 interface TemplateConfig {
