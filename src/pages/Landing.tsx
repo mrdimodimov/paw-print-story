@@ -236,9 +236,48 @@ const Landing = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/50 py-8 text-center text-sm text-muted-foreground">
+      <footer className="border-t border-border/50 py-12 text-sm text-muted-foreground">
         <div className="tribute-container">
-          <p>
+          <div className="mb-8 grid gap-6 text-center md:grid-cols-2 md:text-left">
+            <div>
+              <h4 className="mb-3 font-display text-sm font-semibold text-foreground">
+                Pet Memorial Guides
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <NavLink to="/dog-obituary-example" className="hover:text-primary transition-colors">
+                    Dog Obituary Example
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/cat-memorial-tribute-example" className="hover:text-primary transition-colors">
+                    Cat Memorial Tribute Example
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/pet-memorial-message" className="hover:text-primary transition-colors">
+                    Pet Memorial Messages
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/what-to-write-when-a-dog-dies" className="hover:text-primary transition-colors">
+                    What to Write When a Dog Dies
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
+            <div className="flex flex-col items-center md:items-end md:justify-end">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate("/create")}
+              >
+                <PawPrint className="mr-2 h-4 w-4" />
+                Create Your Tribute
+              </Button>
+            </div>
+          </div>
+          <p className="text-center">
             Made with <Heart className="inline h-3 w-3 text-primary" /> by {BRAND.name}
           </p>
         </div>
