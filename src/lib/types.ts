@@ -81,6 +81,7 @@ export const TIERS: TierConfig[] = [
     include_social_post: true,
     include_printable_pdf: true,
     include_memorial_page: false,
+    share_card_limit: 3,
   },
   {
     id: "legacy",
