@@ -269,15 +269,8 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
 
   const getShareText = () => `In Loving Memory of ${petName} — "${shortQuote}" 🐾 Created with TributePaw`;
 
-  const getShareImageUrl = async (): Promise<string | null> => {
-    const canvas = await getCanvas();
-    if (!canvas) return null;
-    return canvas.toDataURL("image/png");
-  };
 
-  const openShareWindow = (url: string) => {
-    window.open(url, "_blank", "noopener,noreferrer,width=600,height=500");
-  };
+
 
   const handlePlatformShare = async (platform: string) => {
     setExporting(true);
