@@ -85,20 +85,26 @@ STEP 2 — WRITE THE TRIBUTE
 
 Using the narrative highlights you just identified, write the tribute.
 
+VOICE:
+- Write as if a close family member is remembering ${data.pet_name} and sharing their memories with others — someone who was there for the morning routines, the evening rituals, the unremarkable Tuesday afternoons that turned out to be the most meaningful.
+- The writing should feel warm, sincere, and personal — never formal, distant, or clinical.
+- Do NOT sound like an obituary, an encyclopedia entry, or a greeting card. Sound like a real person who loved this animal and is telling you what it was like to live with them.
+- Lean into everyday moments: the sound of paws on the kitchen floor, the specific spot on the couch, the look they gave when they wanted something. These small truths carry more emotional weight than grand statements.
+- Use natural, conversational storytelling language. Vary sentence length. Let some sentences be short and quiet. Let others unspool into a memory.
+
 WRITING RULES:
 - Turn each memory and habit into a vivid, lived scene — show the moment, don't summarize it.
-- Ground personality traits in specific actions and behaviors, not adjectives.
+- Ground personality traits in specific actions and behaviors, not adjectives. Don't say "${data.pet_name} was playful" — describe what their version of play looked like.
 - Focus on small everyday details that made ${data.pet_name} unique.
-- NEVER use generic memorial phrases or clichés. Forbidden phrases include: "brought joy to everyone," "crossed the rainbow bridge," "will never be forgotten," "forever in our hearts," "unconditional love," "loyal companion to the end."
-- Write in a natural storytelling voice — like a close friend sharing what made ${data.pet_name} irreplaceable. Not a formal obituary.
+- NEVER use generic memorial phrases or clichés. Forbidden phrases include: "brought joy to everyone," "crossed the rainbow bridge," "will never be forgotten," "forever in our hearts," "unconditional love," "loyal companion to the end," "left paw prints on our hearts," "earned their wings."
 - If the owner included a personal message, let that sentiment flow naturally through the piece without quoting it directly.
 
 STRUCTURE:
-1. Open with a warm, specific moment or memory that immediately captures who ${data.pet_name} was.
+1. Open with a warm, specific moment or memory that immediately captures who ${data.pet_name} was — drop the reader into a scene.
 2. Show ${data.pet_name}'s defining personality through actions and habits — let behavior reveal character.
-3. Bring in one or two vivid memories as fully rendered scenes.
+3. Bring in one or two vivid memories as fully rendered scenes with sensory details.
 4. Describe what ${data.pet_name} loved most and the bonds they formed.
-5. Close with a gentle, grounded reflection on the bond shared — honest and tender, anchored in the emotional theme.
+5. Close with a gentle, grounded reflection on the bond shared — honest and tender, anchored in the emotional theme. End on something real, not a platitude.
 
 TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.
 
