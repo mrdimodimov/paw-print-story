@@ -284,20 +284,24 @@ const TributePage = () => {
             </div>
           )}
 
-          {/* Shareable Tribute Card (Tier 2+) */}
+          {/* Memorial Share Card */}
           {tier.include_share_card && tribute.share_card_text && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
               <div className="mb-4 flex items-center gap-2">
                 <FileText className="h-4 w-4 text-primary" />
                 <h3 className="font-display text-lg font-semibold text-foreground">
-                  Shareable Tribute Card
+                  Create a Memorial Share Card
                 </h3>
               </div>
+              <p className="mb-4 text-sm text-muted-foreground">
+                Generate a shareable image with your pet's photo and a quote from the tribute.
+              </p>
               <TributeShareCard
                 petName={formData?.pet_name || "Your Pet"}
                 years={formData?.years_of_life || ""}
                 excerpt={tribute.share_card_text}
                 photoUrl={formData?.photo_urls?.[0]}
+                shareCardLimit={tier.share_card_limit}
               />
             </div>
           )}
