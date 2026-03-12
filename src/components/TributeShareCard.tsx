@@ -278,41 +278,71 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
 
   const handlePlatformShare = async (platform: string) => {
     setExporting(true);
-    const text = getShareText();
-    const encodedText = encodeURIComponent(text);
-    const pageUrl = encodeURIComponent(window.location.href);
+    const rawUrl = window.location.href;
+    const encodedUrl = encodeURIComponent(rawUrl);
+    const shareText = getShareText();
+    const encodedText = encodeURIComponent(shareText);
+    const encodedSubject = encodeURIComponent(`In Loving Memory of ${petName}`);
 
     try {
+      let opened = false;
+
       switch (platform) {
         case "facebook":
-          openShareWindow(`https://www.facebook.com/sharer/sharer.php?u=${pageUrl}&quote=${encodedText}`);
+          opened = !!window.open(
+            `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+            "_blank",
+            "noopener,noreferrer,width=600,height=500"
+          );
           break;
+
         case "twitter":
-          openShareWindow(`https://twitter.com/intent/tweet?text=${encodedText}&url=${pageUrl}`);
+          opened = !!window.open(
+            `https://x.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`,
+            "_blank",
+            "noopener,noreferrer,width=600,height=500"
+          );
           break;
-        case "whatsapp":
-          openShareWindow(`https://api.whatsapp.com/send?text=${encodedText}%20${pageUrl}`);
+
+        case "whatsapp": {
+          const waText = encodeURIComponent(`${shareText}\n${rawUrl}`);
+          opened = !!window.open(
+            `https://wa.me/?text=${waText}`,
+            "_blank",
+            "noopener,noreferrer,width=600,height=500"
+          );
           break;
+        }
+
         case "messenger":
-          openShareWindow(`https://www.facebook.com/dialog/send?link=${pageUrl}&app_id=&redirect_uri=${pageUrl}`);
+          opened = !!window.open(
+            `https://www.facebook.com/dialog/send?link=${encodedUrl}&app_id=${encodeURIComponent(FACEBOOK_APP_ID)}&redirect_uri=${encodedUrl}`,
+            "_blank",
+            "noopener,noreferrer,width=600,height=500"
+          );
           break;
+
         case "pinterest": {
-          const imgUrl = await getShareImageUrl();
-          const media = imgUrl ? encodeURIComponent(imgUrl) : "";
-          openShareWindow(`https://pinterest.com/pin/create/button/?url=${pageUrl}&media=${media}&description=${encodedText}`);
+          // Use the first photo URL if available (data URIs won't work on Pinterest)
+          const mediaUrl = photoUrls[0] ? encodeURIComponent(photoUrls[0]) : "";
+          opened = !!window.open(
+            `https://pinterest.com/pin/create/button/?url=${encodedUrl}&media=${mediaUrl}&description=${encodedText}`,
+            "_blank",
+            "noopener,noreferrer,width=600,height=500"
+          );
           break;
         }
-        case "email": {
-          const subject = encodeURIComponent(`In Loving Memory of ${petName}`);
-          window.location.href = `mailto:?subject=${subject}&body=${encodedText}%0A%0A${pageUrl}`;
+
+        case "email":
+          window.location.href = `mailto:?subject=${encodedSubject}&body=${encodedText}%0A%0A${encodedUrl}`;
+          opened = true;
           break;
-        }
-        case "instagram": {
-          // Instagram doesn't support web sharing links — download the image instead
+
+        case "instagram":
           await handleDownload();
           toast.info("Image downloaded — open Instagram and share from your gallery.");
-          break;
-        }
+          return; // early return, skip success toast
+
         case "native": {
           const canvas = await getCanvas();
           if (!canvas) break;
@@ -327,14 +357,17 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
               toast.info("Image opened in new tab — save and share.");
             }
           }, "image/png");
-          break;
+          return;
         }
       }
-      if (platform !== "instagram" && platform !== "native") {
+
+      if (opened) {
         toast.success(`Opening ${platform}…`);
+      } else {
+        toast.error("Unable to share directly. Please download your card and share manually.");
       }
     } catch {
-      toast.error("Sharing failed.");
+      toast.error("Unable to share directly. Please download your card and share manually.");
     } finally {
       setExporting(false);
     }
