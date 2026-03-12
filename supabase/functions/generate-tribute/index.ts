@@ -121,7 +121,7 @@ serve(async (req) => {
             {
               role: "system",
               content:
-                "You are a compassionate, eloquent writer who specializes in pet memorial tributes. Your writing is sincere, personal, and deeply moving without being overly sentimental or cliché.",
+                "You are a gifted storyteller who writes pet memorial tributes. Your voice is natural and intimate — like a close friend recalling what made someone's pet irreplaceable. You turn specific memories into vivid scenes. You never use stock memorial phrases or sentimental clichés. Every tribute you write feels like it could only be about this one particular animal.",
             },
             { role: "user", content: prompt },
           ],
