@@ -22,8 +22,8 @@ const Landing = () => {
           </div>
           <Button
             size="sm"
-            onClick={() => navigate("/create")}
-          >
+            onClick={() => navigate("/create")}>
+            
             Create Your Tribute
           </Button>
         </div>
@@ -35,8 +35,8 @@ const Landing = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
+            transition={{ duration: 0.7 }}>
+            
             <div className="mb-6 flex justify-center">
               <div className="rounded-full bg-accent p-4">
                 <Heart className="h-8 w-8 text-primary" />
@@ -51,8 +51,8 @@ const Landing = () => {
             <Button
               size="lg"
               className="px-8 py-6 text-lg shadow-glow"
-              onClick={() => navigate("/create")}
-            >
+              onClick={() => navigate("/create")}>
+              
               <PawPrint className="mr-2 h-5 w-5" />
               Create Your Tribute
             </Button>
@@ -61,14 +61,14 @@ const Landing = () => {
       </section>
 
       {/* Remember Them */}
-      <section className="tribute-section bg-accent/30">
+      <section className="tribute-section bg-accent/30 border-double border-4">
         <div className="tribute-container max-w-2xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
+            viewport={{ once: true }}>
+            
             <h2 className="mb-6 font-display text-3xl font-bold text-foreground">
               Remember Them
             </h2>
@@ -77,21 +77,21 @@ const Landing = () => {
             </p>
             <div className="mb-8 space-y-5">
               {[
-                "What was their favorite place to sleep?",
-                "What small habit always made you smile?",
-                "What is one memory you will always carry with you?",
-              ].map((prompt, i) => (
-                <motion.p
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 + i * 0.15, duration: 0.4 }}
-                  viewport={{ once: true }}
-                  className="font-display text-lg italic text-foreground/80"
-                >
+              "What was their favorite place to sleep?",
+              "What small habit always made you smile?",
+              "What is one memory you will always carry with you?"].
+              map((prompt, i) =>
+              <motion.p
+                key={i}
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 + i * 0.15, duration: 0.4 }}
+                viewport={{ once: true }}
+                className="font-display text-lg italic text-foreground/80 font-extrabold">
+                
                   {prompt}
                 </motion.p>
-              ))}
+              )}
             </div>
             <p className="mb-8 text-base text-muted-foreground">
               When you're ready, we'll help turn those memories into a beautiful tribute.
@@ -100,8 +100,8 @@ const Landing = () => {
               size="lg"
               variant="outline"
               className="px-8 py-5 text-base"
-              onClick={() => navigate("/create")}
-            >
+              onClick={() => navigate("/create")}>
+              
               <PawPrint className="mr-2 h-5 w-5" />
               Start a Tribute
             </Button>
@@ -116,18 +116,18 @@ const Landing = () => {
           </h2>
           <div className="grid gap-8 md:grid-cols-3">
             {[
-              { icon: PawPrint, title: "Share Your Memories", desc: "Answer a few gentle questions about your pet's life and personality." },
-              { icon: BookOpen, title: "We Craft Your Story", desc: "Our AI creates a heartfelt tribute capturing your pet's unique spirit." },
-              { icon: FileText, title: "Treasure Forever", desc: "Download, share, or print your beautiful tribute story." },
-            ].map((step, i) => (
-              <motion.div
-                key={step.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.15, duration: 0.5 }}
-                viewport={{ once: true }}
-                className="flex flex-col items-center"
-              >
+            { icon: PawPrint, title: "Share Your Memories", desc: "Answer a few gentle questions about your pet's life and personality." },
+            { icon: BookOpen, title: "We Craft Your Story", desc: "Our AI creates a heartfelt tribute capturing your pet's unique spirit." },
+            { icon: FileText, title: "Treasure Forever", desc: "Download, share, or print your beautiful tribute story." }].
+            map((step, i) =>
+            <motion.div
+              key={step.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.15, duration: 0.5 }}
+              viewport={{ once: true }}
+              className="flex flex-col items-center">
+              
                 <div className="mb-4 rounded-full bg-accent p-4">
                   <step.icon className="h-6 w-6 text-primary" />
                 </div>
@@ -136,7 +136,7 @@ const Landing = () => {
                 </h3>
                 <p className="text-muted-foreground">{step.desc}</p>
               </motion.div>
-            ))}
+            )}
           </div>
         </div>
       </section>
@@ -148,8 +148,8 @@ const Landing = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
+            viewport={{ once: true }}>
+            
             <h2 className="mb-4 font-display text-3xl font-bold text-foreground">
               See What a Tribute Looks Like
             </h2>
@@ -163,8 +163,8 @@ const Landing = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.6 }}
             viewport={{ once: true }}
-            className="mb-6 rounded-xl border border-border bg-card p-8 text-left shadow-card md:p-10"
-          >
+            className="mb-6 rounded-xl border border-border bg-card p-8 text-left shadow-card md:p-10">
+            
             <h3 className="mb-5 text-center font-display text-xl font-semibold text-foreground">
               In Loving Memory of Bella
             </h3>
@@ -189,16 +189,16 @@ const Landing = () => {
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.5 }}
             viewport={{ once: true }}
-            className="space-y-6"
-          >
+            className="space-y-6">
+            
             <p className="text-sm italic text-muted-foreground">
               Created from answers that took less than 5 minutes.
             </p>
             <Button
               size="lg"
               className="px-8 py-5 text-base shadow-glow"
-              onClick={() => navigate("/create")}
-            >
+              onClick={() => navigate("/create")}>
+              
               <PawPrint className="mr-2 h-5 w-5" />
               Create a Tribute for Your Pet
             </Button>
@@ -217,20 +217,20 @@ const Landing = () => {
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
-            {TIERS.map((tier, i) => (
-              <motion.div
-                key={tier.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                viewport={{ once: true }}
-              >
+            {TIERS.map((tier, i) =>
+            <motion.div
+              key={tier.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              viewport={{ once: true }}>
+              
                 <TierCard
-                  tier={tier}
-                  onSelect={() => navigate(`/create?tier=${tier.id}`)}
-                />
+                tier={tier}
+                onSelect={() => navigate(`/create?tier=${tier.id}`)} />
+              
               </motion.div>
-            ))}
+            )}
           </div>
         </div>
       </section>
@@ -243,8 +243,8 @@ const Landing = () => {
           </p>
         </div>
       </footer>
-    </div>
-  );
+    </div>);
+
 };
 
 export default Landing;
