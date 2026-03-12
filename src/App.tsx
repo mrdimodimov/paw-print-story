@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Landing from "./pages/Landing";
 import Questionnaire from "./pages/Questionnaire";
 import TributePage from "./pages/TributePage";
+import PublicMemorialPage from "./pages/PublicMemorialPage";
 import NotFound from "./pages/NotFound";
 import DogObituaryExample from "./pages/seo/DogObituaryExample";
 import CatMemorialTributeExample from "./pages/seo/CatMemorialTributeExample";
