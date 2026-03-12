@@ -43,6 +43,7 @@ export interface TierConfig {
   include_printable_pdf: boolean;
   include_memorial_page: boolean;
   share_card_limit: number; // number of design templates available, -1 = unlimited
+  photo_limit: number; // max photos allowed for this tier
 }
 
 export const TIERS: TierConfig[] = [
