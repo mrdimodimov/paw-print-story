@@ -455,7 +455,11 @@ const Questionnaire = () => {
           </motion.div>
         </AnimatePresence>
 
-        <div className="mt-8 flex justify-between">
+        <p className="mt-10 text-center text-xs text-muted-foreground/70">
+          Your answers are never stored or used for AI training. They are only used to generate your tribute.
+        </p>
+
+        <div className="mt-6 flex justify-between">
           <Button
             variant="outline"
             onClick={() => setStep((s) => s - 1)}
