@@ -223,21 +223,45 @@ const Landing = () => {
               Every pet deserves to be remembered beautifully.
             </p>
           </div>
+          {/* Mobile: Tier 2 first, then 1, then 3 */}
           <div className="grid gap-6 md:grid-cols-3">
-            {TIERS.map((tier, i) =>
-            <motion.div
-              key={tier.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              viewport={{ once: true }}>
-              
-                <TierCard
-                tier={tier}
-                onSelect={() => navigate(`/create?tier=${tier.id}`)} />
-              
-              </motion.div>
-            )}
+            {(() => {
+              const mobileTiers = [TIERS[1], TIERS[0], TIERS[2]];
+              const desktopTiers = TIERS;
+              return (
+                <>
+                  {/* Mobile order */}
+                  <div className="contents md:hidden">
+                    {mobileTiers.map((tier, i) => (
+                      <motion.div
+                        key={tier.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.1, duration: 0.5 }}
+                        viewport={{ once: true }}
+                      >
+                        <TierCard tier={tier} onSelect={() => navigate(`/create?tier=${tier.id}`)} />
+                      </motion.div>
+                    ))}
+                  </div>
+                  {/* Desktop order */}
+                  <div className="contents hidden md:contents">
+                    {desktopTiers.map((tier, i) => (
+                      <motion.div
+                        key={tier.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.1, duration: 0.5 }}
+                        viewport={{ once: true }}
+                        className="hidden md:block"
+                      >
+                        <TierCard tier={tier} onSelect={() => navigate(`/create?tier=${tier.id}`)} />
+                      </motion.div>
+                    ))}
+                  </div>
+                </>
+              );
+            })()}
           </div>
           <p className="mt-8 text-center text-sm text-muted-foreground">
             Every tribute can be edited before downloading.
