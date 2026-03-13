@@ -267,7 +267,7 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
     }
   };
 
-  const getShareText = () => `In Loving Memory of ${petName} — "${shortQuote}" 🐾 Created with TributePaw`;
+  const getShareText = () => `In Loving Memory of ${petName} — "${shortQuote}" 🐾 Created with VellumPet`;
 
 
 
@@ -549,7 +549,7 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
               zIndex: 1,
             }}
           >
-            🐾 Created with TributePaw
+            🐾 Created with VellumPet
           </div>
         </div>
       </div>
@@ -614,7 +614,7 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
               </div>
             </TooltipTrigger>
             <TooltipContent side="top" className="max-w-[220px] text-center">
-              Share this tribute directly to your favorite social platform. Friends will see it and TributePaw attribution.
+              Share this tribute directly to your favorite social platform. Friends will see it and VellumPet attribution.
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

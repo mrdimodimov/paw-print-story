@@ -31,7 +31,7 @@ const SeoArticleLayout = ({
   tips,
   tipsIntro = "Here are a few tips to help you write a tribute that feels personal and true to your pet's life.",
   outroHeading = "You Don't Have to Write It Alone",
-  outro = "If putting your feelings into words feels overwhelming, TributePaw can help. Answer a few simple questions about your pet, and we'll craft a beautiful, heartfelt tribute for you.",
+  outro = "If putting your feelings into words feels overwhelming, VellumPet can help. Answer a few simple questions about your pet, and we'll craft a beautiful, heartfelt tribute for you.",
 }: SeoArticleProps) => {
   const navigate = useNavigate();
 

@@ -26,7 +26,7 @@ const WhatToWriteWhenDogDies = () => (
       "End with something simple — a thank you, a farewell, or a statement of love.",
     ]}
     outroHeading="It's Okay to Ask for Help"
-    outro="If the words aren't coming, that's completely normal. TributePaw was built for moments like this. Share a few memories about your dog, and we'll turn them into a tribute that honors their life beautifully."
+    outro="If the words aren't coming, that's completely normal. VellumPet was built for moments like this. Share a few memories about your dog, and we'll turn them into a tribute that honors their life beautifully."
   />
 );
 

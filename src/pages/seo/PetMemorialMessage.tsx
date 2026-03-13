@@ -25,7 +25,7 @@ const PetMemorialMessage = () => (
       "If writing for someone else's pet, acknowledge the bond they shared and the loss they feel.",
     ]}
     outroHeading="Let Us Help You Find the Words"
-    outro="Writing a pet memorial message can be emotional. TributePaw helps you turn your memories into a beautiful, personalized tribute — just answer a few gentle questions and we'll do the rest."
+    outro="Writing a pet memorial message can be emotional. VellumPet helps you turn your memories into a beautiful, personalized tribute — just answer a few gentle questions and we'll do the rest."
   />
 );
 
