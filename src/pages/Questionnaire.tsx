@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { PawPrint, ArrowLeft, ArrowRight, Sparkles, ImagePlus, X } from "lucide-react";
+import { PawPrint, ArrowLeft, ArrowRight, Sparkles, ImagePlus, X, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -475,9 +475,15 @@ const Questionnaire = () => {
               Next <ArrowRight className="ml-1 h-4 w-4" />
             </Button>
           ) : (
-            <Button onClick={handleGenerate}>
-              <Sparkles className="mr-1 h-4 w-4" /> Generate Tribute
-            </Button>
+            <div className="flex flex-col items-center gap-2">
+              <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Shield className="h-3.5 w-3.5 text-primary" />
+                Your purchase is protected by our 7-Day Tribute Satisfaction Guarantee.
+              </p>
+              <Button onClick={handleGenerate}>
+                <Sparkles className="mr-1 h-4 w-4" /> Generate Tribute
+              </Button>
+            </div>
           )}
         </div>
       </div>
