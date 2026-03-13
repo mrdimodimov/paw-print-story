@@ -242,6 +242,9 @@ const Landing = () => {
           <p className="mt-8 text-center text-sm text-muted-foreground">
             Every tribute can be edited before downloading.
           </p>
+          <div className="mt-6">
+            <GuaranteeBadge />
+          </div>
         </div>
       </section>
 
