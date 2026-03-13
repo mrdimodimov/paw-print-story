@@ -267,7 +267,7 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
     }
   };
 
-  const getShareText = () => `In Loving Memory of ${petName} — "${shortQuote}" 🐾 Created with TributePaw`;
+  const getShareText = () => `In Loving Memory of ${petName} — "${shortQuote}" 🐾 Created with VellumPet`;
 
 
 
