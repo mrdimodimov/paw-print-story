@@ -10,9 +10,9 @@ interface TierCardProps {
 const TierCard = ({ tier, onSelect }: TierCardProps) => {
   return (
     <div
-      className={`relative flex flex-col rounded-xl border p-6 transition-shadow ${
+      className={`relative flex flex-col rounded-xl border p-6 transition-all ${
         tier.popular
-          ? "border-primary shadow-glow"
+          ? "border-primary shadow-glow scale-[1.02] md:scale-105 bg-card"
           : "border-border shadow-soft hover:shadow-card"
       }`}
     >
@@ -24,6 +24,12 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
         </div>
       )}
 
+      {tier.label && !tier.popular && (
+        <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          {tier.label}
+        </p>
+      )}
+
       <div className="mb-4">
         <h3 className="font-display text-xl font-semibold text-foreground">
           {tier.name}
@@ -32,6 +38,11 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
           <span className="text-3xl font-bold text-foreground">${tier.price}</span>
           <span className="text-sm text-muted-foreground">one-time</span>
         </div>
+        {tier.description && (
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            {tier.description}
+          </p>
+        )}
       </div>
 
       <ul className="mb-6 flex-1 space-y-3">
@@ -45,11 +56,17 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
 
       <Button
         variant={tier.popular ? "default" : "outline"}
-        className="w-full"
+        className={`w-full ${tier.popular ? "shadow-glow" : ""}`}
         onClick={onSelect}
       >
         Get Started
       </Button>
+
+      {tier.micro_text && (
+        <p className="mt-3 text-center text-xs text-muted-foreground">
+          {tier.micro_text}
+        </p>
+      )}
     </div>
   );
 };
