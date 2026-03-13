@@ -549,7 +549,7 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
               zIndex: 1,
             }}
           >
-            🐾 Created with TributePaw
+            🐾 Created with VellumPet
           </div>
         </div>
       </div>
