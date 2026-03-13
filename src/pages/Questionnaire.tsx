@@ -24,6 +24,12 @@ const TONE_OPTIONS: { value: TributeStyle; label: string; desc: string }[] = [
   { value: "lighthearted", label: "Lighthearted", desc: "Fun and loving" },
 ];
 
+const RAINBOW_BRIDGE_OPTION: { value: TributeStyle; label: string; desc: string } = {
+  value: "rainbow_bridge",
+  label: "Rainbow Bridge Tribute",
+  desc: "Includes comforting themes about reunion and peaceful crossing at the Rainbow Bridge.",
+};
+
 const STEPS = [
   "About Your Pet",
   "Personality",
