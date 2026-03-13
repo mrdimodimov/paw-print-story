@@ -27,7 +27,7 @@ export interface TributeFormData {
   tone: TributeStyle;
 }
 
-export type TributeStyle = "warm" | "celebratory" | "gentle" | "lighthearted";
+export type TributeStyle = "warm" | "celebratory" | "gentle" | "lighthearted" | "rainbow_bridge";
 
 export type TributeTier = "story" | "pack" | "legacy";
 
@@ -49,15 +49,16 @@ export interface TierConfig {
 export const TIERS: TierConfig[] = [
   {
     id: "story",
-    name: "Tribute Story",
+    name: "Quick Story",
     price: 19,
     word_count_target: [350, 450],
     features: [
-      "Short, meaningful tribute story",
+      "Short meaningful tribute story",
       "PDF download",
       "1 memorial share card",
       "1 pet photo",
       "2 regenerations",
+      "Basic public tribute page",
     ],
     include_share_card: true,
     include_social_post: false,
@@ -68,7 +69,7 @@ export const TIERS: TierConfig[] = [
   },
   {
     id: "pack",
-    name: "Tribute Pack",
+    name: "Full Memorial Pack",
     price: 39,
     popular: true,
     word_count_target: [450, 600],
@@ -76,8 +77,9 @@ export const TIERS: TierConfig[] = [
       "Beautiful tribute story",
       "Shareable social media card",
       "Printable memorial page",
-      "Up to 3 photos",
+      "Up to 3 pet photos",
       "3 regenerations",
+      "Public tribute page with photo gallery",
     ],
     include_share_card: true,
     include_social_post: true,
@@ -88,15 +90,17 @@ export const TIERS: TierConfig[] = [
   },
   {
     id: "legacy",
-    name: "Legacy Tribute",
+    name: "Everlasting Legacy Page",
     price: 79,
     word_count_target: [500, 650],
     features: [
-      "Everything in Tribute Pack",
-      "Extended tribute narrative",
-      "Up to 5 photos",
-      "Digital memorial page",
+      "Everything in Full Memorial Pack",
+      "Polished extended tribute story",
+      "Up to 5 pet photos",
       "Unlimited regenerations",
+      "Premium digital memorial page",
+      "Custom memorial URL",
+      "Photo timeline layout",
     ],
     include_share_card: true,
     include_social_post: true,

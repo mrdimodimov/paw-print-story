@@ -33,6 +33,7 @@ function buildPrompt(data: TributeRequest): string {
     celebratory: "joyful, celebratory, and uplifting",
     gentle: "soft, peaceful, and tender",
     lighthearted: "fun, loving, and lighthearted",
+    rainbow_bridge: "comforting and spiritual, with peaceful farewell imagery, themes of the Rainbow Bridge crossing, reunion, waiting, and continued love beyond parting",
   };
 
   const toneDesc = toneDescriptions[data.tone] || toneDescriptions.warm;
