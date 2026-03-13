@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { PawPrint, ArrowLeft, ArrowRight, Sparkles, ImagePlus, X } from "lucide-react";
+import { PawPrint, ArrowLeft, ArrowRight, Sparkles, ImagePlus, X, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";

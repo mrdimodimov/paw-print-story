@@ -248,6 +248,50 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* Guarantee + FAQ */}
+      <section className="tribute-section bg-accent/20">
+        <div className="tribute-container max-w-2xl">
+          <GuaranteeBadge variant="card" />
+
+          <div className="mt-12">
+            <h2 className="mb-6 text-center font-display text-2xl font-bold text-foreground">
+              Frequently Asked Questions
+            </h2>
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="refunds">
+                <AccordionTrigger className="text-left font-display text-base font-medium">
+                  Do you offer refunds?
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground leading-relaxed">
+                  Yes. We offer a 7-Day Tribute Satisfaction Guarantee. If the tribute doesn't feel
+                  right to you, simply contact us within 7 days of purchase and we'll issue a full
+                  refund. We may ask for feedback so we can improve future tributes, but there's no
+                  complicated process.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="how-long">
+                <AccordionTrigger className="text-left font-display text-base font-medium">
+                  How long does it take to create a tribute?
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground leading-relaxed">
+                  The questionnaire takes about 5 minutes. Your tribute is generated within seconds
+                  after you submit your answers.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="edit">
+                <AccordionTrigger className="text-left font-display text-base font-medium">
+                  Can I edit my tribute after it's generated?
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground leading-relaxed">
+                  Yes. Every tribute can be edited before downloading. You can also regenerate it
+                  if you'd like a different version.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="border-t border-border/50 py-12 text-sm text-muted-foreground">
         <div className="tribute-container">
