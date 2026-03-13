@@ -49,15 +49,16 @@ export interface TierConfig {
 export const TIERS: TierConfig[] = [
   {
     id: "story",
-    name: "Tribute Story",
+    name: "Quick Story",
     price: 19,
     word_count_target: [350, 450],
     features: [
-      "Short, meaningful tribute story",
+      "Short meaningful tribute story",
       "PDF download",
       "1 memorial share card",
       "1 pet photo",
       "2 regenerations",
+      "Basic public tribute page",
     ],
     include_share_card: true,
     include_social_post: false,
