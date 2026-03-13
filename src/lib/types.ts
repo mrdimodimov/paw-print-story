@@ -100,7 +100,6 @@ export const TIERS: TierConfig[] = [
       "Unlimited regenerations",
       "Premium digital memorial page",
       "Custom memorial URL",
-      "Photo timeline layout",
     ],
     include_share_card: true,
     include_social_post: true,

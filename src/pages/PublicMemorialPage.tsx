@@ -58,31 +58,25 @@ const PhotoGallery = ({ photos, petName, tier }: { photos: string[]; petName: st
   const displayPhotos = photos.slice(0, maxPhotos);
 
   if (tier === "legacy" && displayPhotos.length > 1) {
-    // Timeline layout for legacy tier
+    // Premium gallery for legacy tier: hero photo + grid
     return (
       <div className="mb-8">
-        <div className="relative">
-          {/* Featured photo */}
-          <div className="mb-4 overflow-hidden rounded-xl">
+        <div className="mb-4 overflow-hidden rounded-xl shadow-md">
+          <img
+            src={displayPhotos[0]}
+            alt={`${petName}`}
+            className="h-64 w-full object-cover md:h-80"
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          {displayPhotos.slice(1).map((url, i) => (
             <img
-              src={displayPhotos[0]}
-              alt={`${petName}`}
-              className="h-64 w-full object-cover md:h-80"
+              key={i}
+              src={url}
+              alt={`${petName} photo ${i + 2}`}
+              className="h-32 w-full rounded-lg object-cover shadow-sm md:h-40"
             />
-          </div>
-          {/* Timeline row */}
-          {displayPhotos.length > 1 && (
-            <div className="flex gap-3 overflow-x-auto pb-2">
-              {displayPhotos.slice(1).map((url, i) => (
-                <img
-                  key={i}
-                  src={url}
-                  alt={`${petName} photo ${i + 2}`}
-                  className="h-24 w-24 flex-shrink-0 rounded-lg object-cover shadow-sm md:h-32 md:w-32"
-                />
-              ))}
-            </div>
-          )}
+          ))}
         </div>
       </div>
     );
