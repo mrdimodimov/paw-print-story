@@ -123,9 +123,9 @@ const Landing = () => {
           </h2>
           <div className="grid gap-8 md:grid-cols-3">
             {[
-            { icon: PawPrint, title: "Share Your Memories", desc: "Answer a few gentle questions about your pet's life and personality." },
-            { icon: BookOpen, title: "We Craft Your Story", desc: "We transform your memories into a meaningful, heartfelt tribute capturing your pet's unique spirit. " },
-            { icon: FileText, title: "Treasure Forever", desc: "Download, share, or print your beautiful tribute story." }].
+            { icon: PawPrint, title: "Tell Us About Your Pet", desc: "Answer a few gentle questions about your pet's personality, memories, and life." },
+            { icon: BookOpen, title: "Generate Your Tribute", desc: "We transform your memories into a heartfelt tribute story you can review and edit." },
+            { icon: FileText, title: "Share or Download", desc: "Download your tribute, print it, or share a memorial page with friends and family." }].
             map((step, i) =>
             <motion.div
               key={step.title}
