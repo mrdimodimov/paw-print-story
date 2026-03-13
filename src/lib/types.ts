@@ -36,14 +36,17 @@ export interface TierConfig {
   name: string;
   price: number;
   popular?: boolean;
+  label?: string;
+  description?: string;
+  micro_text?: string;
   word_count_target: [number, number];
   features: string[];
   include_share_card: boolean;
   include_social_post: boolean;
   include_printable_pdf: boolean;
   include_memorial_page: boolean;
-  share_card_limit: number; // number of design templates available, -1 = unlimited
-  photo_limit: number; // max photos allowed for this tier
+  share_card_limit: number;
+  photo_limit: number;
 }
 
 export const TIERS: TierConfig[] = [
@@ -51,6 +54,7 @@ export const TIERS: TierConfig[] = [
     id: "story",
     name: "Quick Story",
     price: 19,
+    micro_text: "Good for a simple tribute.",
     word_count_target: [350, 450],
     features: [
       "Short meaningful tribute story",
@@ -72,14 +76,16 @@ export const TIERS: TierConfig[] = [
     name: "Full Memorial Pack",
     price: 39,
     popular: true,
+    description: "Best for creating a beautiful, shareable tribute with photos and memories.",
+    micro_text: "Best for sharing and remembering your pet's life.",
     word_count_target: [450, 600],
     features: [
       "Beautiful tribute story",
-      "Shareable social media card",
+      "Photo gallery (up to 3 photos)",
+      "Shareable public memorial page",
+      "Social media tribute card",
       "Printable memorial page",
-      "Up to 3 pet photos",
-      "3 regenerations",
-      "Public tribute page with photo gallery",
+      "3 tribute regenerations",
     ],
     include_share_card: true,
     include_social_post: true,
@@ -92,6 +98,7 @@ export const TIERS: TierConfig[] = [
     id: "legacy",
     name: "Everlasting Legacy Page",
     price: 79,
+    label: "Premium Memorial Experience",
     word_count_target: [500, 650],
     features: [
       "Everything in Full Memorial Pack",
