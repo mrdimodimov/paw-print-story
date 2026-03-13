@@ -5,6 +5,13 @@ import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
 import TierCard from "@/components/TierCard";
+import GuaranteeBadge from "@/components/GuaranteeBadge";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const Landing = () => {
   const navigate = useNavigate();
