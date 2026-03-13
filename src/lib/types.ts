@@ -27,7 +27,7 @@ export interface TributeFormData {
   tone: TributeStyle;
 }
 
-export type TributeStyle = "warm" | "celebratory" | "gentle" | "lighthearted";
+export type TributeStyle = "warm" | "celebratory" | "gentle" | "lighthearted" | "rainbow_bridge";
 
 export type TributeTier = "story" | "pack" | "legacy";
 
