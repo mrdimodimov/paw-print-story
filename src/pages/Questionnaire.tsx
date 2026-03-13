@@ -369,12 +369,16 @@ const Questionnaire = () => {
           </div>
         );
 
-      case 5:
+      case 5: {
+        const showRainbowBridge = tier === "pack" || tier === "legacy";
+        const allToneOptions = showRainbowBridge
+          ? [...TONE_OPTIONS, RAINBOW_BRIDGE_OPTION]
+          : TONE_OPTIONS;
         return (
           <div className="space-y-5">
             <Label className="mb-3 block">Choose a tone for the tribute</Label>
             <div className="grid gap-3 sm:grid-cols-2">
-              {TONE_OPTIONS.map((opt) => (
+              {allToneOptions.map((opt) => (
                 <button
                   key={opt.value}
                   type="button"
@@ -394,6 +398,7 @@ const Questionnaire = () => {
             </div>
           </div>
         );
+      }
 
       default:
         return null;
