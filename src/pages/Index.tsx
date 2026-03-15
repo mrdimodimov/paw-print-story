@@ -1,7 +1,7 @@
-import { Navigate } from "react-router-dom";
+// This page is not used — the "/" route renders Landing.tsx directly.
+// Kept as a fallback redirect.
+import Landing from "./Landing";
 
-const Index = () => {
-  return <Navigate to="/" replace />;
-};
+const Index = () => <Landing />;
 
 export default Index;
