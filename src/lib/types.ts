@@ -119,6 +119,7 @@ export const TIERS: TierConfig[] = [
 
 export interface GeneratedTribute {
   story: string;
+  title?: string;
   social_post?: string;
   share_card_text?: string;
 }

@@ -97,7 +97,7 @@ FORBIDDEN PHRASES: "brought joy to everyone," "crossed the rainbow bridge," "wil
 
 STRUCTURE: 1) Open with a specific moment capturing who the pet was 2) Show personality through actions and habits 3) One or two vivid memory scenes with sensory detail 4) What they loved most and bonds formed 5) Gentle, grounded closing reflection anchored in the emotional theme.
 
-OUTPUT: Return ONLY the final tribute text. No titles, headers, labels, or extraction notes.`;
+OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words) capturing the pet's spirit, personality, or a defining memory. No clichés, no generic phrases. Then a blank line, then the tribute story text. No other headers or labels.`;
 
 const REGEN_SYSTEM_PROMPT = `You are a gifted pet memorial writer. Write a NEW variation of a pet tribute using the provided narrative context. Create a fresh tribute that feels different from the previous version while staying true to the same pet and memories.
 
@@ -105,7 +105,7 @@ VOICE: Warm, sincere, personal. Write as a close family member. Natural, convers
 STYLE: Vary sentence length. No purple prose. Show moments as scenes. Reveal traits through actions. Focus on everyday details.
 FORBIDDEN: "brought joy," "crossed the rainbow bridge," "forever in our hearts," "unconditional love," "earned their wings," or similar clichés.
 STRUCTURE: Specific opening moment → personality through actions → vivid memory scenes → bonds → gentle closing reflection.
-OUTPUT: Return ONLY the final tribute text. No titles, headers, labels, or extraction notes.`;
+OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words) capturing the pet's spirit. Then a blank line, then the tribute text. No other headers or labels.`;
 
 function buildPrompt(data: TributeRequest): string {
   const toneDescriptions: Record<string, string> = {
