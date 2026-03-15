@@ -233,9 +233,22 @@ export async function generateTribute(
 function parseGeneratedOutput(text: string): GeneratedTribute {
   const result: GeneratedTribute = {
     story: text.trim(),
+    title: undefined,
     social_post: undefined,
     share_card_text: undefined,
   };
+
+  // Extract title
+  const titleIdx = text.indexOf("---TITLE---");
+  if (titleIdx !== -1) {
+    const afterTitle = text.slice(titleIdx + "---TITLE---".length).trimStart();
+    const titleEnd = afterTitle.indexOf("\n");
+    if (titleEnd !== -1) {
+      result.title = afterTitle.slice(0, titleEnd).trim() || undefined;
+      // Remove title section from remaining text
+      text = (text.slice(0, titleIdx) + afterTitle.slice(titleEnd + 1)).trim();
+    }
+  }
 
   const socialIdx = text.indexOf("---SOCIAL_POST---");
   const cardIdx = text.indexOf("---SHARE_CARD---");
@@ -258,6 +271,8 @@ function parseGeneratedOutput(text: string): GeneratedTribute {
       const parsed = text.slice(cardIdx + "---SHARE_CARD---".length, cardEnd).trim();
       result.share_card_text = parsed || undefined;
     }
+  } else {
+    result.story = text.trim();
   }
 
   return result;

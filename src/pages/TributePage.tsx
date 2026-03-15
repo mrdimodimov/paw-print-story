@@ -376,10 +376,16 @@ const TributePage = () => {
 
           {/* Tribute Story */}
           <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
-            <h2 className="mb-1 font-display text-2xl font-bold text-foreground">
-              {petName ? `${petName}'s Tribute` : "Your Pet's Tribute"}
-            </h2>
-            <p className="mb-6 text-sm text-muted-foreground">{currentTier.name}</p>
+            {tribute.title ? (
+              <h2 className="mb-4 text-center font-display text-3xl font-bold leading-tight text-foreground md:text-4xl">
+                {tribute.title}
+              </h2>
+            ) : (
+              <h2 className="mb-1 font-display text-2xl font-bold text-foreground">
+                {petName ? `${petName}'s Tribute` : "Your Pet's Tribute"}
+              </h2>
+            )}
+            <p className="mb-6 text-center text-sm text-muted-foreground">{currentTier.name}</p>
 
             {isEditing ? (
               <div className="space-y-4">

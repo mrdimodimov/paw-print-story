@@ -105,7 +105,7 @@ VOICE: Warm, sincere, personal. Write as a close family member. Natural, convers
 STYLE: Vary sentence length. No purple prose. Show moments as scenes. Reveal traits through actions. Focus on everyday details.
 FORBIDDEN: "brought joy," "crossed the rainbow bridge," "forever in our hearts," "unconditional love," "earned their wings," or similar clichés.
 STRUCTURE: Specific opening moment → personality through actions → vivid memory scenes → bonds → gentle closing reflection.
-OUTPUT: Return ONLY the final tribute text. No titles, headers, labels, or extraction notes.`;
+OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words) capturing the pet's spirit. Then a blank line, then the tribute text. No other headers or labels.`;
 
 function buildPrompt(data: TributeRequest): string {
   const toneDescriptions: Record<string, string> = {
