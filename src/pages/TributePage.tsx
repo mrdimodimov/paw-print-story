@@ -94,7 +94,7 @@ const TributePage = () => {
         setBreed(data.breed);
         // Restore form data if available
         if (data.form_data) {
-          formDataRef.current = data.form_data as TributeFormData;
+          formDataRef.current = data.form_data as unknown as TributeFormData;
         }
         // Resolve tier from saved data
         const savedTier = TIERS.find(

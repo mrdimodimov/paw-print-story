@@ -42,8 +42,6 @@ const STEPS = [
   "Style",
 ];
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-const ACCEPTED_TYPES = ["image/jpeg", "image/png"];
 
 const defaultForm: TributeFormData = {
   pet_name: "",
