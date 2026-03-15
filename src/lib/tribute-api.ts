@@ -61,11 +61,13 @@ export async function generateTribute(
 
   if (!resp.ok) {
     const err = await resp.json().catch(() => ({ error: "Generation failed" }));
+    releaseLock();
     callbacks.onError(err.error || `Error ${resp.status}`);
     return;
   }
 
   if (!resp.body) {
+    releaseLock();
     callbacks.onError("No response body");
     return;
   }
