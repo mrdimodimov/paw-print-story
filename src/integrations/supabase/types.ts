@@ -62,6 +62,54 @@ export type Database = {
         }
         Relationships: []
       }
+      tributes: {
+        Row: {
+          breed: string | null
+          created_at: string
+          form_data: Json | null
+          id: string
+          owner_name: string | null
+          pet_name: string
+          pet_type: string
+          photo_urls: string[]
+          share_card_text: string | null
+          social_post: string | null
+          tier_name: string
+          tribute_story: string
+          years_of_life: string | null
+        }
+        Insert: {
+          breed?: string | null
+          created_at?: string
+          form_data?: Json | null
+          id?: string
+          owner_name?: string | null
+          pet_name: string
+          pet_type?: string
+          photo_urls?: string[]
+          share_card_text?: string | null
+          social_post?: string | null
+          tier_name: string
+          tribute_story: string
+          years_of_life?: string | null
+        }
+        Update: {
+          breed?: string | null
+          created_at?: string
+          form_data?: Json | null
+          id?: string
+          owner_name?: string | null
+          pet_name?: string
+          pet_type?: string
+          photo_urls?: string[]
+          share_card_text?: string | null
+          social_post?: string | null
+          tier_name?: string
+          tribute_story?: string
+          years_of_life?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
