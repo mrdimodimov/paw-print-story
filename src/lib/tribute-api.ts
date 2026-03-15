@@ -8,11 +8,44 @@ interface StreamCallbacks {
   onError: (error: string) => void;
 }
 
+const LOCK_KEY = "vellumpet_generation_lock";
+const LOCK_TTL = 60_000; // 60 seconds
+
+let _generating = false;
+
+function acquireLock(): boolean {
+  // In-memory guard
+  if (_generating) return false;
+
+  // Cross-tab guard via localStorage
+  const existing = localStorage.getItem(LOCK_KEY);
+  if (existing && Date.now() - Number(existing) < LOCK_TTL) return false;
+
+  _generating = true;
+  localStorage.setItem(LOCK_KEY, String(Date.now()));
+  return true;
+}
+
+function releaseLock() {
+  _generating = false;
+  localStorage.removeItem(LOCK_KEY);
+}
+
+export function isGenerationLocked(): boolean {
+  if (_generating) return true;
+  const existing = localStorage.getItem(LOCK_KEY);
+  return !!existing && Date.now() - Number(existing) < LOCK_TTL;
+}
+
 export async function generateTribute(
   form: TributeFormData,
   tier: TierConfig,
   callbacks: StreamCallbacks
 ) {
+  if (!acquireLock()) {
+    callbacks.onError("A tribute is already being generated. Please wait for it to finish.");
+    return;
+  }
   const vars = buildPromptVariables(form, tier);
 
   const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-tribute`;
@@ -28,11 +61,13 @@ export async function generateTribute(
 
   if (!resp.ok) {
     const err = await resp.json().catch(() => ({ error: "Generation failed" }));
+    releaseLock();
     callbacks.onError(err.error || `Error ${resp.status}`);
     return;
   }
 
   if (!resp.body) {
+    releaseLock();
     callbacks.onError("No response body");
     return;
   }
@@ -125,6 +160,7 @@ export async function generateTribute(
     console.warn("Failed to persist tribute");
   }
 
+  releaseLock();
   callbacks.onDone({ ...result, tributeId });
 }
 

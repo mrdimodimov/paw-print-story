@@ -39,10 +39,13 @@ const rateLimitMap = new Map<string, number[]>();
 const RATE_LIMIT_MAX = 10;
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 
+// Duplicate request guard: IP -> last request timestamp
+const activeRequests = new Map<string, number>();
+const DUPLICATE_WINDOW_MS = 10_000; // 10 seconds
+
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
   const timestamps = rateLimitMap.get(ip) || [];
-  // Remove expired entries
   const valid = timestamps.filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
   if (valid.length >= RATE_LIMIT_MAX) {
     rateLimitMap.set(ip, valid);
@@ -51,6 +54,18 @@ function isRateLimited(ip: string): boolean {
   valid.push(now);
   rateLimitMap.set(ip, valid);
   return false;
+}
+
+function isDuplicateRequest(ip: string): boolean {
+  const now = Date.now();
+  const last = activeRequests.get(ip);
+  if (last && now - last < DUPLICATE_WINDOW_MS) return true;
+  activeRequests.set(ip, now);
+  return false;
+}
+
+function clearActiveRequest(ip: string) {
+  activeRequests.delete(ip);
 }
 
 const SYSTEM_PROMPT = `You are a gifted pet memorial writer. You create deeply personal tribute stories that honor the unique bond between a pet and their family.
@@ -152,6 +167,13 @@ serve(async (req) => {
       );
     }
 
+    if (isDuplicateRequest(ip)) {
+      return new Response(
+        JSON.stringify({ error: "A tribute is already being generated. Please wait before requesting another." }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const data: TributeRequest = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
@@ -183,6 +205,7 @@ serve(async (req) => {
     );
 
     if (!response.ok) {
+      clearActiveRequest(ip);
       if (response.status === 429) {
         return new Response(
           JSON.stringify({ error: "Our tribute writer is a little busy right now. Please try again in a moment." }),
@@ -202,6 +225,9 @@ serve(async (req) => {
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+
+    // Clear duplicate guard after streaming begins (response will take time)
+    setTimeout(() => clearActiveRequest(ip), DUPLICATE_WINDOW_MS);
 
     return new Response(response.body, {
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
