@@ -63,6 +63,7 @@ const Landing = () => {
               <PawPrint className="mr-2 h-5 w-5" />
               Create Your Tribute
             </Button>
+            <p className="mt-4 text-sm text-muted-foreground">Takes about 3 minutes.</p>
           </motion.div>
         </div>
       </section>
@@ -100,6 +101,9 @@ const Landing = () => {
                 </motion.p>
               )}
             </div>
+            <p className="mb-4 text-base font-medium text-foreground/70">
+              These small memories are what make a tribute truly meaningful.
+            </p>
             <p className="mb-8 text-base text-muted-foreground">
               When you're ready, we'll help turn those memories into a beautiful tribute.
             </p>
@@ -123,9 +127,9 @@ const Landing = () => {
           </h2>
           <div className="grid gap-8 md:grid-cols-3">
             {[
-            { icon: PawPrint, title: "Tell Us About Your Pet", desc: "Answer a few gentle questions about your pet's personality, memories, and life." },
-            { icon: BookOpen, title: "Generate Your Tribute", desc: "We transform your memories into a heartfelt tribute story you can review and edit." },
-            { icon: FileText, title: "Share or Download", desc: "Download your tribute, print it, or share a memorial page with friends and family." }].
+            { icon: PawPrint, title: "Tell Us About Your Pet", desc: "Answer a few simple questions about their personality, habits, and favorite memories." },
+            { icon: BookOpen, title: "Generate Your Tribute", desc: "VellumPet turns your memories into a heartfelt tribute story." },
+            { icon: FileText, title: "Share or Download", desc: "Download your tribute or share a beautiful memorial page with friends and family." }].
             map((step, i) =>
             <motion.div
               key={step.title}
@@ -160,7 +164,7 @@ const Landing = () => {
             <h2 className="mb-4 font-display text-3xl font-bold text-foreground">
               See What a Tribute Looks Like
             </h2>
-            <p className="mb-8 text-base text-muted-foreground">
+            <p className="mb-10 text-base text-muted-foreground">
               Here is an example tribute created from just a few memories.
             </p>
           </motion.div>
@@ -170,9 +174,12 @@ const Landing = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.6 }}
             viewport={{ once: true }}
-            className="mb-6 rounded-xl border border-border bg-card p-8 text-left shadow-card md:p-10">
+            className="mb-8 rounded-xl border border-border bg-card p-10 text-left shadow-card md:p-12">
             
-            <h3 className="mb-5 text-center font-display text-xl font-semibold text-foreground">
+            <p className="mb-2 text-center font-display text-lg italic text-primary/80">
+              The Dog Who Made Every Homecoming a Celebration
+            </p>
+            <h3 className="mb-6 text-center font-display text-xl font-semibold text-foreground">
               In Loving Memory of Bella
             </h3>
             <div className="space-y-4 font-body text-sm leading-relaxed text-foreground/90">
@@ -201,6 +208,12 @@ const Landing = () => {
             <p className="text-sm italic text-muted-foreground">
               Created from answers that took less than 5 minutes.
             </p>
+            <p className="mb-2 font-display text-lg font-semibold text-foreground">
+              Every pet leaves a story behind.
+            </p>
+            <p className="mb-6 text-base text-muted-foreground">
+              Let VellumPet help you tell it.
+            </p>
             <Button
               size="lg"
               className="px-8 py-5 text-base shadow-glow"
@@ -216,12 +229,12 @@ const Landing = () => {
       <section className="tribute-section">
         <div className="tribute-container">
           <div className="mb-12 text-center">
+            <p className="mb-3 font-display text-base italic text-muted-foreground">
+              Every pet deserves to be remembered beautifully.
+            </p>
             <h2 className="mb-4 text-3xl font-bold text-foreground">
               Choose Your Tribute
             </h2>
-            <p className="text-muted-foreground">
-              Every pet deserves to be remembered beautifully.
-            </p>
           </div>
           {/* Mobile: Tier 2 first, then 1, then 3 */}
           <div className="grid gap-6 md:grid-cols-3">
