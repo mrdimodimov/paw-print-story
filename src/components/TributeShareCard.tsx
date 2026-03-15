@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { BRAND } from "@/lib/brand";
 import html2canvas from "html2canvas";
 import { Download, Share2, PawPrint, ChevronLeft, ChevronRight, Lock, Facebook, Twitter, Mail, MessageCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
