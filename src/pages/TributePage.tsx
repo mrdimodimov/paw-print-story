@@ -300,7 +300,7 @@ const TributePage = () => {
   // Generating / streaming state
   if (generating) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
+      <div className="flex min-h-screen flex-col items-center bg-background px-4 pt-24">
         <motion.div
           animate={{ scale: [1, 1.15, 1] }}
           transition={{ repeat: Infinity, duration: 1.5 }}
@@ -309,18 +309,23 @@ const TributePage = () => {
           <PawPrint className="h-10 w-10 text-primary" />
         </motion.div>
         <p className="font-display text-xl text-foreground">
-          Crafting {petName ? `${petName}'s` : "your pet's"} tribute...
+          Crafting {petName ? `${petName}'s` : "your pet's"} tribute…
         </p>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Turning your memories into something beautiful
-        </p>
+
+        <TributeWritingExperience petName={petName} visible={generating} />
+
         {streamingText && (
-          <div className="mt-8 max-w-2xl rounded-xl border border-border bg-card p-6 shadow-card">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="mt-4 w-full max-w-2xl rounded-xl border border-border bg-card p-6 shadow-card"
+          >
             <p className="whitespace-pre-line font-body text-sm leading-relaxed text-foreground">
               {streamingText}
               <span className="animate-pulse">▌</span>
             </p>
-          </div>
+          </motion.div>
         )}
       </div>
     );
