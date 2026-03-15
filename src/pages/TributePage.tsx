@@ -62,7 +62,7 @@ const TributePage = () => {
     if (savedTier) setCurrentTier(savedTier);
   };
 
-  const runGeneration = (data: TributeFormData, tierConfig: TierConfig) => {
+  const runGeneration = (data: TributeFormData, tierConfig: TierConfig, prevJobId?: string) => {
     setGenerating(true);
     setStreamingText("");
     setTribute(null);
@@ -76,6 +76,7 @@ const TributePage = () => {
         setTribute(result);
         setEditedStory(result.story);
         setGenerating(false);
+        if (result.jobId) setLastJobId(result.jobId);
         if (result.tributeId) {
           navigate(`/tribute/${result.tributeId}?tier=${tierConfig.id}`, { replace: true });
         }
@@ -84,7 +85,7 @@ const TributePage = () => {
         toast.error(error);
         setGenerating(false);
       },
-    });
+    }, prevJobId);
   };
 
   useEffect(() => {
