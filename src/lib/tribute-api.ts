@@ -73,7 +73,8 @@ export async function loadJobById(id: string) {
 export async function generateTribute(
   form: TributeFormData,
   tier: TierConfig,
-  callbacks: StreamCallbacks
+  callbacks: StreamCallbacks,
+  previousJobId?: string
 ) {
   if (!acquireLock()) {
     callbacks.onError("A tribute is already being generated. Please wait for it to finish.");
@@ -98,7 +99,7 @@ export async function generateTribute(
         "Content-Type": "application/json",
         Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
       },
-      body: JSON.stringify({ ...vars, job_id: jobId }),
+      body: JSON.stringify({ ...vars, job_id: jobId, previous_job_id: previousJobId }),
     });
   } catch (e) {
     if (jobId) await updateJobStatus(jobId, "failed", { error_message: "Network error" });

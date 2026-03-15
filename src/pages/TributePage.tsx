@@ -38,6 +38,7 @@ const TributePage = () => {
   const [showMemoryInput, setShowMemoryInput] = useState(false);
   const [copied, setCopied] = useState(false);
   const [regenCount, setRegenCount] = useState(0);
+  const [lastJobId, setLastJobId] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
   const [petName, setPetName] = useState(formData?.pet_name || "");
   const [photoUrls, setPhotoUrls] = useState<string[]>(formData?.photo_urls || []);
@@ -61,7 +62,7 @@ const TributePage = () => {
     if (savedTier) setCurrentTier(savedTier);
   };
 
-  const runGeneration = (data: TributeFormData, tierConfig: TierConfig) => {
+  const runGeneration = (data: TributeFormData, tierConfig: TierConfig, prevJobId?: string) => {
     setGenerating(true);
     setStreamingText("");
     setTribute(null);
@@ -75,6 +76,7 @@ const TributePage = () => {
         setTribute(result);
         setEditedStory(result.story);
         setGenerating(false);
+        if (result.jobId) setLastJobId(result.jobId);
         if (result.tributeId) {
           navigate(`/tribute/${result.tributeId}?tier=${tierConfig.id}`, { replace: true });
         }
@@ -83,7 +85,7 @@ const TributePage = () => {
         toast.error(error);
         setGenerating(false);
       },
-    });
+    }, prevJobId);
   };
 
   useEffect(() => {
@@ -230,7 +232,7 @@ const TributePage = () => {
       return;
     }
     setRegenCount((c) => c + 1);
-    runGeneration(formDataRef.current, currentTier);
+    runGeneration(formDataRef.current, currentTier, lastJobId);
   };
 
   const handleAddMemoryAndRegenerate = () => {
@@ -246,7 +248,7 @@ const TributePage = () => {
     setAdditionalMemory("");
     setShowMemoryInput(false);
     setRegenCount((c) => c + 1);
-    runGeneration(formDataRef.current, currentTier);
+    runGeneration(formDataRef.current, currentTier, lastJobId);
   };
 
   const handleSaveEdit = () => {

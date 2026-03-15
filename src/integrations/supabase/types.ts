@@ -20,9 +20,11 @@ export type Database = {
           error_message: string | null
           form_data: Json | null
           id: string
+          narrative_context: string | null
           owner_name: string | null
           pet_name: string
           photo_urls: string[]
+          prompt_context_hash: string | null
           share_card_text: string | null
           social_post: string | null
           status: string
@@ -34,9 +36,11 @@ export type Database = {
           error_message?: string | null
           form_data?: Json | null
           id?: string
+          narrative_context?: string | null
           owner_name?: string | null
           pet_name: string
           photo_urls?: string[]
+          prompt_context_hash?: string | null
           share_card_text?: string | null
           social_post?: string | null
           status?: string
@@ -48,9 +52,11 @@ export type Database = {
           error_message?: string | null
           form_data?: Json | null
           id?: string
+          narrative_context?: string | null
           owner_name?: string | null
           pet_name?: string
           photo_urls?: string[]
+          prompt_context_hash?: string | null
           share_card_text?: string | null
           social_post?: string | null
           status?: string
