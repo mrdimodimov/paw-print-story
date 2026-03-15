@@ -4,23 +4,20 @@ import { supabase } from "@/integrations/supabase/client";
 
 interface StreamCallbacks {
   onDelta: (text: string) => void;
-  onDone: (result: GeneratedTribute & { tributeId?: string }) => void;
+  onDone: (result: GeneratedTribute & { tributeId?: string; jobId?: string }) => void;
   onError: (error: string) => void;
 }
 
 const LOCK_KEY = "vellumpet_generation_lock";
+const JOB_KEY = "vellumpet_active_job";
 const LOCK_TTL = 60_000; // 60 seconds
 
 let _generating = false;
 
 function acquireLock(): boolean {
-  // In-memory guard
   if (_generating) return false;
-
-  // Cross-tab guard via localStorage
   const existing = localStorage.getItem(LOCK_KEY);
   if (existing && Date.now() - Number(existing) < LOCK_TTL) return false;
-
   _generating = true;
   localStorage.setItem(LOCK_KEY, String(Date.now()));
   return true;
@@ -29,12 +26,48 @@ function acquireLock(): boolean {
 function releaseLock() {
   _generating = false;
   localStorage.removeItem(LOCK_KEY);
+  localStorage.removeItem(JOB_KEY);
 }
 
 export function isGenerationLocked(): boolean {
   if (_generating) return true;
   const existing = localStorage.getItem(LOCK_KEY);
   return !!existing && Date.now() - Number(existing) < LOCK_TTL;
+}
+
+export function getActiveJobId(): string | null {
+  return localStorage.getItem(JOB_KEY);
+}
+
+async function createJob(form: TributeFormData, tier: TierConfig): Promise<string | null> {
+  try {
+    const { data, error } = await supabase.from("generation_jobs").insert({
+      status: "pending",
+      pet_name: form.pet_name,
+      owner_name: form.owner_name || null,
+      tier_name: tier.name,
+      photo_urls: form.photo_urls,
+      form_data: form as any,
+    }).select("id").single();
+    if (!error && data) return data.id;
+  } catch { /* non-critical */ }
+  return null;
+}
+
+async function updateJobStatus(jobId: string, status: string, extra?: Record<string, any>) {
+  try {
+    await supabase.from("generation_jobs").update({ status, ...extra }).eq("id", jobId);
+  } catch { /* non-critical */ }
+}
+
+export async function loadJobById(id: string) {
+  const { data, error } = await supabase
+    .from("generation_jobs")
+    .select("*")
+    .eq("id", id)
+    .single();
+  if (error || !data) return null;
+  return data;
 }
 
 export async function generateTribute(
@@ -46,27 +79,44 @@ export async function generateTribute(
     callbacks.onError("A tribute is already being generated. Please wait for it to finish.");
     return;
   }
-  const vars = buildPromptVariables(form, tier);
 
+  // Create job record
+  const jobId = await createJob(form, tier);
+  if (jobId) {
+    localStorage.setItem(JOB_KEY, jobId);
+    await updateJobStatus(jobId, "generating");
+  }
+
+  const vars = buildPromptVariables(form, tier);
   const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-tribute`;
 
-  const resp = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-    },
-    body: JSON.stringify(vars),
-  });
+  let resp: Response;
+  try {
+    resp = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+      },
+      body: JSON.stringify({ ...vars, job_id: jobId }),
+    });
+  } catch (e) {
+    if (jobId) await updateJobStatus(jobId, "failed", { error_message: "Network error" });
+    releaseLock();
+    callbacks.onError("Network error. Please check your connection and try again.");
+    return;
+  }
 
   if (!resp.ok) {
     const err = await resp.json().catch(() => ({ error: "Generation failed" }));
+    if (jobId) await updateJobStatus(jobId, "failed", { error_message: err.error || "Generation failed" });
     releaseLock();
     callbacks.onError(err.error || `Error ${resp.status}`);
     return;
   }
 
   if (!resp.body) {
+    if (jobId) await updateJobStatus(jobId, "failed", { error_message: "No response body" });
     releaseLock();
     callbacks.onError("No response body");
     return;
@@ -78,58 +128,65 @@ export async function generateTribute(
   let fullText = "";
   let streamDone = false;
 
-  while (!streamDone) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    textBuffer += decoder.decode(value, { stream: true });
+  try {
+    while (!streamDone) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      textBuffer += decoder.decode(value, { stream: true });
 
-    let newlineIndex: number;
-    while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
-      let line = textBuffer.slice(0, newlineIndex);
-      textBuffer = textBuffer.slice(newlineIndex + 1);
+      let newlineIndex: number;
+      while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
+        let line = textBuffer.slice(0, newlineIndex);
+        textBuffer = textBuffer.slice(newlineIndex + 1);
 
-      if (line.endsWith("\r")) line = line.slice(0, -1);
-      if (line.startsWith(":") || line.trim() === "") continue;
-      if (!line.startsWith("data: ")) continue;
+        if (line.endsWith("\r")) line = line.slice(0, -1);
+        if (line.startsWith(":") || line.trim() === "") continue;
+        if (!line.startsWith("data: ")) continue;
 
-      const jsonStr = line.slice(6).trim();
-      if (jsonStr === "[DONE]") {
-        streamDone = true;
-        break;
-      }
-
-      try {
-        const parsed = JSON.parse(jsonStr);
-        const content = parsed.choices?.[0]?.delta?.content as string | undefined;
-        if (content) {
-          fullText += content;
-          callbacks.onDelta(content);
+        const jsonStr = line.slice(6).trim();
+        if (jsonStr === "[DONE]") {
+          streamDone = true;
+          break;
         }
-      } catch {
-        textBuffer = line + "\n" + textBuffer;
-        break;
+
+        try {
+          const parsed = JSON.parse(jsonStr);
+          const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+          if (content) {
+            fullText += content;
+            callbacks.onDelta(content);
+          }
+        } catch {
+          textBuffer = line + "\n" + textBuffer;
+          break;
+        }
       }
     }
-  }
 
-  // Flush remaining buffer
-  if (textBuffer.trim()) {
-    for (let raw of textBuffer.split("\n")) {
-      if (!raw) continue;
-      if (raw.endsWith("\r")) raw = raw.slice(0, -1);
-      if (raw.startsWith(":") || raw.trim() === "") continue;
-      if (!raw.startsWith("data: ")) continue;
-      const jsonStr = raw.slice(6).trim();
-      if (jsonStr === "[DONE]") continue;
-      try {
-        const parsed = JSON.parse(jsonStr);
-        const content = parsed.choices?.[0]?.delta?.content as string | undefined;
-        if (content) {
-          fullText += content;
-          callbacks.onDelta(content);
-        }
-      } catch { /* ignore */ }
+    // Flush remaining buffer
+    if (textBuffer.trim()) {
+      for (let raw of textBuffer.split("\n")) {
+        if (!raw) continue;
+        if (raw.endsWith("\r")) raw = raw.slice(0, -1);
+        if (raw.startsWith(":") || raw.trim() === "") continue;
+        if (!raw.startsWith("data: ")) continue;
+        const jsonStr = raw.slice(6).trim();
+        if (jsonStr === "[DONE]") continue;
+        try {
+          const parsed = JSON.parse(jsonStr);
+          const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+          if (content) {
+            fullText += content;
+            callbacks.onDelta(content);
+          }
+        } catch { /* ignore */ }
+      }
     }
+  } catch (e) {
+    if (jobId) await updateJobStatus(jobId, "failed", { error_message: "Stream disconnected" });
+    releaseLock();
+    callbacks.onError("The tribute stream was interrupted. Please try again.");
+    return;
   }
 
   // Parse sections from the full text
@@ -156,12 +213,20 @@ export async function generateTribute(
       tributeId = data.id;
     }
   } catch {
-    // Non-critical — tribute still works without persistence
     console.warn("Failed to persist tribute");
   }
 
+  // Update job as completed
+  if (jobId) {
+    await updateJobStatus(jobId, "completed", {
+      tribute_story: result.story,
+      social_post: result.social_post || null,
+      share_card_text: result.share_card_text || null,
+    });
+  }
+
   releaseLock();
-  callbacks.onDone({ ...result, tributeId });
+  callbacks.onDone({ ...result, tributeId, jobId });
 }
 
 function parseGeneratedOutput(text: string): GeneratedTribute {

@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
-import { generateTribute, loadTributeById } from "@/lib/tribute-api";
+import { generateTribute, loadTributeById, loadJobById, getActiveJobId } from "@/lib/tribute-api";
 import { downloadTributePDF, downloadMemorialPDF } from "@/lib/pdf-export";
 import type { TributeFormData, GeneratedTribute, TierConfig } from "@/lib/types";
 
@@ -33,6 +33,7 @@ const TributePage = () => {
   const [editedStory, setEditedStory] = useState("");
   const [generating, setGenerating] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [recoveryMessage, setRecoveryMessage] = useState<string | null>(null);
   const [additionalMemory, setAdditionalMemory] = useState("");
   const [showMemoryInput, setShowMemoryInput] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -46,10 +47,25 @@ const TributePage = () => {
 
   const maxRegens = currentTier.id === "story" ? 2 : currentTier.id === "pack" ? 3 : Infinity;
 
+  const applyJobData = (job: any) => {
+    setPetName(job.pet_name || "");
+    setPhotoUrls(job.photo_urls || []);
+    if (job.form_data) {
+      const fd = job.form_data as unknown as TributeFormData;
+      formDataRef.current = fd;
+      setYearsOfLife(fd.years_of_life || "");
+      setPetType(fd.pet_type || "dog");
+      setBreed(fd.breed);
+    }
+    const savedTier = TIERS.find((t) => t.name === job.tier_name);
+    if (savedTier) setCurrentTier(savedTier);
+  };
+
   const runGeneration = (data: TributeFormData, tierConfig: TierConfig) => {
     setGenerating(true);
     setStreamingText("");
     setTribute(null);
+    setRecoveryMessage(null);
 
     generateTribute(data, tierConfig, {
       onDelta: (text) => {
@@ -59,7 +75,6 @@ const TributePage = () => {
         setTribute(result);
         setEditedStory(result.story);
         setGenerating(false);
-        // Update URL to include tribute ID for persistence
         if (result.tributeId) {
           navigate(`/tribute/${result.tributeId}?tier=${tierConfig.id}`, { replace: true });
         }
@@ -72,7 +87,7 @@ const TributePage = () => {
   };
 
   useEffect(() => {
-    // If we have a tribute ID in the URL, load from database
+    // 1. If we have a tribute ID in the URL, load from database
     if (tributeIdParam) {
       setLoading(true);
       loadTributeById(tributeIdParam).then((data) => {
@@ -92,21 +107,109 @@ const TributePage = () => {
         setYearsOfLife(data.years_of_life || "");
         setPetType(data.pet_type || "dog");
         setBreed(data.breed);
-        // Restore form data if available
         if (data.form_data) {
           formDataRef.current = data.form_data as unknown as TributeFormData;
         }
-        // Resolve tier from saved data
-        const savedTier = TIERS.find(
-          (t) => t.name === data.tier_name
-        );
+        const savedTier = TIERS.find((t) => t.name === data.tier_name);
         if (savedTier) setCurrentTier(savedTier);
         setLoading(false);
       });
       return;
     }
 
-    // Otherwise, generate from form data
+    // 2. Check for an active job from localStorage (recovery after refresh)
+    const activeJobId = getActiveJobId();
+    if (activeJobId && !formData) {
+      setLoading(true);
+      setRecoveryMessage("Checking for your tribute...");
+      loadJobById(activeJobId).then((job) => {
+        if (!job) {
+          localStorage.removeItem("vellumpet_active_job");
+          setRecoveryMessage(null);
+          setLoading(false);
+          navigate("/");
+          return;
+        }
+
+        if (job.status === "completed" && job.tribute_story) {
+          setRecoveryMessage("Your tribute is still being written. Restoring it now...");
+          setTribute({
+            story: job.tribute_story,
+            social_post: job.social_post || undefined,
+            share_card_text: job.share_card_text || undefined,
+          });
+          setEditedStory(job.tribute_story);
+          applyJobData(job);
+          localStorage.removeItem("vellumpet_active_job");
+          localStorage.removeItem("vellumpet_generation_lock");
+          setLoading(false);
+          toast.success("Your tribute has been restored!");
+        } else if (job.status === "generating" || job.status === "pending") {
+          // Job is still in progress — poll for completion
+          setRecoveryMessage("Your tribute is still being written. Restoring it now...");
+          applyJobData(job);
+          const poll = setInterval(async () => {
+            const updated = await loadJobById(activeJobId);
+            if (!updated) {
+              clearInterval(poll);
+              setLoading(false);
+              setRecoveryMessage(null);
+              navigate("/");
+              return;
+            }
+            if (updated.status === "completed" && updated.tribute_story) {
+              clearInterval(poll);
+              setTribute({
+                story: updated.tribute_story,
+                social_post: updated.social_post || undefined,
+                share_card_text: updated.share_card_text || undefined,
+              });
+              setEditedStory(updated.tribute_story);
+              localStorage.removeItem("vellumpet_active_job");
+              localStorage.removeItem("vellumpet_generation_lock");
+              setLoading(false);
+              setRecoveryMessage(null);
+              toast.success("Your tribute has been restored!");
+            } else if (updated.status === "failed") {
+              clearInterval(poll);
+              localStorage.removeItem("vellumpet_active_job");
+              localStorage.removeItem("vellumpet_generation_lock");
+              setLoading(false);
+              setRecoveryMessage(null);
+              toast.error(updated.error_message || "Generation failed. Please try again.");
+              // If we have form data from the job, allow retry
+              if (updated.form_data) {
+                formDataRef.current = updated.form_data as unknown as TributeFormData;
+              }
+            }
+          }, 3000);
+          // Timeout after 2 minutes
+          setTimeout(() => {
+            clearInterval(poll);
+            if (loading) {
+              localStorage.removeItem("vellumpet_active_job");
+              localStorage.removeItem("vellumpet_generation_lock");
+              setLoading(false);
+              setRecoveryMessage(null);
+              toast.error("Generation timed out. Please try again.");
+            }
+          }, 120_000);
+        } else if (job.status === "failed") {
+          localStorage.removeItem("vellumpet_active_job");
+          localStorage.removeItem("vellumpet_generation_lock");
+          setLoading(false);
+          setRecoveryMessage(null);
+          toast.error(job.error_message || "The previous generation failed. Please try again.");
+          if (job.form_data) {
+            formDataRef.current = job.form_data as unknown as TributeFormData;
+          }
+          navigate("/");
+        }
+      });
+      return;
+    }
+
+    // 3. Otherwise, generate from form data
     if (!formData) {
       navigate("/");
       return;
@@ -173,7 +276,7 @@ const TributePage = () => {
     toast.success("Memorial PDF downloaded!");
   };
 
-  // Loading from database
+  // Loading from database or recovering
   if (loading) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
@@ -184,7 +287,9 @@ const TributePage = () => {
         >
           <PawPrint className="h-10 w-10 text-primary" />
         </motion.div>
-        <p className="font-display text-xl text-foreground">Loading tribute...</p>
+        <p className="font-display text-xl text-foreground">
+          {recoveryMessage || "Loading tribute..."}
+        </p>
       </div>
     );
   }
