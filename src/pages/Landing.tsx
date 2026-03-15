@@ -174,9 +174,12 @@ const Landing = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.6 }}
             viewport={{ once: true }}
-            className="mb-6 rounded-xl border border-border bg-card p-8 text-left shadow-card md:p-10">
+            className="mb-8 rounded-xl border border-border bg-card p-10 text-left shadow-card md:p-12">
             
-            <h3 className="mb-5 text-center font-display text-xl font-semibold text-foreground">
+            <p className="mb-2 text-center font-display text-lg italic text-primary/80">
+              The Dog Who Made Every Homecoming a Celebration
+            </p>
+            <h3 className="mb-6 text-center font-display text-xl font-semibold text-foreground">
               In Loving Memory of Bella
             </h3>
             <div className="space-y-4 font-body text-sm leading-relaxed text-foreground/90">
