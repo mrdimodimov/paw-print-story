@@ -73,7 +73,8 @@ export async function loadJobById(id: string) {
 export async function generateTribute(
   form: TributeFormData,
   tier: TierConfig,
-  callbacks: StreamCallbacks
+  callbacks: StreamCallbacks,
+  previousJobId?: string
 ) {
   if (!acquireLock()) {
     callbacks.onError("A tribute is already being generated. Please wait for it to finish.");
