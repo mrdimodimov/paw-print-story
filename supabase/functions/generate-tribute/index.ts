@@ -205,6 +205,7 @@ serve(async (req) => {
     );
 
     if (!response.ok) {
+      clearActiveRequest(ip);
       if (response.status === 429) {
         return new Response(
           JSON.stringify({ error: "Our tribute writer is a little busy right now. Please try again in a moment." }),
@@ -224,6 +225,9 @@ serve(async (req) => {
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+
+    // Clear duplicate guard after streaming begins (response will take time)
+    setTimeout(() => clearActiveRequest(ip), DUPLICATE_WINDOW_MS);
 
     return new Response(response.body, {
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
