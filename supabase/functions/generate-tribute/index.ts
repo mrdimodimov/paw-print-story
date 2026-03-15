@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -25,6 +26,8 @@ interface TributeRequest {
   tier_name: string;
   include_social_post: boolean;
   include_share_card: boolean;
+  job_id?: string;
+  previous_job_id?: string; // For regenerations — reuse narrative context
 }
 
 // Tier security rules — enforced server-side
@@ -37,11 +40,11 @@ const tierRules: Record<string, { include_social_post: boolean; include_share_ca
 // In-memory rate limiting: IP -> timestamps
 const rateLimitMap = new Map<string, number[]>();
 const RATE_LIMIT_MAX = 10;
-const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 
 // Duplicate request guard: IP -> last request timestamp
 const activeRequests = new Map<string, number>();
-const DUPLICATE_WINDOW_MS = 10_000; // 10 seconds
+const DUPLICATE_WINDOW_MS = 10_000;
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
@@ -66,6 +69,20 @@ function isDuplicateRequest(ip: string): boolean {
 
 function clearActiveRequest(ip: string) {
   activeRequests.delete(ip);
+}
+
+// Generate a simple hash of the prompt context for cache matching
+async function hashContext(data: TributeRequest): Promise<string> {
+  const input = [
+    data.pet_name, data.pet_type, data.breed, data.years,
+    data.owner_name, data.personality_traits, data.personality_description,
+    data.memories, data.special_habits, data.favorite_activities,
+    data.favorite_people_or_animals, data.owner_message, data.tone, data.tier_name,
+  ].join("|");
+  const encoder = new TextEncoder();
+  const hashBuffer = await crypto.subtle.digest("SHA-256", encoder.encode(input));
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 const SYSTEM_PROMPT = `You are a gifted pet memorial writer. You create deeply personal tribute stories that honor the unique bond between a pet and their family.
@@ -106,6 +123,15 @@ STRUCTURE:
 4. Describe what the pet loved most and the bonds they formed.
 5. Close with a gentle, grounded reflection — honest and tender, anchored in the emotional theme.
 
+OUTPUT: Return ONLY the final tribute text. No titles, headers, labels, or extraction notes.`;
+
+// Shorter system prompt for regenerations that reuse narrative context
+const REGEN_SYSTEM_PROMPT = `You are a gifted pet memorial writer. Write a NEW variation of a pet tribute using the provided narrative context. Create a fresh tribute that feels different from the previous version while staying true to the same pet and memories.
+
+VOICE: Warm, sincere, personal. Write as a close family member. Natural, conversational storytelling.
+RHYTHM: Vary sentence length. Mix brief statements with longer unfolding sentences. No purple prose.
+RULES: Show moments as scenes, not summaries. Ground traits in actions. Focus on everyday details. NEVER use clichés like "brought joy," "crossed the rainbow bridge," "forever in our hearts," "unconditional love," "earned their wings."
+STRUCTURE: Open with a specific moment → personality through actions → vivid memory scenes → bonds → gentle closing reflection.
 OUTPUT: Return ONLY the final tribute text. No titles, headers, labels, or extraction notes.`;
 
 function buildPrompt(data: TributeRequest): string {
@@ -149,13 +175,68 @@ TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.`;
   return prompt;
 }
 
+function buildRegenPrompt(narrativeContext: string, data: TributeRequest): string {
+  const toneDescriptions: Record<string, string> = {
+    warm: "warm, heartfelt, and comforting",
+    celebratory: "joyful, celebratory, and uplifting",
+    gentle: "soft, peaceful, and tender",
+    lighthearted: "fun, loving, and lighthearted",
+    rainbow_bridge:
+      "comforting and spiritual, with peaceful farewell imagery, themes of the Rainbow Bridge crossing, reunion, waiting, and continued love beyond parting",
+  };
+
+  const toneDesc = toneDescriptions[data.tone] || toneDescriptions.warm;
+
+  // Include any new memories added for regeneration
+  const extraMemories = data.memories ? `\n\nADDITIONAL MEMORIES TO WEAVE IN:\n${data.memories}` : "";
+
+  let prompt = `Using the following narrative context about ${data.pet_name}, write a completely new tribute variation. Use different opening scenes, different sentence structures, and fresh angles on the same memories.
+
+NARRATIVE CONTEXT:
+${narrativeContext}${extraMemories}
+
+TONE: ${toneDesc}
+TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.`;
+
+  if (data.include_social_post) {
+    prompt += `\n\nAfter the tribute, on a new line write "---SOCIAL_POST---" followed by a short social media post (under 280 characters) honoring ${data.pet_name}. Make it personal and specific to their story — not generic. Include relevant emojis and 2-3 hashtags.`;
+  }
+
+  if (data.include_share_card) {
+    prompt += `\n\nAfter that, on a new line write "---SHARE_CARD---" followed by a 2-3 line memorial card text with ${data.pet_name}'s name, years, and a brief touching phrase that reflects something specific about them.`;
+  }
+
+  return prompt;
+}
+
+// Build a narrative context summary from questionnaire data for caching
+function buildNarrativeContext(data: TributeRequest): string {
+  const parts: string[] = [];
+  parts.push(`PET: ${data.pet_name}, a ${data.pet_type}${data.breed && data.breed !== "unknown" ? ` (${data.breed})` : ""}`);
+  parts.push(`YEARS: ${data.years || "many wonderful years"}`);
+  parts.push(`OWNER: ${data.owner_name}`);
+  if (data.personality_traits) parts.push(`PERSONALITY: ${data.personality_traits}`);
+  if (data.personality_description) parts.push(`DESCRIPTION: ${data.personality_description}`);
+  if (data.memories) parts.push(`KEY MEMORIES: ${data.memories}`);
+  if (data.special_habits) parts.push(`HABITS & QUIRKS: ${data.special_habits}`);
+  if (data.favorite_activities) parts.push(`LOVED: ${data.favorite_activities}`);
+  if (data.favorite_people_or_animals) parts.push(`BONDS: ${data.favorite_people_or_animals}`);
+  if (data.owner_message) parts.push(`OWNER'S WORDS: "${data.owner_message}"`);
+  return parts.join("\n");
+}
+
+function getSupabaseClient() {
+  const url = Deno.env.get("SUPABASE_URL")!;
+  const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+  return createClient(url, key);
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    // Rate limiting by IP
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
                req.headers.get("x-real-ip") ||
                "unknown";
@@ -183,7 +264,53 @@ serve(async (req) => {
     data.include_social_post = rules.include_social_post;
     data.include_share_card = rules.include_share_card;
 
-    const prompt = buildPrompt(data);
+    const contextHash = await hashContext(data);
+    const narrativeCtx = buildNarrativeContext(data);
+
+    // Check if this is a regeneration with a previous job that has cached context
+    let useRegenPrompt = false;
+    let cachedNarrative: string | null = null;
+
+    if (data.previous_job_id) {
+      try {
+        const sb = getSupabaseClient();
+        const { data: prevJob } = await sb
+          .from("generation_jobs")
+          .select("prompt_context_hash, narrative_context")
+          .eq("id", data.previous_job_id)
+          .single();
+
+        if (prevJob?.narrative_context && prevJob?.prompt_context_hash === contextHash) {
+          // Same base context — use cached narrative for a shorter prompt
+          cachedNarrative = prevJob.narrative_context;
+          useRegenPrompt = true;
+        }
+      } catch {
+        // Fall through to full prompt
+      }
+    }
+
+    let systemPrompt: string;
+    let userPrompt: string;
+
+    if (useRegenPrompt && cachedNarrative) {
+      systemPrompt = REGEN_SYSTEM_PROMPT;
+      userPrompt = buildRegenPrompt(cachedNarrative, data);
+    } else {
+      systemPrompt = SYSTEM_PROMPT;
+      userPrompt = buildPrompt(data);
+    }
+
+    // Save hash and narrative context to the current job
+    if (data.job_id) {
+      try {
+        const sb = getSupabaseClient();
+        await sb.from("generation_jobs").update({
+          prompt_context_hash: contextHash,
+          narrative_context: narrativeCtx,
+        }).eq("id", data.job_id);
+      } catch { /* non-critical */ }
+    }
 
     const response = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
@@ -196,8 +323,8 @@ serve(async (req) => {
         body: JSON.stringify({
           model: "openai/gpt-5-mini",
           messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            { role: "user", content: prompt },
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt },
           ],
           stream: true,
         }),
@@ -226,7 +353,6 @@ serve(async (req) => {
       );
     }
 
-    // Clear duplicate guard after streaming begins (response will take time)
     setTimeout(() => clearActiveRequest(ip), DUPLICATE_WINDOW_MS);
 
     return new Response(response.body, {
