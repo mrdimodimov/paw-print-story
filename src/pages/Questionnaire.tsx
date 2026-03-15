@@ -30,6 +30,9 @@ const RAINBOW_BRIDGE_OPTION: { value: TributeStyle; label: string; desc: string 
   desc: "Includes comforting themes about reunion and peaceful crossing at the Rainbow Bridge.",
 };
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
 const STEPS = [
   "About Your Pet",
   "Personality",
