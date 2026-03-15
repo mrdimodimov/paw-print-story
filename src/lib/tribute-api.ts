@@ -102,7 +102,11 @@ export async function generateTribute(
 }
 
 function parseGeneratedOutput(text: string): GeneratedTribute {
-  const result: GeneratedTribute = { story: text };
+  const result: GeneratedTribute = {
+    story: text.trim(),
+    social_post: undefined,
+    share_card_text: undefined,
+  };
 
   const socialIdx = text.indexOf("---SOCIAL_POST---");
   const cardIdx = text.indexOf("---SHARE_CARD---");
@@ -116,12 +120,14 @@ function parseGeneratedOutput(text: string): GeneratedTribute {
 
     if (socialIdx !== -1) {
       const socialEnd = cardIdx !== -1 && cardIdx > socialIdx ? cardIdx : text.length;
-      result.social_post = text.slice(socialIdx + "---SOCIAL_POST---".length, socialEnd).trim();
+      const parsed = text.slice(socialIdx + "---SOCIAL_POST---".length, socialEnd).trim();
+      result.social_post = parsed || undefined;
     }
 
     if (cardIdx !== -1) {
       const cardEnd = socialIdx !== -1 && socialIdx > cardIdx ? socialIdx : text.length;
-      result.share_card_text = text.slice(cardIdx + "---SHARE_CARD---".length, cardEnd).trim();
+      const parsed = text.slice(cardIdx + "---SHARE_CARD---".length, cardEnd).trim();
+      result.share_card_text = parsed || undefined;
     }
   }
 
