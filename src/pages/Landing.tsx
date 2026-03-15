@@ -208,6 +208,12 @@ const Landing = () => {
             <p className="text-sm italic text-muted-foreground">
               Created from answers that took less than 5 minutes.
             </p>
+            <Link
+              to="/example-tribute"
+              className="inline-block text-sm font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
+            >
+              See the full example tribute →
+            </Link>
             <p className="mb-2 font-display text-lg font-semibold text-foreground">
               Every pet leaves a story behind.
             </p>
