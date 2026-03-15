@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      generation_jobs: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          form_data: Json | null
+          id: string
+          owner_name: string | null
+          pet_name: string
+          photo_urls: string[]
+          share_card_text: string | null
+          social_post: string | null
+          status: string
+          tier_name: string
+          tribute_story: string | null
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          form_data?: Json | null
+          id?: string
+          owner_name?: string | null
+          pet_name: string
+          photo_urls?: string[]
+          share_card_text?: string | null
+          social_post?: string | null
+          status?: string
+          tier_name: string
+          tribute_story?: string | null
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          form_data?: Json | null
+          id?: string
+          owner_name?: string | null
+          pet_name?: string
+          photo_urls?: string[]
+          share_card_text?: string | null
+          social_post?: string | null
+          status?: string
+          tier_name?: string
+          tribute_story?: string | null
+        }
+        Relationships: []
+      }
       public_tributes: {
         Row: {
           breed: string | null
