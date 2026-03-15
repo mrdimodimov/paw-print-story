@@ -111,7 +111,7 @@ const Questionnaire = () => {
     const newUrls: string[] = [];
     for (const file of filesToUpload) {
       if (!ACCEPTED_TYPES.includes(file.type)) {
-        toast({ title: "Invalid file type", description: "Please upload JPG or PNG files only." });
+        toast({ title: "Invalid file type", description: "Photos must be JPG, PNG, or WEBP and under 5MB." });
         continue;
       }
       if (file.size > MAX_FILE_SIZE) {

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image } from "lucide-react";
 import TributeShareCard from "@/components/TributeShareCard";
@@ -10,13 +10,14 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
-import { generateTribute } from "@/lib/tribute-api";
+import { generateTribute, loadTributeById } from "@/lib/tribute-api";
 import { downloadTributePDF, downloadMemorialPDF } from "@/lib/pdf-export";
 import type { TributeFormData, GeneratedTribute, TierConfig } from "@/lib/types";
 
 const TributePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { id: tributeIdParam } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
   const tierId = searchParams.get("tier") || "story";
   const tier = TIERS.find((t) => t.id === tierId) || TIERS[0];
@@ -30,14 +31,20 @@ const TributePage = () => {
   const [streamingText, setStreamingText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editedStory, setEditedStory] = useState("");
-  const [generating, setGenerating] = useState(true);
+  const [generating, setGenerating] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [additionalMemory, setAdditionalMemory] = useState("");
   const [showMemoryInput, setShowMemoryInput] = useState(false);
   const [copied, setCopied] = useState(false);
   const [regenCount, setRegenCount] = useState(0);
+  const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
+  const [petName, setPetName] = useState(formData?.pet_name || "");
+  const [photoUrls, setPhotoUrls] = useState<string[]>(formData?.photo_urls || []);
+  const [yearsOfLife, setYearsOfLife] = useState(formData?.years_of_life || "");
+  const [petType, setPetType] = useState(formData?.pet_type || "dog");
+  const [breed, setBreed] = useState(formData?.breed);
 
-  const maxRegens = tier.id === "story" ? 2 : tier.id === "pack" ? 3 : Infinity;
-  const photoUrls = formData?.photo_urls || [];
+  const maxRegens = currentTier.id === "story" ? 2 : currentTier.id === "pack" ? 3 : Infinity;
 
   const runGeneration = (data: TributeFormData, tierConfig: TierConfig) => {
     setGenerating(true);
@@ -52,6 +59,10 @@ const TributePage = () => {
         setTribute(result);
         setEditedStory(result.story);
         setGenerating(false);
+        // Update URL to include tribute ID for persistence
+        if (result.tributeId) {
+          navigate(`/tribute/${result.tributeId}?tier=${tierConfig.id}`, { replace: true });
+        }
       },
       onError: (error) => {
         toast.error(error);
@@ -61,38 +72,78 @@ const TributePage = () => {
   };
 
   useEffect(() => {
+    // If we have a tribute ID in the URL, load from database
+    if (tributeIdParam) {
+      setLoading(true);
+      loadTributeById(tributeIdParam).then((data) => {
+        if (!data) {
+          toast.error("Tribute not found");
+          navigate("/");
+          return;
+        }
+        setTribute({
+          story: data.tribute_story,
+          social_post: data.social_post || undefined,
+          share_card_text: data.share_card_text || undefined,
+        });
+        setEditedStory(data.tribute_story);
+        setPetName(data.pet_name);
+        setPhotoUrls(data.photo_urls || []);
+        setYearsOfLife(data.years_of_life || "");
+        setPetType(data.pet_type || "dog");
+        setBreed(data.breed);
+        // Restore form data if available
+        if (data.form_data) {
+          formDataRef.current = data.form_data as TributeFormData;
+        }
+        // Resolve tier from saved data
+        const savedTier = TIERS.find(
+          (t) => t.name === data.tier_name
+        );
+        if (savedTier) setCurrentTier(savedTier);
+        setLoading(false);
+      });
+      return;
+    }
+
+    // Otherwise, generate from form data
     if (!formData) {
       navigate("/");
       return;
     }
+    setPetName(formData.pet_name);
+    setPhotoUrls(formData.photo_urls || []);
+    setYearsOfLife(formData.years_of_life || "");
+    setPetType(formData.pet_type || "dog");
+    setBreed(formData.breed);
     runGeneration(formData, tier);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleRegenerate = () => {
-    if (!formData) return;
+    if (!formDataRef.current) return;
     if (regenCount >= maxRegens && maxRegens !== Infinity) {
       toast.error("You've used all your regenerations for this tier.");
       return;
     }
     setRegenCount((c) => c + 1);
-    runGeneration(formData, tier);
+    runGeneration(formDataRef.current, currentTier);
   };
 
   const handleAddMemoryAndRegenerate = () => {
-    if (!formData || !additionalMemory.trim()) return;
+    if (!formDataRef.current || !additionalMemory.trim()) return;
     if (regenCount >= maxRegens && maxRegens !== Infinity) {
       toast.error("You've used all your regenerations for this tier.");
       return;
     }
     formDataRef.current = {
-      ...formData,
-      memories: [...formData.memories, additionalMemory.trim()],
+      ...formDataRef.current,
+      memories: [...formDataRef.current.memories, additionalMemory.trim()],
     };
     setAdditionalMemory("");
     setShowMemoryInput(false);
     setRegenCount((c) => c + 1);
-    runGeneration(formDataRef.current, tier);
+    runGeneration(formDataRef.current, currentTier);
   };
 
   const handleSaveEdit = () => {
@@ -111,18 +162,34 @@ const TributePage = () => {
   };
 
   const handleDownloadPDF = async () => {
-    if (!tribute || !formData) return;
-    await downloadTributePDF(formData.pet_name, formData.years_of_life, tribute.story, photoUrls);
+    if (!tribute) return;
+    await downloadTributePDF(petName, yearsOfLife, tribute.story, photoUrls);
     toast.success("PDF downloaded!");
   };
 
   const handleDownloadMemorial = async () => {
-    if (!tribute || !formData) return;
-    await downloadMemorialPDF(formData.pet_name, formData.years_of_life, tribute.story, photoUrls);
+    if (!tribute) return;
+    await downloadMemorialPDF(petName, yearsOfLife, tribute.story, photoUrls);
     toast.success("Memorial PDF downloaded!");
   };
 
-  // Loading / streaming state
+  // Loading from database
+  if (loading) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
+        <motion.div
+          animate={{ scale: [1, 1.15, 1] }}
+          transition={{ repeat: Infinity, duration: 1.5 }}
+          className="mb-6 rounded-full bg-accent p-6"
+        >
+          <PawPrint className="h-10 w-10 text-primary" />
+        </motion.div>
+        <p className="font-display text-xl text-foreground">Loading tribute...</p>
+      </div>
+    );
+  }
+
+  // Generating / streaming state
   if (generating) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
@@ -134,7 +201,7 @@ const TributePage = () => {
           <PawPrint className="h-10 w-10 text-primary" />
         </motion.div>
         <p className="font-display text-xl text-foreground">
-          Crafting {formData?.pet_name ? `${formData.pet_name}'s` : "your pet's"} tribute...
+          Crafting {petName ? `${petName}'s` : "your pet's"} tribute...
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
           Turning your memories into something beautiful
@@ -181,7 +248,7 @@ const TributePage = () => {
               <div className="mb-3 flex items-center gap-2">
                 <Image className="h-4 w-4 text-primary" />
                 <h3 className="font-display text-sm font-semibold text-foreground">
-                  {formData?.pet_name ? `${formData.pet_name}'s Photos` : "Pet Photos"}
+                  {petName ? `${petName}'s Photos` : "Pet Photos"}
                 </h3>
                 <span className="text-xs text-muted-foreground">
                   — Photos help make your tribute personal and memorable.
@@ -192,7 +259,7 @@ const TributePage = () => {
                   <img
                     key={i}
                     src={url}
-                    alt={`${formData?.pet_name || "Pet"} photo ${i + 1}`}
+                    alt={`${petName || "Pet"} photo ${i + 1}`}
                     className="h-20 w-20 rounded-lg border border-border object-cover shadow-sm"
                   />
                 ))}
@@ -203,9 +270,9 @@ const TributePage = () => {
           {/* Tribute Story */}
           <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
             <h2 className="mb-1 font-display text-2xl font-bold text-foreground">
-              {formData?.pet_name ? `${formData.pet_name}'s Tribute` : "Your Pet's Tribute"}
+              {petName ? `${petName}'s Tribute` : "Your Pet's Tribute"}
             </h2>
-            <p className="mb-6 text-sm text-muted-foreground">{tier.name}</p>
+            <p className="mb-6 text-sm text-muted-foreground">{currentTier.name}</p>
 
             {isEditing ? (
               <div className="space-y-4">
@@ -240,34 +307,38 @@ const TributePage = () => {
                 <Edit className="mr-1 h-4 w-4" /> Edit Story
               </Button>
             )}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleRegenerate}
-              disabled={regenCount >= maxRegens && maxRegens !== Infinity}
-            >
-              <RefreshCw className="mr-1 h-4 w-4" /> Regenerate
-              {maxRegens !== Infinity && (
-                <span className="ml-1 text-xs text-muted-foreground">
-                  ({maxRegens - regenCount} left)
-                </span>
-              )}
-            </Button>
+            {formDataRef.current && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleRegenerate}
+                disabled={regenCount >= maxRegens && maxRegens !== Infinity}
+              >
+                <RefreshCw className="mr-1 h-4 w-4" /> Regenerate
+                {maxRegens !== Infinity && (
+                  <span className="ml-1 text-xs text-muted-foreground">
+                    ({maxRegens - regenCount} left)
+                  </span>
+                )}
+              </Button>
+            )}
             <Button size="sm" onClick={handleDownloadPDF}>
               <Download className="mr-1 h-4 w-4" /> Download PDF
             </Button>
-            {tier.include_printable_pdf && (tier.id === "pack" || tier.id === "legacy") && (
+            {currentTier.include_printable_pdf && (currentTier.id === "pack" || currentTier.id === "legacy") && (
               <Button variant="outline" size="sm" onClick={handleDownloadMemorial}>
                 <FileText className="mr-1 h-4 w-4" /> Printable Memorial
               </Button>
             )}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowMemoryInput(!showMemoryInput)}
-            >
-              <Plus className="mr-1 h-4 w-4" /> Add Memory
-            </Button>
+            {formDataRef.current && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowMemoryInput(!showMemoryInput)}
+              >
+                <Plus className="mr-1 h-4 w-4" /> Add Memory
+              </Button>
+            )}
           </div>
 
           {/* Add Memory Input */}
@@ -316,7 +387,7 @@ const TributePage = () => {
           )}
 
           {/* Memorial Share Card */}
-          {tier.include_share_card && tribute.share_card_text && (
+          {currentTier.include_share_card && tribute.share_card_text && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
               <div className="mb-4 flex items-center gap-2">
                 <FileText className="h-4 w-4 text-primary" />
@@ -328,11 +399,11 @@ const TributePage = () => {
                 Generate a shareable image with your pet's photo and a quote from the tribute.
               </p>
               <TributeShareCard
-                petName={formData?.pet_name || "Your Pet"}
-                years={formData?.years_of_life || ""}
+                petName={petName || "Your Pet"}
+                years={yearsOfLife}
                 excerpt={tribute.share_card_text}
                 photoUrls={photoUrls}
-                shareCardLimit={tier.share_card_limit}
+                shareCardLimit={currentTier.share_card_limit}
               />
             </div>
           )}
@@ -340,18 +411,18 @@ const TributePage = () => {
           {/* Public Tribute Page Toggle */}
           <div className="mb-6">
             <PublicTributeToggle
-              petName={formData?.pet_name || ""}
-              petType={formData?.pet_type || "dog"}
-              breed={formData?.breed}
-              yearsOfLife={formData?.years_of_life || ""}
+              petName={petName || ""}
+              petType={petType}
+              breed={breed}
+              yearsOfLife={yearsOfLife}
               tribute={tribute}
               photoUrls={photoUrls}
-              tierId={tier.id}
+              tierId={currentTier.id}
             />
           </div>
 
           {/* Digital Memorial Page (Tier 3) */}
-          {tier.include_memorial_page && (
+          {currentTier.include_memorial_page && (
             <div className="mb-6 rounded-xl border border-primary/30 bg-accent/50 p-6 shadow-soft">
               <div className="mb-3 flex items-center gap-2">
                 <Globe className="h-4 w-4 text-primary" />
