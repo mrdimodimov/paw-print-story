@@ -63,6 +63,7 @@ const Landing = () => {
               <PawPrint className="mr-2 h-5 w-5" />
               Create Your Tribute
             </Button>
+            <p className="mt-4 text-sm text-muted-foreground">Takes about 3 minutes.</p>
           </motion.div>
         </div>
       </section>
