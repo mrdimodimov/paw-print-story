@@ -160,6 +160,7 @@ export async function generateTribute(
     console.warn("Failed to persist tribute");
   }
 
+  releaseLock();
   callbacks.onDone({ ...result, tributeId });
 }
 

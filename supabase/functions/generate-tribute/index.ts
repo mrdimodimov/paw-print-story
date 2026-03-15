@@ -167,6 +167,13 @@ serve(async (req) => {
       );
     }
 
+    if (isDuplicateRequest(ip)) {
+      return new Response(
+        JSON.stringify({ error: "A tribute is already being generated. Please wait before requesting another." }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const data: TributeRequest = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
