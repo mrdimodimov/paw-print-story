@@ -101,6 +101,9 @@ const Landing = () => {
                 </motion.p>
               )}
             </div>
+            <p className="mb-4 text-base font-medium text-foreground/70">
+              These small memories are what make a tribute truly meaningful.
+            </p>
             <p className="mb-8 text-base text-muted-foreground">
               When you're ready, we'll help turn those memories into a beautiful tribute.
             </p>
