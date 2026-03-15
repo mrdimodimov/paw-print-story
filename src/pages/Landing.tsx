@@ -208,6 +208,12 @@ const Landing = () => {
             <p className="text-sm italic text-muted-foreground">
               Created from answers that took less than 5 minutes.
             </p>
+            <p className="mb-2 font-display text-lg font-semibold text-foreground">
+              Every pet leaves a story behind.
+            </p>
+            <p className="mb-6 text-base text-muted-foreground">
+              Let VellumPet help you tell it.
+            </p>
             <Button
               size="lg"
               className="px-8 py-5 text-base shadow-glow"
