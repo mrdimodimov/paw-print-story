@@ -39,10 +39,13 @@ const rateLimitMap = new Map<string, number[]>();
 const RATE_LIMIT_MAX = 10;
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 
+// Duplicate request guard: IP -> last request timestamp
+const activeRequests = new Map<string, number>();
+const DUPLICATE_WINDOW_MS = 10_000; // 10 seconds
+
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
   const timestamps = rateLimitMap.get(ip) || [];
-  // Remove expired entries
   const valid = timestamps.filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
   if (valid.length >= RATE_LIMIT_MAX) {
     rateLimitMap.set(ip, valid);
@@ -51,6 +54,18 @@ function isRateLimited(ip: string): boolean {
   valid.push(now);
   rateLimitMap.set(ip, valid);
   return false;
+}
+
+function isDuplicateRequest(ip: string): boolean {
+  const now = Date.now();
+  const last = activeRequests.get(ip);
+  if (last && now - last < DUPLICATE_WINDOW_MS) return true;
+  activeRequests.set(ip, now);
+  return false;
+}
+
+function clearActiveRequest(ip: string) {
+  activeRequests.delete(ip);
 }
 
 const SYSTEM_PROMPT = `You are a gifted pet memorial writer. You create deeply personal tribute stories that honor the unique bond between a pet and their family.
