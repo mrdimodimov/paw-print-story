@@ -34,6 +34,25 @@ const tierRules: Record<string, { include_social_post: boolean; include_share_ca
   "Everlasting Legacy Page": { include_social_post: true, include_share_card: true },
 };
 
+// In-memory rate limiting: IP -> timestamps
+const rateLimitMap = new Map<string, number[]>();
+const RATE_LIMIT_MAX = 10;
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const timestamps = rateLimitMap.get(ip) || [];
+  // Remove expired entries
+  const valid = timestamps.filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
+  if (valid.length >= RATE_LIMIT_MAX) {
+    rateLimitMap.set(ip, valid);
+    return true;
+  }
+  valid.push(now);
+  rateLimitMap.set(ip, valid);
+  return false;
+}
+
 const SYSTEM_PROMPT = `You are a gifted pet memorial writer. You create deeply personal tribute stories that honor the unique bond between a pet and their family.
 
 INTERNAL PROCESS (never reveal this):
@@ -121,6 +140,18 @@ serve(async (req) => {
   }
 
   try {
+    // Rate limiting by IP
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+               req.headers.get("x-real-ip") ||
+               "unknown";
+
+    if (isRateLimited(ip)) {
+      return new Response(
+        JSON.stringify({ error: "Too many tribute requests. Please wait a moment before trying again." }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const data: TributeRequest = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");

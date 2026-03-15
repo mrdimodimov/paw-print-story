@@ -30,6 +30,9 @@ const RAINBOW_BRIDGE_OPTION: { value: TributeStyle; label: string; desc: string 
   desc: "Includes comforting themes about reunion and peaceful crossing at the Rainbow Bridge.",
 };
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
 const STEPS = [
   "About Your Pet",
   "Personality",
@@ -39,8 +42,6 @@ const STEPS = [
   "Style",
 ];
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-const ACCEPTED_TYPES = ["image/jpeg", "image/png"];
 
 const defaultForm: TributeFormData = {
   pet_name: "",
@@ -108,7 +109,7 @@ const Questionnaire = () => {
     const newUrls: string[] = [];
     for (const file of filesToUpload) {
       if (!ACCEPTED_TYPES.includes(file.type)) {
-        toast({ title: "Invalid file type", description: "Please upload JPG or PNG files only." });
+        toast({ title: "Invalid file type", description: "Photos must be JPG, PNG, or WEBP and under 5MB." });
         continue;
       }
       if (file.size > MAX_FILE_SIZE) {

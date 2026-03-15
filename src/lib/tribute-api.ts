@@ -1,9 +1,10 @@
 import type { TributeFormData, TierConfig, GeneratedTribute } from "./types";
 import { buildPromptVariables } from "./types";
+import { supabase } from "@/integrations/supabase/client";
 
 interface StreamCallbacks {
   onDelta: (text: string) => void;
-  onDone: (result: GeneratedTribute) => void;
+  onDone: (result: GeneratedTribute & { tributeId?: string }) => void;
   onError: (error: string) => void;
 }
 
@@ -98,7 +99,33 @@ export async function generateTribute(
 
   // Parse sections from the full text
   const result = parseGeneratedOutput(fullText);
-  callbacks.onDone(result);
+
+  // Persist tribute to database
+  let tributeId: string | undefined;
+  try {
+    const { data, error } = await supabase.from("tributes").insert({
+      pet_name: form.pet_name,
+      pet_type: form.pet_type,
+      breed: form.breed || null,
+      years_of_life: form.years_of_life || null,
+      owner_name: form.owner_name || null,
+      tier_name: tier.name,
+      tribute_story: result.story,
+      social_post: result.social_post || null,
+      share_card_text: result.share_card_text || null,
+      photo_urls: form.photo_urls,
+      form_data: form as any,
+    }).select("id").single();
+
+    if (!error && data) {
+      tributeId = data.id;
+    }
+  } catch {
+    // Non-critical — tribute still works without persistence
+    console.warn("Failed to persist tribute");
+  }
+
+  callbacks.onDone({ ...result, tributeId });
 }
 
 function parseGeneratedOutput(text: string): GeneratedTribute {
@@ -132,4 +159,15 @@ function parseGeneratedOutput(text: string): GeneratedTribute {
   }
 
   return result;
+}
+
+export async function loadTributeById(id: string) {
+  const { data, error } = await supabase
+    .from("tributes")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error || !data) return null;
+  return data;
 }
