@@ -1,6 +1,6 @@
 // Centralized brand config — change name here to rebrand everywhere
 export const BRAND = {
   name: "VellumPet",
-  tagline: "Honor Your Pet with a Beautiful Tribute Story",
-  subtitle: "Turn your memories into a heartfelt story celebrating the life of your pet.",
+  tagline: "Beautiful Pet Memorial Tributes",
+  subtitle: "Turn your pet's memories into a heartfelt tribute story, memorial card, or shareable legacy page in minutes.",
 } as const;

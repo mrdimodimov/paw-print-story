@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { BRAND } from "@/lib/brand";
 import html2canvas from "html2canvas";
 import { Download, Share2, PawPrint, ChevronLeft, ChevronRight, Lock, Facebook, Twitter, Mail, MessageCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -267,7 +268,7 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
     }
   };
 
-  const getShareText = () => `In Loving Memory of ${petName} — "${shortQuote}" 🐾 Created with VellumPet`;
+  const getShareText = () => `In Loving Memory of ${petName} — "${shortQuote}" 🐾 Created with ${BRAND.name}`;
 
 
 
@@ -549,7 +550,7 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
               zIndex: 1,
             }}
           >
-            🐾 Created with VellumPet
+            🐾 Created with {BRAND.name}
           </div>
         </div>
       </div>
@@ -614,7 +615,7 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
               </div>
             </TooltipTrigger>
             <TooltipContent side="top" className="max-w-[220px] text-center">
-              Share this tribute directly to your favorite social platform. Friends will see it and VellumPet attribution.
+              Share this tribute directly to your favorite social platform. Friends will see it and {BRAND.name} attribution.
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
