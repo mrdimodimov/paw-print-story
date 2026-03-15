@@ -248,7 +248,7 @@ const TributePage = () => {
     setAdditionalMemory("");
     setShowMemoryInput(false);
     setRegenCount((c) => c + 1);
-    runGeneration(formDataRef.current, currentTier);
+    runGeneration(formDataRef.current, currentTier, lastJobId);
   };
 
   const handleSaveEdit = () => {
