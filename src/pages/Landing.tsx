@@ -164,7 +164,7 @@ const Landing = () => {
             <h2 className="mb-4 font-display text-3xl font-bold text-foreground">
               See What a Tribute Looks Like
             </h2>
-            <p className="mb-8 text-base text-muted-foreground">
+            <p className="mb-10 text-base text-muted-foreground">
               Here is an example tribute created from just a few memories.
             </p>
           </motion.div>
