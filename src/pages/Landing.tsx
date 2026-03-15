@@ -223,12 +223,12 @@ const Landing = () => {
       <section className="tribute-section">
         <div className="tribute-container">
           <div className="mb-12 text-center">
+            <p className="mb-3 font-display text-base italic text-muted-foreground">
+              Every pet deserves to be remembered beautifully.
+            </p>
             <h2 className="mb-4 text-3xl font-bold text-foreground">
               Choose Your Tribute
             </h2>
-            <p className="text-muted-foreground">
-              Every pet deserves to be remembered beautifully.
-            </p>
           </div>
           {/* Mobile: Tier 2 first, then 1, then 3 */}
           <div className="grid gap-6 md:grid-cols-3">
