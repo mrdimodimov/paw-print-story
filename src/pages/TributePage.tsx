@@ -79,7 +79,10 @@ const TributePage = () => {
         setEditedStory(result.story);
         setGenerating(false);
         if (result.jobId) setLastJobId(result.jobId);
-        if (result.tributeId) {
+        if (result.slug) {
+          setTributeSlug(result.slug);
+          navigate(`/tribute/s/${result.slug}?tier=${tierConfig.id}`, { replace: true });
+        } else if (result.tributeId) {
           navigate(`/tribute/${result.tributeId}?tier=${tierConfig.id}`, { replace: true });
         }
       },
