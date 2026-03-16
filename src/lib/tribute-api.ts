@@ -193,8 +193,12 @@ export async function generateTribute(
   // Parse sections from the full text
   const result = parseGeneratedOutput(fullText);
 
+  // Generate URL slug
+  const slug = generateSlug(form.pet_name);
+
   // Persist tribute to database
   let tributeId: string | undefined;
+  let tributeSlug: string | undefined;
   try {
     const { data, error } = await supabase.from("tributes").insert({
       pet_name: form.pet_name,
@@ -204,14 +208,17 @@ export async function generateTribute(
       owner_name: form.owner_name || null,
       tier_name: tier.name,
       tribute_story: result.story,
+      title: result.title || null,
+      slug,
       social_post: result.social_post || null,
       share_card_text: result.share_card_text || null,
       photo_urls: form.photo_urls,
       form_data: form as any,
-    }).select("id").single();
+    }).select("id, slug").single();
 
     if (!error && data) {
       tributeId = data.id;
+      tributeSlug = data.slug ?? undefined;
     }
   } catch {
     console.warn("Failed to persist tribute");
