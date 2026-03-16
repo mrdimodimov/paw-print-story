@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link } from "lucide-react";
+import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock } from "lucide-react";
 import TributeShareCard from "@/components/TributeShareCard";
 import TributeWritingExperience from "@/components/TributeWritingExperience";
 import PublicTributeToggle from "@/components/PublicTributeToggle";
@@ -42,6 +42,7 @@ const TributePage = () => {
   const [regenCount, setRegenCount] = useState(0);
   const [lastJobId, setLastJobId] = useState<string | undefined>();
   const [tributeSlug, setTributeSlug] = useState<string | undefined>();
+  const [unlocked, setUnlocked] = useState(false);
   const [tributeDbId, setTributeDbId] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
   const [petName, setPetName] = useState(formData?.pet_name || "");
@@ -127,6 +128,7 @@ const TributePage = () => {
         setBreed(data.breed);
         setTributeSlug((data as any).slug || undefined);
         setTributeDbId(data.id);
+        setUnlocked(true);
         if (data.form_data) {
           formDataRef.current = data.form_data as unknown as TributeFormData;
         }
@@ -410,7 +412,7 @@ const TributePage = () => {
             )}
             <p className="mb-6 text-center text-sm text-muted-foreground">{currentTier.name}</p>
 
-            {isEditing ? (
+            {isEditing && unlocked ? (
               <div className="space-y-4">
                 <Textarea
                   value={editedStory}
@@ -429,79 +431,112 @@ const TributePage = () => {
                   </Button>
                 </div>
               </div>
-            ) : (
+            ) : unlocked ? (
               <div className="whitespace-pre-line font-body leading-relaxed text-foreground">
                 {tribute.story}
               </div>
-            )}
-          </div>
-
-          {/* Actions */}
-          <div className="mb-6 flex flex-wrap gap-3">
-            {!isEditing && (
-              <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
-                <Edit className="mr-1 h-4 w-4" /> Edit Story
-              </Button>
-            )}
-            {formDataRef.current && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleRegenerate}
-                disabled={regenCount >= maxRegens && maxRegens !== Infinity}
-              >
-                <RefreshCw className="mr-1 h-4 w-4" /> Regenerate
-                {maxRegens !== Infinity && (
-                  <span className="ml-1 text-xs text-muted-foreground">
-                    ({maxRegens - regenCount} left)
-                  </span>
-                )}
-              </Button>
-            )}
-            <Button size="sm" onClick={handleDownloadPDF}>
-              <Download className="mr-1 h-4 w-4" /> Download PDF
-            </Button>
-            {currentTier.include_printable_pdf && (currentTier.id === "pack" || currentTier.id === "legacy") && (
-              <Button variant="outline" size="sm" onClick={handleDownloadMemorial}>
-                <FileText className="mr-1 h-4 w-4" /> Printable Memorial
-              </Button>
-            )}
-            {formDataRef.current && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowMemoryInput(!showMemoryInput)}
-              >
-                <Plus className="mr-1 h-4 w-4" /> Add Memory
-              </Button>
-            )}
-          </div>
-
-          {/* Add Memory Input */}
-          {showMemoryInput && (
-            <div className="mb-6 rounded-xl border border-border bg-card p-4 shadow-soft">
-              <p className="mb-2 text-sm font-medium text-foreground">
-                Add another memory to enrich the tribute
-              </p>
-              <Textarea
-                value={additionalMemory}
-                onChange={(e) => setAdditionalMemory(e.target.value)}
-                placeholder="Share another special memory..."
-                rows={3}
-              />
-              <div className="mt-3 flex gap-2">
-                <Button size="sm" onClick={handleAddMemoryAndRegenerate} disabled={!additionalMemory.trim()}>
-                  <RefreshCw className="mr-1 h-4 w-4" /> Regenerate with Memory
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => { setShowMemoryInput(false); setAdditionalMemory(""); }}>
-                  Cancel
-                </Button>
+            ) : (
+              /* Paywall preview */
+              <div className="relative">
+                <div className="whitespace-pre-line font-body leading-relaxed text-foreground">
+                  {tribute.story.slice(0, Math.floor(tribute.story.length * 0.45))}
+                </div>
+                {/* Gradient fade */}
+                <div
+                  className="pointer-events-none absolute bottom-0 left-0 right-0 h-32"
+                  style={{
+                    background: "linear-gradient(to bottom, hsl(var(--card) / 0), hsl(var(--card) / 1))",
+                  }}
+                />
               </div>
+            )}
+          </div>
+
+          {/* Paywall CTA */}
+          {!unlocked && (
+            <div className="mb-6 rounded-xl border border-primary/30 bg-accent/30 p-8 text-center shadow-soft">
+              <Lock className="mx-auto mb-4 h-8 w-8 text-primary/70" />
+              <h3 className="mb-2 font-display text-xl font-semibold text-foreground">
+                Continue reading {petName ? `${petName}'s` : "your pet's"} full tribute
+              </h3>
+              <p className="mx-auto mb-6 max-w-md text-sm text-muted-foreground">
+                Unlock the full memorial story, shareable card, and printable tribute.
+              </p>
+              <Button size="lg" onClick={() => setUnlocked(true)}>
+                Unlock Full Tribute
+              </Button>
             </div>
           )}
 
+          {/* Actions */}
+          {unlocked && (
+            <>
+              <div className="mb-6 flex flex-wrap gap-3">
+                {!isEditing && (
+                  <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
+                    <Edit className="mr-1 h-4 w-4" /> Edit Story
+                  </Button>
+                )}
+                {formDataRef.current && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleRegenerate}
+                    disabled={regenCount >= maxRegens && maxRegens !== Infinity}
+                  >
+                    <RefreshCw className="mr-1 h-4 w-4" /> Regenerate
+                    {maxRegens !== Infinity && (
+                      <span className="ml-1 text-xs text-muted-foreground">
+                        ({maxRegens - regenCount} left)
+                      </span>
+                    )}
+                  </Button>
+                )}
+                <Button size="sm" onClick={handleDownloadPDF}>
+                  <Download className="mr-1 h-4 w-4" /> Download PDF
+                </Button>
+                {currentTier.include_printable_pdf && (currentTier.id === "pack" || currentTier.id === "legacy") && (
+                  <Button variant="outline" size="sm" onClick={handleDownloadMemorial}>
+                    <FileText className="mr-1 h-4 w-4" /> Printable Memorial
+                  </Button>
+                )}
+                {formDataRef.current && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowMemoryInput(!showMemoryInput)}
+                  >
+                    <Plus className="mr-1 h-4 w-4" /> Add Memory
+                  </Button>
+                )}
+              </div>
+
+              {showMemoryInput && (
+                <div className="mb-6 rounded-xl border border-border bg-card p-4 shadow-soft">
+                  <p className="mb-2 text-sm font-medium text-foreground">
+                    Add another memory to enrich the tribute
+                  </p>
+                  <Textarea
+                    value={additionalMemory}
+                    onChange={(e) => setAdditionalMemory(e.target.value)}
+                    placeholder="Share another special memory..."
+                    rows={3}
+                  />
+                  <div className="mt-3 flex gap-2">
+                    <Button size="sm" onClick={handleAddMemoryAndRegenerate} disabled={!additionalMemory.trim()}>
+                      <RefreshCw className="mr-1 h-4 w-4" /> Regenerate with Memory
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => { setShowMemoryInput(false); setAdditionalMemory(""); }}>
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
           {/* Social Post (Tier 2+) */}
-          {tribute.social_post && (
+          {unlocked && tribute.social_post && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
               <div className="mb-3 flex items-center gap-2">
                 <Share2 className="h-4 w-4 text-primary" />
@@ -523,7 +558,7 @@ const TributePage = () => {
           )}
 
           {/* Memorial Share Card */}
-          {currentTier.include_share_card && tribute.share_card_text && (
+          {unlocked && currentTier.include_share_card && tribute.share_card_text && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
               <div className="mb-4 flex items-center gap-2">
                 <FileText className="h-4 w-4 text-primary" />
