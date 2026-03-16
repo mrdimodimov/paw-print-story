@@ -124,7 +124,7 @@ export async function downloadTributePDF(
     doc.setFont("helvetica", "italic");
     doc.setFontSize(12);
     doc.setTextColor(120, 100, 80);
-    doc.text(years, pageWidth / 2, yPos, { align: "center" });
+    doc.text(sanitizeForPDF(years), pageWidth / 2, yPos, { align: "center" });
     yPos += 8;
   }
 
