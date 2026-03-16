@@ -160,7 +160,7 @@ export async function downloadTributePDF(
   doc.setTextColor(45, 40, 35);
 
   const sanitizedStory = sanitizeForPDF(story);
-  const paragraphs = sanitizedStory.split(/\n\s*\n/);
+  const paragraphs = ensureParagraphs(sanitizedStory);
   const lineHeight = 7.2; // ~1.6x at 12pt
   const paragraphGap = 7;
   const footerZone = pageHeight - 30;
