@@ -409,7 +409,11 @@ const Questionnaire = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border/50">
+      <DevTestingPanel
+        onFill={(data) => setForm((prev) => ({ ...prev, ...data }))}
+        onToneChange={(tone) => update("tone", tone)}
+        currentTone={form.tone}
+      />
         <div className="tribute-container flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
             <PawPrint className="h-6 w-6 text-primary" />
