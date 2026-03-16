@@ -212,5 +212,14 @@ export async function downloadMemorialPDF(
   doc.setTextColor(120, 100, 80);
   doc.text("Forever in our hearts 🕊️", pageWidth / 2, 275, { align: "center" });
 
+  // Watermark (basic tier only)
+  if (tier === "story") {
+    const ph = doc.internal.pageSize.getHeight();
+    doc.setFontSize(7);
+    doc.setTextColor(180, 180, 180);
+    doc.text(`🐾 Created with ${BRAND.name}`, pageWidth - margin, ph - 14, { align: "right" });
+    doc.text("vellumpet.com", pageWidth - margin, ph - 9, { align: "right" });
+  }
+
   doc.save(`${petName}-memorial.pdf`);
 }
