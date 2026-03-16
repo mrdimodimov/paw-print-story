@@ -38,6 +38,39 @@ export function normalizeTributeText(text: string): string {
 // Internal alias for backward compat within this file
 const sanitizeForPDF = normalizeTributeText;
 
+/**
+ * Ensure tribute text always has proper paragraph breaks.
+ * If the text already contains double-newlines, split on those.
+ * Otherwise, split into sentences and group every 2–3 into paragraphs.
+ */
+export function ensureParagraphs(text: string): string[] {
+  // Normalize whitespace first
+  let cleaned = text
+    .replace(/\r\n/g, "\n")
+    .replace(/\r/g, "\n")
+    .replace(/[ \t]{2,}/g, " ")
+    .trim();
+
+  // If already has paragraph breaks, use them
+  if (/\n\s*\n/.test(cleaned)) {
+    return cleaned
+      .split(/\n\s*\n/)
+      .map((p) => p.trim())
+      .filter(Boolean);
+  }
+
+  // Otherwise, split into sentences and group 2–3 per paragraph
+  const sentences = cleaned.split(/(?<=[.!?])\s+/).filter(Boolean);
+  if (sentences.length <= 3) return [sentences.join(" ")];
+
+  const paragraphs: string[] = [];
+  const groupSize = sentences.length <= 6 ? 2 : 3;
+  for (let i = 0; i < sentences.length; i += groupSize) {
+    paragraphs.push(sentences.slice(i, i + groupSize).join(" "));
+  }
+  return paragraphs;
+}
+
 async function loadImageAsDataURL(url: string): Promise<string | null> {
   try {
     const res = await fetch(url);
@@ -127,7 +160,7 @@ export async function downloadTributePDF(
   doc.setTextColor(45, 40, 35);
 
   const sanitizedStory = sanitizeForPDF(story);
-  const paragraphs = sanitizedStory.split(/\n\s*\n/);
+  const paragraphs = ensureParagraphs(sanitizedStory);
   const lineHeight = 7.2; // ~1.6x at 12pt
   const paragraphGap = 7;
   const footerZone = pageHeight - 30;
@@ -295,7 +328,7 @@ export async function downloadMemorialPDF(
   doc.setFontSize(11.5);
   doc.setTextColor(45, 40, 35);
   const sanitizedStory = sanitizeForPDF(story);
-  const paragraphs = sanitizedStory.split(/\n\s*\n/);
+  const paragraphs = ensureParagraphs(sanitizedStory);
   let y = storyStartY;
   const lineHeight = 6.8; // ~1.6x at 11.5pt
   const paragraphGap = 5;
