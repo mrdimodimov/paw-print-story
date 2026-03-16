@@ -432,8 +432,10 @@ const TributePage = () => {
                 </div>
               </div>
             ) : unlocked ? (
-              <div className="whitespace-pre-line font-body leading-relaxed text-foreground">
-                {tribute.story}
+              <div className="mx-auto max-w-prose font-body text-foreground">
+                {ensureParagraphs(tribute.story).map((p, i) => (
+                  <p key={i} className="mb-4 leading-[1.7]">{p}</p>
+                ))}
               </div>
             ) : (
               /* Paywall preview */
