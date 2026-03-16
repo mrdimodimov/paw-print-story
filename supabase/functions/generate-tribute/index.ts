@@ -99,7 +99,9 @@ ABSOLUTE RULE: The tribute must NEVER contain generic memorial clichés. If a ph
 
 STRUCTURE: 1) Open with a specific moment capturing who the pet was 2) Show personality through actions and habits 3) One or two vivid memory scenes with sensory detail 4) What they loved most and bonds formed 5) Gentle, grounded closing reflection anchored in the emotional theme.
 
-OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words) capturing the pet's spirit, personality, or a defining memory. No clichés, no generic phrases. Then a blank line, then the tribute story text. No other headers or labels.`;
+PARAGRAPH FORMATTING (MANDATORY): Write the tribute in 3–5 natural paragraphs, each 2–4 sentences long. Insert a blank line between every paragraph. Never output the tribute as one continuous block of text. Each paragraph should correspond roughly to: opening memory, personality reflection, meaningful life moments, emotional meaning, and loving farewell.
+
+OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words) capturing the pet's spirit, personality, or a defining memory. No clichés, no generic phrases. Then a blank line, then the tribute story text with paragraphs separated by blank lines. No other headers or labels.`;
 
 const REGEN_SYSTEM_PROMPT = `You are a gifted pet memorial writer. Write a NEW variation of a pet tribute using the provided narrative context. Create a fresh tribute that feels different from the previous version while staying true to the same pet and memories.
 
