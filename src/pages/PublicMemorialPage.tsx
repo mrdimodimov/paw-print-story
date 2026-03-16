@@ -158,6 +158,16 @@ const PublicMemorialPage = () => {
       }
       setTribute(data as PublicTribute);
       document.title = `In Memory of ${data.pet_name} | ${BRAND.name}`;
+
+      // Set canonical tag
+      let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+      if (!canonical) {
+        canonical = document.createElement("link");
+        canonical.rel = "canonical";
+        document.head.appendChild(canonical);
+      }
+      canonical.href = `${window.location.origin}/memorial/${data.slug}`;
+
       setLoading(false);
     };
     fetchTribute();
