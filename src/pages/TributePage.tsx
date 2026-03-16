@@ -630,6 +630,13 @@ const TributePage = () => {
             </div>
           )}
 
+          {/* Reactions */}
+          {tributeDbId && (
+            <div className="mb-6">
+              <TributeReactions tributeId={tributeDbId} />
+            </div>
+          )}
+
           {/* Leave a Memory */}
           {tributeDbId && (
             <div className="mb-6">
