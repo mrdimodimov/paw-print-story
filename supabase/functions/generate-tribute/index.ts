@@ -93,7 +93,9 @@ VOICE: Write as a close family member — someone present for morning routines, 
 
 STYLE: Vary sentence length deliberately. Mix brief grounded statements with longer unfolding sentences. No purple prose — power comes from specificity. Never repeat sentence structures back-to-back. No recycled phrases or emotional beats. Turn memories into lived scenes, not summaries. Reveal personality through actions, not adjectives. If the owner included a message, weave that sentiment naturally without quoting directly.
 
-FORBIDDEN PHRASES: "brought joy to everyone," "crossed the rainbow bridge," "will never be forgotten," "forever in our hearts," "unconditional love," "loyal companion to the end," "left paw prints on our hearts," "earned their wings," or similar clichés.
+FORBIDDEN PHRASES: "brought joy to everyone," "crossed the rainbow bridge," "will never be forgotten," "forever in our hearts," "unconditional love," "loyal companion to the end," "left paw prints on our hearts," "earned their wings," "watching over us," "running free," "no longer in pain," or similar clichés.
+
+ABSOLUTE RULE: The tribute must NEVER contain generic memorial clichés. If a phrase such as "forever in our hearts," "rainbow bridge," "crossed the bridge," "paw prints on our hearts," "earned their wings," "watching over us," or similar appears in your draft, you MUST rewrite the sentence using a specific memory or concrete detail about the pet instead. If you detect yourself writing a cliché memorial phrase, immediately replace it with a vivid, personal detail from the questionnaire answers.
 
 STRUCTURE: 1) Open with a specific moment capturing who the pet was 2) Show personality through actions and habits 3) One or two vivid memory scenes with sensory detail 4) What they loved most and bonds formed 5) Gentle, grounded closing reflection anchored in the emotional theme.
 
