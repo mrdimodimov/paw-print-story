@@ -116,7 +116,7 @@ export async function downloadTributePDF(
   doc.setFont("helvetica", "bold");
   doc.setFontSize(24);
   doc.setTextColor(50, 40, 30);
-  doc.text(petName, pageWidth / 2, yPos, { align: "center" });
+  doc.text(sanitizeForPDF(petName), pageWidth / 2, yPos, { align: "center" });
   yPos += 10;
 
   // Years of life
