@@ -18,7 +18,7 @@ import type { TributeFormData, GeneratedTribute, TierConfig } from "@/lib/types"
 const TributePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { id: tributeIdParam } = useParams<{ id: string }>();
+  const { id: tributeIdParam, slug: slugParam } = useParams<{ id: string; slug: string }>();
   const [searchParams] = useSearchParams();
   const tierId = searchParams.get("tier") || "story";
   const tier = TIERS.find((t) => t.id === tierId) || TIERS[0];
