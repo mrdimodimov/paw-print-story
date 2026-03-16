@@ -1,6 +1,40 @@
 import jsPDF from "jspdf";
 import { BRAND } from "./brand";
 
+/**
+ * Normalize text for safe PDF rendering with jsPDF's built-in fonts.
+ * - Strips emojis and unsupported Unicode symbols
+ * - Converts smart/curly quotes to straight quotes
+ * - Converts en/em dashes to hyphens
+ * - Normalizes other special punctuation
+ */
+function sanitizeForPDF(text: string): string {
+  return text
+    // Remove emojis and miscellaneous symbols (broad Unicode ranges)
+    .replace(/[\u{1F600}-\u{1F64F}]/gu, "")   // emoticons
+    .replace(/[\u{1F300}-\u{1F5FF}]/gu, "")   // misc symbols & pictographs
+    .replace(/[\u{1F680}-\u{1F6FF}]/gu, "")   // transport & map
+    .replace(/[\u{1F900}-\u{1F9FF}]/gu, "")   // supplemental symbols
+    .replace(/[\u{1FA00}-\u{1FA6F}]/gu, "")   // chess symbols
+    .replace(/[\u{1FA70}-\u{1FAFF}]/gu, "")   // symbols extended-A
+    .replace(/[\u{2600}-\u{26FF}]/gu, "")      // misc symbols
+    .replace(/[\u{2700}-\u{27BF}]/gu, "")      // dingbats
+    .replace(/[\u{FE00}-\u{FE0F}]/gu, "")      // variation selectors
+    .replace(/[\u{200D}]/gu, "")               // zero-width joiner
+    // Smart quotes → straight quotes
+    .replace(/[\u2018\u2019\u201A]/g, "'")
+    .replace(/[\u201C\u201D\u201E]/g, '"')
+    // Dashes → hyphen
+    .replace(/[\u2013\u2014]/g, "-")
+    // Ellipsis → three dots
+    .replace(/\u2026/g, "...")
+    // Non-breaking space → regular space
+    .replace(/\u00A0/g, " ")
+    // Trim leftover whitespace from emoji removal
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
 async function loadImageAsDataURL(url: string): Promise<string | null> {
   try {
     const res = await fetch(url);
