@@ -54,6 +54,7 @@ const App = () => (
             <Route path="/create" element={<Questionnaire />} />
             <Route path="/tribute" element={<TributePage />} />
             <Route path="/tribute/:id" element={<TributePage />} />
+            <Route path="/tribute/s/:slug" element={<TributePage />} />
             <Route path="/memory/:slug" element={<PublicMemorialPage />} />
             <Route path="/dog-obituary-example" element={<DogObituaryExample />} />
             <Route path="/cat-memorial-tribute-example" element={<CatMemorialTributeExample />} />

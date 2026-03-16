@@ -540,7 +540,52 @@ const TributePage = () => {
             </div>
           )}
 
-          {/* Public Tribute Page Toggle */}
+          {/* Share Buttons */}
+          {tributeSlug && (
+            <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
+              <div className="mb-3 flex items-center gap-2">
+                <Share2 className="h-4 w-4 text-primary" />
+                <h3 className="font-display text-sm font-semibold text-foreground">
+                  Share This Tribute
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const url = `${window.location.origin}/tribute/s/${tributeSlug}`;
+                    navigator.clipboard.writeText(url);
+                    toast.success("Link copied!");
+                  }}
+                >
+                  <Link className="mr-1 h-3 w-3" /> Copy Link
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const url = `${window.location.origin}/tribute/s/${tributeSlug}`;
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank", "noopener,noreferrer,width=600,height=400");
+                  }}
+                >
+                  Facebook
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const url = `${window.location.origin}/tribute/s/${tributeSlug}`;
+                    const text = `In Loving Memory of ${petName}`;
+                    window.open(`https://x.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer,width=600,height=400");
+                  }}
+                >
+                  X / Twitter
+                </Button>
+              </div>
+            </div>
+          )}
+
           <div className="mb-6">
             <PublicTributeToggle
               petName={petName || ""}
