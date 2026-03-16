@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { PawPrint, Heart, Share2, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
