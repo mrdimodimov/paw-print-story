@@ -114,10 +114,18 @@ export async function downloadTributePDF(
     yPos += 6;
   }
 
-  // Footer
-  doc.setFontSize(8);
-  doc.setTextColor(150);
-  doc.text(`Created with ${BRAND.name}`, pageWidth / 2, 285, { align: "center" });
+  // Watermark on each page (basic tier only)
+  if (tier === "story") {
+    const totalPages = doc.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      const ph = doc.internal.pageSize.getHeight();
+      doc.setFontSize(7);
+      doc.setTextColor(180, 180, 180);
+      doc.text(`🐾 Created with ${BRAND.name}`, pageWidth - margin, ph - 14, { align: "right" });
+      doc.text("vellumpet.com", pageWidth - margin, ph - 9, { align: "right" });
+    }
+  }
 
   doc.save(`${petName}-tribute.pdf`);
 }
