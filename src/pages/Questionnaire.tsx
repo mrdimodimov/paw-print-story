@@ -10,6 +10,7 @@ import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { DevTestingPanel } from "@/components/DevTestingPanel";
 import type { TributeFormData, TributeStyle } from "@/lib/types";
 
 const PERSONALITY_OPTIONS = [
