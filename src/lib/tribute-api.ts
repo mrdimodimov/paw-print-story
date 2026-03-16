@@ -234,7 +234,7 @@ export async function generateTribute(
   }
 
   releaseLock();
-  callbacks.onDone({ ...result, tributeId, jobId });
+  callbacks.onDone({ ...result, tributeId, jobId, slug: tributeSlug });
 }
 
 function parseGeneratedOutput(text: string): GeneratedTribute {
