@@ -145,6 +145,27 @@ export type Database = {
           },
         ]
       }
+      tribute_reactions: {
+        Row: {
+          created_at: string
+          id: string
+          reaction_type: string
+          tribute_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          reaction_type: string
+          tribute_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          reaction_type?: string
+          tribute_id?: string
+        }
+        Relationships: []
+      }
       tributes: {
         Row: {
           breed: string | null
