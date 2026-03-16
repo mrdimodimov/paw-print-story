@@ -532,6 +532,7 @@ const TributePage = () => {
               </div>
             </div>
           )}
+          )}
 
           {/* Social Post (Tier 2+) */}
           {tribute.social_post && (
