@@ -56,6 +56,7 @@ const App = () => (
             <Route path="/tribute" element={<TributePage />} />
             <Route path="/tribute/:id" element={<TributePage />} />
             <Route path="/tribute/s/:slug" element={<TributePage />} />
+            <Route path="/memorial/:slug" element={<PublicMemorialPage />} />
             <Route path="/memory/:slug" element={<PublicMemorialPage />} />
             <Route path="/memories" element={<MemoriesGallery />} />
             <Route path="/dog-obituary-example" element={<DogObituaryExample />} />

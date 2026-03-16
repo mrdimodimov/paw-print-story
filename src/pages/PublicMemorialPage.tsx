@@ -185,6 +185,10 @@ const PublicMemorialPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Canonical tag for SEO */}
+      {tribute.slug && (
+        <link rel="canonical" href={`${window.location.origin}/memorial/${tribute.slug}`} />
+      )}
       {/* Header */}
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
