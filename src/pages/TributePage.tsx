@@ -536,7 +536,7 @@ const TributePage = () => {
           )}
 
           {/* Social Post (Tier 2+) */}
-          {tribute.social_post && (
+          {unlocked && tribute.social_post && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
               <div className="mb-3 flex items-center gap-2">
                 <Share2 className="h-4 w-4 text-primary" />
