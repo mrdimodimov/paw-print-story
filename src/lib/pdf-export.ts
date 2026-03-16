@@ -167,6 +167,35 @@ export async function downloadTributePDF(
   doc.save(`${petName}-tribute.pdf`);
 }
 
+/**
+ * Draw a faint paw-print watermark centered on the page.
+ * Uses simple circles to form a stylized paw shape at very low opacity.
+ */
+function drawPawWatermark(doc: jsPDF) {
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const cx = pageWidth / 2;
+  const cy = pageHeight / 2 - 10;
+
+  // Very faint fill — 4% opacity approximation via light gray
+  doc.setFillColor(230, 225, 215);
+  doc.setDrawColor(230, 225, 215);
+
+  // Main pad (ellipse approximated with circle)
+  doc.circle(cx, cy + 12, 14, "F");
+
+  // Toe pads
+  const toes = [
+    { dx: -11, dy: -6, r: 6.5 },
+    { dx: -4, dy: -14, r: 6 },
+    { dx: 4, dy: -14, r: 6 },
+    { dx: 11, dy: -6, r: 6.5 },
+  ];
+  for (const t of toes) {
+    doc.circle(cx + t.dx, cy + t.dy, t.r, "F");
+  }
+}
+
 export async function downloadMemorialPDF(
   petName: string,
   years: string,
@@ -176,6 +205,7 @@ export async function downloadMemorialPDF(
 ) {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 25;
   const maxWidth = pageWidth - margin * 2;
 
@@ -184,19 +214,23 @@ export async function downloadMemorialPDF(
   // Decorative border
   doc.setDrawColor(180, 160, 120);
   doc.setLineWidth(1);
-  doc.rect(10, 10, pageWidth - 20, doc.internal.pageSize.getHeight() - 20);
+  doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
   doc.setLineWidth(0.3);
-  doc.rect(13, 13, pageWidth - 26, doc.internal.pageSize.getHeight() - 26);
+  doc.rect(13, 13, pageWidth - 26, pageHeight - 26);
 
-  // Paw symbol
+  // Paw watermark behind text
+  drawPawWatermark(doc);
+
+  // Paw symbol at top
   doc.setFontSize(24);
+  doc.setTextColor(180, 160, 120);
   doc.text("*", pageWidth / 2, 35, { align: "center" });
 
   // Title
   doc.setFont("helvetica", "bold");
   doc.setFontSize(26);
   doc.setTextColor(60, 45, 30);
-  doc.text(`In Loving Memory`, pageWidth / 2, 50, { align: "center" });
+  doc.text("In Loving Memory", pageWidth / 2, 50, { align: "center" });
 
   doc.setFontSize(20);
   doc.text(sanitizeForPDF(petName), pageWidth / 2, 62, { align: "center" });
@@ -209,53 +243,68 @@ export async function downloadMemorialPDF(
     doc.text(sanitizeForPDF(years), pageWidth / 2, 72, { align: "center" });
   }
 
+  // Divider after header
+  doc.setDrawColor(180, 160, 120);
+  doc.setLineWidth(0.4);
+  const divInset = 30;
+  const dividerY = years ? 78 : 70;
+  doc.line(margin + divInset, dividerY, pageWidth - margin - divInset, dividerY);
+
   // Featured photo(s)
-  let storyStartY = 90;
+  let storyStartY = dividerY + 8;
   if (images.length === 1) {
     const imgSize = 40;
-    doc.addImage(images[0], "JPEG", (pageWidth - imgSize) / 2, 78, imgSize, imgSize);
-    storyStartY = 78 + imgSize + 6;
+    doc.addImage(images[0], "JPEG", (pageWidth - imgSize) / 2, storyStartY, imgSize, imgSize);
+    storyStartY += imgSize + 8;
   } else if (images.length >= 2) {
     const imgSize = 35;
     const shown = images.slice(0, 3);
     const totalWidth = shown.length * imgSize + (shown.length - 1) * 5;
     let x = (pageWidth - totalWidth) / 2;
     for (const img of shown) {
-      doc.addImage(img, "JPEG", x, 78, imgSize, imgSize);
+      doc.addImage(img, "JPEG", x, storyStartY, imgSize, imgSize);
       x += imgSize + 5;
     }
-    storyStartY = 78 + imgSize + 6;
+    storyStartY += imgSize + 8;
   } else {
-    // No photos — divider
-    doc.setDrawColor(180, 160, 120);
-    doc.setLineWidth(0.5);
-    doc.line(margin + 20, 78, pageWidth - margin - 20, 78);
+    storyStartY += 4;
   }
 
-  // Story
+  // Story text with improved typography
   doc.setFont("helvetica", "normal");
-  doc.setFontSize(10);
-  doc.setTextColor(50);
-  const lines = doc.splitTextToSize(sanitizeForPDF(story), maxWidth);
+  doc.setFontSize(10.5);
+  doc.setTextColor(45, 40, 35);
+  const sanitizedStory = sanitizeForPDF(story);
+  const paragraphs = sanitizedStory.split(/\n\s*\n/);
   let y = storyStartY;
-  for (const line of lines) {
-    if (y > 260) break; // Keep single page for memorial
-    doc.text(line, margin, y);
-    y += 5.5;
+  const lineHeight = 6.2;
+  const paragraphGap = 4;
+  const maxY = 255;
+
+  for (const para of paragraphs) {
+    const lines = doc.splitTextToSize(para.trim(), maxWidth);
+    for (const line of lines) {
+      if (y > maxY) break;
+      doc.text(line, margin, y);
+      y += lineHeight;
+    }
+    if (y > maxY) break;
+    y += paragraphGap;
   }
 
-  // Footer
-  doc.setFontSize(10);
-  doc.setTextColor(120, 100, 80);
-  doc.text("Forever in our hearts", pageWidth / 2, 275, { align: "center" });
+  // Bottom divider
+  doc.setDrawColor(180, 160, 120);
+  doc.setLineWidth(0.4);
+  doc.line(margin + divInset, 265, pageWidth - margin - divInset, 265);
 
-  // Watermark (basic tier only)
+  // Footer branding
+  doc.setFontSize(7);
+  doc.setTextColor(170, 165, 155);
+  doc.text(`Created with ${BRAND.name}`, pageWidth / 2, pageHeight - 16, { align: "center" });
+
+  // Tier-specific watermark
   if (tier === "story") {
-    const ph = doc.internal.pageSize.getHeight();
-    doc.setFontSize(7);
-    doc.setTextColor(180, 180, 180);
-    doc.text(`Created with ${BRAND.name}`, pageWidth - margin, ph - 14, { align: "right" });
-    doc.text("vellumpet.com", pageWidth - margin, ph - 9, { align: "right" });
+    doc.text("vellumpet.com", pageWidth / 2, pageHeight - 12, { align: "center" });
   }
 
   doc.save(`${petName}-memorial.pdf`);
