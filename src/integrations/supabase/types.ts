@@ -124,8 +124,10 @@ export type Database = {
           pet_type: string
           photo_urls: string[]
           share_card_text: string | null
+          slug: string | null
           social_post: string | null
           tier_name: string
+          title: string | null
           tribute_story: string
           years_of_life: string | null
         }
@@ -139,8 +141,10 @@ export type Database = {
           pet_type?: string
           photo_urls?: string[]
           share_card_text?: string | null
+          slug?: string | null
           social_post?: string | null
           tier_name: string
+          title?: string | null
           tribute_story: string
           years_of_life?: string | null
         }
@@ -154,8 +158,10 @@ export type Database = {
           pet_type?: string
           photo_urls?: string[]
           share_card_text?: string | null
+          slug?: string | null
           social_post?: string | null
           tier_name?: string
+          title?: string | null
           tribute_story?: string
           years_of_life?: string | null
         }

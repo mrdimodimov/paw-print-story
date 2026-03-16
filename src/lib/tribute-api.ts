@@ -4,8 +4,19 @@ import { supabase } from "@/integrations/supabase/client";
 
 interface StreamCallbacks {
   onDelta: (text: string) => void;
-  onDone: (result: GeneratedTribute & { tributeId?: string; jobId?: string }) => void;
+  onDone: (result: GeneratedTribute & { tributeId?: string; jobId?: string; slug?: string }) => void;
   onError: (error: string) => void;
+}
+
+function generateSlug(petName: string): string {
+  const base = petName
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .slice(0, 30);
+  const suffix = Math.random().toString(36).slice(2, 6);
+  return `${base}-${suffix}`;
 }
 
 const LOCK_KEY = "vellumpet_generation_lock";
@@ -193,8 +204,12 @@ export async function generateTribute(
   // Parse sections from the full text
   const result = parseGeneratedOutput(fullText);
 
+  // Generate URL slug
+  const slug = generateSlug(form.pet_name);
+
   // Persist tribute to database
   let tributeId: string | undefined;
+  let tributeSlug: string | undefined;
   try {
     const { data, error } = await supabase.from("tributes").insert({
       pet_name: form.pet_name,
@@ -204,14 +219,17 @@ export async function generateTribute(
       owner_name: form.owner_name || null,
       tier_name: tier.name,
       tribute_story: result.story,
+      title: result.title || null,
+      slug,
       social_post: result.social_post || null,
       share_card_text: result.share_card_text || null,
       photo_urls: form.photo_urls,
       form_data: form as any,
-    }).select("id").single();
+    }).select("id, slug").single();
 
     if (!error && data) {
       tributeId = data.id;
+      tributeSlug = data.slug ?? undefined;
     }
   } catch {
     console.warn("Failed to persist tribute");
@@ -227,7 +245,7 @@ export async function generateTribute(
   }
 
   releaseLock();
-  callbacks.onDone({ ...result, tributeId, jobId });
+  callbacks.onDone({ ...result, tributeId, jobId, slug: tributeSlug });
 }
 
 function parseGeneratedOutput(text: string): GeneratedTribute {
@@ -283,6 +301,17 @@ export async function loadTributeById(id: string) {
     .from("tributes")
     .select("*")
     .eq("id", id)
+    .single();
+
+  if (error || !data) return null;
+  return data;
+}
+
+export async function loadTributeBySlug(slug: string) {
+  const { data, error } = await supabase
+    .from("tributes")
+    .select("*")
+    .eq("slug", slug)
     .single();
 
   if (error || !data) return null;

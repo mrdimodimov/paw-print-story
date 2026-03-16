@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image } from "lucide-react";
+import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link } from "lucide-react";
 import TributeShareCard from "@/components/TributeShareCard";
 import TributeWritingExperience from "@/components/TributeWritingExperience";
 import PublicTributeToggle from "@/components/PublicTributeToggle";
@@ -11,14 +11,14 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
-import { generateTribute, loadTributeById, loadJobById, getActiveJobId } from "@/lib/tribute-api";
+import { generateTribute, loadTributeById, loadTributeBySlug, loadJobById, getActiveJobId } from "@/lib/tribute-api";
 import { downloadTributePDF, downloadMemorialPDF } from "@/lib/pdf-export";
 import type { TributeFormData, GeneratedTribute, TierConfig } from "@/lib/types";
 
 const TributePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { id: tributeIdParam } = useParams<{ id: string }>();
+  const { id: tributeIdParam, slug: slugParam } = useParams<{ id: string; slug: string }>();
   const [searchParams] = useSearchParams();
   const tierId = searchParams.get("tier") || "story";
   const tier = TIERS.find((t) => t.id === tierId) || TIERS[0];
@@ -40,6 +40,7 @@ const TributePage = () => {
   const [copied, setCopied] = useState(false);
   const [regenCount, setRegenCount] = useState(0);
   const [lastJobId, setLastJobId] = useState<string | undefined>();
+  const [tributeSlug, setTributeSlug] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
   const [petName, setPetName] = useState(formData?.pet_name || "");
   const [photoUrls, setPhotoUrls] = useState<string[]>(formData?.photo_urls || []);
@@ -78,7 +79,10 @@ const TributePage = () => {
         setEditedStory(result.story);
         setGenerating(false);
         if (result.jobId) setLastJobId(result.jobId);
-        if (result.tributeId) {
+        if (result.slug) {
+          setTributeSlug(result.slug);
+          navigate(`/tribute/s/${result.slug}?tier=${tierConfig.id}`, { replace: true });
+        } else if (result.tributeId) {
           navigate(`/tribute/${result.tributeId}?tier=${tierConfig.id}`, { replace: true });
         }
       },
@@ -90,10 +94,17 @@ const TributePage = () => {
   };
 
   useEffect(() => {
-    // 1. If we have a tribute ID in the URL, load from database
-    if (tributeIdParam) {
+    const lookupParam = slugParam || tributeIdParam;
+    const isSlugLookup = !!slugParam;
+
+    // 1. If we have a tribute param in the URL, load from database
+    if (lookupParam) {
       setLoading(true);
-      loadTributeById(tributeIdParam).then((data) => {
+      const loader = isSlugLookup
+        ? loadTributeBySlug(lookupParam)
+        : loadTributeById(lookupParam);
+
+      loader.then((data) => {
         if (!data) {
           toast.error("Tribute not found");
           navigate("/");
@@ -101,6 +112,7 @@ const TributePage = () => {
         }
         setTribute({
           story: data.tribute_story,
+          title: (data as any).title || undefined,
           social_post: data.social_post || undefined,
           share_card_text: data.share_card_text || undefined,
         });
@@ -110,6 +122,7 @@ const TributePage = () => {
         setYearsOfLife(data.years_of_life || "");
         setPetType(data.pet_type || "dog");
         setBreed(data.breed);
+        setTributeSlug((data as any).slug || undefined);
         if (data.form_data) {
           formDataRef.current = data.form_data as unknown as TributeFormData;
         }
@@ -527,7 +540,52 @@ const TributePage = () => {
             </div>
           )}
 
-          {/* Public Tribute Page Toggle */}
+          {/* Share Buttons */}
+          {tributeSlug && (
+            <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
+              <div className="mb-3 flex items-center gap-2">
+                <Share2 className="h-4 w-4 text-primary" />
+                <h3 className="font-display text-sm font-semibold text-foreground">
+                  Share This Tribute
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const url = `${window.location.origin}/tribute/s/${tributeSlug}`;
+                    navigator.clipboard.writeText(url);
+                    toast.success("Link copied!");
+                  }}
+                >
+                  <Link className="mr-1 h-3 w-3" /> Copy Link
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const url = `${window.location.origin}/tribute/s/${tributeSlug}`;
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank", "noopener,noreferrer,width=600,height=400");
+                  }}
+                >
+                  Facebook
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const url = `${window.location.origin}/tribute/s/${tributeSlug}`;
+                    const text = `In Loving Memory of ${petName}`;
+                    window.open(`https://x.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer,width=600,height=400");
+                  }}
+                >
+                  X / Twitter
+                </Button>
+              </div>
+            </div>
+          )}
+
           <div className="mb-6">
             <PublicTributeToggle
               petName={petName || ""}
