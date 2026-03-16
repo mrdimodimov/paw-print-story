@@ -126,6 +126,7 @@ const TributePage = () => {
         setPetType(data.pet_type || "dog");
         setBreed(data.breed);
         setTributeSlug((data as any).slug || undefined);
+        setTributeDbId(data.id);
         if (data.form_data) {
           formDataRef.current = data.form_data as unknown as TributeFormData;
         }
