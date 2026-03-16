@@ -38,6 +38,39 @@ export function normalizeTributeText(text: string): string {
 // Internal alias for backward compat within this file
 const sanitizeForPDF = normalizeTributeText;
 
+/**
+ * Ensure tribute text always has proper paragraph breaks.
+ * If the text already contains double-newlines, split on those.
+ * Otherwise, split into sentences and group every 2–3 into paragraphs.
+ */
+export function ensureParagraphs(text: string): string[] {
+  // Normalize whitespace first
+  let cleaned = text
+    .replace(/\r\n/g, "\n")
+    .replace(/\r/g, "\n")
+    .replace(/[ \t]{2,}/g, " ")
+    .trim();
+
+  // If already has paragraph breaks, use them
+  if (/\n\s*\n/.test(cleaned)) {
+    return cleaned
+      .split(/\n\s*\n/)
+      .map((p) => p.trim())
+      .filter(Boolean);
+  }
+
+  // Otherwise, split into sentences and group 2–3 per paragraph
+  const sentences = cleaned.split(/(?<=[.!?])\s+/).filter(Boolean);
+  if (sentences.length <= 3) return [sentences.join(" ")];
+
+  const paragraphs: string[] = [];
+  const groupSize = sentences.length <= 6 ? 2 : 3;
+  for (let i = 0; i < sentences.length; i += groupSize) {
+    paragraphs.push(sentences.slice(i, i + groupSize).join(" "));
+  }
+  return paragraphs;
+}
+
 async function loadImageAsDataURL(url: string): Promise<string | null> {
   try {
     const res = await fetch(url);
