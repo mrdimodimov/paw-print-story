@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import type { GeneratedTribute, TributeTier } from "@/lib/types";
+import { generateMemorialSlug, generateMemorialSlugWithSuffix, slugify } from "@/lib/slugify";
 
 interface PublicTributeToggleProps {
   petName: string;
@@ -16,12 +17,6 @@ interface PublicTributeToggleProps {
   tribute: GeneratedTribute;
   photoUrls: string[];
   tierId: TributeTier;
-}
-
-function generateSlug(petName: string): string {
-  const clean = petName.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
-  const shortId = Math.floor(1000 + Math.random() * 9000).toString();
-  return `${clean}-${shortId}`;
 }
 
 const PublicTributeToggle = ({
