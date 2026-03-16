@@ -558,7 +558,7 @@ const TributePage = () => {
           )}
 
           {/* Memorial Share Card */}
-          {currentTier.include_share_card && tribute.share_card_text && (
+          {unlocked && currentTier.include_share_card && tribute.share_card_text && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
               <div className="mb-4 flex items-center gap-2">
                 <FileText className="h-4 w-4 text-primary" />
