@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import type { GeneratedTribute, TributeTier } from "@/lib/types";
-import { generateMemorialSlug, generateMemorialSlugWithSuffix, slugify } from "@/lib/slugify";
+import { generateMemorialSlug, generateMemorialSlugWithType, generateMemorialSlugWithSuffix, slugify } from "@/lib/slugify";
 
 interface PublicTributeToggleProps {
   petName: string;
