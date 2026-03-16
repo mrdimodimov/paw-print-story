@@ -85,7 +85,8 @@ export async function generateTribute(
   form: TributeFormData,
   tier: TierConfig,
   callbacks: StreamCallbacks,
-  previousJobId?: string
+  previousJobId?: string,
+  isPublic?: boolean
 ) {
   if (!acquireLock()) {
     callbacks.onError("A tribute is already being generated. Please wait for it to finish.");
@@ -225,6 +226,7 @@ export async function generateTribute(
       share_card_text: result.share_card_text || null,
       photo_urls: form.photo_urls,
       form_data: form as any,
+      is_public: isPublic || false,
     }).select("id, slug").single();
 
     if (!error && data) {

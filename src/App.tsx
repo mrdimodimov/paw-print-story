@@ -10,6 +10,7 @@ import TributePage from "./pages/TributePage";
 import PublicMemorialPage from "./pages/PublicMemorialPage";
 import NotFound from "./pages/NotFound";
 import ComingSoon from "./pages/ComingSoon";
+import MemoriesGallery from "./pages/MemoriesGallery";
 import DogObituaryExample from "./pages/seo/DogObituaryExample";
 import CatMemorialTributeExample from "./pages/seo/CatMemorialTributeExample";
 import PetMemorialMessage from "./pages/seo/PetMemorialMessage";
@@ -56,6 +57,7 @@ const App = () => (
             <Route path="/tribute/:id" element={<TributePage />} />
             <Route path="/tribute/s/:slug" element={<TributePage />} />
             <Route path="/memory/:slug" element={<PublicMemorialPage />} />
+            <Route path="/memories" element={<MemoriesGallery />} />
             <Route path="/dog-obituary-example" element={<DogObituaryExample />} />
             <Route path="/cat-memorial-tribute-example" element={<CatMemorialTributeExample />} />
             <Route path="/pet-memorial-message" element={<PetMemorialMessage />} />

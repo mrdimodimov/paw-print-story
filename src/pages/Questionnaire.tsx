@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { PawPrint, ArrowLeft, ArrowRight, Sparkles, ImagePlus, X, Shield } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -68,6 +69,7 @@ const Questionnaire = () => {
   const tierConfig = TIERS.find((t) => t.id === tier) || TIERS[0];
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<TributeFormData>(defaultForm);
+  const [isPublic, setIsPublic] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -147,7 +149,7 @@ const Questionnaire = () => {
   };
 
   const handleGenerate = () => {
-    navigate(`/tribute?tier=${tier}`, { state: { formData: form } });
+    navigate(`/tribute?tier=${tier}`, { state: { formData: form, isPublic } });
   };
 
   const renderStep = () => {
@@ -462,7 +464,21 @@ const Questionnaire = () => {
           </motion.div>
         </AnimatePresence>
 
-        <p className="mt-10 text-center text-xs text-muted-foreground/70">
+        {/* Gallery opt-in — only on final step */}
+        {step === STEPS.length - 1 && (
+          <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-accent/30 p-4">
+            <Checkbox
+              checked={isPublic}
+              onCheckedChange={(checked) => setIsPublic(checked === true)}
+              className="mt-0.5"
+            />
+            <span className="text-sm text-foreground">
+              Allow this tribute to appear in the public VellumPet memorial gallery
+            </span>
+          </label>
+        )}
+
+        <p className="mt-6 text-center text-xs text-muted-foreground/70">
           Your answers are never stored or used for AI training. They are only used to generate your tribute.
         </p>
 

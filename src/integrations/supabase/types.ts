@@ -172,6 +172,7 @@ export type Database = {
           created_at: string
           form_data: Json | null
           id: string
+          is_public: boolean
           owner_name: string | null
           pet_name: string
           pet_type: string
@@ -189,6 +190,7 @@ export type Database = {
           created_at?: string
           form_data?: Json | null
           id?: string
+          is_public?: boolean
           owner_name?: string | null
           pet_name: string
           pet_type?: string
@@ -206,6 +208,7 @@ export type Database = {
           created_at?: string
           form_data?: Json | null
           id?: string
+          is_public?: boolean
           owner_name?: string | null
           pet_name?: string
           pet_type?: string
