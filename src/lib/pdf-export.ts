@@ -138,7 +138,7 @@ export async function downloadTributePDF(
   doc.setFont("helvetica", "normal");
   doc.setFontSize(11);
   doc.setTextColor(40);
-  const lines = doc.splitTextToSize(story, maxWidth);
+  const lines = doc.splitTextToSize(sanitizeForPDF(story), maxWidth);
   for (const line of lines) {
     if (yPos > 270) {
       doc.addPage();
