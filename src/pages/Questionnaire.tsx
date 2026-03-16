@@ -10,6 +10,7 @@ import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { DevTestingPanel } from "@/components/DevTestingPanel";
 import type { TributeFormData, TributeStyle } from "@/lib/types";
 
 const PERSONALITY_OPTIONS = [
@@ -408,6 +409,11 @@ const Questionnaire = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <DevTestingPanel
+        onFill={(data) => setForm((prev) => ({ ...prev, ...data }))}
+        onToneChange={(tone) => update("tone", tone)}
+        currentTone={form.tone}
+      />
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
