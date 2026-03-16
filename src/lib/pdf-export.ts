@@ -134,7 +134,8 @@ export async function downloadMemorialPDF(
   petName: string,
   years: string,
   story: string,
-  photoUrls: string[] = []
+  photoUrls: string[] = [],
+  tier: string = "story"
 ) {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
