@@ -149,7 +149,7 @@ const Questionnaire = () => {
   };
 
   const handleGenerate = () => {
-    navigate(`/tribute?tier=${tier}`, { state: { formData: form } });
+    navigate(`/tribute?tier=${tier}`, { state: { formData: form, isPublic } });
   };
 
   const renderStep = () => {
