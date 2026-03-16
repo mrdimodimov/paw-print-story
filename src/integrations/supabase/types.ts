@@ -113,6 +113,38 @@ export type Database = {
         }
         Relationships: []
       }
+      tribute_memories: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          tribute_id: string
+          visitor_name: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          tribute_id: string
+          visitor_name?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          tribute_id?: string
+          visitor_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tribute_memories_tribute_id_fkey"
+            columns: ["tribute_id"]
+            isOneToOne: false
+            referencedRelation: "tributes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tributes: {
         Row: {
           breed: string | null

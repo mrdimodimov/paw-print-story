@@ -5,6 +5,7 @@ import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe
 import TributeShareCard from "@/components/TributeShareCard";
 import TributeWritingExperience from "@/components/TributeWritingExperience";
 import PublicTributeToggle from "@/components/PublicTributeToggle";
+import TributeMemories from "@/components/TributeMemories";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -41,6 +42,7 @@ const TributePage = () => {
   const [regenCount, setRegenCount] = useState(0);
   const [lastJobId, setLastJobId] = useState<string | undefined>();
   const [tributeSlug, setTributeSlug] = useState<string | undefined>();
+  const [tributeDbId, setTributeDbId] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
   const [petName, setPetName] = useState(formData?.pet_name || "");
   const [photoUrls, setPhotoUrls] = useState<string[]>(formData?.photo_urls || []);
@@ -79,6 +81,7 @@ const TributePage = () => {
         setEditedStory(result.story);
         setGenerating(false);
         if (result.jobId) setLastJobId(result.jobId);
+        if (result.tributeId) setTributeDbId(result.tributeId);
         if (result.slug) {
           setTributeSlug(result.slug);
           navigate(`/tribute/s/${result.slug}?tier=${tierConfig.id}`, { replace: true });
@@ -123,6 +126,7 @@ const TributePage = () => {
         setPetType(data.pet_type || "dog");
         setBreed(data.breed);
         setTributeSlug((data as any).slug || undefined);
+        setTributeDbId(data.id);
         if (data.form_data) {
           formDataRef.current = data.form_data as unknown as TributeFormData;
         }
@@ -583,6 +587,13 @@ const TributePage = () => {
                   X / Twitter
                 </Button>
               </div>
+            </div>
+          )}
+
+          {/* Leave a Memory */}
+          {tributeDbId && (
+            <div className="mb-6">
+              <TributeMemories tributeId={tributeDbId} petName={petName || "Your Pet"} />
             </div>
           )}
 
