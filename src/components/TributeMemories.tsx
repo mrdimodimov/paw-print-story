@@ -118,6 +118,15 @@ const TributeMemories = ({ tributeId, petName }: TributeMemoriesProps) => {
           Memories of {petName}
         </h3>
       </div>
+      {!loading && (
+        <p className="mb-4 text-sm text-muted-foreground">
+          {memories.length === 0
+            ? "0 memories shared"
+            : memories.length === 1
+              ? "1 memory shared"
+              : `${memories.length} memories shared`}
+        </p>
+      )}
 
       {/* Memories list */}
       {loading ? (
