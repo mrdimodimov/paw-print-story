@@ -328,7 +328,7 @@ export async function downloadMemorialPDF(
   doc.setFontSize(11.5);
   doc.setTextColor(45, 40, 35);
   const sanitizedStory = sanitizeForPDF(story);
-  const paragraphs = sanitizedStory.split(/\n\s*\n/);
+  const paragraphs = ensureParagraphs(sanitizedStory);
   let y = storyStartY;
   const lineHeight = 6.8; // ~1.6x at 11.5pt
   const paragraphGap = 5;
