@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
 import { generateTribute, loadTributeById, loadTributeBySlug, loadJobById, getActiveJobId } from "@/lib/tribute-api";
-import { downloadTributePDF, downloadMemorialPDF } from "@/lib/pdf-export";
+import { downloadTributePDF, downloadMemorialPDF, ensureParagraphs } from "@/lib/pdf-export";
 import type { TributeFormData, GeneratedTribute, TierConfig } from "@/lib/types";
 
 const TributePage = () => {
@@ -432,14 +432,18 @@ const TributePage = () => {
                 </div>
               </div>
             ) : unlocked ? (
-              <div className="whitespace-pre-line font-body leading-relaxed text-foreground">
-                {tribute.story}
+              <div className="mx-auto max-w-prose font-body text-foreground">
+                {ensureParagraphs(tribute.story).map((p, i) => (
+                  <p key={i} className="mb-4 leading-[1.7]">{p}</p>
+                ))}
               </div>
             ) : (
               /* Paywall preview */
               <div className="relative">
-                <div className="whitespace-pre-line font-body leading-relaxed text-foreground">
-                  {tribute.story.slice(0, Math.floor(tribute.story.length * 0.45))}
+                <div className="mx-auto max-w-prose font-body text-foreground">
+                  {ensureParagraphs(tribute.story.slice(0, Math.floor(tribute.story.length * 0.45))).map((p, i) => (
+                    <p key={i} className="mb-4 leading-[1.7]">{p}</p>
+                  ))}
                 </div>
                 {/* Gradient fade */}
                 <div
