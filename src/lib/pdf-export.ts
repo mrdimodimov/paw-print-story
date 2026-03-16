@@ -187,7 +187,7 @@ export async function downloadMemorialPDF(
 
   // Paw symbol
   doc.setFontSize(24);
-  doc.text("🐾", pageWidth / 2, 35, { align: "center" });
+  doc.text("*", pageWidth / 2, 35, { align: "center" });
 
   // Title
   doc.setFont("helvetica", "bold");
