@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import type { GeneratedTribute, TributeTier } from "@/lib/types";
+import { generateMemorialSlug, generateMemorialSlugWithSuffix, slugify } from "@/lib/slugify";
 
 interface PublicTributeToggleProps {
   petName: string;
@@ -16,12 +17,6 @@ interface PublicTributeToggleProps {
   tribute: GeneratedTribute;
   photoUrls: string[];
   tierId: TributeTier;
-}
-
-function generateSlug(petName: string): string {
-  const clean = petName.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
-  const shortId = Math.floor(1000 + Math.random() * 9000).toString();
-  return `${clean}-${shortId}`;
 }
 
 const PublicTributeToggle = ({
@@ -50,11 +45,11 @@ const PublicTributeToggle = ({
 
     setCreating(true);
     try {
-      const slug = isLegacy && customSlug.trim()
-        ? customSlug.trim().toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-")
-        : generateSlug(petName);
+      let slug = isLegacy && customSlug.trim()
+        ? slugify(customSlug.trim())
+        : generateMemorialSlug(petName, petType);
 
-      const { error } = await supabase.from("public_tributes").insert({
+      let { error } = await supabase.from("public_tributes").insert({
         slug,
         pet_name: petName,
         pet_type: petType,
@@ -68,6 +63,25 @@ const PublicTributeToggle = ({
         custom_slug: isLegacy && customSlug.trim() ? customSlug.trim() : null,
       });
 
+      // If duplicate slug, retry with suffix
+      if (error?.code === "23505" && !(isLegacy && customSlug.trim())) {
+        slug = generateMemorialSlugWithSuffix(petName, petType);
+        const retry = await supabase.from("public_tributes").insert({
+          slug,
+          pet_name: petName,
+          pet_type: petType,
+          breed: breed || null,
+          years_of_life: yearsOfLife,
+          story: tribute.story,
+          social_post: tribute.social_post || null,
+          share_card_text: tribute.share_card_text || null,
+          photo_urls: photoUrls,
+          tier_id: tierId,
+          custom_slug: null,
+        });
+        error = retry.error;
+      }
+
       if (error) {
         if (error.code === "23505") {
           toast.error("That URL is already taken. Try a different custom URL.");
@@ -79,7 +93,7 @@ const PublicTributeToggle = ({
       }
 
       const baseUrl = window.location.origin;
-      setPublicUrl(`${baseUrl}/memory/${slug}`);
+      setPublicUrl(`${baseUrl}/memorial/${slug}`);
       toast.success("Public memorial page created!");
     } catch {
       toast.error("Something went wrong. Please try again.");
