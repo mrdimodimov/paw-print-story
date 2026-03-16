@@ -9,16 +9,7 @@ interface StreamCallbacks {
   onError: (error: string) => void;
 }
 
-function generateSlug(petName: string): string {
-  const base = petName
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-")
-    .slice(0, 30);
-  const suffix = Math.random().toString(36).slice(2, 6);
-  return `${base}-${suffix}`;
-}
+// Slug generation now uses the shared slugify utility
 
 const LOCK_KEY = "vellumpet_generation_lock";
 const JOB_KEY = "vellumpet_active_job";
