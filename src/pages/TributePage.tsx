@@ -470,68 +470,69 @@ const TributePage = () => {
 
           {/* Actions */}
           {unlocked && (
-          <div className="mb-6 flex flex-wrap gap-3">
-            {!isEditing && (
-              <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
-                <Edit className="mr-1 h-4 w-4" /> Edit Story
-              </Button>
-            )}
-            {formDataRef.current && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleRegenerate}
-                disabled={regenCount >= maxRegens && maxRegens !== Infinity}
-              >
-                <RefreshCw className="mr-1 h-4 w-4" /> Regenerate
-                {maxRegens !== Infinity && (
-                  <span className="ml-1 text-xs text-muted-foreground">
-                    ({maxRegens - regenCount} left)
-                  </span>
+            <>
+              <div className="mb-6 flex flex-wrap gap-3">
+                {!isEditing && (
+                  <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
+                    <Edit className="mr-1 h-4 w-4" /> Edit Story
+                  </Button>
                 )}
-              </Button>
-            )}
-            <Button size="sm" onClick={handleDownloadPDF}>
-              <Download className="mr-1 h-4 w-4" /> Download PDF
-            </Button>
-            {currentTier.include_printable_pdf && (currentTier.id === "pack" || currentTier.id === "legacy") && (
-              <Button variant="outline" size="sm" onClick={handleDownloadMemorial}>
-                <FileText className="mr-1 h-4 w-4" /> Printable Memorial
-              </Button>
-            )}
-            {formDataRef.current && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowMemoryInput(!showMemoryInput)}
-              >
-                <Plus className="mr-1 h-4 w-4" /> Add Memory
-              </Button>
-            )}
-          </div>
-
-          {/* Add Memory Input */}
-          {showMemoryInput && (
-            <div className="mb-6 rounded-xl border border-border bg-card p-4 shadow-soft">
-              <p className="mb-2 text-sm font-medium text-foreground">
-                Add another memory to enrich the tribute
-              </p>
-              <Textarea
-                value={additionalMemory}
-                onChange={(e) => setAdditionalMemory(e.target.value)}
-                placeholder="Share another special memory..."
-                rows={3}
-              />
-              <div className="mt-3 flex gap-2">
-                <Button size="sm" onClick={handleAddMemoryAndRegenerate} disabled={!additionalMemory.trim()}>
-                  <RefreshCw className="mr-1 h-4 w-4" /> Regenerate with Memory
+                {formDataRef.current && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleRegenerate}
+                    disabled={regenCount >= maxRegens && maxRegens !== Infinity}
+                  >
+                    <RefreshCw className="mr-1 h-4 w-4" /> Regenerate
+                    {maxRegens !== Infinity && (
+                      <span className="ml-1 text-xs text-muted-foreground">
+                        ({maxRegens - regenCount} left)
+                      </span>
+                    )}
+                  </Button>
+                )}
+                <Button size="sm" onClick={handleDownloadPDF}>
+                  <Download className="mr-1 h-4 w-4" /> Download PDF
                 </Button>
-                <Button variant="outline" size="sm" onClick={() => { setShowMemoryInput(false); setAdditionalMemory(""); }}>
-                  Cancel
-                </Button>
+                {currentTier.include_printable_pdf && (currentTier.id === "pack" || currentTier.id === "legacy") && (
+                  <Button variant="outline" size="sm" onClick={handleDownloadMemorial}>
+                    <FileText className="mr-1 h-4 w-4" /> Printable Memorial
+                  </Button>
+                )}
+                {formDataRef.current && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowMemoryInput(!showMemoryInput)}
+                  >
+                    <Plus className="mr-1 h-4 w-4" /> Add Memory
+                  </Button>
+                )}
               </div>
-            </div>
-          )}
+
+              {showMemoryInput && (
+                <div className="mb-6 rounded-xl border border-border bg-card p-4 shadow-soft">
+                  <p className="mb-2 text-sm font-medium text-foreground">
+                    Add another memory to enrich the tribute
+                  </p>
+                  <Textarea
+                    value={additionalMemory}
+                    onChange={(e) => setAdditionalMemory(e.target.value)}
+                    placeholder="Share another special memory..."
+                    rows={3}
+                  />
+                  <div className="mt-3 flex gap-2">
+                    <Button size="sm" onClick={handleAddMemoryAndRegenerate} disabled={!additionalMemory.trim()}>
+                      <RefreshCw className="mr-1 h-4 w-4" /> Regenerate with Memory
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => { setShowMemoryInput(false); setAdditionalMemory(""); }}>
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </>
           )}
 
           {/* Social Post (Tier 2+) */}
