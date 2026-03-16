@@ -1,7 +1,6 @@
 /**
- * Generate an SEO-friendly slug from pet name and pet type.
- * Format: {pet-name}-{pet-type}
- * If a duplicate exists, append a short random id: {pet-name}-{pet-type}-{4hex}
+ * Generate an SEO-friendly slug.
+ * - lowercase, trim, spaces → "-", remove non-alphanumeric except "-"
  */
 export function slugify(text: string): string {
   return text
@@ -13,13 +12,25 @@ export function slugify(text: string): string {
     .replace(/^-|-$/g, "");
 }
 
-export function generateMemorialSlug(petName: string, petType: string): string {
-  const base = slugify(`${petName} ${petType}`);
-  return base || "memorial";
+/**
+ * Generate memorial slug: pet name only (e.g. "bella")
+ */
+export function generateMemorialSlug(petName: string): string {
+  return slugify(petName) || "memorial";
 }
 
+/**
+ * Fallback: pet name + pet type (e.g. "bella-golden-retriever")
+ */
+export function generateMemorialSlugWithType(petName: string, petType: string): string {
+  return slugify(`${petName} ${petType}`) || "memorial";
+}
+
+/**
+ * Final fallback: pet name + pet type + short hex (e.g. "bella-golden-retriever-4f82")
+ */
 export function generateMemorialSlugWithSuffix(petName: string, petType: string): string {
-  const base = generateMemorialSlug(petName, petType);
+  const base = generateMemorialSlugWithType(petName, petType);
   const suffix = Math.random().toString(16).slice(2, 6);
   return `${base}-${suffix}`;
 }
