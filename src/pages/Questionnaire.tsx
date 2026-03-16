@@ -464,7 +464,21 @@ const Questionnaire = () => {
           </motion.div>
         </AnimatePresence>
 
-        <p className="mt-10 text-center text-xs text-muted-foreground/70">
+        {/* Gallery opt-in — only on final step */}
+        {step === STEPS.length - 1 && (
+          <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-accent/30 p-4">
+            <Checkbox
+              checked={isPublic}
+              onCheckedChange={(checked) => setIsPublic(checked === true)}
+              className="mt-0.5"
+            />
+            <span className="text-sm text-foreground">
+              Allow this tribute to appear in the public VellumPet memorial gallery
+            </span>
+          </label>
+        )}
+
+        <p className="mt-6 text-center text-xs text-muted-foreground/70">
           Your answers are never stored or used for AI training. They are only used to generate your tribute.
         </p>
 
