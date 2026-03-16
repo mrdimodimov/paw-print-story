@@ -198,7 +198,7 @@ export async function generateTribute(
   const result = parseGeneratedOutput(fullText);
 
   // Generate URL slug
-  const slug = generateSlug(form.pet_name);
+  const slug = generateMemorialSlugWithSuffix(form.pet_name, form.pet_type);
 
   // Persist tribute to database
   let tributeId: string | undefined;
