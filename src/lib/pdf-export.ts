@@ -2,13 +2,13 @@ import jsPDF from "jspdf";
 import { BRAND } from "./brand";
 
 /**
- * Normalize text for safe PDF rendering with jsPDF's built-in fonts.
+ * Normalize text for safe PDF rendering and export.
  * - Strips emojis and unsupported Unicode symbols
  * - Converts smart/curly quotes to straight quotes
  * - Converts en/em dashes to hyphens
  * - Normalizes other special punctuation
  */
-function sanitizeForPDF(text: string): string {
+export function normalizeTributeText(text: string): string {
   return text
     // Remove emojis and miscellaneous symbols (broad Unicode ranges)
     .replace(/[\u{1F600}-\u{1F64F}]/gu, "")   // emoticons
@@ -34,6 +34,9 @@ function sanitizeForPDF(text: string): string {
     .replace(/\s{2,}/g, " ")
     .trim();
 }
+
+// Internal alias for backward compat within this file
+const sanitizeForPDF = normalizeTributeText;
 
 async function loadImageAsDataURL(url: string): Promise<string | null> {
   try {
