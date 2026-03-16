@@ -414,6 +414,7 @@ const Questionnaire = () => {
         onToneChange={(tone) => update("tone", tone)}
         currentTone={form.tone}
       />
+      <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
             <PawPrint className="h-6 w-6 text-primary" />
