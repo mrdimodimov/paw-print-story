@@ -85,7 +85,8 @@ export async function generateTribute(
   form: TributeFormData,
   tier: TierConfig,
   callbacks: StreamCallbacks,
-  previousJobId?: string
+  previousJobId?: string,
+  isPublic?: boolean
 ) {
   if (!acquireLock()) {
     callbacks.onError("A tribute is already being generated. Please wait for it to finish.");
