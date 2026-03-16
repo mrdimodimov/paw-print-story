@@ -233,7 +233,7 @@ export async function downloadMemorialPDF(
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
   doc.setTextColor(50);
-  const lines = doc.splitTextToSize(story, maxWidth);
+  const lines = doc.splitTextToSize(sanitizeForPDF(story), maxWidth);
   let y = storyStartY;
   for (const line of lines) {
     if (y > 260) break; // Keep single page for memorial
