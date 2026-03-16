@@ -40,6 +40,7 @@ const TributePage = () => {
   const [copied, setCopied] = useState(false);
   const [regenCount, setRegenCount] = useState(0);
   const [lastJobId, setLastJobId] = useState<string | undefined>();
+  const [tributeSlug, setTributeSlug] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
   const [petName, setPetName] = useState(formData?.pet_name || "");
   const [photoUrls, setPhotoUrls] = useState<string[]>(formData?.photo_urls || []);
