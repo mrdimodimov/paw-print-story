@@ -292,7 +292,7 @@ const TributePage = () => {
 
   const handleDownloadMemorial = async () => {
     if (!tribute) return;
-    await downloadMemorialPDF(petName, yearsOfLife, tribute.story, photoUrls);
+    await downloadMemorialPDF(petName, yearsOfLife, tribute.story, photoUrls, tier.id);
     toast.success("Memorial PDF downloaded!");
   };
 
