@@ -113,17 +113,43 @@ const PhotoGallery = ({ photos, petName, tier }: { photos: string[]; petName: st
 const PublicMemorialPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const [tribute, setTribute] = useState<PublicTribute | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTribute = async () => {
       if (!slug) return;
-      const { data, error } = await supabase
+
+      // Try lookup by slug first
+      let { data, error } = await supabase
         .from("public_tributes")
         .select("*")
         .eq("slug", slug)
         .maybeSingle();
+
+      // If not found and slug looks like a UUID, try by id for backward compat
+      if (!data && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug)) {
+        const result = await supabase
+          .from("public_tributes")
+          .select("*")
+          .eq("id", slug)
+          .maybeSingle();
+        data = result.data;
+        error = result.error;
+
+        // Redirect old ID URLs to slug-based URL
+        if (data) {
+          navigate(`/memorial/${data.slug}`, { replace: true });
+          return;
+        }
+      }
+
+      // Also redirect /memory/:slug to /memorial/:slug
+      if (data && location.pathname.startsWith("/memory/")) {
+        navigate(`/memorial/${data.slug}`, { replace: true });
+        return;
+      }
 
       if (error || !data) {
         toast.error("Memorial page not found");
@@ -135,7 +161,7 @@ const PublicMemorialPage = () => {
       setLoading(false);
     };
     fetchTribute();
-  }, [slug, navigate]);
+  }, [slug, navigate, location.pathname]);
 
   if (loading) {
     return (
