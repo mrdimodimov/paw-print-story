@@ -288,3 +288,14 @@ export async function loadTributeById(id: string) {
   if (error || !data) return null;
   return data;
 }
+
+export async function loadTributeBySlug(slug: string) {
+  const { data, error } = await supabase
+    .from("tributes")
+    .select("*")
+    .eq("slug", slug)
+    .single();
+
+  if (error || !data) return null;
+  return data;
+}
