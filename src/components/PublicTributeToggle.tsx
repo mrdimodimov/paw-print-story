@@ -46,8 +46,8 @@ const PublicTributeToggle = ({
     setCreating(true);
     try {
       const slug = isLegacy && customSlug.trim()
-        ? customSlug.trim().toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-")
-        : generateSlug(petName);
+        ? slugify(customSlug.trim())
+        : generateMemorialSlug(petName, petType);
 
       const { error } = await supabase.from("public_tributes").insert({
         slug,
