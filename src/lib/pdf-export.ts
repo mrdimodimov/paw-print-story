@@ -244,7 +244,7 @@ export async function downloadMemorialPDF(
   // Footer
   doc.setFontSize(10);
   doc.setTextColor(120, 100, 80);
-  doc.text("Forever in our hearts 🕊️", pageWidth / 2, 275, { align: "center" });
+  doc.text("Forever in our hearts", pageWidth / 2, 275, { align: "center" });
 
   // Watermark (basic tier only)
   if (tier === "story") {
