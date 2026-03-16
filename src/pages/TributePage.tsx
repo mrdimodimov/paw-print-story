@@ -98,7 +98,7 @@ const TributePage = () => {
         toast.error(error);
         setGenerating(false);
       },
-    }, prevJobId);
+    }, prevJobId, isPublicRef.current);
   };
 
   useEffect(() => {
