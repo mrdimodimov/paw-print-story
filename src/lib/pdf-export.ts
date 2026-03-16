@@ -25,7 +25,8 @@ export async function downloadTributePDF(
   petName: string,
   years: string,
   story: string,
-  photoUrls: string[] = []
+  photoUrls: string[] = [],
+  tier: string = "story"
 ) {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
@@ -113,10 +114,18 @@ export async function downloadTributePDF(
     yPos += 6;
   }
 
-  // Footer
-  doc.setFontSize(8);
-  doc.setTextColor(150);
-  doc.text(`Created with ${BRAND.name}`, pageWidth / 2, 285, { align: "center" });
+  // Watermark on each page (basic tier only)
+  if (tier === "story") {
+    const totalPages = doc.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      const ph = doc.internal.pageSize.getHeight();
+      doc.setFontSize(7);
+      doc.setTextColor(180, 180, 180);
+      doc.text(`🐾 Created with ${BRAND.name}`, pageWidth - margin, ph - 14, { align: "right" });
+      doc.text("vellumpet.com", pageWidth - margin, ph - 9, { align: "right" });
+    }
+  }
 
   doc.save(`${petName}-tribute.pdf`);
 }
@@ -125,7 +134,8 @@ export async function downloadMemorialPDF(
   petName: string,
   years: string,
   story: string,
-  photoUrls: string[] = []
+  photoUrls: string[] = [],
+  tier: string = "story"
 ) {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
@@ -201,6 +211,15 @@ export async function downloadMemorialPDF(
   doc.setFontSize(10);
   doc.setTextColor(120, 100, 80);
   doc.text("Forever in our hearts 🕊️", pageWidth / 2, 275, { align: "center" });
+
+  // Watermark (basic tier only)
+  if (tier === "story") {
+    const ph = doc.internal.pageSize.getHeight();
+    doc.setFontSize(7);
+    doc.setTextColor(180, 180, 180);
+    doc.text(`🐾 Created with ${BRAND.name}`, pageWidth - margin, ph - 14, { align: "right" });
+    doc.text("vellumpet.com", pageWidth - margin, ph - 9, { align: "right" });
+  }
 
   doc.save(`${petName}-memorial.pdf`);
 }
