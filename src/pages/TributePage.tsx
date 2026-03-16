@@ -81,6 +81,7 @@ const TributePage = () => {
         setEditedStory(result.story);
         setGenerating(false);
         if (result.jobId) setLastJobId(result.jobId);
+        if (result.tributeId) setTributeDbId(result.tributeId);
         if (result.slug) {
           setTributeSlug(result.slug);
           navigate(`/tribute/s/${result.slug}?tier=${tierConfig.id}`, { replace: true });
