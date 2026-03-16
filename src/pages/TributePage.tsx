@@ -94,10 +94,17 @@ const TributePage = () => {
   };
 
   useEffect(() => {
-    // 1. If we have a tribute ID in the URL, load from database
-    if (tributeIdParam) {
+    const lookupParam = slugParam || tributeIdParam;
+    const isSlugLookup = !!slugParam;
+
+    // 1. If we have a tribute param in the URL, load from database
+    if (lookupParam) {
       setLoading(true);
-      loadTributeById(tributeIdParam).then((data) => {
+      const loader = isSlugLookup
+        ? loadTributeBySlug(lookupParam)
+        : loadTributeById(lookupParam);
+
+      loader.then((data) => {
         if (!data) {
           toast.error("Tribute not found");
           navigate("/");
@@ -105,6 +112,7 @@ const TributePage = () => {
         }
         setTribute({
           story: data.tribute_story,
+          title: (data as any).title || undefined,
           social_post: data.social_post || undefined,
           share_card_text: data.share_card_text || undefined,
         });
@@ -114,6 +122,7 @@ const TributePage = () => {
         setYearsOfLife(data.years_of_life || "");
         setPetType(data.pet_type || "dog");
         setBreed(data.breed);
+        setTributeSlug((data as any).slug || undefined);
         if (data.form_data) {
           formDataRef.current = data.form_data as unknown as TributeFormData;
         }
