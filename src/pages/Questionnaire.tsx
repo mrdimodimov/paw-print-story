@@ -69,6 +69,7 @@ const Questionnaire = () => {
   const tierConfig = TIERS.find((t) => t.id === tier) || TIERS[0];
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<TributeFormData>(defaultForm);
+  const [isPublic, setIsPublic] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
