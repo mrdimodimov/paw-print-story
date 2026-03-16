@@ -196,7 +196,7 @@ export async function downloadMemorialPDF(
   doc.text(`In Loving Memory`, pageWidth / 2, 50, { align: "center" });
 
   doc.setFontSize(20);
-  doc.text(petName, pageWidth / 2, 62, { align: "center" });
+  doc.text(sanitizeForPDF(petName), pageWidth / 2, 62, { align: "center" });
 
   // Years
   if (years) {
