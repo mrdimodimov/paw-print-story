@@ -286,7 +286,7 @@ const TributePage = () => {
 
   const handleDownloadPDF = async () => {
     if (!tribute) return;
-    await downloadTributePDF(petName, yearsOfLife, tribute.story, photoUrls);
+    await downloadTributePDF(petName, yearsOfLife, tribute.story, photoUrls, tier.id);
     toast.success("PDF downloaded!");
   };
 
