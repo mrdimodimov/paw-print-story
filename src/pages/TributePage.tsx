@@ -412,7 +412,7 @@ const TributePage = () => {
             )}
             <p className="mb-6 text-center text-sm text-muted-foreground">{currentTier.name}</p>
 
-            {isEditing ? (
+            {isEditing && unlocked ? (
               <div className="space-y-4">
                 <Textarea
                   value={editedStory}
@@ -431,12 +431,42 @@ const TributePage = () => {
                   </Button>
                 </div>
               </div>
-            ) : (
+            ) : unlocked ? (
               <div className="whitespace-pre-line font-body leading-relaxed text-foreground">
                 {tribute.story}
               </div>
+            ) : (
+              /* Paywall preview */
+              <div className="relative">
+                <div className="whitespace-pre-line font-body leading-relaxed text-foreground">
+                  {tribute.story.slice(0, Math.floor(tribute.story.length * 0.45))}
+                </div>
+                {/* Gradient fade */}
+                <div
+                  className="pointer-events-none absolute bottom-0 left-0 right-0 h-32"
+                  style={{
+                    background: "linear-gradient(to bottom, hsl(var(--card) / 0), hsl(var(--card) / 1))",
+                  }}
+                />
+              </div>
             )}
           </div>
+
+          {/* Paywall CTA */}
+          {!unlocked && (
+            <div className="mb-6 rounded-xl border border-primary/30 bg-accent/30 p-8 text-center shadow-soft">
+              <Lock className="mx-auto mb-4 h-8 w-8 text-primary/70" />
+              <h3 className="mb-2 font-display text-xl font-semibold text-foreground">
+                Continue reading {petName ? `${petName}'s` : "your pet's"} full tribute
+              </h3>
+              <p className="mx-auto mb-6 max-w-md text-sm text-muted-foreground">
+                Unlock the full memorial story, shareable card, and printable tribute.
+              </p>
+              <Button size="lg" onClick={() => setUnlocked(true)}>
+                Unlock Full Tribute
+              </Button>
+            </div>
+          )}
 
           {/* Actions */}
           <div className="mb-6 flex flex-wrap gap-3">
