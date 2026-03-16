@@ -28,6 +28,9 @@ const TributePage = () => {
   const formDataRef = useRef<TributeFormData | null>(
     (location.state as { formData?: TributeFormData })?.formData || null
   );
+  const isPublicRef = useRef<boolean>(
+    (location.state as { isPublic?: boolean })?.isPublic || false
+  );
   const formData = formDataRef.current;
 
   const [tribute, setTribute] = useState<GeneratedTribute | null>(null);

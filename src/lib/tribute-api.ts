@@ -226,6 +226,7 @@ export async function generateTribute(
       share_card_text: result.share_card_text || null,
       photo_urls: form.photo_urls,
       form_data: form as any,
+      is_public: isPublic || false,
     }).select("id, slug").single();
 
     if (!error && data) {
