@@ -251,7 +251,7 @@ export async function downloadMemorialPDF(
     const ph = doc.internal.pageSize.getHeight();
     doc.setFontSize(7);
     doc.setTextColor(180, 180, 180);
-    doc.text(`🐾 Created with ${BRAND.name}`, pageWidth - margin, ph - 14, { align: "right" });
+    doc.text(`Created with ${BRAND.name}`, pageWidth - margin, ph - 14, { align: "right" });
     doc.text("vellumpet.com", pageWidth - margin, ph - 9, { align: "right" });
   }
 
