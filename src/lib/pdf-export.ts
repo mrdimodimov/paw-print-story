@@ -164,7 +164,8 @@ export async function downloadTributePDF(
     }
   }
 
-  doc.save(`${petName}-tribute.pdf`);
+  const filename = `${petName.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-")}-tribute-vellumpet.pdf`;
+  doc.save(filename);
 }
 
 /**
