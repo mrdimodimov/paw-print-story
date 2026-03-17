@@ -66,8 +66,8 @@ const ExampleTribute = () => {
           transition={{ duration: 0.6 }}
           className="mb-10 text-center">
           
-          <h1 className="mb-4 font-display text-3xl font-bold leading-tight text-foreground md:text-4xl">
-            Bella — {exampleTitle}
+<h1 className="mb-4 font-display text-3xl font-bold leading-tight text-foreground md:text-4xl">
+            Luna — {exampleTitle}
           </h1>
           <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
             <span className="font-medium text-foreground">Luna</span>
