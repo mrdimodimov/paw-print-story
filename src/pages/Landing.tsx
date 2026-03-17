@@ -11,8 +11,8 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+  AccordionTrigger } from
+"@/components/ui/accordion";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -179,17 +179,17 @@ const Landing = () => {
               The Dog Who Made Every Homecoming a Celebration
             </p>
             <h3 className="mb-6 text-center font-display text-xl font-semibold text-foreground">
-              In Loving Memory of Bella
+              In Loving Memory of Luna   
             </h3>
             <div className="space-y-4 font-body text-sm leading-relaxed text-foreground/90">
               <p>
-                Bella had a way of turning the simplest moments into something special. Every afternoon she waited by the front window, tail wagging the moment she heard the car pull into the driveway.
+                Luna had a way of turning the simplest moments into something special. Every afternoon she waited by the front window, tail wagging the moment she heard the car pull into the driveway.
               </p>
               <p>
                 She loved long walks through the park, especially when the wind carried new smells and the promise of adventure. But her favorite place was always close to her family — curled up on the couch, quietly watching the room as if she knew she belonged exactly there.
               </p>
               <p>
-                Bella wasn't just a pet. She was part of the rhythm of everyday life — the soft footsteps behind you in the kitchen, the excited greeting at the door, the quiet comfort of her presence on difficult days.
+                Luna wasn't just a pet. She was part of the rhythm of everyday life — the soft footsteps behind you in the kitchen, the excited greeting at the door, the quiet comfort of her presence on difficult days.
               </p>
               <p>
                 Those small moments are what will be remembered most.
@@ -208,8 +208,8 @@ const Landing = () => {
             </p>
             <Link
               to="/example-tribute"
-              className="inline-block text-sm font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
-            >
+              className="inline-block text-sm font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors">
+              
               See the full example tribute →
             </Link>
             <p className="mb-2 font-display text-lg font-semibold text-foreground">
@@ -237,8 +237,8 @@ const Landing = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="space-y-4"
-          >
+            className="space-y-4">
+            
             <p className="font-display text-xl leading-relaxed text-foreground md:text-2xl">
               Pets are family. Their memories deserve more than a few photos on a phone.
             </p>
@@ -269,35 +269,35 @@ const Landing = () => {
                 <>
                   {/* Mobile order */}
                   <div className="contents md:hidden">
-                    {mobileTiers.map((tier, i) => (
-                      <motion.div
-                        key={tier.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.1, duration: 0.5 }}
-                        viewport={{ once: true }}
-                      >
+                    {mobileTiers.map((tier, i) =>
+                    <motion.div
+                      key={tier.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.1, duration: 0.5 }}
+                      viewport={{ once: true }}>
+                      
                         <TierCard tier={tier} onSelect={() => navigate(`/create?tier=${tier.id}`)} />
                       </motion.div>
-                    ))}
+                    )}
                   </div>
                   {/* Desktop order */}
                   <div className="contents hidden md:contents">
-                    {desktopTiers.map((tier, i) => (
-                      <motion.div
-                        key={tier.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.1, duration: 0.5 }}
-                        viewport={{ once: true }}
-                        className="hidden md:block"
-                      >
+                    {desktopTiers.map((tier, i) =>
+                    <motion.div
+                      key={tier.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.1, duration: 0.5 }}
+                      viewport={{ once: true }}
+                      className="hidden md:block">
+                      
                         <TierCard tier={tier} onSelect={() => navigate(`/create?tier=${tier.id}`)} />
                       </motion.div>
-                    ))}
+                    )}
                   </div>
-                </>
-              );
+                </>);
+
             })()}
           </div>
           <p className="mt-8 text-center text-sm text-muted-foreground">
@@ -394,8 +394,8 @@ const Landing = () => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => navigate("/create")}
-              >
+                onClick={() => navigate("/create")}>
+                
                 <PawPrint className="mr-2 h-4 w-4" />
                 Create a Beautiful Tribute for Your Pet
               </Button>
@@ -406,8 +406,8 @@ const Landing = () => {
           </p>
         </div>
       </footer>
-    </div>
-  );
+    </div>);
+
 };
 
 export default Landing;
