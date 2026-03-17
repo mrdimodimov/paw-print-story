@@ -52,7 +52,7 @@ export interface TierConfig {
 export const TIERS: TierConfig[] = [
   {
     id: "story",
-    name: "Quick Tribute",
+    name: "Simple Tribute",
     price: 19,
     description: "A simple, heartfelt tribute",
     micro_text: "For a simple way to remember your pet",
