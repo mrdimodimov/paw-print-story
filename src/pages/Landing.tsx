@@ -31,7 +31,6 @@ const Landing = () => {
           <Button
             size="sm"
             onClick={() => navigate("/create")}>
-            
             Create Your Tribute
           </Button>
         </div>
@@ -44,7 +43,6 @@ const Landing = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}>
-            
             <div className="mb-6 flex justify-center">
               <div className="rounded-full bg-accent p-4">
                 <Heart className="h-8 w-8 text-primary" />
@@ -60,11 +58,10 @@ const Landing = () => {
               size="lg"
               className="px-8 py-6 text-lg shadow-glow"
               onClick={() => navigate("/create")}>
-              
               <PawPrint className="mr-2 h-5 w-5" />
               Create Your Tribute
             </Button>
-            <p className="mt-4 text-sm text-muted-foreground">Takes about 3 minutes.</p>
+            <p className="mt-4 text-sm text-muted-foreground">Takes less than 2 minutes · No writing needed</p>
           </motion.div>
         </div>
       </section>
@@ -77,7 +74,6 @@ const Landing = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}>
-            
             <h2 className="mb-6 font-display text-3xl font-bold text-foreground">
               Remember Them
             </h2>
@@ -97,7 +93,6 @@ const Landing = () => {
                 transition={{ delay: 0.2 + i * 0.15, duration: 0.4 }}
                 viewport={{ once: true }}
                 className="font-display text-lg italic text-foreground/80 font-extrabold">
-                
                   {prompt}
                 </motion.p>
               )}
@@ -105,15 +100,17 @@ const Landing = () => {
             <p className="mb-4 text-base font-medium text-foreground/70">
               These small memories are what make a tribute truly meaningful.
             </p>
-            <p className="mb-8 text-base text-muted-foreground">
+            <p className="mb-4 text-base text-muted-foreground">
               When you're ready, we'll help turn those memories into a beautiful tribute.
+            </p>
+            <p className="mb-8 text-base font-semibold text-foreground/80">
+              Start your tribute and preserve these memories forever.
             </p>
             <Button
               size="lg"
               variant="outline"
               className="px-8 py-5 text-base"
               onClick={() => navigate("/create")}>
-              
               <PawPrint className="mr-2 h-5 w-5" />
               Start a Tribute
             </Button>
@@ -121,6 +118,7 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* How It Works */}
       <section className="bg-secondary/40 tribute-section">
         <div className="tribute-container text-center">
           <h2 className="mb-12 text-3xl font-bold text-foreground">
@@ -128,9 +126,9 @@ const Landing = () => {
           </h2>
           <div className="grid gap-8 md:grid-cols-3">
             {[
-            { icon: PawPrint, title: "Tell Us About Your Pet", desc: "Answer a few simple questions about their personality, habits, and favorite memories." },
-            { icon: BookOpen, title: "Generate Your Tribute", desc: "VellumPet turns your memories into a heartfelt tribute story." },
-            { icon: FileText, title: "Share or Download", desc: "Download your tribute or share a beautiful memorial page with friends and family." }].
+            { icon: PawPrint, title: "Share a Few Memories", desc: "Answer a few simple questions about your pet's personality and favorite moments." },
+            { icon: BookOpen, title: "We Write Your Tribute", desc: "VellumPet turns your memories into a heartfelt tribute story." },
+            { icon: FileText, title: "Download or Share It", desc: "Download your tribute or share a beautiful memorial page with friends and family." }].
             map((step, i) =>
             <motion.div
               key={step.title}
@@ -139,7 +137,6 @@ const Landing = () => {
               transition={{ delay: i * 0.15, duration: 0.5 }}
               viewport={{ once: true }}
               className="flex flex-col items-center">
-              
                 <div className="mb-4 rounded-full bg-accent p-4">
                   <step.icon className="h-6 w-6 text-primary" />
                 </div>
@@ -161,10 +158,12 @@ const Landing = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}>
-            
             <h2 className="mb-4 font-display text-3xl font-bold text-foreground">
               See What a Tribute Looks Like
             </h2>
+            <p className="mb-3 text-sm font-medium text-primary/80">
+              Created by a pet owner in under 2 minutes
+            </p>
             <p className="mb-10 text-base text-muted-foreground">
               Here is an example tribute created from just a few memories.
             </p>
@@ -176,7 +175,6 @@ const Landing = () => {
             transition={{ delay: 0.15, duration: 0.6 }}
             viewport={{ once: true }}
             className="mb-8 rounded-xl border border-border bg-card p-10 text-left shadow-card md:p-12">
-            
             <p className="mb-2 text-center font-display text-lg italic text-primary/80">
               The Dog Who Made Every Homecoming a Celebration
             </p>
@@ -205,7 +203,6 @@ const Landing = () => {
             transition={{ delay: 0.3, duration: 0.5 }}
             viewport={{ once: true }}
             className="space-y-6">
-            
             <p className="text-sm italic text-muted-foreground">
               Created from answers that took less than 5 minutes.
             </p>
@@ -225,7 +222,6 @@ const Landing = () => {
               size="lg"
               className="px-8 py-5 text-base shadow-glow"
               onClick={() => navigate("/create")}>
-              
               <PawPrint className="mr-2 h-5 w-5" />
               Create a Tribute for Your Pet
             </Button>
@@ -233,15 +229,36 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* Emotional pre-pricing block */}
+      <section className="tribute-section">
+        <div className="tribute-container max-w-2xl text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="space-y-4"
+          >
+            <p className="font-display text-xl leading-relaxed text-foreground md:text-2xl">
+              Pets are family. Their memories deserve more than a few photos on a phone.
+            </p>
+            <p className="text-base text-muted-foreground">
+              VellumPet helps you turn those memories into something lasting.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Pricing */}
       <section className="tribute-section">
         <div className="tribute-container">
           <div className="mb-12 text-center">
-            <p className="mb-3 font-display text-base italic text-muted-foreground">
-              Every pet deserves to be remembered beautifully.
-            </p>
             <h2 className="mb-4 text-3xl font-bold text-foreground">
-              Choose Your Tribute
+              Choose How You Want to Remember Your Pet
             </h2>
+            <p className="text-base text-muted-foreground">
+              Create something meaningful, lasting, and truly personal.
+            </p>
           </div>
           {/* Mobile: Tier 2 first, then 1, then 3 */}
           <div className="grid gap-6 md:grid-cols-3">
@@ -284,7 +301,10 @@ const Landing = () => {
             })()}
           </div>
           <p className="mt-8 text-center text-sm text-muted-foreground">
-            Every tribute can be edited before downloading.
+            Your tribute is created in seconds and can be edited before you download or share.
+          </p>
+          <p className="mt-2 text-center text-sm text-muted-foreground">
+            If you're not satisfied, we'll make it right.
           </p>
           <div className="mt-6">
             <GuaranteeBadge />
@@ -321,7 +341,7 @@ const Landing = () => {
                   How long does it take to create a tribute?
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground leading-relaxed">
-                  The questionnaire takes about 5 minutes. Your tribute is generated within seconds
+                  The questionnaire takes about 2 minutes. Your tribute is generated within seconds
                   after you submit your answers.
                 </AccordionContent>
               </AccordionItem>
@@ -377,7 +397,7 @@ const Landing = () => {
                 onClick={() => navigate("/create")}
               >
                 <PawPrint className="mr-2 h-4 w-4" />
-                Create Your Tribute
+                Create a Beautiful Tribute for Your Pet
               </Button>
             </div>
           </div>
@@ -386,8 +406,8 @@ const Landing = () => {
           </p>
         </div>
       </footer>
-    </div>);
-
+    </div>
+  );
 };
 
 export default Landing;
