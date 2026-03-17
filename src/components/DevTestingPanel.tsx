@@ -10,15 +10,15 @@ import {
 import type { TributeFormData, TributeStyle } from "@/lib/types";
 
 const EXAMPLE_DATA: Partial<TributeFormData> = {
-  pet_name: "Bella",
+  pet_name: "Milo",
   pet_type: "Dog",
   breed: "Golden Retriever",
-  years_of_life: "2012–2024",
+  years_of_life: "2012–2026",
   owner_name: "Emma",
   personality_traits: ["Gentle", "Playful", "Loyal"],
   personality_description:
-    "Bella loved carrying socks around the house and greeting everyone at the door with a toy.",
-  memories: ["She waited every evening by the window for her dad to come home."],
+    "Milo loved carrying socks around the house and greeting everyone at the door with a toy.",
+  memories: ["He waited every evening by the window for his dad to come home."],
   special_habits: "Slept on the same corner of the couch every night.",
   favorite_activities: "Swimming in the lake and chasing tennis balls.",
   favorite_people_or_animals: "Followed the younger brother everywhere.",
