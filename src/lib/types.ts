@@ -94,7 +94,7 @@ export const TIERS: TierConfig[] = [
   },
   {
     id: "legacy",
-    name: "Everlasting Legacy Page",
+    name: "Legacy Memorial Page",
     price: 79,
     label: "Premium Memorial Experience",
     description: "A lasting online memorial for your pet",

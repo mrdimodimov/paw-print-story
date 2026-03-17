@@ -59,7 +59,7 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
         className={`w-full ${tier.popular ? "shadow-glow" : ""}`}
         onClick={onSelect}
       >
-        {tier.id === "story" ? "Create Tribute" : tier.id === "pack" ? "Create & Share Tribute" : "Create Legacy Page"}
+        {tier.id === "story" ? "Create Tribute" : tier.id === "pack" ? "Create & Share Tribute" : "Create Legacy Memorial"}
       </Button>
 
       {tier.micro_text && (
