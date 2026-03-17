@@ -71,6 +71,7 @@ const Questionnaire = () => {
   const [form, setForm] = useState<TributeFormData>(defaultForm);
   const [isPublic, setIsPublic] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [email, setEmail] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const update = <K extends keyof TributeFormData>(key: K, value: TributeFormData[K]) => {
