@@ -88,13 +88,22 @@ const TributePage = () => {
       onDelta: (text) => {
         setStreamingText((prev) => prev + text);
       },
-      onDone: (result) => {
+      onDone: async (result) => {
         setTribute(result);
         setEditedStory(result.story);
         setGenerating(false);
         setJustGenerated(true);
         if (result.jobId) setLastJobId(result.jobId);
         if (result.tributeId) setTributeDbId(result.tributeId);
+        // Save pre-generation email if provided
+        if (preEmail.current && result.tributeId) {
+          try {
+            await supabase.from("tribute_emails" as any).insert({
+              email: preEmail.current,
+              tribute_id: result.tributeId,
+            });
+          } catch { /* non-critical */ }
+        }
         if (result.slug) {
           setTributeSlug(result.slug);
           navigate(`/tribute/s/${result.slug}?tier=${tierConfig.id}`, { replace: true });
