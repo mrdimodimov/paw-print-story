@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import type { GeneratedTribute, TributeTier } from "@/lib/types";
-import { generateMemorialSlug, generateMemorialSlugWithType, generateMemorialSlugWithSuffix, slugify } from "@/lib/slugify";
+import { generateMemorialSlug, generateMemorialSlugWithSuffix, slugify } from "@/lib/slugify";
 
 interface PublicTributeToggleProps {
   petName: string;
@@ -48,7 +48,7 @@ const PublicTributeToggle = ({
     try {
       let slug = isLegacy && customSlug.trim()
         ? slugify(customSlug.trim())
-        : generateMemorialSlug(petName);
+        : generateMemorialSlug(petName, { yearsOfLife, title: tribute.title });
 
       let { error } = await supabase.from("public_tributes").insert({
         slug,
@@ -64,9 +64,9 @@ const PublicTributeToggle = ({
         custom_slug: isLegacy && customSlug.trim() ? customSlug.trim() : null,
       });
 
-      // If duplicate slug, retry with pet type
+      // If duplicate slug, retry with suffix
       if (error?.code === "23505" && !(isLegacy && customSlug.trim())) {
-        slug = generateMemorialSlugWithType(petName, petType);
+        slug = generateMemorialSlugWithSuffix(slug);
         const retry = await supabase.from("public_tributes").insert({
           slug, pet_name: petName, pet_type: petType, breed: breed || null,
           years_of_life: yearsOfLife, story: tribute.story,
@@ -74,18 +74,6 @@ const PublicTributeToggle = ({
           photo_urls: photoUrls, tier_id: tierId, custom_slug: null,
         });
         error = retry.error;
-      }
-
-      // If still duplicate, retry with suffix
-      if (error?.code === "23505" && !(isLegacy && customSlug.trim())) {
-        slug = generateMemorialSlugWithSuffix(petName, petType);
-        const retry2 = await supabase.from("public_tributes").insert({
-          slug, pet_name: petName, pet_type: petType, breed: breed || null,
-          years_of_life: yearsOfLife, story: tribute.story,
-          social_post: tribute.social_post || null, share_card_text: tribute.share_card_text || null,
-          photo_urls: photoUrls, tier_id: tierId, custom_slug: null,
-        });
-        error = retry2.error;
       }
 
       if (error) {
