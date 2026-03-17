@@ -19,7 +19,7 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
       {tier.popular && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           <span className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
-            <Star className="h-3 w-3" /> Most Popular
+            ⭐ Most Loved Option
           </span>
         </div>
       )}
