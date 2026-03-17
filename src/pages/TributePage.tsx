@@ -622,7 +622,7 @@ const TributePage = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    const url = `${window.location.origin}/tribute/s/${tributeSlug}`;
+                    const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
                     const text = `In Loving Memory of ${petName}`;
                     window.open(`https://x.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer,width=600,height=400");
                   }}

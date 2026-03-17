@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BRAND } from "@/lib/brand";
 import { Globe, Link as LinkIcon, Copy, Check, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
