@@ -97,8 +97,7 @@ const PublicTributeToggle = ({
         return;
       }
 
-      const baseUrl = window.location.origin;
-      setPublicUrl(`${baseUrl}/memorial/${slug}`);
+      setPublicUrl(`${BRAND.baseUrl}/memorial/${slug}`);
       toast.success("Public memorial page created!");
     } catch {
       toast.error("Something went wrong. Please try again.");

@@ -189,7 +189,7 @@ const PublicMemorialPage = () => {
 
   if (!tribute) return null;
 
-  const pageUrl = typeof window !== "undefined" ? window.location.href : "";
+  const pageUrl = `${BRAND.baseUrl}/memorial/${tribute.slug}`;
   const isLegacy = tribute.tier_id === "legacy";
   const isPack = tribute.tier_id === "pack";
 
