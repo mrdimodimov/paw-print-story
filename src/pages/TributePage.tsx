@@ -88,6 +88,7 @@ const TributePage = () => {
         setTribute(result);
         setEditedStory(result.story);
         setGenerating(false);
+        setJustGenerated(true);
         if (result.jobId) setLastJobId(result.jobId);
         if (result.tributeId) setTributeDbId(result.tributeId);
         if (result.slug) {
