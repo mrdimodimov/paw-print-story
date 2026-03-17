@@ -601,7 +601,7 @@ const TributePage = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    const url = `${window.location.origin}/tribute/s/${tributeSlug}`;
+                    const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
                     navigator.clipboard.writeText(url);
                     toast.success("Link copied!");
                   }}
