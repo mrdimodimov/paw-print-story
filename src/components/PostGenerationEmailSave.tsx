@@ -23,12 +23,28 @@ const PostGenerationEmailSave = ({ tributeId, petName }: PostGenerationEmailSave
     }
     setSaving(true);
     try {
-      await supabase.from("tribute_emails" as any).insert({
+      const { data } = await supabase.from("tribute_emails").insert({
         email: trimmed,
         tribute_id: tributeId || null,
-      });
+      }).select("id").single();
+
       setSaved(true);
       toast.success("Your tribute has been saved!");
+
+      // Trigger nurture email sequence
+      if (data?.id && tributeId) {
+        try {
+          await supabase.functions.invoke("send-nurture-email", {
+            body: {
+              action: "trigger",
+              tribute_email_id: data.id,
+              email: trimmed,
+              tribute_id: tributeId,
+              pet_name: petName,
+            },
+          });
+        } catch { /* non-critical */ }
+      }
     } catch {
       toast.error("Something went wrong. Please try again.");
     } finally {
