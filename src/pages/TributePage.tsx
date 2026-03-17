@@ -378,24 +378,63 @@ const TributePage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {/* Photo Gallery Preview */}
-          {photoUrls.length > 0 && (
+          {/* Hero Header */}
+          <div className="mb-8 rounded-2xl border border-border bg-card p-8 text-center shadow-card md:p-10">
+            {/* Hero Photo */}
+            {photoUrls.length > 0 && (
+              <div className="mb-6 flex justify-center">
+                <img
+                  src={photoUrls[0]}
+                  alt={`${petName || "Pet"} memorial photo`}
+                  className="h-36 w-36 rounded-full border-4 border-accent object-cover shadow-soft md:h-44 md:w-44"
+                />
+              </div>
+            )}
+
+            {/* Pet Name */}
+            <h1 className="font-display text-3xl font-bold text-foreground md:text-4xl">
+              {tribute.title || (petName ? `${petName}'s Tribute` : "A Tribute")}
+            </h1>
+
+            {/* Years */}
+            {yearsOfLife && (
+              <p className="mt-2 text-base text-muted-foreground">
+                {yearsOfLife}
+              </p>
+            )}
+
+            {/* Short quote */}
+            {tribute.share_card_text && (
+              <p className="mx-auto mt-4 max-w-md font-display text-sm italic leading-relaxed text-muted-foreground">
+                "{tribute.share_card_text.length > 140
+                  ? tribute.share_card_text.slice(0, 140).trim() + "…"
+                  : tribute.share_card_text}"
+              </p>
+            )}
+
+            {/* Reactions */}
+            {tributeDbId && (
+              <div className="mt-6 border-t border-border pt-6">
+                <TributeReactions tributeId={tributeDbId} petName={petName} />
+              </div>
+            )}
+          </div>
+
+          {/* Additional Photos (if more than 1) */}
+          {photoUrls.length > 1 && (
             <div className="mb-6 rounded-xl border border-border bg-card p-5 shadow-soft">
               <div className="mb-3 flex items-center gap-2">
                 <Image className="h-4 w-4 text-primary" />
                 <h3 className="font-display text-sm font-semibold text-foreground">
-                  {petName ? `${petName}'s Photos` : "Pet Photos"}
+                  More Photos
                 </h3>
-                <span className="text-xs text-muted-foreground">
-                  — Photos help make your tribute personal and memorable.
-                </span>
               </div>
               <div className="flex flex-wrap gap-3">
-                {photoUrls.map((url, i) => (
+                {photoUrls.slice(1).map((url, i) => (
                   <img
                     key={i}
                     src={url}
-                    alt={`${petName || "Pet"} photo ${i + 1}`}
+                    alt={`${petName || "Pet"} photo ${i + 2}`}
                     className="h-20 w-20 rounded-lg border border-border object-cover shadow-sm"
                   />
                 ))}
@@ -405,15 +444,6 @@ const TributePage = () => {
 
           {/* Tribute Story */}
           <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
-            {tribute.title ? (
-              <h2 className="mb-4 text-center font-display text-3xl font-bold leading-tight text-foreground md:text-4xl">
-                {tribute.title}
-              </h2>
-            ) : (
-              <h2 className="mb-1 font-display text-2xl font-bold text-foreground">
-                {petName ? `${petName}'s Tribute` : "Your Pet's Tribute"}
-              </h2>
-            )}
             <p className="mb-6 text-center text-sm text-muted-foreground">{currentTier.name}</p>
 
             {isEditing && unlocked ? (
@@ -633,12 +663,7 @@ const TributePage = () => {
             </div>
           )}
 
-          {/* Reactions */}
-          {tributeDbId && (
-            <div className="mb-6">
-              <TributeReactions tributeId={tributeDbId} />
-            </div>
-          )}
+          {/* Reactions are now in the hero header */}
 
           {/* Leave a Memory */}
           {tributeDbId && (
