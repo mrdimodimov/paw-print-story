@@ -233,7 +233,7 @@ export default function MemoryTimeline({
               See every memory beautifully preserved in a timeline
             </p>
             <Button size="lg" onClick={onUnlock}>
-              Unlock Full Tribute
+              Unlock My Tribute
             </Button>
           </div>
         </div>

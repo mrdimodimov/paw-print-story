@@ -549,17 +549,79 @@ const TributePage = () => {
           )}
 
           {!unlocked && (
-            <div className="mb-6 rounded-xl border border-primary/30 bg-accent/30 p-8 text-center shadow-soft">
-              <Lock className="mx-auto mb-4 h-8 w-8 text-primary/70" />
-              <h3 className="mb-2 font-display text-xl font-semibold text-foreground">
-                Continue reading {petName ? `${petName}'s` : "your pet's"} full tribute
-              </h3>
-              <p className="mx-auto mb-6 max-w-md text-sm text-muted-foreground">
-                Unlock the full memorial story, shareable card, and printable tribute.
-              </p>
-              <Button size="lg" onClick={() => setUnlocked(true)}>
-                Unlock Full Tribute
-              </Button>
+            <div className="mb-6 rounded-xl border border-primary/20 bg-card p-8 shadow-card md:p-10">
+              {/* Header */}
+              <div className="mb-6 text-center">
+                <PawPrint className="mx-auto mb-3 h-7 w-7 text-primary/70" />
+                <h3 className="mb-1 font-display text-2xl font-semibold text-foreground">
+                  Your tribute is ready
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  A beautiful way to remember {petName || "your pet"}, forever.
+                </p>
+              </div>
+
+              {/* Preview snippet */}
+              <div className="mx-auto mb-6 max-w-md rounded-lg border border-border bg-accent/20 p-5">
+                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Preview of your tribute
+                </p>
+                <p className="mb-1 font-display text-base font-semibold text-foreground">
+                  {petName}{yearsOfLife ? ` · ${yearsOfLife}` : ""}
+                </p>
+                <p className="text-sm leading-relaxed text-muted-foreground italic">
+                  {tribute.story.split(/\.\s+/).slice(0, 2).join(". ").trim()}
+                  {tribute.story.split(/\.\s+/).length > 2 ? "…" : ""}
+                </p>
+              </div>
+
+              {/* Value section */}
+              <div className="mx-auto mb-6 max-w-sm">
+                <p className="mb-3 text-center text-sm font-medium text-foreground">
+                  With this, you'll receive:
+                </p>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  {[
+                    "Your full tribute story",
+                    "A shareable memorial page",
+                    "A printable keepsake",
+                    "A tribute you can revisit anytime",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2">
+                      <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Price + trust */}
+              <div className="mb-4 text-center">
+                <p className="text-2xl font-semibold text-foreground">
+                  ${currentTier.price}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  One-time payment — no subscription
+                </p>
+              </div>
+
+              {/* Trust signals */}
+              <div className="mx-auto mb-5 flex max-w-xs flex-col items-center gap-1 text-center text-xs text-muted-foreground">
+                <span>Edit anytime after purchase</span>
+                <span>Instant access after checkout</span>
+                <span className="italic">If it doesn't feel right, we'll make it right</span>
+              </div>
+
+              {/* CTA */}
+              <div className="text-center">
+                <Button size="lg" className="px-10 text-base" onClick={() => setUnlocked(true)}>
+                  <Lock className="mr-2 h-4 w-4" />
+                  Unlock My Tribute
+                </Button>
+                <p className="mt-3 text-xs text-muted-foreground">
+                  Takes less than 2 minutes · Secure checkout
+                </p>
+              </div>
             </div>
           )}
 
