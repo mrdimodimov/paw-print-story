@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock } from "lucide-react";
+import MemoryTimeline from "@/components/MemoryTimeline";
 import TributeShareCard from "@/components/TributeShareCard";
 import TributeWritingExperience from "@/components/TributeWritingExperience";
 import PublicTributeToggle from "@/components/PublicTributeToggle";
@@ -490,7 +491,19 @@ const TributePage = () => {
             )}
           </div>
 
-          {/* Paywall CTA */}
+          {/* Memory Timeline */}
+          {tribute && (
+            <MemoryTimeline
+              story={tribute.story}
+              petName={petName || "Your Pet"}
+              yearsOfLife={yearsOfLife}
+              photoUrls={photoUrls}
+              tierId={currentTier.id}
+              unlocked={unlocked}
+              onUnlock={() => setUnlocked(true)}
+            />
+          )}
+
           {!unlocked && (
             <div className="mb-6 rounded-xl border border-primary/30 bg-accent/30 p-8 text-center shadow-soft">
               <Lock className="mx-auto mb-4 h-8 w-8 text-primary/70" />
