@@ -612,7 +612,7 @@ const TributePage = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    const url = `${window.location.origin}/tribute/s/${tributeSlug}`;
+                    const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
                     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank", "noopener,noreferrer,width=600,height=400");
                   }}
                 >
