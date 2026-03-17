@@ -70,14 +70,6 @@ export default function MemoriesGallery() {
   const getTributeUrl = (t: TributeCard) =>
     t.slug ? `/memorial/${t.slug}` : `/tribute/${t.id}`;
 
-  const CtaBlock = () => (
-    <div className="text-center">
-      <Button size="lg" onClick={() => navigate("/create")}>
-        <Sparkles className="mr-2 h-4 w-4" /> Create a Tribute for Your Pet
-      </Button>
-    </div>
-  );
-
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/50">
@@ -99,13 +91,27 @@ export default function MemoriesGallery() {
         <p className="mx-auto mb-6 max-w-xl text-center text-muted-foreground">
           Heartfelt memorial tributes celebrating the pets who changed our lives.
         </p>
+
+        {/* Emotional gallery CTA */}
+        <div className="mx-auto mb-10 max-w-2xl rounded-xl border border-border bg-accent/20 p-6 text-center">
+          <p className="mb-1 font-display text-base font-semibold text-foreground">
+            Each of these tributes was created by someone who loved their pet deeply.
+          </p>
+          <p className="mb-4 text-sm text-muted-foreground">
+            You can create one too.
+          </p>
+          <Button size="lg" onClick={() => navigate("/create")}>
+            <PawPrint className="mr-2 h-4 w-4" />
+            Create a Tribute
+          </Button>
+          <p className="mt-3 text-xs text-muted-foreground">
+            Takes less than 2 minutes · No writing required · Edit before downloading
+          </p>
+        </div>
+
         <p className="mx-auto mb-10 max-w-2xl text-center text-sm leading-relaxed text-muted-foreground">
           Browse heartfelt pet memorials created by loving owners. Each tribute tells a unique story worth remembering.
         </p>
-
-        <div className="mb-10">
-          <CtaBlock />
-        </div>
 
         {loading ? (
           <div className="flex justify-center py-16">
@@ -155,13 +161,31 @@ export default function MemoriesGallery() {
           </div>
         )}
 
+        {/* Social proof */}
+        <p className="mt-8 text-center text-xs text-muted-foreground">
+          Many pet owners choose to preserve their pet's memory this way.
+        </p>
+
         {/* Internal links */}
-        <nav className="mt-10 flex items-center justify-center gap-4 text-sm" aria-label="Related pages">
+        <nav className="mt-8 flex items-center justify-center gap-4 text-sm" aria-label="Related pages">
           <Link to="/" className="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors">Home</Link>
         </nav>
 
-        <div className="mt-12">
-          <CtaBlock />
+        {/* Bottom CTA */}
+        <div className="mt-12 rounded-xl border border-border bg-accent/20 p-8 text-center">
+          <p className="mb-1 font-display text-lg font-semibold text-foreground">
+            Every pet deserves to be remembered.
+          </p>
+          <p className="mb-4 text-sm text-muted-foreground">
+            Create a lasting tribute for your pet today.
+          </p>
+          <Button size="lg" onClick={() => navigate("/create")}>
+            <PawPrint className="mr-2 h-4 w-4" />
+            Create a Tribute
+          </Button>
+          <p className="mt-3 text-xs text-muted-foreground">
+            Takes less than 2 minutes · No writing required
+          </p>
         </div>
       </div>
     </div>
