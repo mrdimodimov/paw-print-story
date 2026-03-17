@@ -31,6 +31,9 @@ const TributePage = () => {
   const formDataRef = useRef<TributeFormData | null>(
     (location.state as { formData?: TributeFormData })?.formData || null
   );
+  const preEmail = useRef<string | undefined>(
+    (location.state as { email?: string })?.email || undefined
+  );
   const isPublicRef = useRef<boolean>(
     (location.state as { isPublic?: boolean })?.isPublic || false
   );
