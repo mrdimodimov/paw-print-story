@@ -99,10 +99,23 @@ const TributePage = () => {
         // Save pre-generation email if provided
         if (preEmail.current && result.tributeId) {
           try {
-            await supabase.from("tribute_emails" as any).insert({
+            const { data: emailRow } = await supabase.from("tribute_emails").insert({
               email: preEmail.current,
               tribute_id: result.tributeId,
-            });
+            }).select("id").single();
+
+            // Trigger nurture email sequence
+            if (emailRow?.id) {
+              await supabase.functions.invoke("send-nurture-email", {
+                body: {
+                  action: "trigger",
+                  tribute_email_id: emailRow.id,
+                  email: preEmail.current,
+                  tribute_id: result.tributeId,
+                  pet_name: data.pet_name,
+                },
+              });
+            }
           } catch { /* non-critical */ }
         }
         if (result.slug) {
