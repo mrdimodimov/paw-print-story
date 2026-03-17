@@ -663,12 +663,7 @@ const TributePage = () => {
             </div>
           )}
 
-          {/* Reactions */}
-          {tributeDbId && (
-            <div className="mb-6">
-              <TributeReactions tributeId={tributeDbId} />
-            </div>
-          )}
+          {/* Reactions are now in the hero header */}
 
           {/* Leave a Memory */}
           {tributeDbId && (
