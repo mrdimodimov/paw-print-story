@@ -447,6 +447,11 @@ const TributePage = () => {
             />
           )}
 
+          {/* Email save prompt (only if no pre-email was provided) */}
+          {justGenerated && !preEmail.current && (
+            <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} />
+          )}
+
           {/* Additional Photos (if more than 1) */}
           {photoUrls.length > 1 && (
             <div className="mb-6 rounded-xl border border-border bg-card p-5 shadow-soft">
