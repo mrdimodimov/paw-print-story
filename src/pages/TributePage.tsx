@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useSearchParams, useParams } from "react-rout
 import { motion } from "framer-motion";
 import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock } from "lucide-react";
 import MemoryTimeline from "@/components/MemoryTimeline";
+import PostGenerationShare from "@/components/PostGenerationShare";
 import TributeShareCard from "@/components/TributeShareCard";
 import TributeWritingExperience from "@/components/TributeWritingExperience";
 import PublicTributeToggle from "@/components/PublicTributeToggle";
