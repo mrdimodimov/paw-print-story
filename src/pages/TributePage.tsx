@@ -424,6 +424,15 @@ const TributePage = () => {
             )}
           </div>
 
+          {/* Post-generation share prompt */}
+          {justGenerated && (
+            <PostGenerationShare
+              petName={petName || "Your Pet"}
+              slug={tributeSlug}
+              onViewTribute={() => setJustGenerated(false)}
+            />
+          )}
+
           {/* Additional Photos (if more than 1) */}
           {photoUrls.length > 1 && (
             <div className="mb-6 rounded-xl border border-border bg-card p-5 shadow-soft">
