@@ -7,6 +7,7 @@ import PostGenerationShare from "@/components/PostGenerationShare";
 import TributeShareCard from "@/components/TributeShareCard";
 import TributeWritingExperience from "@/components/TributeWritingExperience";
 import PublicTributeToggle from "@/components/PublicTributeToggle";
+import PostGenerationEmailSave from "@/components/PostGenerationEmailSave";
 import TributeMemories from "@/components/TributeMemories";
 import TributeReactions from "@/components/TributeReactions";
 import { Button } from "@/components/ui/button";
