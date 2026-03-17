@@ -528,17 +528,46 @@ const TributePage = () => {
               </div>
             ) : (
               <div className="mx-auto max-w-prose font-body text-foreground">
-                {ensureParagraphs(tribute.story).map((p, i) => (
-                  <p key={i} className="mb-4 leading-[1.7]">{p}</p>
-                ))}
+                {(() => {
+                  const allParagraphs = ensureParagraphs(tribute.story);
+                  if (unlocked) {
+                    return allParagraphs.map((p, i) => (
+                      <p key={i} className="mb-4 leading-[1.7]">{p}</p>
+                    ));
+                  }
+                  // Show ~60-70% of paragraphs (min 2, max all-1)
+                  const cutoff = Math.max(2, Math.min(Math.ceil(allParagraphs.length * 0.65), allParagraphs.length - 1));
+                  const visible = allParagraphs.slice(0, cutoff);
+                  return (
+                    <>
+                      {visible.map((p, i) => (
+                        <p key={i} className="mb-4 leading-[1.7]">{p}</p>
+                      ))}
+                      <p className="mb-2 text-center text-lg tracking-wide text-muted-foreground/60">. . .</p>
+                      <p className="text-center text-sm font-medium text-primary/80">
+                        [ Unlock to read the full tribute ]
+                      </p>
+                    </>
+                  );
+                })()}
               </div>
             )}
 
             {!unlocked && (
-              <p className="mt-6 text-center text-xs italic text-muted-foreground">
-                This is a preview of your tribute
-              </p>
+              <div className="mt-8 border-t border-border pt-6 text-center">
+                <p className="text-sm text-muted-foreground">
+                  This is a preview of your tribute.
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Unlock to keep the full version, download it, and share it.
+                </p>
+              </div>
             )}
+
+            {/* Watermark footer */}
+            <p className="mt-6 text-center text-[10px] tracking-wide text-muted-foreground/40">
+              Generated with {BRAND.name}
+            </p>
           </div>
 
           {/* Memory Timeline */}
