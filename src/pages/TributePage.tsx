@@ -7,6 +7,7 @@ import PostGenerationShare from "@/components/PostGenerationShare";
 import TributeShareCard from "@/components/TributeShareCard";
 import TributeWritingExperience from "@/components/TributeWritingExperience";
 import PublicTributeToggle from "@/components/PublicTributeToggle";
+import PostGenerationEmailSave from "@/components/PostGenerationEmailSave";
 import TributeMemories from "@/components/TributeMemories";
 import TributeReactions from "@/components/TributeReactions";
 import { Button } from "@/components/ui/button";
@@ -16,6 +17,7 @@ import { toast } from "sonner";
 import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
 import { generateTribute, loadTributeById, loadTributeBySlug, loadJobById, getActiveJobId } from "@/lib/tribute-api";
+import { supabase } from "@/integrations/supabase/client";
 import { downloadTributePDF, downloadMemorialPDF, ensureParagraphs } from "@/lib/pdf-export";
 import type { TributeFormData, GeneratedTribute, TierConfig } from "@/lib/types";
 
@@ -29,6 +31,9 @@ const TributePage = () => {
 
   const formDataRef = useRef<TributeFormData | null>(
     (location.state as { formData?: TributeFormData })?.formData || null
+  );
+  const preEmail = useRef<string | undefined>(
+    (location.state as { email?: string })?.email || undefined
   );
   const isPublicRef = useRef<boolean>(
     (location.state as { isPublic?: boolean })?.isPublic || false
@@ -84,13 +89,22 @@ const TributePage = () => {
       onDelta: (text) => {
         setStreamingText((prev) => prev + text);
       },
-      onDone: (result) => {
+      onDone: async (result) => {
         setTribute(result);
         setEditedStory(result.story);
         setGenerating(false);
         setJustGenerated(true);
         if (result.jobId) setLastJobId(result.jobId);
         if (result.tributeId) setTributeDbId(result.tributeId);
+        // Save pre-generation email if provided
+        if (preEmail.current && result.tributeId) {
+          try {
+            await supabase.from("tribute_emails" as any).insert({
+              email: preEmail.current,
+              tribute_id: result.tributeId,
+            });
+          } catch { /* non-critical */ }
+        }
         if (result.slug) {
           setTributeSlug(result.slug);
           navigate(`/tribute/s/${result.slug}?tier=${tierConfig.id}`, { replace: true });
@@ -431,6 +445,11 @@ const TributePage = () => {
               slug={tributeSlug}
               onViewTribute={() => setJustGenerated(false)}
             />
+          )}
+
+          {/* Email save prompt (only if no pre-email was provided) */}
+          {justGenerated && !preEmail.current && (
+            <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} />
           )}
 
           {/* Additional Photos (if more than 1) */}

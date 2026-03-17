@@ -71,6 +71,7 @@ const Questionnaire = () => {
   const [form, setForm] = useState<TributeFormData>(defaultForm);
   const [isPublic, setIsPublic] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [email, setEmail] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const update = <K extends keyof TributeFormData>(key: K, value: TributeFormData[K]) => {
@@ -149,7 +150,7 @@ const Questionnaire = () => {
   };
 
   const handleGenerate = () => {
-    navigate(`/tribute?tier=${tier}`, { state: { formData: form, isPublic } });
+    navigate(`/tribute?tier=${tier}`, { state: { formData: form, isPublic, email: email.trim() || undefined } });
   };
 
   const renderStep = () => {
@@ -464,18 +465,30 @@ const Questionnaire = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Gallery opt-in — only on final step */}
+        {/* Email + Gallery opt-in — only on final step */}
         {step === STEPS.length - 1 && (
-          <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-accent/30 p-4">
-            <Checkbox
-              checked={isPublic}
-              onCheckedChange={(checked) => setIsPublic(checked === true)}
-              className="mt-0.5"
-            />
-            <span className="text-sm text-foreground">
-              Allow this tribute to appear in the public VellumPet memorial gallery
-            </span>
-          </label>
+          <div className="mt-6 space-y-4">
+            <div className="rounded-lg border border-border bg-accent/30 p-4">
+              <Label className="text-sm text-foreground">Email (optional)</Label>
+              <p className="mb-2 text-xs text-muted-foreground">We'll save your tribute so you can come back anytime.</p>
+              <Input
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-accent/30 p-4">
+              <Checkbox
+                checked={isPublic}
+                onCheckedChange={(checked) => setIsPublic(checked === true)}
+                className="mt-0.5"
+              />
+              <span className="text-sm text-foreground">
+                Allow this tribute to appear in the public VellumPet memorial gallery
+              </span>
+            </label>
+          </div>
         )}
 
         <p className="mt-6 text-center text-xs text-muted-foreground/70">

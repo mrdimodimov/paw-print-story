@@ -113,6 +113,35 @@ export type Database = {
         }
         Relationships: []
       }
+      tribute_emails: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          tribute_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          tribute_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          tribute_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tribute_emails_tribute_id_fkey"
+            columns: ["tribute_id"]
+            isOneToOne: false
+            referencedRelation: "tributes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tribute_memories: {
         Row: {
           created_at: string

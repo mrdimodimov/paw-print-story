@@ -52,7 +52,7 @@ export interface TierConfig {
 export const TIERS: TierConfig[] = [
   {
     id: "story",
-    name: "Quick Tribute",
+    name: "Simple Tribute",
     price: 19,
     description: "A simple, heartfelt tribute",
     micro_text: "For a simple way to remember your pet",
@@ -72,7 +72,7 @@ export const TIERS: TierConfig[] = [
   },
   {
     id: "pack",
-    name: "Memorial Tribute Pack",
+    name: "Beautiful Tribute",
     price: 39,
     popular: true,
     description: "A complete tribute to share and keep forever",
@@ -94,7 +94,7 @@ export const TIERS: TierConfig[] = [
   },
   {
     id: "legacy",
-    name: "Everlasting Legacy Page",
+    name: "Legacy Memorial Page",
     price: 79,
     label: "Premium Memorial Experience",
     description: "A lasting online memorial for your pet",
