@@ -224,6 +224,57 @@ export type Database = {
         }
         Relationships: []
       }
+      tribute_email_sequence: {
+        Row: {
+          created_at: string
+          email: string
+          email_number: number
+          id: string
+          pet_name: string
+          sent_at: string | null
+          stopped: boolean
+          tribute_email_id: string
+          tribute_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          email_number: number
+          id?: string
+          pet_name?: string
+          sent_at?: string | null
+          stopped?: boolean
+          tribute_email_id: string
+          tribute_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          email_number?: number
+          id?: string
+          pet_name?: string
+          sent_at?: string | null
+          stopped?: boolean
+          tribute_email_id?: string
+          tribute_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tribute_email_sequence_tribute_email_id_fkey"
+            columns: ["tribute_email_id"]
+            isOneToOne: false
+            referencedRelation: "tribute_emails"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tribute_email_sequence_tribute_id_fkey"
+            columns: ["tribute_id"]
+            isOneToOne: false
+            referencedRelation: "tributes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tribute_emails: {
         Row: {
           created_at: string
