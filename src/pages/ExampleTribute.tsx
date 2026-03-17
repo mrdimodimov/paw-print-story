@@ -70,7 +70,7 @@ const ExampleTribute = () => {
             Bella — {exampleTitle}
           </h1>
           <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
-            <span className="font-medium text-foreground">Bella</span>
+            <span className="font-medium text-foreground">Luna</span>
             <span aria-hidden="true">·</span>
             <span>Golden Retriever</span>
             <span aria-hidden="true">·</span>
