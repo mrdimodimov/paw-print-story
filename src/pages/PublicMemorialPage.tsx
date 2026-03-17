@@ -166,7 +166,7 @@ const PublicMemorialPage = () => {
         canonical.rel = "canonical";
         document.head.appendChild(canonical);
       }
-      canonical.href = `${window.location.origin}/memorial/${data.slug}`;
+      canonical.href = `${BRAND.baseUrl}/memorial/${data.slug}`;
 
       setLoading(false);
     };
