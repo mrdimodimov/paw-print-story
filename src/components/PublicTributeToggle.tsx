@@ -227,7 +227,7 @@ const PublicTributeToggle = ({
       case "checking":
         return <span className="flex items-center gap-1 text-xs text-muted-foreground"><Loader2 className="h-3 w-3 animate-spin" /> Checking…</span>;
       case "available":
-        return <span className="flex items-center gap-1 text-xs text-green-600"><Check className="h-3 w-3" /> Available</span>;
+        return <span className="flex items-center gap-1 text-xs text-primary"><Check className="h-3 w-3" /> Available</span>;
       case "taken":
         return <span className="text-xs text-destructive">Slug already taken</span>;
       case "invalid":
