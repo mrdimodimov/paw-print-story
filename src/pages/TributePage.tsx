@@ -489,7 +489,23 @@ const TributePage = () => {
 
           {/* Tribute Story */}
           <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
-            <p className="mb-6 text-center text-sm text-muted-foreground">{currentTier.name}</p>
+            {!unlocked && (
+              <div className="mb-6 text-center">
+                <h2 className="font-display text-xl font-semibold text-foreground">Your tribute is ready</h2>
+                <p className="mt-1 text-sm text-muted-foreground">A beautiful way to remember {petName || "your pet"}.</p>
+              </div>
+            )}
+
+            {!unlocked && (
+              <div className="mb-4 text-center">
+                <h3 className="font-display text-2xl font-semibold text-foreground">{petName}</h3>
+                {yearsOfLife && <p className="mt-1 text-sm text-muted-foreground">{yearsOfLife}</p>}
+              </div>
+            )}
+
+            {unlocked && (
+              <p className="mb-6 text-center text-sm text-muted-foreground">{currentTier.name}</p>
+            )}
 
             {isEditing && unlocked ? (
               <div className="space-y-4">
@@ -510,28 +526,18 @@ const TributePage = () => {
                   </Button>
                 </div>
               </div>
-            ) : unlocked ? (
+            ) : (
               <div className="mx-auto max-w-prose font-body text-foreground">
                 {ensureParagraphs(tribute.story).map((p, i) => (
                   <p key={i} className="mb-4 leading-[1.7]">{p}</p>
                 ))}
               </div>
-            ) : (
-              /* Paywall preview */
-              <div className="relative">
-                <div className="mx-auto max-w-prose font-body text-foreground">
-                  {ensureParagraphs(tribute.story.slice(0, Math.floor(tribute.story.length * 0.45))).map((p, i) => (
-                    <p key={i} className="mb-4 leading-[1.7]">{p}</p>
-                  ))}
-                </div>
-                {/* Gradient fade */}
-                <div
-                  className="pointer-events-none absolute bottom-0 left-0 right-0 h-32"
-                  style={{
-                    background: "linear-gradient(to bottom, hsl(var(--card) / 0), hsl(var(--card) / 1))",
-                  }}
-                />
-              </div>
+            )}
+
+            {!unlocked && (
+              <p className="mt-6 text-center text-xs italic text-muted-foreground">
+                This is a preview of your tribute
+              </p>
             )}
           </div>
 
@@ -550,42 +556,28 @@ const TributePage = () => {
 
           {!unlocked && (
             <div className="mb-6 rounded-xl border border-primary/20 bg-card p-8 shadow-card md:p-10">
-              {/* Header */}
+              {/* Emotional bridge */}
               <div className="mb-6 text-center">
                 <PawPrint className="mx-auto mb-3 h-7 w-7 text-primary/70" />
-                <h3 className="mb-1 font-display text-2xl font-semibold text-foreground">
-                  Your tribute is ready
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  A beautiful way to remember {petName || "your pet"}, forever.
+                <p className="font-display text-lg font-medium text-foreground">
+                  You've already created something meaningful.
                 </p>
-              </div>
-
-              {/* Preview snippet */}
-              <div className="mx-auto mb-6 max-w-md rounded-lg border border-border bg-accent/20 p-5">
-                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  Preview of your tribute
-                </p>
-                <p className="mb-1 font-display text-base font-semibold text-foreground">
-                  {petName}{yearsOfLife ? ` · ${yearsOfLife}` : ""}
-                </p>
-                <p className="text-sm leading-relaxed text-muted-foreground italic">
-                  {tribute.story.split(/\.\s+/).slice(0, 2).join(". ").trim()}
-                  {tribute.story.split(/\.\s+/).length > 2 ? "…" : ""}
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Now you can keep it forever.
                 </p>
               </div>
 
               {/* Value section */}
               <div className="mx-auto mb-6 max-w-sm">
                 <p className="mb-3 text-center text-sm font-medium text-foreground">
-                  With this, you'll receive:
+                  Unlock your full tribute experience:
                 </p>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   {[
-                    "Your full tribute story",
-                    "A shareable memorial page",
-                    "A printable keepsake",
-                    "A tribute you can revisit anytime",
+                    "Download your tribute as a PDF",
+                    "Create a shareable memorial page",
+                    "Add photos and memories",
+                    "Revisit anytime",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2">
                       <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" />
@@ -595,7 +587,7 @@ const TributePage = () => {
                 </ul>
               </div>
 
-              {/* Price + trust */}
+              {/* Price */}
               <div className="mb-4 text-center">
                 <p className="text-2xl font-semibold text-foreground">
                   ${currentTier.price}
@@ -605,23 +597,30 @@ const TributePage = () => {
                 </p>
               </div>
 
-              {/* Trust signals */}
-              <div className="mx-auto mb-5 flex max-w-xs flex-col items-center gap-1 text-center text-xs text-muted-foreground">
-                <span>Edit anytime after purchase</span>
-                <span>Instant access after checkout</span>
-                <span className="italic">If it doesn't feel right, we'll make it right</span>
-              </div>
-
               {/* CTA */}
-              <div className="text-center">
+              <div className="mb-4 text-center">
                 <Button size="lg" className="px-10 text-base" onClick={() => setUnlocked(true)}>
                   <Lock className="mr-2 h-4 w-4" />
                   Unlock My Tribute
                 </Button>
                 <p className="mt-3 text-xs text-muted-foreground">
-                  Takes less than 2 minutes · Secure checkout
+                  Instant access · Takes less than 2 minutes
                 </p>
               </div>
+
+              {/* Edit option */}
+              {formDataRef.current && (
+                <div className="mb-4 text-center">
+                  <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={() => navigate("/questionnaire?tier=" + currentTier.id)}>
+                    <Edit className="mr-1 h-3.5 w-3.5" /> Edit Tribute
+                  </Button>
+                </div>
+              )}
+
+              {/* Trust text */}
+              <p className="text-center text-xs text-muted-foreground">
+                You can edit your tribute anytime after unlocking
+              </p>
             </div>
           )}
 
