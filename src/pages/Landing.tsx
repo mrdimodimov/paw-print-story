@@ -292,6 +292,9 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* Recently Remembered Pets */}
+      <RecentlyRemembered />
+
       {/* Guarantee + FAQ */}
       <section className="tribute-section bg-accent/20">
         <div className="tribute-container max-w-2xl">
