@@ -491,7 +491,19 @@ const TributePage = () => {
             )}
           </div>
 
-          {/* Paywall CTA */}
+          {/* Memory Timeline */}
+          {tribute && (
+            <MemoryTimeline
+              story={tribute.story}
+              petName={petName || "Your Pet"}
+              yearsOfLife={yearsOfLife}
+              photoUrls={photoUrls}
+              tierId={currentTier.id}
+              unlocked={unlocked}
+              onUnlock={() => setUnlocked(true)}
+            />
+          )}
+
           {!unlocked && (
             <div className="mb-6 rounded-xl border border-primary/30 bg-accent/30 p-8 text-center shadow-soft">
               <Lock className="mx-auto mb-4 h-8 w-8 text-primary/70" />
