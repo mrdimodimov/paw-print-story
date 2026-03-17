@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BRAND } from "@/lib/brand";
 import { Globe, Link as LinkIcon, Copy, Check, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -97,8 +98,7 @@ const PublicTributeToggle = ({
         return;
       }
 
-      const baseUrl = window.location.origin;
-      setPublicUrl(`${baseUrl}/memorial/${slug}`);
+      setPublicUrl(`${BRAND.baseUrl}/memorial/${slug}`);
       toast.success("Public memorial page created!");
     } catch {
       toast.error("Something went wrong. Please try again.");

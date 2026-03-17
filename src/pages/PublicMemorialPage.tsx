@@ -166,7 +166,7 @@ const PublicMemorialPage = () => {
         canonical.rel = "canonical";
         document.head.appendChild(canonical);
       }
-      canonical.href = `${window.location.origin}/memorial/${data.slug}`;
+      canonical.href = `${BRAND.baseUrl}/memorial/${data.slug}`;
 
       setLoading(false);
     };
@@ -189,7 +189,7 @@ const PublicMemorialPage = () => {
 
   if (!tribute) return null;
 
-  const pageUrl = typeof window !== "undefined" ? window.location.href : "";
+  const pageUrl = `${BRAND.baseUrl}/memorial/${tribute.slug}`;
   const isLegacy = tribute.tier_id === "legacy";
   const isPack = tribute.tier_id === "pack";
 

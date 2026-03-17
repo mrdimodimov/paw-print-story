@@ -275,7 +275,7 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
 
   const handlePlatformShare = async (platform: string) => {
     setExporting(true);
-    const rawUrl = window.location.href;
+    const rawUrl = `${BRAND.baseUrl}${window.location.pathname}`;
     const encodedUrl = encodeURIComponent(rawUrl);
     const shareText = getShareText();
     const encodedText = encodeURIComponent(shareText);

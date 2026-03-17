@@ -601,7 +601,7 @@ const TributePage = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    const url = `${window.location.origin}/tribute/s/${tributeSlug}`;
+                    const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
                     navigator.clipboard.writeText(url);
                     toast.success("Link copied!");
                   }}
@@ -612,7 +612,7 @@ const TributePage = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    const url = `${window.location.origin}/tribute/s/${tributeSlug}`;
+                    const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
                     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank", "noopener,noreferrer,width=600,height=400");
                   }}
                 >
@@ -622,7 +622,7 @@ const TributePage = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    const url = `${window.location.origin}/tribute/s/${tributeSlug}`;
+                    const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
                     const text = `In Loving Memory of ${petName}`;
                     window.open(`https://x.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer,width=600,height=400");
                   }}
