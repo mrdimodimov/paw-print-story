@@ -48,7 +48,7 @@ const PublicTributeToggle = ({
     try {
       let slug = isLegacy && customSlug.trim()
         ? slugify(customSlug.trim())
-        : generateMemorialSlug(petName);
+        : generateMemorialSlug(petName, { yearsOfLife, title: tribute.title });
 
       let { error } = await supabase.from("public_tributes").insert({
         slug,
