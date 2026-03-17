@@ -6,6 +6,7 @@ import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
 import TierCard from "@/components/TierCard";
 import GuaranteeBadge from "@/components/GuaranteeBadge";
+import RecentlyRemembered from "@/components/RecentlyRemembered";
 import {
   Accordion,
   AccordionContent,
