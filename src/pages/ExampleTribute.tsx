@@ -92,7 +92,7 @@ const ExampleTribute = () => {
           <div className="overflow-hidden rounded-xl border border-border shadow-card">
             <img
 
-              alt="Bella the Golden Retriever"
+              alt="Luna the Golden Retriever"
               className="h-auto w-full max-w-sm object-cover"
               loading="lazy" src="/lovable-uploads/9de65cee-31e7-4d1e-bbe8-83f80983da9c.jpg" />
             
