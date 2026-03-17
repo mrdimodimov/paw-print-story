@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useSearchParams, useParams } from "react-rout
 import { motion } from "framer-motion";
 import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock } from "lucide-react";
 import MemoryTimeline from "@/components/MemoryTimeline";
+import PostGenerationShare from "@/components/PostGenerationShare";
 import TributeShareCard from "@/components/TributeShareCard";
 import TributeWritingExperience from "@/components/TributeWritingExperience";
 import PublicTributeToggle from "@/components/PublicTributeToggle";
@@ -47,6 +48,7 @@ const TributePage = () => {
   const [regenCount, setRegenCount] = useState(0);
   const [lastJobId, setLastJobId] = useState<string | undefined>();
   const [tributeSlug, setTributeSlug] = useState<string | undefined>();
+  const [justGenerated, setJustGenerated] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
   const [tributeDbId, setTributeDbId] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
@@ -86,6 +88,7 @@ const TributePage = () => {
         setTribute(result);
         setEditedStory(result.story);
         setGenerating(false);
+        setJustGenerated(true);
         if (result.jobId) setLastJobId(result.jobId);
         if (result.tributeId) setTributeDbId(result.tributeId);
         if (result.slug) {
@@ -420,6 +423,15 @@ const TributePage = () => {
               </div>
             )}
           </div>
+
+          {/* Post-generation share prompt */}
+          {justGenerated && (
+            <PostGenerationShare
+              petName={petName || "Your Pet"}
+              slug={tributeSlug}
+              onViewTribute={() => setJustGenerated(false)}
+            />
+          )}
 
           {/* Additional Photos (if more than 1) */}
           {photoUrls.length > 1 && (
