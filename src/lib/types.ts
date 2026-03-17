@@ -72,7 +72,7 @@ export const TIERS: TierConfig[] = [
   },
   {
     id: "pack",
-    name: "Memorial Tribute Pack",
+    name: "Beautiful Tribute",
     price: 39,
     popular: true,
     description: "A complete tribute to share and keep forever",
