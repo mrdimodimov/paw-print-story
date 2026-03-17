@@ -356,7 +356,7 @@ const PublicMemorialPage = () => {
             <p className="text-sm leading-relaxed text-muted-foreground">
               {tribute.pet_name} was a beloved {breedOrType}
               {tribute.years_of_life ? ` who lived a beautiful life (${tribute.years_of_life})` : ""}.
-              {" "}This tribute was created to honor {tribute.pet_name}'s memory and celebrate the joy they brought to their family.
+              {" "}This tribute was created to honor {tribute.pet_name}s memory and celebrate the joy they brought to their family.
             </p>
           </section>
 
