@@ -141,20 +141,23 @@ export async function downloadTributePDF(
 
   let yPos = 36;
 
-  // --- Photos (compact row above title) ---
+  // --- Photos (compact row above title, proportionally scaled) ---
   if (images.length === 1) {
-    const imgSize = 38;
-    doc.addImage(images[0], "JPEG", margin, yPos, imgSize, imgSize);
-    yPos += imgSize + 10;
+    const maxBox = 38;
+    const { w, h } = fitImage(images[0].width, images[0].height, maxBox, maxBox);
+    const xOffset = margin;
+    doc.addImage(images[0].dataUrl, "JPEG", xOffset, yPos, w, h);
+    yPos += h + 10;
   } else if (images.length >= 2) {
-    const imgSize = 34;
+    const maxBox = 34;
     const shown = images.slice(0, 3);
     let x = margin;
     for (const img of shown) {
-      doc.addImage(img, "JPEG", x, yPos, imgSize, imgSize);
-      x += imgSize + 5;
+      const { w, h } = fitImage(img.width, img.height, maxBox, maxBox);
+      doc.addImage(img.dataUrl, "JPEG", x, yPos, w, h);
+      x += maxBox + 5;
     }
-    yPos += imgSize + 10;
+    yPos += maxBox + 10;
   }
 
   // --- Title: Pet name (left-aligned, large) ---
