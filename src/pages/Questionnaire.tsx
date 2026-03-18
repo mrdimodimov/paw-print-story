@@ -110,37 +110,40 @@ const Questionnaire = () => {
       return;
     }
 
-    const filesToUpload = Array.from(files).slice(0, remaining);
-    setUploading(true);
-
-    const newUrls: string[] = [];
-    for (const file of filesToUpload) {
-      if (!ACCEPTED_TYPES.includes(file.type)) {
-        toast({ title: "Invalid file type", description: "Photos must be JPG, PNG, or WEBP and under 5MB." });
-        continue;
-      }
-      if (file.size > MAX_FILE_SIZE) {
-        toast({ title: "File too large", description: `${file.name} exceeds the 5MB limit.` });
-        continue;
-      }
-
-      const ext = file.name.split(".").pop();
-      const path = `${crypto.randomUUID()}.${ext}`;
-      const { error } = await supabase.storage.from("pet-photos").upload(path, file);
-      if (error) {
-        toast({ title: "Upload failed", description: error.message });
-        continue;
-      }
-      const { data: urlData } = supabase.storage.from("pet-photos").getPublicUrl(path);
-      newUrls.push(urlData.publicUrl);
+    const file = files[0];
+    if (!ACCEPTED_TYPES.includes(file.type)) {
+      toast({ title: "Invalid file type", description: "Photos must be JPG, PNG, or WEBP and under 5MB." });
+      return;
+    }
+    if (file.size > MAX_FILE_SIZE) {
+      toast({ title: "File too large", description: `${file.name} exceeds the 5MB limit.` });
+      return;
     }
 
-    if (newUrls.length > 0) {
-      update("photo_urls", [...form.photo_urls, ...newUrls]);
-    }
-    setUploading(false);
+    // Open crop modal with preview
+    const objectUrl = URL.createObjectURL(file);
+    setCropSrc(objectUrl);
+    setCropOpen(true);
     // Reset input so same file can be re-selected
     if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleCropComplete = async (croppedFile: File) => {
+    setCropOpen(false);
+    setCropSrc(null);
+    setUploading(true);
+
+    const ext = croppedFile.name.split(".").pop() || "jpg";
+    const path = `${crypto.randomUUID()}.${ext}`;
+    const { error } = await supabase.storage.from("pet-photos").upload(path, croppedFile);
+    if (error) {
+      toast({ title: "Upload failed", description: error.message });
+      setUploading(false);
+      return;
+    }
+    const { data: urlData } = supabase.storage.from("pet-photos").getPublicUrl(path);
+    update("photo_urls", [...form.photo_urls, urlData.publicUrl]);
+    setUploading(false);
   };
 
   const removePhoto = (index: number) => {
