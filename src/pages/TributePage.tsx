@@ -874,7 +874,7 @@ const TributePage = () => {
           {/* Leave a Memory */}
           {tributeDbId && (
             <div className="mb-6">
-              <TributeMemories tributeId={tributeDbId} petName={petName || "Your Pet"} />
+              <TributeMemories tributeId={tributeDbId} petName={petName || "Your Pet"} unlocked={unlocked} slug={tributeSlug} />
             </div>
           )}
 
