@@ -727,9 +727,6 @@ const TributePage = () => {
                     )}
                   </Button>
                 )}
-                <Button size="sm" onClick={handleDownloadPDF}>
-                  <Download className="mr-1 h-4 w-4" /> Download PDF
-                </Button>
                 {currentTier.include_printable_pdf && (currentTier.id === "pack" || currentTier.id === "legacy") && (
                   <Button variant="outline" size="sm" onClick={handleDownloadMemorial}>
                     <FileText className="mr-1 h-4 w-4" /> Printable Memorial
