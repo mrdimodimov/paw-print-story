@@ -57,6 +57,7 @@ const TributePage = () => {
   const [unlocked, setUnlocked] = useState(false);
   const [tributeDbId, setTributeDbId] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [petName, setPetName] = useState(formData?.pet_name || "");
   const [photoUrls, setPhotoUrls] = useState<string[]>(formData?.photo_urls || []);
   const [yearsOfLife, setYearsOfLife] = useState(formData?.years_of_life || "");
@@ -163,7 +164,7 @@ const TributePage = () => {
         setBreed(data.breed);
         setTributeSlug((data as any).slug || undefined);
         setTributeDbId(data.id);
-        setUnlocked(true);
+        setUnlocked((data as any).is_paid === true);
         if (data.form_data) {
           formDataRef.current = data.form_data as unknown as TributeFormData;
         }
@@ -319,6 +320,33 @@ const TributePage = () => {
     setCopied(true);
     toast.success("Copied to clipboard!");
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleCheckout = async () => {
+    if (!tributeDbId) {
+      toast.error("Please wait for your tribute to finish generating.");
+      return;
+    }
+    setCheckoutLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: {
+          tierId: currentTier.id,
+          tributeId: tributeDbId,
+          tributeSlug: tributeSlug,
+        },
+      });
+      if (error) throw error;
+      if (data?.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error("No checkout URL returned");
+      }
+    } catch (err: any) {
+      console.error("Checkout error:", err);
+      toast.error("Could not start checkout. Please try again.");
+      setCheckoutLoading(false);
+    }
   };
 
   const handleDownloadPDF = async () => {
@@ -670,9 +698,14 @@ const TributePage = () => {
 
               {/* CTA */}
               <div className="mb-4 text-center">
-                <Button size="lg" className="px-10 text-base" onClick={() => setUnlocked(true)}>
+                <Button
+                  size="lg"
+                  className="px-10 text-base"
+                  disabled={checkoutLoading}
+                  onClick={handleCheckout}
+                >
                   <Lock className="mr-2 h-4 w-4" />
-                  Unlock My Tribute
+                  {checkoutLoading ? "Redirecting…" : "Unlock My Tribute"}
                 </Button>
                 <p className="mt-3 text-xs text-muted-foreground">
                   One-time payment • Yours forever

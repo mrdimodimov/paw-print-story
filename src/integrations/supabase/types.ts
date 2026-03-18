@@ -363,6 +363,7 @@ export type Database = {
           created_at: string
           form_data: Json | null
           id: string
+          is_paid: boolean
           is_public: boolean
           owner_name: string | null
           pet_name: string
@@ -371,6 +372,7 @@ export type Database = {
           share_card_text: string | null
           slug: string | null
           social_post: string | null
+          stripe_session_id: string | null
           tier_name: string
           title: string | null
           tribute_story: string
@@ -381,6 +383,7 @@ export type Database = {
           created_at?: string
           form_data?: Json | null
           id?: string
+          is_paid?: boolean
           is_public?: boolean
           owner_name?: string | null
           pet_name: string
@@ -389,6 +392,7 @@ export type Database = {
           share_card_text?: string | null
           slug?: string | null
           social_post?: string | null
+          stripe_session_id?: string | null
           tier_name: string
           title?: string | null
           tribute_story: string
@@ -399,6 +403,7 @@ export type Database = {
           created_at?: string
           form_data?: Json | null
           id?: string
+          is_paid?: boolean
           is_public?: boolean
           owner_name?: string | null
           pet_name?: string
@@ -407,6 +412,7 @@ export type Database = {
           share_card_text?: string | null
           slug?: string | null
           social_post?: string | null
+          stripe_session_id?: string | null
           tier_name?: string
           title?: string | null
           tribute_story?: string
