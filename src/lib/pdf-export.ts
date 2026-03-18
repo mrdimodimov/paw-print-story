@@ -86,9 +86,34 @@ async function loadImageAsDataURL(url: string): Promise<string | null> {
   }
 }
 
-async function loadImages(urls: string[]): Promise<string[]> {
-  const results = await Promise.all(urls.map(loadImageAsDataURL));
-  return results.filter((r): r is string => r !== null);
+interface LoadedImage {
+  dataUrl: string;
+  width: number;
+  height: number;
+}
+
+async function loadImageWithDimensions(url: string): Promise<LoadedImage | null> {
+  const dataUrl = await loadImageAsDataURL(url);
+  if (!dataUrl) return null;
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve({ dataUrl, width: img.naturalWidth, height: img.naturalHeight });
+    img.onerror = () => resolve(null);
+    img.src = dataUrl;
+  });
+}
+
+async function loadImages(urls: string[]): Promise<LoadedImage[]> {
+  const results = await Promise.all(urls.map(loadImageWithDimensions));
+  return results.filter((r): r is LoadedImage => r !== null);
+}
+
+/**
+ * Fit an image proportionally inside a max box, never stretching.
+ */
+function fitImage(imgW: number, imgH: number, maxW: number, maxH: number) {
+  const ratio = Math.min(maxW / imgW, maxH / imgH, 1);
+  return { w: imgW * ratio, h: imgH * ratio };
 }
 
 export async function downloadTributePDF(
@@ -116,20 +141,23 @@ export async function downloadTributePDF(
 
   let yPos = 36;
 
-  // --- Photos (compact row above title) ---
+  // --- Photos (compact row above title, proportionally scaled) ---
   if (images.length === 1) {
-    const imgSize = 38;
-    doc.addImage(images[0], "JPEG", margin, yPos, imgSize, imgSize);
-    yPos += imgSize + 10;
+    const maxBox = 38;
+    const { w, h } = fitImage(images[0].width, images[0].height, maxBox, maxBox);
+    const xOffset = margin;
+    doc.addImage(images[0].dataUrl, "JPEG", xOffset, yPos, w, h);
+    yPos += h + 10;
   } else if (images.length >= 2) {
-    const imgSize = 34;
+    const maxBox = 34;
     const shown = images.slice(0, 3);
     let x = margin;
     for (const img of shown) {
-      doc.addImage(img, "JPEG", x, yPos, imgSize, imgSize);
-      x += imgSize + 5;
+      const { w, h } = fitImage(img.width, img.height, maxBox, maxBox);
+      doc.addImage(img.dataUrl, "JPEG", x, yPos, w, h);
+      x += maxBox + 5;
     }
-    yPos += imgSize + 10;
+    yPos += maxBox + 10;
   }
 
   // --- Title: Pet name (left-aligned, large) ---
@@ -303,22 +331,25 @@ export async function downloadMemorialPDF(
   doc.setLineWidth(0.35);
   doc.line(margin + divInset, headerEndY + 4, pageWidth - margin - divInset, headerEndY + 4);
 
-  // Featured photo(s)
+  // Featured photo(s) — proportionally scaled
   let storyStartY = headerEndY + 12;
   if (images.length === 1) {
-    const imgSize = 42;
-    doc.addImage(images[0], "JPEG", (pageWidth - imgSize) / 2, storyStartY, imgSize, imgSize);
-    storyStartY += imgSize + 10;
+    const maxBox = 42;
+    const { w, h } = fitImage(images[0].width, images[0].height, maxBox, maxBox);
+    doc.addImage(images[0].dataUrl, "JPEG", (pageWidth - w) / 2, storyStartY, w, h);
+    storyStartY += h + 10;
   } else if (images.length >= 2) {
-    const imgSize = 36;
+    const maxBox = 36;
     const shown = images.slice(0, 3);
-    const totalWidth = shown.length * imgSize + (shown.length - 1) * 6;
+    const totalWidth = shown.length * maxBox + (shown.length - 1) * 6;
     let x = (pageWidth - totalWidth) / 2;
     for (const img of shown) {
-      doc.addImage(img, "JPEG", x, storyStartY, imgSize, imgSize);
-      x += imgSize + 6;
+      const { w, h } = fitImage(img.width, img.height, maxBox, maxBox);
+      const yOffset = storyStartY + (maxBox - h) / 2; // vertically center within row
+      doc.addImage(img.dataUrl, "JPEG", x + (maxBox - w) / 2, yOffset, w, h);
+      x += maxBox + 6;
     }
-    storyStartY += imgSize + 10;
+    storyStartY += maxBox + 10;
   } else {
     storyStartY += 4;
   }

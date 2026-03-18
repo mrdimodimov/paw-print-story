@@ -417,11 +417,13 @@ const TributePage = () => {
             {/* Hero Photo */}
             {photoUrls.length > 0 && (
               <div className="mb-6 flex justify-center">
-                <img
-                  src={photoUrls[0]}
-                  alt={`${petName || "Pet"} memorial photo`}
-                  className="h-36 w-36 rounded-full border-4 border-accent object-cover shadow-soft md:h-44 md:w-44"
-                />
+                <div className="h-36 w-36 overflow-hidden rounded-full border-4 border-accent shadow-soft md:h-44 md:w-44">
+                  <img
+                    src={photoUrls[0]}
+                    alt={`${petName || "Pet"} memorial photo`}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
               </div>
             )}
 
@@ -479,12 +481,13 @@ const TributePage = () => {
               </div>
               <div className="flex flex-wrap gap-3">
                 {photoUrls.slice(1).map((url, i) => (
-                  <img
-                    key={i}
-                    src={url}
-                    alt={`${petName || "Pet"} photo ${i + 2}`}
-                    className="h-20 w-20 rounded-lg border border-border object-cover shadow-sm"
-                  />
+                  <div key={i} className="h-20 w-20 overflow-hidden rounded-lg border border-border bg-muted/30 shadow-sm">
+                    <img
+                      src={url}
+                      alt={`${petName || "Pet"} photo ${i + 2}`}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
                 ))}
               </div>
             </div>
