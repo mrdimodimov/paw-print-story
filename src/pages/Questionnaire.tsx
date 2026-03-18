@@ -439,6 +439,37 @@ const Questionnaire = () => {
       </header>
 
       <div className="tribute-container max-w-2xl py-8">
+        {/* Intro screen */}
+        {step === -1 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col items-center text-center py-16"
+          >
+            <div className="mb-6 rounded-full bg-accent p-5">
+              <Heart className="h-10 w-10 text-primary" />
+            </div>
+            <h1 className="mb-4 font-display text-3xl font-bold text-foreground md:text-4xl">
+              Let's create something beautiful for your pet
+            </h1>
+            <p className="mb-10 max-w-md text-base text-muted-foreground">
+              This will only take 2 minutes. We'll guide you every step of the way.
+            </p>
+            <Button
+              size="lg"
+              className="px-8 py-6 text-lg shadow-glow"
+              onClick={() => setStep(0)}
+            >
+              <PawPrint className="mr-2 h-5 w-5" />
+              Start My Tribute
+            </Button>
+            <p className="mt-6 text-xs text-muted-foreground/70">
+              No signup required · You'll preview before paying
+            </p>
+          </motion.div>
+        ) : (
+        <>
         <div className="mb-8 rounded-lg bg-accent/60 p-4 text-center text-sm text-accent-foreground">
           Take your time. There are no right or wrong answers. Even small memories create meaningful tributes.
         </div>
