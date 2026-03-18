@@ -163,7 +163,7 @@ const TributePage = () => {
         setBreed(data.breed);
         setTributeSlug((data as any).slug || undefined);
         setTributeDbId(data.id);
-        setUnlocked(true);
+        setUnlocked((data as any).is_paid === true);
         if (data.form_data) {
           formDataRef.current = data.form_data as unknown as TributeFormData;
         }
