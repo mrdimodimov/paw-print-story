@@ -9,7 +9,7 @@ import TributeWritingExperience from "@/components/TributeWritingExperience";
 import PublicTributeToggle from "@/components/PublicTributeToggle";
 import PostGenerationEmailSave from "@/components/PostGenerationEmailSave";
 import TributeMemories from "@/components/TributeMemories";
-import TributeReactions from "@/components/TributeReactions";
+import TributeReactions, { ReactionCounters } from "@/components/TributeReactions";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
