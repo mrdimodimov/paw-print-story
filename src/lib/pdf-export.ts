@@ -86,9 +86,34 @@ async function loadImageAsDataURL(url: string): Promise<string | null> {
   }
 }
 
-async function loadImages(urls: string[]): Promise<string[]> {
-  const results = await Promise.all(urls.map(loadImageAsDataURL));
-  return results.filter((r): r is string => r !== null);
+interface LoadedImage {
+  dataUrl: string;
+  width: number;
+  height: number;
+}
+
+async function loadImageWithDimensions(url: string): Promise<LoadedImage | null> {
+  const dataUrl = await loadImageAsDataURL(url);
+  if (!dataUrl) return null;
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve({ dataUrl, width: img.naturalWidth, height: img.naturalHeight });
+    img.onerror = () => resolve(null);
+    img.src = dataUrl;
+  });
+}
+
+async function loadImages(urls: string[]): Promise<LoadedImage[]> {
+  const results = await Promise.all(urls.map(loadImageWithDimensions));
+  return results.filter((r): r is LoadedImage => r !== null);
+}
+
+/**
+ * Fit an image proportionally inside a max box, never stretching.
+ */
+function fitImage(imgW: number, imgH: number, maxW: number, maxH: number) {
+  const ratio = Math.min(maxW / imgW, maxH / imgH, 1);
+  return { w: imgW * ratio, h: imgH * ratio };
 }
 
 export async function downloadTributePDF(
