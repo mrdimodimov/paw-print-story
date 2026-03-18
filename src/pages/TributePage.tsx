@@ -622,6 +622,7 @@ const TributePage = () => {
             </div>
           )}
 
+          {!unlocked && (
             <div className="mb-6 rounded-xl border border-primary/20 bg-card p-8 shadow-card md:p-10">
               {/* Emotional bridge */}
               <div className="mb-6 text-center">
