@@ -48,11 +48,14 @@ const Landing = () => {
                 <Heart className="h-8 w-8 text-primary" />
               </div>
             </div>
-            <h1 className="mb-6 text-4xl font-bold leading-tight text-foreground md:text-5xl lg:text-6xl">
-              {BRAND.tagline}
+            <h1 className="mb-4 text-4xl font-bold leading-tight text-foreground md:text-5xl lg:text-6xl">
+              When Words Are Hard to Find
             </h1>
+            <p className="mb-3 font-display text-xl text-foreground/80 md:text-2xl">
+              A beautiful way to remember the pet you loved.
+            </p>
             <p className="mb-10 text-lg text-muted-foreground md:text-xl">
-              {BRAND.subtitle}
+              Turn your memories into a heartfelt tribute you can keep and share forever.
             </p>
             <Button
               size="lg"
@@ -61,7 +64,7 @@ const Landing = () => {
               <PawPrint className="mr-2 h-5 w-5" />
               Create Your Tribute
             </Button>
-            <p className="mt-4 text-sm text-muted-foreground">Takes less than 2 minutes · No writing needed</p>
+            <p className="mt-4 text-sm text-muted-foreground">Takes less than 2 minutes · No writing needed · Private &amp; secure</p>
           </motion.div>
         </div>
       </section>
@@ -78,13 +81,13 @@ const Landing = () => {
               Remember Them
             </h2>
             <p className="mb-8 text-base leading-relaxed text-muted-foreground">
-              Before writing a tribute, take a quiet moment to think about what made your pet special.
+              Before writing a tribute, take a quiet moment to reflect on what made your pet special.
             </p>
             <div className="mb-8 space-y-5">
               {[
               "What was their favorite place to sleep?",
-              "What small habit always made you smile?",
-              "What is one memory you will always carry with you?"].
+              "What small habits made you smile?",
+              "What are the moments you'll always carry with you?"].
               map((prompt, i) =>
               <motion.p
                 key={i}
@@ -98,13 +101,10 @@ const Landing = () => {
               )}
             </div>
             <p className="mb-4 text-base font-medium text-foreground/70">
-              These small memories are what make a tribute truly meaningful.
-            </p>
-            <p className="mb-4 text-base text-muted-foreground">
-              When you're ready, we'll help turn those memories into a beautiful tribute.
+              These moments matter more than we realize. A tribute helps you hold onto them.
             </p>
             <p className="mb-8 text-base font-semibold text-foreground/80">
-              Start your tribute and preserve these memories forever.
+              Start your tribute and turn these memories into something lasting.
             </p>
             <Button
               size="lg"
@@ -126,9 +126,9 @@ const Landing = () => {
           </h2>
           <div className="grid gap-8 md:grid-cols-3">
             {[
-            { icon: PawPrint, title: "Share a Few Memories", desc: "Answer a few simple questions about your pet's personality and favorite moments." },
-            { icon: BookOpen, title: "We Write Your Tribute", desc: "VellumPet turns your memories into a heartfelt tribute story." },
-            { icon: FileText, title: "Download or Share It", desc: "Download your tribute or share a beautiful memorial page with friends and family." }].
+            { icon: PawPrint, title: "Share a Few Memories", desc: "Answer a few simple questions about your pet — no writing required." },
+            { icon: BookOpen, title: "We Create Your Tribute", desc: "Your memories are transformed into a heartfelt, beautifully written story." },
+            { icon: FileText, title: "Keep and Share It", desc: "Download your tribute or create a memorial page to share with others." }].
             map((step, i) =>
             <motion.div
               key={step.title}
@@ -301,10 +301,10 @@ const Landing = () => {
             })()}
           </div>
           <p className="mt-8 text-center text-sm text-muted-foreground">
-            Your tribute is created in seconds and can be edited before you download or share.
+            One-time payment · No subscription
           </p>
           <p className="mt-2 text-center text-sm text-muted-foreground">
-            If you're not satisfied, we'll make it right.
+            Your tribute is created in seconds and can be edited before you download or share.
           </p>
           <div className="mt-6">
             <GuaranteeBadge />
@@ -401,6 +401,9 @@ const Landing = () => {
               </Button>
             </div>
           </div>
+          <p className="mb-2 text-center text-xs text-muted-foreground/70">
+            Your memories are private and never used for AI training.
+          </p>
           <p className="text-center">
             Made with <Heart className="inline h-3 w-3 text-primary" /> by {BRAND.name}
           </p>
