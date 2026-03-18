@@ -401,6 +401,9 @@ const Landing = () => {
               </Button>
             </div>
           </div>
+          <p className="mb-2 text-center text-xs text-muted-foreground/70">
+            Your memories are private and never used for AI training.
+          </p>
           <p className="text-center">
             Made with <Heart className="inline h-3 w-3 text-primary" /> by {BRAND.name}
           </p>
