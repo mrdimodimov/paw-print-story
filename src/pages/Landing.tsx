@@ -362,7 +362,7 @@ const Landing = () => {
       {/* Footer */}
       <footer className="border-t border-border/50 py-12 text-sm text-muted-foreground">
         <div className="tribute-container">
-          <div className="mb-8 grid gap-6 text-center md:grid-cols-2 md:text-left">
+          <div className="mb-8 grid gap-6 text-center md:grid-cols-3 md:text-left">
             <div>
               <h4 className="mb-3 font-display text-sm font-semibold text-foreground">
                 Pet Memorial Guides
