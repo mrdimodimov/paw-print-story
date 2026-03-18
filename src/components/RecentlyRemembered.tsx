@@ -76,7 +76,7 @@ export default function RecentlyRemembered() {
             Recently Remembered Pets
           </h2>
           <p className="mt-2 text-base text-muted-foreground">
-            Honoring the lives of beloved companions
+            Each of these tributes was created by someone who loved their pet deeply.
           </p>
         </div>
 
