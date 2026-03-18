@@ -417,11 +417,13 @@ const TributePage = () => {
             {/* Hero Photo */}
             {photoUrls.length > 0 && (
               <div className="mb-6 flex justify-center">
-                <img
-                  src={photoUrls[0]}
-                  alt={`${petName || "Pet"} memorial photo`}
-                  className="h-36 w-36 rounded-full border-4 border-accent object-cover shadow-soft md:h-44 md:w-44"
-                />
+                <div className="h-36 w-36 overflow-hidden rounded-full border-4 border-accent shadow-soft md:h-44 md:w-44">
+                  <img
+                    src={photoUrls[0]}
+                    alt={`${petName || "Pet"} memorial photo`}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
               </div>
             )}
 
