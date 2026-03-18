@@ -363,7 +363,10 @@ const TributePage = () => {
           <PawPrint className="h-10 w-10 text-primary" />
         </motion.div>
         <p className="font-display text-xl text-foreground">
-          Crafting {petName ? `${petName}'s` : "your pet's"} tribute…
+          We're creating your tribute now…
+        </p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          You'll be able to preview it before anything is paid.
         </p>
 
         <TributeWritingExperience petName={petName} visible={generating} />
@@ -492,7 +495,8 @@ const TributePage = () => {
             {!unlocked && (
               <div className="mb-6 text-center">
                 <h2 className="font-display text-xl font-semibold text-foreground">Your tribute is ready</h2>
-                <p className="mt-1 text-sm text-muted-foreground">A beautiful way to remember {petName || "your pet"}.</p>
+                <p className="mt-1 font-display text-base text-muted-foreground">This is a story worth holding onto.</p>
+                <p className="mt-1 text-xs text-muted-foreground/70">Created from the memories you shared.</p>
               </div>
             )}
 
@@ -503,8 +507,20 @@ const TributePage = () => {
               </div>
             )}
 
+            {/* Emotional hook above story */}
+            {!unlocked && (
+              <p className="mb-6 text-center text-sm italic text-muted-foreground">
+                We've turned your memories into something meaningful.
+              </p>
+            )}
+
             {unlocked && (
-              <p className="mb-6 text-center text-sm text-muted-foreground">{currentTier.name}</p>
+              <>
+                <div className="mb-4 rounded-lg bg-accent/50 px-4 py-3 text-center">
+                  <p className="text-sm font-medium text-primary">Your full tribute is now yours.</p>
+                </div>
+                <p className="mb-6 text-center text-sm text-muted-foreground">{currentTier.name}</p>
+              </>
             )}
 
             {isEditing && unlocked ? (
@@ -543,7 +559,21 @@ const TributePage = () => {
                       {visible.map((p, i) => (
                         <p key={i} className="mb-4 leading-[1.7]">{p}</p>
                       ))}
-                      <p className="mb-2 text-center text-lg tracking-wide text-muted-foreground/60">. . .</p>
+                      {/* Intentional story break */}
+                      <p className="mb-2 text-center font-display text-sm tracking-widest text-muted-foreground/50">
+                        — Their story continues —
+                      </p>
+                      {/* Gradient fade */}
+                      <div
+                        className="pointer-events-none relative mb-2 select-none"
+                        style={{
+                          background: "linear-gradient(to bottom, hsl(var(--card)) 0%, transparent 100%)",
+                          height: "80px",
+                          marginTop: "-80px",
+                          position: "relative",
+                          zIndex: 1,
+                        }}
+                      />
                       <p className="text-center text-sm font-medium text-primary/80">
                         [ Unlock to read the full tribute ]
                       </p>
@@ -555,11 +585,8 @@ const TributePage = () => {
 
             {!unlocked && (
               <div className="mt-8 border-t border-border pt-6 text-center">
-                <p className="text-sm text-muted-foreground">
-                  This is a preview of your tribute.
-                </p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Unlock to keep the full version, download it, and share it.
+                <p className="text-sm text-muted-foreground/70">
+                  Your memories are private and never used for AI training.
                 </p>
               </div>
             )}
@@ -589,24 +616,24 @@ const TributePage = () => {
               <div className="mb-6 text-center">
                 <PawPrint className="mx-auto mb-3 h-7 w-7 text-primary/70" />
                 <p className="font-display text-lg font-medium text-foreground">
-                  You've already created something meaningful.
+                  Continue your pet's story
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Now you can keep it forever.
+                  Unlock the full tribute, download it, and create a page you can share with family and friends.
                 </p>
               </div>
 
               {/* Value section */}
               <div className="mx-auto mb-6 max-w-sm">
                 <p className="mb-3 text-center text-sm font-medium text-foreground">
-                  Unlock your full tribute experience:
+                  What you'll get:
                 </p>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   {[
-                    "Download your tribute as a PDF",
-                    "Create a shareable memorial page",
-                    "Add photos and memories",
-                    "Revisit anytime",
+                    "Full tribute story (complete memory preserved)",
+                    "Downloadable keepsake",
+                    "Shareable memorial page",
+                    "Lifetime access",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2">
                       <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" />
@@ -622,7 +649,7 @@ const TributePage = () => {
                   ${currentTier.price}
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  One-time payment — no subscription
+                  One-time payment · No subscription
                 </p>
               </div>
 
@@ -633,9 +660,14 @@ const TributePage = () => {
                   Unlock My Tribute
                 </Button>
                 <p className="mt-3 text-xs text-muted-foreground">
-                  Instant access · Takes less than 2 minutes
+                  One-time payment • Yours forever
                 </p>
               </div>
+
+              {/* Ownership trigger */}
+              <p className="mb-4 text-center text-sm italic text-muted-foreground/80">
+                This tribute is uniquely yours — no one else has this story.
+              </p>
 
               {/* Edit option */}
               {formDataRef.current && (
@@ -650,6 +682,24 @@ const TributePage = () => {
               <p className="text-center text-xs text-muted-foreground">
                 You can edit your tribute anytime after unlocking
               </p>
+            </div>
+          )}
+
+          {/* Post-unlock quick actions */}
+          {unlocked && (
+            <div className="mb-6 flex flex-wrap justify-center gap-3">
+              <Button size="sm" onClick={handleDownloadPDF}>
+                <Download className="mr-1 h-4 w-4" /> Download PDF
+              </Button>
+              {tributeSlug && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => navigate(`/memorial/${tributeSlug}`)}
+                >
+                  <Globe className="mr-1 h-4 w-4" /> View Memorial Page
+                </Button>
+              )}
             </div>
           )}
 
