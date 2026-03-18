@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { PawPrint, ArrowLeft, ArrowRight, Sparkles, ImagePlus, X, Shield } from "lucide-react";
+import { PawPrint, ArrowLeft, ArrowRight, Sparkles, ImagePlus, X, Shield, Heart } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -67,7 +67,7 @@ const Questionnaire = () => {
   const [searchParams] = useSearchParams();
   const tier = searchParams.get("tier") || "story";
   const tierConfig = TIERS.find((t) => t.id === tier) || TIERS[0];
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(-1); // -1 = intro screen
   const [form, setForm] = useState<TributeFormData>(defaultForm);
   const [isPublic, setIsPublic] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -145,9 +145,16 @@ const Questionnaire = () => {
   };
 
   const canProceed = () => {
+    if (step === -1) return true;
     if (step === 0) return form.pet_name.trim() && form.pet_type.trim();
     return true;
   };
+
+  const encouragementMessage = (() => {
+    if (step === 1) return "This is already becoming something special ❤️";
+    if (step === 3) return "You're doing great — your tribute is taking shape.";
+    return null;
+  })();
 
   const handleGenerate = () => {
     navigate(`/tribute?tier=${tier}`, { state: { formData: form, isPublic, email: email.trim() || undefined } });
@@ -432,6 +439,37 @@ const Questionnaire = () => {
       </header>
 
       <div className="tribute-container max-w-2xl py-8">
+        {/* Intro screen */}
+        {step === -1 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col items-center text-center py-16"
+          >
+            <div className="mb-6 rounded-full bg-accent p-5">
+              <Heart className="h-10 w-10 text-primary" />
+            </div>
+            <h1 className="mb-4 font-display text-3xl font-bold text-foreground md:text-4xl">
+              Let's create something beautiful for your pet
+            </h1>
+            <p className="mb-10 max-w-md text-base text-muted-foreground">
+              This will only take 2 minutes. We'll guide you every step of the way.
+            </p>
+            <Button
+              size="lg"
+              className="px-8 py-6 text-lg shadow-glow"
+              onClick={() => setStep(0)}
+            >
+              <PawPrint className="mr-2 h-5 w-5" />
+              Start My Tribute
+            </Button>
+            <p className="mt-6 text-xs text-muted-foreground/70">
+              No signup required · You'll preview before paying
+            </p>
+          </motion.div>
+        ) : (
+        <>
         <div className="mb-8 rounded-lg bg-accent/60 p-4 text-center text-sm text-accent-foreground">
           Take your time. There are no right or wrong answers. Even small memories create meaningful tributes.
         </div>
@@ -491,6 +529,17 @@ const Questionnaire = () => {
           </div>
         )}
 
+        {/* Micro-encouragement */}
+        {encouragementMessage && (
+          <motion.p
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-4 text-center text-sm font-medium text-primary/80"
+          >
+            {encouragementMessage}
+          </motion.p>
+        )}
+
         <p className="mt-6 text-center text-xs text-muted-foreground/70">
           Your answers are never stored or used for AI training. They are only used to generate your tribute.
         </p>
@@ -499,7 +548,7 @@ const Questionnaire = () => {
           <Button
             variant="outline"
             onClick={() => setStep((s) => s - 1)}
-            disabled={step === 0}
+            disabled={step <= 0}
           >
             <ArrowLeft className="mr-1 h-4 w-4" /> Previous
           </Button>
@@ -512,6 +561,12 @@ const Questionnaire = () => {
             </Button>
           ) : (
             <div className="flex flex-col items-center gap-2">
+              <p className="text-xs text-muted-foreground text-center">
+                We're creating your tribute now…
+              </p>
+              <p className="text-xs text-muted-foreground/70 text-center">
+                You'll be able to preview it before anything is paid.
+              </p>
               <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
                 <Shield className="h-3.5 w-3.5 text-primary" />
                 Your purchase is protected by our 7-Day Tribute Satisfaction Guarantee.
@@ -522,6 +577,8 @@ const Questionnaire = () => {
             </div>
           )}
         </div>
+        </>
+        )}
       </div>
     </div>
   );
