@@ -67,7 +67,7 @@ const Questionnaire = () => {
   const [searchParams] = useSearchParams();
   const tier = searchParams.get("tier") || "story";
   const tierConfig = TIERS.find((t) => t.id === tier) || TIERS[0];
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(-1); // -1 = intro screen
   const [form, setForm] = useState<TributeFormData>(defaultForm);
   const [isPublic, setIsPublic] = useState(false);
   const [uploading, setUploading] = useState(false);
