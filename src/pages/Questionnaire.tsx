@@ -74,6 +74,8 @@ const Questionnaire = () => {
   const [uploading, setUploading] = useState(false);
   const [email, setEmail] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
+  const [cropOpen, setCropOpen] = useState(false);
 
   const update = <K extends keyof TributeFormData>(key: K, value: TributeFormData[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
