@@ -48,11 +48,14 @@ const Landing = () => {
                 <Heart className="h-8 w-8 text-primary" />
               </div>
             </div>
-            <h1 className="mb-6 text-4xl font-bold leading-tight text-foreground md:text-5xl lg:text-6xl">
-              {BRAND.tagline}
+            <h1 className="mb-4 text-4xl font-bold leading-tight text-foreground md:text-5xl lg:text-6xl">
+              When Words Are Hard to Find
             </h1>
+            <p className="mb-3 font-display text-xl text-foreground/80 md:text-2xl">
+              A beautiful way to remember the pet you loved.
+            </p>
             <p className="mb-10 text-lg text-muted-foreground md:text-xl">
-              {BRAND.subtitle}
+              Turn your memories into a heartfelt tribute you can keep and share forever.
             </p>
             <Button
               size="lg"
@@ -61,7 +64,7 @@ const Landing = () => {
               <PawPrint className="mr-2 h-5 w-5" />
               Create Your Tribute
             </Button>
-            <p className="mt-4 text-sm text-muted-foreground">Takes less than 2 minutes · No writing needed</p>
+            <p className="mt-4 text-sm text-muted-foreground">Takes less than 2 minutes · No writing needed · Private &amp; secure</p>
           </motion.div>
         </div>
       </section>
