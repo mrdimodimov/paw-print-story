@@ -16,6 +16,7 @@ import CatMemorialTributeExample from "./pages/seo/CatMemorialTributeExample";
 import PetMemorialMessage from "./pages/seo/PetMemorialMessage";
 import WhatToWriteWhenDogDies from "./pages/seo/WhatToWriteWhenDogDies";
 import ExampleTribute from "./pages/ExampleTribute";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 const queryClient = new QueryClient();
 
