@@ -610,7 +610,18 @@ const TributePage = () => {
             />
           )}
 
-          {!unlocked && (
+          {/* End-of-story Reactions CTA */}
+          {tributeDbId && (
+            <div className="mb-6">
+              <TributeReactions
+                tributeId={tributeDbId}
+                petName={petName}
+                unlocked={unlocked}
+                slug={tributeSlug}
+              />
+            </div>
+          )}
+
             <div className="mb-6 rounded-xl border border-primary/20 bg-card p-8 shadow-card md:p-10">
               {/* Emotional bridge */}
               <div className="mb-6 text-center">
