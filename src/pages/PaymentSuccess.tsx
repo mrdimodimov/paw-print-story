@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint, Download, Globe, Link, Check } from "lucide-react";
+import { PawPrint, Globe, Link, Check, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -37,7 +37,16 @@ const PaymentSuccess = () => {
         if (data?.paid) {
           setPaid(true);
           if (data.tributeId) setResolvedTributeId(data.tributeId);
-          toast.success("Payment confirmed! Your tribute is unlocked 🤍");
+
+          // Resolve slug from DB if not in URL
+          if (!slug && data.tributeId) {
+            const { data: tribute } = await supabase
+              .from("tributes")
+              .select("slug")
+              .eq("id", data.tributeId)
+              .single();
+            if (tribute?.slug) setResolvedSlug(tribute.slug);
+          }
         } else {
           toast.error(data?.error || "Payment could not be verified.");
         }
@@ -50,21 +59,26 @@ const PaymentSuccess = () => {
     };
 
     verify();
-  }, [sessionId, navigate]);
+  }, [sessionId, slug, navigate]);
+
+  const memorialUrl = resolvedSlug
+    ? `${window.location.origin}/memorial/${resolvedSlug}`
+    : `${window.location.origin}/tribute/${resolvedTributeId}`;
 
   const handleCopyLink = () => {
-    const url = resolvedSlug
-      ? `${window.location.origin}/memorial/${resolvedSlug}`
-      : `${window.location.origin}/tribute/${resolvedTributeId}`;
-    navigator.clipboard.writeText(url);
+    navigator.clipboard.writeText(memorialUrl);
     setCopied(true);
     toast.success("Link copied!");
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const tributeUrl = resolvedSlug
-    ? `/tribute/s/${resolvedSlug}`
-    : `/tribute/${resolvedTributeId}`;
+  const handleViewPage = () => {
+    if (resolvedSlug) {
+      navigate(`/memorial/${resolvedSlug}`);
+    } else {
+      navigate(`/tribute/${resolvedTributeId}`);
+    }
+  };
 
   if (verifying) {
     return (
@@ -85,13 +99,18 @@ const PaymentSuccess = () => {
   if (!paid) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
-        <p className="font-display text-xl text-foreground">Payment not confirmed</p>
-        <p className="mt-2 text-sm text-muted-foreground">
-          If you believe this is an error, please contact support.
-        </p>
-        <Button className="mt-6" onClick={() => navigate("/")}>
-          Return Home
-        </Button>
+        <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 text-center shadow-card md:p-10">
+          <PawPrint className="mx-auto mb-4 h-8 w-8 text-muted-foreground" />
+          <h1 className="font-display text-xl font-semibold text-foreground">
+            Payment not confirmed
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            If you completed the payment, it may take a moment to process. If the issue persists, please contact support.
+          </p>
+          <Button className="mt-6" onClick={() => navigate("/")}>
+            Return Home
+          </Button>
+        </div>
       </div>
     );
   }
@@ -104,37 +123,46 @@ const PaymentSuccess = () => {
         transition={{ duration: 0.5 }}
         className="w-full max-w-md rounded-2xl border border-border bg-card p-8 text-center shadow-card md:p-10"
       >
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-accent">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+          className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-accent"
+        >
           <PawPrint className="h-8 w-8 text-primary" />
-        </div>
+        </motion.div>
 
         <h1 className="font-display text-2xl font-bold text-foreground md:text-3xl">
-          Your tribute is ready 🤍
+          Your memorial page is ready to share
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Thank you for honoring your pet's memory. Your full tribute is now unlocked.
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          Your full tribute is now unlocked. Share it with family and friends so they can visit, react, and leave their own memories.
         </p>
 
         <div className="mt-8 space-y-3">
-          <Button size="lg" className="w-full text-base" onClick={() => navigate(tributeUrl)}>
-            <Globe className="mr-2 h-5 w-5" /> View Tribute Page
+          <Button
+            size="lg"
+            className="w-full gap-2 text-base"
+            onClick={handleCopyLink}
+          >
+            {copied ? (
+              <><Check className="h-5 w-5" /> Copied!</>
+            ) : (
+              <><Copy className="h-5 w-5" /> Copy Link</>
+            )}
           </Button>
 
           <Button
             variant="outline"
             size="lg"
-            className="w-full"
-            onClick={handleCopyLink}
+            className="w-full gap-2"
+            onClick={handleViewPage}
           >
-            {copied ? (
-              <><Check className="mr-2 h-4 w-4" /> Copied!</>
-            ) : (
-              <><Link className="mr-2 h-4 w-4" /> Copy Link</>
-            )}
+            <Globe className="h-5 w-5" /> View Page
           </Button>
         </div>
 
-        <p className="mt-6 text-xs text-muted-foreground">
+        <p className="mt-6 text-xs text-muted-foreground/60">
           Powered by {BRAND.name}
         </p>
       </motion.div>
