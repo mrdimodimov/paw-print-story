@@ -162,7 +162,7 @@ const Landing = () => {
               See What a Tribute Looks Like
             </h2>
             <p className="mb-3 text-sm font-medium text-primary/80">
-              Created by a pet owner in under 2 minutes
+              A real example created from just a few memories.
             </p>
             <p className="mb-10 text-base text-muted-foreground">
               Here is an example tribute created from just a few memories.
