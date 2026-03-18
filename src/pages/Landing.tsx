@@ -301,10 +301,10 @@ const Landing = () => {
             })()}
           </div>
           <p className="mt-8 text-center text-sm text-muted-foreground">
-            Your tribute is created in seconds and can be edited before you download or share.
+            One-time payment · No subscription
           </p>
           <p className="mt-2 text-center text-sm text-muted-foreground">
-            If you're not satisfied, we'll make it right.
+            Your tribute is created in seconds and can be edited before you download or share.
           </p>
           <div className="mt-6">
             <GuaranteeBadge />
