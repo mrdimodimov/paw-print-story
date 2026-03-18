@@ -201,16 +201,17 @@ export default function MemoryTimeline({
 
                 {/* Photo between entries for tier 2/3 */}
                 {hasPhoto && (
-                  <motion.img
-                    initial={{ opacity: 0, scale: 0.97 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4 }}
-                    src={photoUrls![i]}
-                    alt={`${petName} — ${entry.title}`}
-                    className="ml-11 w-[calc(100%-2.75rem)] rounded-lg border border-border object-cover shadow-soft"
-                    style={{ maxHeight: 280 }}
-                  />
+                  <div className="ml-11 w-[calc(100%-2.75rem)] overflow-hidden rounded-lg border border-border bg-muted/30 shadow-soft">
+                    <motion.img
+                      initial={{ opacity: 0, scale: 0.97 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4 }}
+                      src={photoUrls![i]}
+                      alt={`${petName} — ${entry.title}`}
+                      className="mx-auto block max-h-[320px] w-auto max-w-full object-contain"
+                    />
+                  </div>
                 )}
               </motion.div>
             );

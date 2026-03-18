@@ -550,6 +550,13 @@ const Questionnaire = () => {
           Your answers are never stored or used for AI training. They are only used to generate your tribute.
         </p>
 
+        <ImageCropModal
+          open={cropOpen}
+          imageSrc={cropSrc}
+          onClose={() => { setCropOpen(false); setCropSrc(null); }}
+          onCropComplete={handleCropComplete}
+        />
+
         <div className="mt-6 flex justify-between">
           <Button
             variant="outline"

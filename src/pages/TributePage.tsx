@@ -481,12 +481,13 @@ const TributePage = () => {
               </div>
               <div className="flex flex-wrap gap-3">
                 {photoUrls.slice(1).map((url, i) => (
-                  <img
-                    key={i}
-                    src={url}
-                    alt={`${petName || "Pet"} photo ${i + 2}`}
-                    className="h-20 w-20 rounded-lg border border-border object-cover shadow-sm"
-                  />
+                  <div key={i} className="h-20 w-20 overflow-hidden rounded-lg border border-border bg-muted/30 shadow-sm">
+                    <img
+                      src={url}
+                      alt={`${petName || "Pet"} photo ${i + 2}`}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
                 ))}
               </div>
             </div>
