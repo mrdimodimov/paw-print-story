@@ -331,22 +331,25 @@ export async function downloadMemorialPDF(
   doc.setLineWidth(0.35);
   doc.line(margin + divInset, headerEndY + 4, pageWidth - margin - divInset, headerEndY + 4);
 
-  // Featured photo(s)
+  // Featured photo(s) — proportionally scaled
   let storyStartY = headerEndY + 12;
   if (images.length === 1) {
-    const imgSize = 42;
-    doc.addImage(images[0], "JPEG", (pageWidth - imgSize) / 2, storyStartY, imgSize, imgSize);
-    storyStartY += imgSize + 10;
+    const maxBox = 42;
+    const { w, h } = fitImage(images[0].width, images[0].height, maxBox, maxBox);
+    doc.addImage(images[0].dataUrl, "JPEG", (pageWidth - w) / 2, storyStartY, w, h);
+    storyStartY += h + 10;
   } else if (images.length >= 2) {
-    const imgSize = 36;
+    const maxBox = 36;
     const shown = images.slice(0, 3);
-    const totalWidth = shown.length * imgSize + (shown.length - 1) * 6;
+    const totalWidth = shown.length * maxBox + (shown.length - 1) * 6;
     let x = (pageWidth - totalWidth) / 2;
     for (const img of shown) {
-      doc.addImage(img, "JPEG", x, storyStartY, imgSize, imgSize);
-      x += imgSize + 6;
+      const { w, h } = fitImage(img.width, img.height, maxBox, maxBox);
+      const yOffset = storyStartY + (maxBox - h) / 2; // vertically center within row
+      doc.addImage(img.dataUrl, "JPEG", x + (maxBox - w) / 2, yOffset, w, h);
+      x += maxBox + 6;
     }
-    storyStartY += imgSize + 10;
+    storyStartY += maxBox + 10;
   } else {
     storyStartY += 4;
   }
