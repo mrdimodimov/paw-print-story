@@ -145,9 +145,16 @@ const Questionnaire = () => {
   };
 
   const canProceed = () => {
+    if (step === -1) return true;
     if (step === 0) return form.pet_name.trim() && form.pet_type.trim();
     return true;
   };
+
+  const encouragementMessage = (() => {
+    if (step === 1) return "This is already becoming something special ❤️";
+    if (step === 3) return "You're doing great — your tribute is taking shape.";
+    return null;
+  })();
 
   const handleGenerate = () => {
     navigate(`/tribute?tier=${tier}`, { state: { formData: form, isPublic, email: email.trim() || undefined } });
