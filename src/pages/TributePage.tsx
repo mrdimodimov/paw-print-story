@@ -688,8 +688,8 @@ const TributePage = () => {
           {/* Post-unlock quick actions */}
           {unlocked && (
             <div className="mb-6 flex flex-wrap justify-center gap-3">
-              <Button size="sm" onClick={handleDownloadPDF}>
-                <Download className="mr-1 h-4 w-4" /> Download PDF
+              <Button size="lg" className="px-8 text-base" onClick={handleDownloadPDF}>
+                <Download className="mr-1 h-5 w-5" /> Download PDF
               </Button>
               {tributeSlug && (
                 <Button
