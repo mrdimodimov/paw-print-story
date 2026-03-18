@@ -81,13 +81,13 @@ const Landing = () => {
               Remember Them
             </h2>
             <p className="mb-8 text-base leading-relaxed text-muted-foreground">
-              Before writing a tribute, take a quiet moment to think about what made your pet special.
+              Before writing a tribute, take a quiet moment to reflect on what made your pet special.
             </p>
             <div className="mb-8 space-y-5">
               {[
               "What was their favorite place to sleep?",
-              "What small habit always made you smile?",
-              "What is one memory you will always carry with you?"].
+              "What small habits made you smile?",
+              "What are the moments you'll always carry with you?"].
               map((prompt, i) =>
               <motion.p
                 key={i}
@@ -101,13 +101,10 @@ const Landing = () => {
               )}
             </div>
             <p className="mb-4 text-base font-medium text-foreground/70">
-              These small memories are what make a tribute truly meaningful.
-            </p>
-            <p className="mb-4 text-base text-muted-foreground">
-              When you're ready, we'll help turn those memories into a beautiful tribute.
+              These moments matter more than we realize. A tribute helps you hold onto them.
             </p>
             <p className="mb-8 text-base font-semibold text-foreground/80">
-              Start your tribute and preserve these memories forever.
+              Start your tribute and turn these memories into something lasting.
             </p>
             <Button
               size="lg"
