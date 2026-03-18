@@ -320,16 +320,24 @@ const Questionnaire = () => {
               <Label className="mb-3 block">
                 Share your favorite memories with {form.pet_name || "your pet"}
               </Label>
-              {form.memories.map((m, i) => (
-                <Textarea
-                  key={i}
-                  className="mb-3"
-                  placeholder={`Memory ${i + 1}...`}
-                  value={m}
-                  onChange={(e) => updateMemory(i, e.target.value)}
-                  rows={2}
-                />
-              ))}
+              {form.memories.map((m, i) => {
+                const placeholders = [
+                  "One of your favorite moments together...",
+                  "A moment that always makes you smile...",
+                  "Something they used to do that you'll never forget...",
+                  "A small habit or memory you loved...",
+                ];
+                return (
+                  <Textarea
+                    key={i}
+                    className="mb-3"
+                    placeholder={placeholders[i % placeholders.length]}
+                    value={m}
+                    onChange={(e) => updateMemory(i, e.target.value)}
+                    rows={2}
+                  />
+                );
+              })}
               <Button variant="outline" size="sm" onClick={addMemory}>
                 + Add another memory
               </Button>
