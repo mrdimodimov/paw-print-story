@@ -9,7 +9,7 @@ import TributeWritingExperience from "@/components/TributeWritingExperience";
 import PublicTributeToggle from "@/components/PublicTributeToggle";
 import PostGenerationEmailSave from "@/components/PostGenerationEmailSave";
 import TributeMemories from "@/components/TributeMemories";
-import TributeReactions from "@/components/TributeReactions";
+import TributeReactions, { ReactionCounters } from "@/components/TributeReactions";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -446,10 +446,10 @@ const TributePage = () => {
               </p>
             )}
 
-            {/* Reactions */}
+            {/* Reaction counters (social proof) */}
             {tributeDbId && (
-              <div className="mt-6 border-t border-border pt-6">
-                <TributeReactions tributeId={tributeDbId} petName={petName} />
+              <div className="mt-5">
+                <ReactionCounters tributeId={tributeDbId} petName={petName} unlocked={unlocked} />
               </div>
             )}
           </div>
@@ -608,6 +608,18 @@ const TributePage = () => {
               unlocked={unlocked}
               onUnlock={() => setUnlocked(true)}
             />
+          )}
+
+          {/* End-of-story Reactions CTA */}
+          {tributeDbId && (
+            <div className="mb-6">
+              <TributeReactions
+                tributeId={tributeDbId}
+                petName={petName}
+                unlocked={unlocked}
+                slug={tributeSlug}
+              />
+            </div>
           )}
 
           {!unlocked && (
