@@ -670,9 +670,14 @@ const TributePage = () => {
 
               {/* CTA */}
               <div className="mb-4 text-center">
-                <Button size="lg" className="px-10 text-base" onClick={() => setUnlocked(true)}>
+                <Button
+                  size="lg"
+                  className="px-10 text-base"
+                  disabled={checkoutLoading}
+                  onClick={handleCheckout}
+                >
                   <Lock className="mr-2 h-4 w-4" />
-                  Unlock My Tribute
+                  {checkoutLoading ? "Redirecting…" : "Unlock My Tribute"}
                 </Button>
                 <p className="mt-3 text-xs text-muted-foreground">
                   One-time payment • Yours forever
