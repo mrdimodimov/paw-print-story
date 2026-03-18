@@ -390,12 +390,15 @@ const Landing = () => {
                 </li>
               </ul>
             </div>
+            <div className="flex flex-col items-center gap-2">
+              <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+              <Link to="/terms" className="hover:text-primary transition-colors">Terms</Link>
+            </div>
             <div className="flex flex-col items-center md:items-end md:justify-end">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => navigate("/create")}>
-                
                 <PawPrint className="mr-2 h-4 w-4" />
                 Create a Beautiful Tribute for Your Pet
               </Button>
@@ -403,6 +406,9 @@ const Landing = () => {
           </div>
           <p className="mb-2 text-center text-xs text-muted-foreground/70">
             Your memories are private and never used for AI training.
+          </p>
+          <p className="mb-2 text-center text-sm text-muted-foreground/80">
+            Made with care for pet owners everywhere.
           </p>
           <p className="text-center">
             Made with <Heart className="inline h-3 w-3 text-primary" /> by {BRAND.name}
