@@ -529,6 +529,17 @@ const Questionnaire = () => {
           </div>
         )}
 
+        {/* Micro-encouragement */}
+        {encouragementMessage && (
+          <motion.p
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-4 text-center text-sm font-medium text-primary/80"
+          >
+            {encouragementMessage}
+          </motion.p>
+        )}
+
         <p className="mt-6 text-center text-xs text-muted-foreground/70">
           Your answers are never stored or used for AI training. They are only used to generate your tribute.
         </p>
@@ -537,7 +548,7 @@ const Questionnaire = () => {
           <Button
             variant="outline"
             onClick={() => setStep((s) => s - 1)}
-            disabled={step === 0}
+            disabled={step <= 0}
           >
             <ArrowLeft className="mr-1 h-4 w-4" /> Previous
           </Button>
@@ -550,6 +561,12 @@ const Questionnaire = () => {
             </Button>
           ) : (
             <div className="flex flex-col items-center gap-2">
+              <p className="text-xs text-muted-foreground text-center">
+                We're creating your tribute now…
+              </p>
+              <p className="text-xs text-muted-foreground/70 text-center">
+                You'll be able to preview it before anything is paid.
+              </p>
               <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
                 <Shield className="h-3.5 w-3.5 text-primary" />
                 Your purchase is protected by our 7-Day Tribute Satisfaction Guarantee.
@@ -560,6 +577,8 @@ const Questionnaire = () => {
             </div>
           )}
         </div>
+        </>
+        )}
       </div>
     </div>
   );
