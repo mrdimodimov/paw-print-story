@@ -446,10 +446,10 @@ const TributePage = () => {
               </p>
             )}
 
-            {/* Reactions */}
+            {/* Reaction counters (social proof) */}
             {tributeDbId && (
-              <div className="mt-6 border-t border-border pt-6">
-                <TributeReactions tributeId={tributeDbId} petName={petName} />
+              <div className="mt-5">
+                <ReactionCounters tributeId={tributeDbId} petName={petName} unlocked={unlocked} />
               </div>
             )}
           </div>
