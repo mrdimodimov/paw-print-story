@@ -208,7 +208,7 @@ const Landing = () => {
             </p>
             <Link
               to="/example-tribute"
-              className="inline-block text-sm font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors">
+              className="inline-block font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors text-lg">
               
               See the full example tribute →
             </Link>
@@ -239,7 +239,7 @@ const Landing = () => {
             viewport={{ once: true }}
             className="space-y-4">
             
-            <p className="font-display text-xl leading-relaxed text-foreground md:text-2xl">
+            <p className="font-display text-xl leading-relaxed text-foreground md:text-3xl">
               Pets are family. Their memories deserve more than a few photos on a phone.
             </p>
             <p className="text-base text-muted-foreground">
@@ -407,9 +407,9 @@ const Landing = () => {
           <p className="mb-2 text-center text-xs text-muted-foreground/70">
             Your memories are private and never used for AI training.
           </p>
-          <p className="mb-2 text-center text-sm text-muted-foreground/80">
-            Made with care for pet owners everywhere.
-          </p>
+          
+
+          
           <p className="text-center">
             Made with <Heart className="inline h-3 w-3 text-primary" /> by {BRAND.name}
           </p>
