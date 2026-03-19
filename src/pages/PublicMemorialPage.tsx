@@ -239,7 +239,7 @@ const PublicMemorialPage = () => {
                 <h2 className="font-display text-xl font-semibold text-foreground">A Tribute to {tribute.pet_name}</h2>
               </div>
             )}
-            <div className={`whitespace-pre-line font-body leading-relaxed text-foreground ${isLegacy || isPack ? "text-base" : "text-sm"}`}>
+            <div className={`whitespace-pre-wrap font-body leading-relaxed text-foreground ${isLegacy || isPack ? "text-base" : "text-sm"}`}>
               {tribute.story}
             </div>
           </div>
