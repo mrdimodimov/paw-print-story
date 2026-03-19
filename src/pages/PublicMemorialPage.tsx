@@ -272,19 +272,17 @@ const PublicMemorialPage = () => {
             const cardClasses = `mb-8 rounded-xl border border-border bg-card shadow-card ${isLegacy ? "p-8 md:p-10" : "p-6 md:p-8"}`;
 
             const inlineCta = showInlineCta && (
-              <div className="my-6 flex flex-col items-center">
-                <div className="mb-4 h-px w-12 bg-border/50" />
+              <div className="my-6 text-center">
                 <p className="mb-2 text-xs text-muted-foreground">
                   Every pet leaves a story worth remembering.
                 </p>
                 <button
                   onClick={() => navigate("/create")}
-                  className="group inline-flex items-center gap-2 text-sm text-primary/80 transition hover:text-primary"
+                  className="group inline-flex items-center gap-2 rounded-full border border-border/60 px-4 py-1.5 text-sm text-foreground/80 transition-all hover:border-primary/40 hover:bg-accent/20 hover:text-foreground"
                 >
                   Honor your pet's memory in the same way
                   <span className="transition-transform group-hover:translate-x-1">→</span>
                 </button>
-                <div className="mt-4 h-px w-12 bg-border/50" />
               </div>
             );
 
