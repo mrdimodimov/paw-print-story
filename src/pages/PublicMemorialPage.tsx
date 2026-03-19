@@ -108,40 +108,7 @@ const PhotoGallery = ({ photos, petName, tier }: { photos: string[]; petName: st
   );
 };
 
-/* ── Sticky CTA Bar ─────────────────────────────────── */
-
-const StickyCta = ({ navigate }: { navigate: (path: string) => void }) => {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 600);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  return (
-    <AnimatePresence>
-      {visible && (
-        <motion.div
-          initial={{ y: 80, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 80, opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/50 bg-background/95 backdrop-blur-sm"
-        >
-          <div className="tribute-container flex items-center justify-between py-3">
-            <p className="text-sm font-medium text-foreground">
-              Create a tribute for your pet
-            </p>
-            <Button size="sm" className="shadow-glow" onClick={() => navigate("/create")}>
-              Create a Tribute <ArrowRight className="ml-1 h-3 w-3" />
-            </Button>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
+/* ── main page ──────────────────────────────────────── */
 
 /* ── main page ──────────────────────────────────────── */
 
