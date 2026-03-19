@@ -252,26 +252,63 @@ const PublicMemorialPage = () => {
           <PhotoGallery photos={tribute.photo_urls} petName={tribute.pet_name} tier={tribute.tier_id} />
 
           {/* Tribute Story */}
-          <div className={`mb-8 rounded-xl border border-border bg-card shadow-card ${isLegacy ? "p-8 md:p-10" : "p-6 md:p-8"}`}>
-            {isLegacy && (
-              <div className="mb-6 border-b border-border/50 pb-4">
-                <h2 className="font-display text-xl font-semibold text-foreground">A Tribute to {tribute.pet_name}</h2>
-              </div>
-            )}
-            <div className={`whitespace-pre-wrap font-body leading-relaxed text-foreground ${isLegacy || isPack ? "text-base" : "text-sm"}`}>
-              {tribute.story}
-            </div>
-          </div>
+          {(() => {
+            const storySplit = splitStoryWithCta(tribute.story);
+            const storyClasses = `whitespace-pre-wrap font-body leading-relaxed text-foreground ${isLegacy || isPack ? "text-base" : "text-sm"}`;
+            const cardClasses = `mb-8 rounded-xl border border-border bg-card shadow-card ${isLegacy ? "p-8 md:p-10" : "p-6 md:p-8"}`;
 
-          {/* CTA 1: Mid-page — directly after tribute story */}
-          <div className="mt-8 mb-8 rounded-xl border border-border bg-accent/20 p-6 text-center">
-            <p className="mb-4 font-display text-base font-semibold text-foreground">Honor your pet's life in the same way.</p>
-            <Button size="sm" className="shadow-glow" onClick={() => navigate("/create")}>
-              <PawPrint className="mr-2 h-4 w-4" />
-              Create Your Tribute
-            </Button>
-            <p className="mt-3 text-xs text-muted-foreground">Takes less than 2 minutes · No writing required</p>
-          </div>
+            if (storySplit) {
+              return (
+                <>
+                  <div className={cardClasses}>
+                    {isLegacy && (
+                      <div className="mb-6 border-b border-border/50 pb-4">
+                        <h2 className="font-display text-xl font-semibold text-foreground">A Tribute to {tribute.pet_name}</h2>
+                      </div>
+                    )}
+                    <div className={storyClasses}>{storySplit.before}</div>
+                  </div>
+
+                  {/* Inline mid-story CTA */}
+                  <div className="my-8 text-center">
+                    <button
+                      onClick={() => navigate("/create")}
+                      className="text-sm text-primary underline underline-offset-4 hover:text-primary/80 transition"
+                    >
+                      Create a tribute for your own pet →
+                    </button>
+                  </div>
+
+                  <div className={cardClasses}>
+                    <div className={storyClasses}>{storySplit.after}</div>
+                  </div>
+                </>
+              );
+            }
+
+            return (
+              <>
+                <div className={cardClasses}>
+                  {isLegacy && (
+                    <div className="mb-6 border-b border-border/50 pb-4">
+                      <h2 className="font-display text-xl font-semibold text-foreground">A Tribute to {tribute.pet_name}</h2>
+                    </div>
+                  )}
+                  <div className={storyClasses}>{tribute.story}</div>
+                </div>
+
+                {/* Fallback mid CTA when story can't be split */}
+                <div className="my-8 text-center">
+                  <button
+                    onClick={() => navigate("/create")}
+                    className="text-sm text-primary underline underline-offset-4 hover:text-primary/80 transition"
+                  >
+                    Create a tribute for your own pet →
+                  </button>
+                </div>
+              </>
+            );
+          })()}
 
           {/* Share Card (Tier 2+) */}
           {(isPack || isLegacy) && tribute.share_card_text && (
