@@ -68,6 +68,8 @@ const App = () => (
             <Route path="/what-to-write-when-a-dog-dies" element={<WhatToWriteWhenDogDies />} />
             <Route path="/example-tribute" element={<ExampleTribute />} />
             <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfService />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </PreviewGate>
