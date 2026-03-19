@@ -914,17 +914,19 @@ const TributePage = () => {
             </div>
           )}
 
-          <div className="mb-6">
-            <PublicTributeToggle
-              petName={petName || ""}
-              petType={petType}
-              breed={breed}
-              yearsOfLife={yearsOfLife}
-              tribute={tribute}
-              photoUrls={photoUrls}
-              tierId={currentTier.id}
-            />
-          </div>
+          {unlocked && (
+            <div className="mb-6">
+              <PublicTributeToggle
+                petName={petName || ""}
+                petType={petType}
+                breed={breed}
+                yearsOfLife={yearsOfLife}
+                tribute={tribute}
+                photoUrls={photoUrls}
+                tierId={currentTier.id}
+              />
+            </div>
+          )}
 
           {/* Digital Memorial Page (Tier 3) */}
           {currentTier.include_memorial_page && (
