@@ -110,8 +110,6 @@ const PhotoGallery = ({ photos, petName, tier }: { photos: string[]; petName: st
 
 /* ── main page ──────────────────────────────────────── */
 
-/* ── main page ──────────────────────────────────────── */
-
 const PublicMemorialPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
@@ -201,13 +199,9 @@ const PublicMemorialPage = () => {
   const isLegacy = tribute.tier_id === "legacy";
   const isPack = tribute.tier_id === "pack";
   const breedOrType = tribute.breed ? `${tribute.breed} ${tribute.pet_type}` : tribute.pet_type;
-  const storySplit = splitStoryWithCta(tribute.story);
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Sticky CTA */}
-      <StickyCta navigate={navigate} />
-
       {/* Header */}
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
@@ -238,43 +232,16 @@ const PublicMemorialPage = () => {
           {/* Photos */}
           <PhotoGallery photos={tribute.photo_urls} petName={tribute.pet_name} tier={tribute.tier_id} />
 
-          {/* Tribute Story — with mid-story CTA */}
+          {/* Tribute Story */}
           <div className={`mb-8 rounded-xl border border-border bg-card shadow-card ${isLegacy ? "p-8 md:p-10" : "p-6 md:p-8"}`}>
             {isLegacy && (
               <div className="mb-6 border-b border-border/50 pb-4">
                 <h2 className="font-display text-xl font-semibold text-foreground">A Tribute to {tribute.pet_name}</h2>
               </div>
             )}
-
-            {storySplit ? (
-              <>
-                <div className={`whitespace-pre-line font-body leading-relaxed text-foreground ${isLegacy || isPack ? "text-base" : "text-sm"}`}>
-                  {storySplit.before}
-                </div>
-
-                {/* Mid-story CTA */}
-                <div className="my-6 rounded-lg border border-border/50 bg-accent/10 px-5 py-4 text-center">
-                  <p className="mb-1 font-display text-sm font-semibold text-foreground">
-                    Every pet leaves a story worth remembering.
-                  </p>
-                  <p className="mb-3 text-xs text-muted-foreground">
-                    Create a tribute for your own pet in minutes.
-                  </p>
-                  <Button size="sm" variant="outline" onClick={() => navigate("/create")}>
-                    <PawPrint className="mr-1 h-3 w-3" />
-                    Create a Tribute
-                  </Button>
-                </div>
-
-                <div className={`whitespace-pre-line font-body leading-relaxed text-foreground ${isLegacy || isPack ? "text-base" : "text-sm"}`}>
-                  {storySplit.after}
-                </div>
-              </>
-            ) : (
-              <div className={`whitespace-pre-line font-body leading-relaxed text-foreground ${isLegacy || isPack ? "text-base" : "text-sm"}`}>
-                {tribute.story}
-              </div>
-            )}
+            <div className={`whitespace-pre-line font-body leading-relaxed text-foreground ${isLegacy || isPack ? "text-base" : "text-sm"}`}>
+              {tribute.story}
+            </div>
           </div>
 
           {/* Share Card (Tier 2+) */}
@@ -294,41 +261,26 @@ const PublicMemorialPage = () => {
             <ShareButtons url={pageUrl} title={`In Loving Memory of ${tribute.pet_name}`} photoUrl={tribute.photo_urls[0]} />
           </div>
 
-          {/* ── SEO Content Sections ── */}
-
           {/* About Section */}
           <section className="mb-8 rounded-xl border border-border bg-card p-6 shadow-soft">
             <h2 className="mb-3 font-display text-lg font-semibold text-foreground">About {tribute.pet_name}</h2>
             <p className="text-sm leading-relaxed text-muted-foreground">
               {tribute.pet_name} was a beloved {breedOrType}
               {tribute.years_of_life ? ` who lived a beautiful life (${tribute.years_of_life})` : ""}.
-              {" "}This tribute was created to honor {tribute.pet_name}s memory and celebrate the joy they brought to their family.
+              {" "}This tribute was created to honor {tribute.pet_name}'s memory and celebrate the joy they brought to their family.
             </p>
           </section>
 
-          {/* Timeline CTA */}
-          <SoftCta
-            navigate={navigate}
-            heading="Honor your pet's life in the same way."
-            subtext="Create a beautiful tribute in minutes."
-            buttonText="Start Your Tribute"
-          />
-
-          {/* Memorial Ideas */}
-          <section className="mb-8 rounded-xl border border-border bg-accent/20 p-6">
-            <h2 className="mb-3 font-display text-lg font-semibold text-foreground">Looking for a Way to Remember Your Pet?</h2>
-            <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
-              Creating a tribute story is one of the most meaningful ways to preserve their memory. Answer a few questions about your pet, and {BRAND.name} turns your memories into a heartfelt tribute you can keep forever.
-            </p>
-            <p className="mb-4 text-xs text-muted-foreground">
-              Many pet owners choose to preserve their pet's memory this way.
-            </p>
-            <Button size="lg" className="shadow-glow" onClick={() => navigate("/create")}>
-              <PawPrint className="mr-2 h-5 w-5" />
-              Create a Tribute for Your Pet
+          {/* CTA 1: Mid-page */}
+          <div className="my-8 rounded-xl border border-border bg-accent/20 p-6 text-center">
+            <p className="mb-1 font-display text-base font-semibold text-foreground">Honor your pet's life in the same way.</p>
+            <p className="mb-4 text-sm text-muted-foreground">Create a beautiful tribute in minutes.</p>
+            <Button size="sm" className="shadow-glow" onClick={() => navigate("/create")}>
+              <PawPrint className="mr-2 h-4 w-4" />
+              Create Your Tribute
             </Button>
-            <p className="mt-3 text-xs text-muted-foreground">Takes less than 2 minutes · No writing required · Edit before downloading</p>
-          </section>
+            <p className="mt-3 text-xs text-muted-foreground">Takes less than 2 minutes · No writing required</p>
+          </div>
 
           {/* Internal Links */}
           <nav className="mb-8 flex flex-wrap items-center justify-center gap-4 text-sm" aria-label="Related pages">
@@ -339,20 +291,19 @@ const PublicMemorialPage = () => {
         </motion.div>
       </div>
 
-      {/* End-of-page CTA */}
+      {/* CTA 2: Final bottom */}
       <section className="border-t border-border/50 bg-accent/30 py-12">
         <div className="tribute-container max-w-2xl text-center">
           <p className="mb-2 font-display text-xl font-semibold text-foreground">
             Every pet deserves to be remembered.
           </p>
           <p className="mb-6 text-sm text-muted-foreground">
-            Create a lasting tribute for your pet today.
+            Takes less than 2 minutes · No writing required
           </p>
           <Button size="lg" className="px-8 shadow-glow" onClick={() => navigate("/create")}>
             <PawPrint className="mr-2 h-5 w-5" />
             Create a Tribute
           </Button>
-          <p className="mt-4 text-xs text-muted-foreground">Takes less than 2 minutes · No writing required</p>
           <p className="mt-6 text-xs text-muted-foreground">Created with {BRAND.name}</p>
         </div>
       </section>
