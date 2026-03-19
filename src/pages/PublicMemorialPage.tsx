@@ -246,8 +246,7 @@ const PublicMemorialPage = () => {
 
           {/* CTA 1: Mid-page — directly after tribute story */}
           <div className="mt-8 mb-8 rounded-xl border border-border bg-accent/20 p-6 text-center">
-            <p className="mb-1 font-display text-base font-semibold text-foreground">Honor your pet's life in the same way.</p>
-            <p className="mb-4 text-sm text-muted-foreground">Create a beautiful tribute in minutes.</p>
+            <p className="mb-4 font-display text-base font-semibold text-foreground">Honor your pet's life in the same way.</p>
             <Button size="sm" className="shadow-glow" onClick={() => navigate("/create")}>
               <PawPrint className="mr-2 h-4 w-4" />
               Create Your Tribute
