@@ -135,6 +135,20 @@ const PublicMemorialPage = () => {
   const location = useLocation();
   const [tribute, setTribute] = useState<PublicTribute | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showInlineCta, setShowInlineCta] = useState(false);
+  const storyRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!storyRef.current) return;
+      const rect = storyRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const progress = Math.min(1, Math.max(0, (windowHeight - rect.top) / (rect.height + windowHeight)));
+      if (progress > 0.35) setShowInlineCta(true);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const fetchTribute = async () => {
