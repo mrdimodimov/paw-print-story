@@ -48,6 +48,8 @@ function setJsonLd(data: Record<string, unknown>) {
 
 /* ── sub-components ─────────────────────────────────── */
 
+
+
 const ShareButtons = ({ url, title, photoUrl }: { url: string; title: string; photoUrl?: string }) => {
   const eu = encodeURIComponent(url);
   const et = encodeURIComponent(title);
