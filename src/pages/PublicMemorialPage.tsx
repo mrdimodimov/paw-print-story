@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { PawPrint, Heart, Share2, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { PawPrint, Heart, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 import { supabase } from "@/integrations/supabase/client";
