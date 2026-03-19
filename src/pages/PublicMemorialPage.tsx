@@ -46,30 +46,7 @@ function setJsonLd(data: Record<string, unknown>) {
   el.textContent = JSON.stringify(data);
 }
 
-/** Split story into paragraphs and insert a CTA block after ~2-3 paragraphs */
-function splitStoryWithCta(story: string): { before: string; after: string } | null {
-  const paras = story.split(/\n\s*\n/).filter(Boolean);
-  if (paras.length < 4) return null; // too short to split
-  const splitAt = Math.min(3, Math.floor(paras.length / 2));
-  return {
-    before: paras.slice(0, splitAt).join("\n\n"),
-    after: paras.slice(splitAt).join("\n\n"),
-  };
-}
-
 /* ── sub-components ─────────────────────────────────── */
-
-const SoftCta = ({ navigate, heading, subtext, buttonText }: { navigate: (path: string) => void; heading: string; subtext: string; buttonText: string }) => (
-  <div className="my-8 rounded-xl border border-border bg-accent/20 p-6 text-center">
-    <p className="mb-1 font-display text-base font-semibold text-foreground">{heading}</p>
-    <p className="mb-4 text-sm text-muted-foreground">{subtext}</p>
-    <Button size="sm" className="shadow-glow" onClick={() => navigate("/create")}>
-      <PawPrint className="mr-2 h-4 w-4" />
-      {buttonText}
-    </Button>
-    <p className="mt-3 text-xs text-muted-foreground">Takes less than 2 minutes · No writing required</p>
-  </div>
-);
 
 const ShareButtons = ({ url, title, photoUrl }: { url: string; title: string; photoUrl?: string }) => {
   const eu = encodeURIComponent(url);
