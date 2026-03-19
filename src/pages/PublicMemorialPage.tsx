@@ -46,8 +46,27 @@ function setJsonLd(data: Record<string, unknown>) {
   el.textContent = JSON.stringify(data);
 }
 
-/* ── sub-components ─────────────────────────────────── */
+/* ── story split helper ─────────────────────────────── */
 
+function splitStoryWithCta(story: string): { before: string; after: string } | null {
+  const normalized = story.replace(/\r\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+  let paras = normalized.split(/\n\s*\n/).filter(Boolean);
+
+  // Fallback: if few paragraphs, split by sentences
+  if (paras.length < 3) {
+    paras = normalized.split(/(?<=[.?!])\s+/).filter(Boolean);
+  }
+
+  if (paras.length < 4) return null;
+
+  const splitAt = Math.min(3, Math.floor(paras.length / 2));
+  return {
+    before: paras.slice(0, splitAt).join("\n\n"),
+    after: paras.slice(splitAt).join("\n\n"),
+  };
+}
+
+/* ── sub-components ─────────────────────────────────── */
 
 
 const ShareButtons = ({ url, title, photoUrl }: { url: string; title: string; photoUrl?: string }) => {
