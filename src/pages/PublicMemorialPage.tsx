@@ -244,6 +244,17 @@ const PublicMemorialPage = () => {
             </div>
           </div>
 
+          {/* CTA 1: Mid-page — directly after tribute story */}
+          <div className="mt-8 mb-8 rounded-xl border border-border bg-accent/20 p-6 text-center">
+            <p className="mb-1 font-display text-base font-semibold text-foreground">Honor your pet's life in the same way.</p>
+            <p className="mb-4 text-sm text-muted-foreground">Create a beautiful tribute in minutes.</p>
+            <Button size="sm" className="shadow-glow" onClick={() => navigate("/create")}>
+              <PawPrint className="mr-2 h-4 w-4" />
+              Create Your Tribute
+            </Button>
+            <p className="mt-3 text-xs text-muted-foreground">Takes less than 2 minutes · No writing required</p>
+          </div>
+
           {/* Share Card (Tier 2+) */}
           {(isPack || isLegacy) && tribute.share_card_text && (
             <div className="mb-8 rounded-xl border border-border bg-card p-6 shadow-soft">
@@ -270,17 +281,6 @@ const PublicMemorialPage = () => {
               {" "}This tribute was created to honor {tribute.pet_name}'s memory and celebrate the joy they brought to their family.
             </p>
           </section>
-
-          {/* CTA 1: Mid-page */}
-          <div className="my-8 rounded-xl border border-border bg-accent/20 p-6 text-center">
-            <p className="mb-1 font-display text-base font-semibold text-foreground">Honor your pet's life in the same way.</p>
-            <p className="mb-4 text-sm text-muted-foreground">Create a beautiful tribute in minutes.</p>
-            <Button size="sm" className="shadow-glow" onClick={() => navigate("/create")}>
-              <PawPrint className="mr-2 h-4 w-4" />
-              Create Your Tribute
-            </Button>
-            <p className="mt-3 text-xs text-muted-foreground">Takes less than 2 minutes · No writing required</p>
-          </div>
 
           {/* Internal Links */}
           <nav className="mb-8 flex flex-wrap items-center justify-center gap-4 text-sm" aria-label="Related pages">
