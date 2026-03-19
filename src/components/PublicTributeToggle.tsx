@@ -42,6 +42,7 @@ interface PublicTributeToggleProps {
   tribute: GeneratedTribute;
   photoUrls: string[];
   tierId: TributeTier;
+  paid?: boolean;
 }
 
 const PublicTributeToggle = ({
