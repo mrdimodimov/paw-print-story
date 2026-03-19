@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { PawPrint, Heart, Share2 } from "lucide-react";
@@ -135,6 +135,20 @@ const PublicMemorialPage = () => {
   const location = useLocation();
   const [tribute, setTribute] = useState<PublicTribute | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showInlineCta, setShowInlineCta] = useState(false);
+  const storyRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!storyRef.current) return;
+      const rect = storyRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const progress = Math.min(1, Math.max(0, (windowHeight - rect.top) / (rect.height + windowHeight)));
+      if (progress > 0.35) setShowInlineCta(true);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const fetchTribute = async () => {
@@ -257,9 +271,26 @@ const PublicMemorialPage = () => {
             const storyClasses = `whitespace-pre-wrap font-body leading-relaxed text-foreground ${isLegacy || isPack ? "text-base" : "text-sm"}`;
             const cardClasses = `mb-8 rounded-xl border border-border bg-card shadow-card ${isLegacy ? "p-8 md:p-10" : "p-6 md:p-8"}`;
 
+            const inlineCta = showInlineCta && (
+              <div className="my-8 text-center">
+                <p className="mb-2 text-xs text-muted-foreground">
+                  Every pet leaves a story worth remembering.
+                </p>
+                <button
+                  onClick={() => navigate("/create")}
+                  className="group rounded-full border border-border/60 bg-background/60 px-5 py-2 text-sm text-foreground/80 shadow-sm backdrop-blur transition-all hover:border-primary/40 hover:bg-accent/30 hover:text-foreground"
+                >
+                  <span className="flex items-center gap-2">
+                    Honor your pet's memory in the same way
+                    <span className="transition-transform group-hover:translate-x-1">→</span>
+                  </span>
+                </button>
+              </div>
+            );
+
             if (storySplit) {
               return (
-                <>
+                <div ref={storyRef}>
                   <div className={cardClasses}>
                     {isLegacy && (
                       <div className="mb-6 border-b border-border/50 pb-4">
@@ -269,25 +300,17 @@ const PublicMemorialPage = () => {
                     <div className={storyClasses}>{storySplit.before}</div>
                   </div>
 
-                  {/* Inline mid-story CTA */}
-                  <div className="my-8 text-center">
-                    <button
-                      onClick={() => navigate("/create")}
-                      className="text-sm text-primary underline underline-offset-4 hover:text-primary/80 transition"
-                    >
-                      Create a tribute for your own pet →
-                    </button>
-                  </div>
+                  {inlineCta}
 
                   <div className={cardClasses}>
                     <div className={storyClasses}>{storySplit.after}</div>
                   </div>
-                </>
+                </div>
               );
             }
 
             return (
-              <>
+              <div ref={storyRef}>
                 <div className={cardClasses}>
                   {isLegacy && (
                     <div className="mb-6 border-b border-border/50 pb-4">
@@ -297,16 +320,8 @@ const PublicMemorialPage = () => {
                   <div className={storyClasses}>{tribute.story}</div>
                 </div>
 
-                {/* Fallback mid CTA when story can't be split */}
-                <div className="my-8 text-center">
-                  <button
-                    onClick={() => navigate("/create")}
-                    className="text-sm text-primary underline underline-offset-4 hover:text-primary/80 transition"
-                  >
-                    Create a tribute for your own pet →
-                  </button>
-                </div>
-              </>
+                {inlineCta}
+              </div>
             );
           })()}
 
