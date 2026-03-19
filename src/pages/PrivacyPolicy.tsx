@@ -17,8 +17,8 @@ const PrivacyPolicy = () => {
         <div className="tribute-container flex items-center justify-between py-4">
           <button
             onClick={() => navigate("/")}
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-          >
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            
             <PawPrint className="h-6 w-6 text-primary" />
             <span className="font-display text-xl font-semibold text-foreground">
               {BRAND.name}
@@ -99,8 +99,8 @@ const PrivacyPolicy = () => {
             <h2 className="mb-3 text-xl font-semibold text-foreground">Contact Us</h2>
             <p className="text-foreground/90 leading-relaxed">
               If you have any questions about this policy, reach out to us at{" "}
-              <a href="mailto:support@vellumpet.com" className="text-primary underline hover:opacity-80">
-                support@vellumpet.com
+              <a className="text-primary underline hover:opacity-80" href="mailto:hello@vellumpet.com">
+                hello@vellumpet.com
               </a>.
             </p>
           </section>
@@ -112,8 +112,8 @@ const PrivacyPolicy = () => {
           <p>Made with <Heart className="inline h-3 w-3 text-primary" /> by {BRAND.name}</p>
         </div>
       </footer>
-    </div>
-  );
+    </div>);
+
 };
 
 export default PrivacyPolicy;
