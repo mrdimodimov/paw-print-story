@@ -272,19 +272,19 @@ const PublicMemorialPage = () => {
             const cardClasses = `mb-8 rounded-xl border border-border bg-card shadow-card ${isLegacy ? "p-8 md:p-10" : "p-6 md:p-8"}`;
 
             const inlineCta = showInlineCta && (
-              <div className="my-8 text-center">
+              <div className="my-6 flex flex-col items-center">
+                <div className="mb-4 h-px w-12 bg-border/50" />
                 <p className="mb-2 text-xs text-muted-foreground">
                   Every pet leaves a story worth remembering.
                 </p>
                 <button
                   onClick={() => navigate("/create")}
-                  className="group rounded-full border border-border/60 bg-background/60 px-5 py-2 text-sm text-foreground/80 shadow-sm backdrop-blur transition-all hover:border-primary/40 hover:bg-accent/30 hover:text-foreground"
+                  className="group inline-flex items-center gap-2 text-sm text-primary/80 transition hover:text-primary"
                 >
-                  <span className="flex items-center gap-2">
-                    Honor your pet's memory in the same way
-                    <span className="transition-transform group-hover:translate-x-1">→</span>
-                  </span>
+                  Honor your pet's memory in the same way
+                  <span className="transition-transform group-hover:translate-x-1">→</span>
                 </button>
+                <div className="mt-4 h-px w-12 bg-border/50" />
               </div>
             );
 
@@ -298,11 +298,7 @@ const PublicMemorialPage = () => {
                       </div>
                     )}
                     <div className={storyClasses}>{storySplit.before}</div>
-                  </div>
-
-                  {inlineCta}
-
-                  <div className={cardClasses}>
+                    {inlineCta}
                     <div className={storyClasses}>{storySplit.after}</div>
                   </div>
                 </div>
