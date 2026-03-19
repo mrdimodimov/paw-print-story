@@ -19,6 +19,7 @@ import ExampleTribute from "./pages/ExampleTribute";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
