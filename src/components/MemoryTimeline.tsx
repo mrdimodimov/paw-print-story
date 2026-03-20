@@ -37,17 +37,24 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
     }
   }
 
-  const TITLE_PATTERNS = [
-    { regex: /first\s+(day|time|night|walk|trip|visit|bath|christmas|birthday)/i, title: (m: RegExpMatchArray) => `First ${capitalize(m[1])}` },
-    { regex: /favorite\s+(spot|place|toy|treat|game|person|blanket|chair)/i, title: (m: RegExpMatchArray) => `Favorite ${capitalize(m[1])}` },
-    { regex: /(cuddle|snuggle|nap|sleep|rest)/i, title: () => "Quiet Moments" },
-    { regex: /(play|run|fetch|chase|jump|zoomie)/i, title: () => "Playful Days" },
-    { regex: /(love|heart|soul|bond|friend|companion)/i, title: () => "A Bond Like No Other" },
-    { regex: /(goodbye|farewell|rainbow|bridge|miss|gone|last)/i, title: () => "Until We Meet Again" },
-    { regex: /(walk|hike|adventure|explore|outdoor|park|beach)/i, title: () => "Adventures Together" },
-    { regex: /(home|family|house|welcome|arrive|adopt)/i, title: () => "Coming Home" },
-    { regex: /(grow|older|age|year|season|winter|summer)/i, title: () => "Through the Seasons" },
-    { regex: /(food|eat|treat|dinner|breakfast|kibble|chicken)/i, title: () => "The Little Things" },
+  // Cinematic title patterns — each maps a thematic keyword to an evocative chapter-style title
+  const TITLE_PATTERNS: { regex: RegExp; title: (text: string) => string }[] = [
+    { regex: /first\s+(day|time|night|walk|trip|bath)/i, title: () => "The Day It All Began" },
+    { regex: /(door|window|gate|porch|waiting|watched)/i, title: () => "The Door That Always Knew" },
+    { regex: /(cuddle|snuggle|nap|sleep|pillow|blanket|couch)/i, title: () => "Where the Warmth Lived" },
+    { regex: /(play|run|fetch|chase|jump|zoomie|ball)/i, title: () => "The Wild Hours" },
+    { regex: /(walk|hike|adventure|explore|park|beach|trail)/i, title: () => "Miles That Mattered" },
+    { regex: /(morning|sunrise|dawn|wake|breakfast|routine)/i, title: () => "Before the World Woke Up" },
+    { regex: /(evening|sunset|night|dark|quiet|still)/i, title: () => "When the House Went Quiet" },
+    { regex: /(home|family|house|welcome|arrive|adopt|rescue)/i, title: () => "Coming Through the Door" },
+    { regex: /(food|eat|treat|dinner|chicken|kibble|cheese)/i, title: () => "The Small Negotiations" },
+    { regex: /(love|heart|soul|bond|friend|companion)/i, title: () => "The Space Between Us" },
+    { regex: /(grow|older|age|year|season|winter|summer)/i, title: () => "Through Every Season" },
+    { regex: /(goodbye|farewell|last|miss|gone|final)/i, title: () => "The Light That Lingered" },
+    { regex: /(toy|favorite|spot|place|chair|bed|corner)/i, title: () => "A Place That Was Only Theirs" },
+    { regex: /(sound|bark|purr|meow|voice|noise|whine)/i, title: () => "The Sound the House Remembers" },
+    { regex: /(rain|storm|thunder|snow|cold|warm)/i, title: () => "What the Weather Taught Us" },
+    { regex: /(cage|tank|enclosure|wheel|burrow|nest)/i, title: () => "A Whole World in Miniature" },
   ];
 
   function capitalize(s: string) {
@@ -58,29 +65,35 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
     return raw.replace(/^[—\-–\s:]+|[—\-–\s:]+$/g, "").trim();
   }
 
+  /** Generate a cinematic fallback title from paragraph text */
   function summarizeFromText(text: string): string {
+    // Extract the key noun/object from the first sentence for a more evocative title
     const firstSentence = text.split(/[.!?]/)[0]?.trim() || "";
     const words = firstSentence.split(/\s+/).filter(Boolean);
-    if (words.length <= 6) return words.join(" ");
-    return words.slice(0, 5).join(" ");
+    if (words.length <= 5) return words.join(" ");
+    // Take a compelling slice — skip first 1-2 filler words, grab the core
+    const start = words.length > 8 ? 2 : 1;
+    return words.slice(start, start + 4).join(" ");
   }
 
-  function generateTitle(text: string, index: number, total: number): string {
-    if (index === 0) {
-      const homeMatch = text.match(/(home|family|adopt|rescue|arrive|first|welcome|puppy|kitten)/i);
-      if (homeMatch) return "The Day It All Began";
-    }
-    if (index === total - 1) {
-      const endMatch = text.match(/(goodbye|farewell|rainbow|bridge|miss|forever|always|heart|legacy)/i);
-      if (endMatch) return "Forever in Our Hearts";
-    }
+  // Alternate cinematic fallbacks to avoid repetition
+  const CINEMATIC_FALLBACKS = [
+    "The Hours That Held Us",
+    "Something Worth Remembering",
+    "A Rhythm All Their Own",
+    "What the Silence Kept",
+    "The Smallest Ceremony",
+  ];
 
+  function generateTitle(text: string, index: number, total: number): string {
+    // Try pattern matching first
     for (const pattern of TITLE_PATTERNS) {
       const match = text.match(pattern.regex);
-      if (match) return sanitizeTitle(pattern.title(match));
+      if (match) return sanitizeTitle(pattern.title(text));
     }
 
-    return summarizeFromText(text) || "A Cherished Moment";
+    // Fallback: rotate through cinematic defaults
+    return CINEMATIC_FALLBACKS[index % CINEMATIC_FALLBACKS.length];
   }
 
   const targetCount = Math.min(Math.max(3, Math.ceil(paragraphs.length * 0.6)), 5);
