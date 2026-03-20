@@ -104,9 +104,12 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
     const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
     const description = sentences.slice(0, 2).join(" ").trim();
 
-    let title = generateTitle(text, i, selected.length);
+    let title = sanitizeTitle(generateTitle(text, i, selected.length));
+    if (!title || /^Memory\s*\d+$/i.test(title)) {
+      title = summarizeFromText(text) || "A Cherished Moment";
+    }
     if (usedTitles.has(title)) {
-      title = `Memory ${i + 1}`;
+      title = summarizeFromText(text.slice(text.length / 3)) || "A Special Moment";
     }
     usedTitles.add(title);
 
