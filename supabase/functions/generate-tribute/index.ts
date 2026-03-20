@@ -101,7 +101,9 @@ STRUCTURE: 1) Open with a specific moment capturing who the pet was 2) Show pers
 
 PARAGRAPH FORMATTING (MANDATORY): Write the tribute in 3–5 natural paragraphs, each 2–4 sentences long. Insert a blank line between every paragraph. Never output the tribute as one continuous block of text. Each paragraph should correspond roughly to: opening memory, personality reflection, meaningful life moments, emotional meaning, and loving farewell.
 
-OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words) capturing the pet's spirit, personality, or a defining memory. No clichés, no generic phrases. Then a blank line, then the tribute story text with paragraphs separated by blank lines. No other headers or labels.`;
+MEMORY TITLES: Each paragraph represents a memory. If the paragraph were given a short title (3–6 words), it should be emotionally resonant and specific to the content — never generic like "Memory 1" or "Memory 2". Do NOT include dashes, decorative symbols, or markers in the text. Keep the prose clean.
+
+OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words) capturing the pet's spirit, personality, or a defining memory. No clichés, no generic phrases. Do NOT include dashes or decorative characters anywhere except the "---TITLE---" marker itself. Then a blank line, then the tribute story text with paragraphs separated by blank lines. No other headers or labels.`;
 
 const REGEN_SYSTEM_PROMPT = `You are a gifted pet memorial writer. Write a NEW variation of a pet tribute using the provided narrative context. Create a fresh tribute that feels different from the previous version while staying true to the same pet and memories.
 
