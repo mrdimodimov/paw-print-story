@@ -155,78 +155,77 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Example Tribute */}
+      {/* Tribute Examples Grid */}
       <section className="tribute-section">
-        <div className="tribute-container max-w-2xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}>
-            <h2 className="mb-4 font-display text-3xl font-bold text-foreground">
-              See What a Tribute Looks Like
-            </h2>
-            <p className="mb-3 text-sm font-medium text-primary/80">
-              A real example created from just a few memories.
-            </p>
-            <p className="mb-10 text-base text-muted-foreground">
-              Here is an example tribute created from just a few memories.
-            </p>
-          </motion.div>
-
+        <div className="tribute-container">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15, duration: 0.6 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="mb-8 rounded-xl border border-border bg-card p-10 text-left shadow-card md:p-12">
-            <p className="mb-2 text-center font-display text-lg italic text-primary/80">
-              The Dog Who Made Every Homecoming a Celebration
+            className="mb-12 text-center"
+          >
+            <h2 className="mb-3 font-display text-3xl font-bold text-foreground">
+              See What You'll Receive
+            </h2>
+            <p className="text-base text-muted-foreground">
+              Real tributes created from real memories.
             </p>
-            <h3 className="mb-6 text-center font-display text-xl font-semibold text-foreground">
-              In Loving Memory of Luna   
-            </h3>
-            <div className="space-y-4 font-body text-sm leading-relaxed text-foreground/90">
-              <p>
-                Luna had a way of turning the simplest moments into something special. Every afternoon she waited by the front window, tail wagging the moment she heard the car pull into the driveway.
-              </p>
-              <p>
-                She loved long walks through the park, especially when the wind carried new smells and the promise of adventure. But her favorite place was always close to her family — curled up on the couch, quietly watching the room as if she knew she belonged exactly there.
-              </p>
-              <p>
-                Luna wasn't just a pet. She was part of the rhythm of everyday life — the soft footsteps behind you in the kitchen, the excited greeting at the door, the quiet comfort of her presence on difficult days.
-              </p>
-              <p>
-                Those small moments are what will be remembered most.
-              </p>
-            </div>
           </motion.div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <TributePreviewCard
+              imageUrl={tributeLuna}
+              petName="Luna"
+              years="2016–2025"
+              memoryTitle="The Door That Was Never Empty"
+              preview="She waited by the front window every afternoon, tail wagging the moment she heard the car pull into the driveway, as if choosing our next small adventure together..."
+              index={0}
+            />
+            <TributePreviewCard
+              imageUrl={tributeWhiskers}
+              petName="Oliver"
+              years="2013–2026"
+              memoryTitle="Where the Sunlight Always Found Him"
+              preview="He claimed the same patch of afternoon light on the kitchen floor every single day, stretching into warmth like he'd invented the concept of rest..."
+              index={1}
+            />
+            <TributePreviewCard
+              imageUrl={tributeMona}
+              petName="Mona"
+              years="2021–2025"
+              memoryTitle="The Sound That Filled the House"
+              preview="By night she turned into a tiny orchestra conductor, chewing and rattling the bars with such dramatic timing that the whole house learned the cadence of her supper concerts..."
+              index={2}
+            />
+            <TributePreviewCard
+              imageUrl={tributeBear}
+              petName="Bear"
+              years="2010–2024"
+              memoryTitle="Afternoons That Stayed Soft"
+              preview="He had a way of leaning into you with his full weight, like he was trying to hold you in place, as if standing still together was the most important thing in the world..."
+              index={3}
+            />
+          </div>
 
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
             viewport={{ once: true }}
-            className="space-y-6">
-            <p className="text-sm italic text-muted-foreground">
-              Created from answers that took less than 5 minutes.
-            </p>
+            className="mt-10 flex flex-col items-center gap-4 text-center"
+          >
             <Link
               to="/example-tribute"
-              className="inline-block font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors text-lg">
-              
-              See the full example tribute →
+              className="inline-block text-sm font-medium text-primary underline underline-offset-4 transition-colors hover:text-primary/80"
+            >
+              Read a full example tribute →
             </Link>
-            <p className="mb-2 font-display text-lg font-semibold text-foreground">
-              Every pet leaves a story behind.
-            </p>
-            <p className="mb-6 text-base text-muted-foreground">
-              Let VellumPet help you tell it.
-            </p>
             <Button
               size="lg"
               className="px-8 py-5 text-base shadow-glow"
-              onClick={() => navigate("/create")}>
+              onClick={() => navigate("/create")}
+            >
               <PawPrint className="mr-2 h-5 w-5" />
               Create a Tribute for Your Pet
             </Button>
