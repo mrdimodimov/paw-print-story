@@ -83,7 +83,7 @@ export const TIERS: TierConfig[] = [
       "Photo gallery (3 photos)",
       "Shareable memorial page",
       "Social media tribute card",
-      "Printable memorial keepsake",
+      "Beautiful printable memorial (digital download)",
     ],
     include_share_card: true,
     include_social_post: true,

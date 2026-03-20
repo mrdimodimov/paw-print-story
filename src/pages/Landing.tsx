@@ -306,6 +306,9 @@ const Landing = () => {
           <p className="mt-2 text-center text-sm text-muted-foreground">
             Your tribute is created in seconds and can be edited before you download or share.
           </p>
+          <p className="mt-1 text-center text-xs text-muted-foreground/70">
+            Digital product — ready to print, frame, or keep digitally. No physical item shipped.
+          </p>
           <div className="mt-6">
             <GuaranteeBadge />
           </div>
