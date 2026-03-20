@@ -54,6 +54,17 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
     return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
   }
 
+  function sanitizeTitle(raw: string): string {
+    return raw.replace(/^[—\-–\s:]+|[—\-–\s:]+$/g, "").trim();
+  }
+
+  function summarizeFromText(text: string): string {
+    const firstSentence = text.split(/[.!?]/)[0]?.trim() || "";
+    const words = firstSentence.split(/\s+/).filter(Boolean);
+    if (words.length <= 6) return words.join(" ");
+    return words.slice(0, 5).join(" ");
+  }
+
   function generateTitle(text: string, index: number, total: number): string {
     if (index === 0) {
       const homeMatch = text.match(/(home|family|adopt|rescue|arrive|first|welcome|puppy|kitten)/i);
@@ -66,15 +77,10 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
 
     for (const pattern of TITLE_PATTERNS) {
       const match = text.match(pattern.regex);
-      if (match) return pattern.title(match);
+      if (match) return sanitizeTitle(pattern.title(match));
     }
 
-    const firstSentence = text.split(/[.!?]/)[0]?.trim() || "";
-    const words = firstSentence.split(/\s+/).slice(0, 4);
-    if (words.length >= 2) {
-      return words.join(" ");
-    }
-    return `Memory ${index + 1}`;
+    return summarizeFromText(text) || "A Cherished Moment";
   }
 
   const targetCount = Math.min(Math.max(3, Math.ceil(paragraphs.length * 0.6)), 5);
