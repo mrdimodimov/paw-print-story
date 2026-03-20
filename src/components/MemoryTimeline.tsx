@@ -76,7 +76,15 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
     return words.slice(start, start + 4).join(" ");
   }
 
-  // Alternate cinematic fallbacks to avoid repetition
+  // Elevated cinematic fallbacks for the first entry
+  const FIRST_CINEMATIC_FALLBACKS = [
+    "The Moment Everything Shifted",
+    "Where It All Began to Matter",
+    "The First Chapter of Something Real",
+    "A Feeling the House Never Forgot",
+    "The Beginning of a Beautiful Disruption",
+  ];
+
   const CINEMATIC_FALLBACKS = [
     "The Hours That Held Us",
     "Something Worth Remembering",
@@ -85,15 +93,17 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
     "The Smallest Ceremony",
   ];
 
-  function generateTitle(text: string, index: number, total: number): string {
-    // Try pattern matching first
+  function generateTitle(text: string, index: number, _total: number): string {
+    const isFirst = index === 0;
+
     for (const pattern of TITLE_PATTERNS) {
       const match = text.match(pattern.regex);
-      if (match) return sanitizeTitle(pattern.title(text));
+      if (match) return sanitizeTitle(isFirst ? pattern.firstTitle : pattern.title);
     }
 
-    // Fallback: rotate through cinematic defaults
-    return CINEMATIC_FALLBACKS[index % CINEMATIC_FALLBACKS.length];
+    // Fallback: use elevated set for first, standard for rest
+    const fallbacks = isFirst ? FIRST_CINEMATIC_FALLBACKS : CINEMATIC_FALLBACKS;
+    return fallbacks[index % fallbacks.length];
   }
 
   const targetCount = Math.min(Math.max(3, Math.ceil(paragraphs.length * 0.6)), 5);
