@@ -63,7 +63,11 @@ export default function MemoriesGallery() {
   }, []);
 
   const getExcerpt = (story: string) => {
-    const first = story.split(/\n\s*\n/)[0] || story;
+    if (!story || story.trim().length === 0) return "A heartfelt tribute to a beloved pet.";
+    const cleaned = story.replace(/---[A-Z_]+---[^\n]*/g, "").replace(/\n{3,}/g, "\n\n").trim();
+    const paras = cleaned.split(/\n\s*\n/).filter(p => p.trim().length > 20);
+    const first = paras[0]?.trim() || cleaned.trim();
+    if (first.length < 20) return "A heartfelt tribute to a beloved pet.";
     return first.length > 140 ? first.slice(0, 140).trimEnd() + "…" : first;
   };
 
