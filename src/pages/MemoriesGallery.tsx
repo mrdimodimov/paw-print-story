@@ -151,7 +151,7 @@ export default function MemoriesGallery() {
                     <span className="text-base">🐾</span>
                   </div>
                   {t.breed && <p className="mb-2 text-xs text-muted-foreground">{t.breed}</p>}
-                  <p className="mb-4 flex-1 font-body text-sm italic leading-relaxed text-foreground/80">
+                  <p className="mb-4 flex-1 font-body text-sm italic leading-relaxed text-foreground/80 line-clamp-2">
                     "{getExcerpt(t.tribute_story)}"
                   </p>
                   {total > 0 && c && (

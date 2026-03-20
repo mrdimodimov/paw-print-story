@@ -132,7 +132,7 @@ export default function RecentlyRemembered() {
                   )}
 
                   {/* Excerpt */}
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
                     {getExcerpt(t.story)}
                   </p>
 
