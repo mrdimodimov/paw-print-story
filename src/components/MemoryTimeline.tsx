@@ -37,24 +37,24 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
     }
   }
 
-  // Cinematic title patterns — each maps a thematic keyword to an evocative chapter-style title
-  const TITLE_PATTERNS: { regex: RegExp; title: (text: string) => string }[] = [
-    { regex: /first\s+(day|time|night|walk|trip|bath)/i, title: () => "The Day It All Began" },
-    { regex: /(door|window|gate|porch|waiting|watched)/i, title: () => "The Door That Always Knew" },
-    { regex: /(cuddle|snuggle|nap|sleep|pillow|blanket|couch)/i, title: () => "Where the Warmth Lived" },
-    { regex: /(play|run|fetch|chase|jump|zoomie|ball)/i, title: () => "The Wild Hours" },
-    { regex: /(walk|hike|adventure|explore|park|beach|trail)/i, title: () => "Miles That Mattered" },
-    { regex: /(morning|sunrise|dawn|wake|breakfast|routine)/i, title: () => "Before the World Woke Up" },
-    { regex: /(evening|sunset|night|dark|quiet|still)/i, title: () => "When the House Went Quiet" },
-    { regex: /(home|family|house|welcome|arrive|adopt|rescue)/i, title: () => "Coming Through the Door" },
-    { regex: /(food|eat|treat|dinner|chicken|kibble|cheese)/i, title: () => "The Small Negotiations" },
-    { regex: /(love|heart|soul|bond|friend|companion)/i, title: () => "The Space Between Us" },
-    { regex: /(grow|older|age|year|season|winter|summer)/i, title: () => "Through Every Season" },
-    { regex: /(goodbye|farewell|last|miss|gone|final)/i, title: () => "The Light That Lingered" },
-    { regex: /(toy|favorite|spot|place|chair|bed|corner)/i, title: () => "A Place That Was Only Theirs" },
-    { regex: /(sound|bark|purr|meow|voice|noise|whine)/i, title: () => "The Sound the House Remembers" },
-    { regex: /(rain|storm|thunder|snow|cold|warm)/i, title: () => "What the Weather Taught Us" },
-    { regex: /(cage|tank|enclosure|wheel|burrow|nest)/i, title: () => "A Whole World in Miniature" },
+  // Cinematic title patterns — standard entries
+  const TITLE_PATTERNS: { regex: RegExp; title: string; firstTitle: string }[] = [
+    { regex: /first\s+(day|time|night|walk|trip|bath)/i, title: "The Day It All Began", firstTitle: "The Day Everything Changed" },
+    { regex: /(door|window|gate|porch|waiting|watched)/i, title: "The Door That Always Knew", firstTitle: "The Door That Was Never Empty" },
+    { regex: /(cuddle|snuggle|nap|sleep|pillow|blanket|couch)/i, title: "Where the Warmth Lived", firstTitle: "Where Every Silence Was Full" },
+    { regex: /(play|run|fetch|chase|jump|zoomie|ball)/i, title: "The Wild Hours", firstTitle: "The Hours the World Fell Away" },
+    { regex: /(walk|hike|adventure|explore|park|beach|trail)/i, title: "Miles That Mattered", firstTitle: "The Walk That Never Felt Long Enough" },
+    { regex: /(morning|sunrise|dawn|wake|breakfast|routine)/i, title: "Before the World Woke Up", firstTitle: "The Mornings That Belonged to Us" },
+    { regex: /(evening|sunset|night|dark|quiet|still)/i, title: "When the House Went Quiet", firstTitle: "The Quiet That Held Everything" },
+    { regex: /(home|family|house|welcome|arrive|adopt|rescue)/i, title: "Coming Through the Door", firstTitle: "The Moment the House Had a Heartbeat" },
+    { regex: /(food|eat|treat|dinner|chicken|kibble|cheese)/i, title: "The Small Negotiations", firstTitle: "The Ritual That Never Got Old" },
+    { regex: /(love|heart|soul|bond|friend|companion)/i, title: "The Space Between Us", firstTitle: "The Space Only They Could Fill" },
+    { regex: /(grow|older|age|year|season|winter|summer)/i, title: "Through Every Season", firstTitle: "The Years That Moved Too Fast" },
+    { regex: /(goodbye|farewell|last|miss|gone|final)/i, title: "The Light That Lingered", firstTitle: "The Light That Refused to Leave" },
+    { regex: /(toy|favorite|spot|place|chair|bed|corner)/i, title: "A Place That Was Only Theirs", firstTitle: "The Corner Where Time Stood Still" },
+    { regex: /(sound|bark|purr|meow|voice|noise|whine)/i, title: "The Sound the House Remembers", firstTitle: "The Sound That Filled the House" },
+    { regex: /(rain|storm|thunder|snow|cold|warm)/i, title: "What the Weather Taught Us", firstTitle: "The Storm That Drew Us Closer" },
+    { regex: /(cage|tank|enclosure|wheel|burrow|nest)/i, title: "A Whole World in Miniature", firstTitle: "The Tiny World That Held Everything" },
   ];
 
   function capitalize(s: string) {
@@ -76,7 +76,15 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
     return words.slice(start, start + 4).join(" ");
   }
 
-  // Alternate cinematic fallbacks to avoid repetition
+  // Elevated cinematic fallbacks for the first entry
+  const FIRST_CINEMATIC_FALLBACKS = [
+    "The Moment Everything Shifted",
+    "Where It All Began to Matter",
+    "The First Chapter of Something Real",
+    "A Feeling the House Never Forgot",
+    "The Beginning of a Beautiful Disruption",
+  ];
+
   const CINEMATIC_FALLBACKS = [
     "The Hours That Held Us",
     "Something Worth Remembering",
@@ -85,15 +93,17 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
     "The Smallest Ceremony",
   ];
 
-  function generateTitle(text: string, index: number, total: number): string {
-    // Try pattern matching first
+  function generateTitle(text: string, index: number, _total: number): string {
+    const isFirst = index === 0;
+
     for (const pattern of TITLE_PATTERNS) {
       const match = text.match(pattern.regex);
-      if (match) return sanitizeTitle(pattern.title(text));
+      if (match) return sanitizeTitle(isFirst ? pattern.firstTitle : pattern.title);
     }
 
-    // Fallback: rotate through cinematic defaults
-    return CINEMATIC_FALLBACKS[index % CINEMATIC_FALLBACKS.length];
+    // Fallback: use elevated set for first, standard for rest
+    const fallbacks = isFirst ? FIRST_CINEMATIC_FALLBACKS : CINEMATIC_FALLBACKS;
+    return fallbacks[index % fallbacks.length];
   }
 
   const targetCount = Math.min(Math.max(3, Math.ceil(paragraphs.length * 0.6)), 5);
