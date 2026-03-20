@@ -1,6 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Heart, PawPrint, FileText, Share2, BookOpen } from "lucide-react";
+import { Heart, PawPrint, FileText, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
@@ -8,6 +8,7 @@ import TierCard from "@/components/TierCard";
 import GuaranteeBadge from "@/components/GuaranteeBadge";
 import RecentlyRemembered from "@/components/RecentlyRemembered";
 import TributePreviewCard from "@/components/TributePreviewCard";
+import BeforeAfterTransform from "@/components/BeforeAfterTransform";
 import tributeLuna from "@/assets/tribute-preview-luna.jpg";
 import tributeWhiskers from "@/assets/tribute-preview-whiskers.jpg";
 import tributeMona from "@/assets/tribute-preview-mona.jpg";
@@ -16,8 +17,8 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger } from
-"@/components/ui/accordion";
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -33,9 +34,7 @@ const Landing = () => {
               {BRAND.name}
             </span>
           </div>
-          <Button
-            size="sm"
-            onClick={() => navigate("/create")}>
+          <Button size="sm" onClick={() => navigate("/create")}>
             Create Your Tribute
           </Button>
         </div>
@@ -47,7 +46,8 @@ const Landing = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}>
+            transition={{ duration: 0.7 }}
+          >
             <div className="mb-6 flex justify-center">
               <div className="rounded-full bg-accent p-4">
                 <Heart className="h-8 w-8 text-primary" />
@@ -60,103 +60,27 @@ const Landing = () => {
               A beautiful way to remember the pet you loved.
             </p>
             <p className="mb-10 text-lg text-muted-foreground md:text-xl">
-              Turn your memories into a heartfelt tribute you can keep and share forever.
+              Turn your memories into a heartfelt tribute you can keep and share
+              forever.
             </p>
             <Button
               size="lg"
               className="px-8 py-6 text-lg shadow-glow"
-              onClick={() => navigate("/create")}>
+              onClick={() => navigate("/create")}
+            >
               <PawPrint className="mr-2 h-5 w-5" />
               Create Your Tribute
             </Button>
-            <p className="mt-4 text-sm text-muted-foreground">Takes less than 2 minutes · No writing needed · Private &amp; secure</p>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Takes less than 2 minutes · No writing needed · Private &amp;
+              secure
+            </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Remember Them */}
-      <section className="tribute-section bg-accent/30 border-double border-4">
-        <div className="tribute-container max-w-2xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}>
-            <h2 className="mb-6 font-display text-3xl font-bold text-foreground">
-              Remember Them
-            </h2>
-            <p className="mb-8 text-base leading-relaxed text-muted-foreground">
-              Before writing a tribute, take a quiet moment to reflect on what made your pet special.
-            </p>
-            <div className="mb-8 space-y-5">
-              {[
-              "What was their favorite place to sleep?",
-              "What small habits made you smile?",
-              "What are the moments you'll always carry with you?"].
-              map((prompt, i) =>
-              <motion.p
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 + i * 0.15, duration: 0.4 }}
-                viewport={{ once: true }}
-                className="font-display text-lg italic text-foreground/80 font-extrabold">
-                  {prompt}
-                </motion.p>
-              )}
-            </div>
-            <p className="mb-4 text-base font-medium text-foreground/70">
-              These moments matter more than we realize. A tribute helps you hold onto them.
-            </p>
-            <p className="mb-8 text-base font-semibold text-foreground/80">
-              Start your tribute and turn these memories into something lasting.
-            </p>
-            <Button
-              size="lg"
-              variant="outline"
-              className="px-8 py-5 text-base"
-              onClick={() => navigate("/create")}>
-              <PawPrint className="mr-2 h-5 w-5" />
-              Start a Tribute
-            </Button>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="bg-secondary/40 tribute-section">
-        <div className="tribute-container text-center">
-          <h2 className="mb-12 text-3xl font-bold text-foreground">
-            How It Works
-          </h2>
-          <div className="grid gap-8 md:grid-cols-3">
-            {[
-            { icon: PawPrint, title: "Share a Few Memories", desc: "Answer a few simple questions about your pet — no writing required." },
-            { icon: BookOpen, title: "We Create Your Tribute", desc: "Your memories are transformed into a heartfelt, beautifully written story." },
-            { icon: FileText, title: "Keep and Share It", desc: "Download your tribute or create a memorial page to share with others." }].
-            map((step, i) =>
-            <motion.div
-              key={step.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.15, duration: 0.5 }}
-              viewport={{ once: true }}
-              className="flex flex-col items-center">
-                <div className="mb-4 rounded-full bg-accent p-4">
-                  <step.icon className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="mb-2 font-display text-xl font-semibold text-foreground">
-                  {step.title}
-                </h3>
-                <p className="text-muted-foreground">{step.desc}</p>
-              </motion.div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Tribute Examples Grid */}
-      <section className="tribute-section">
+      {/* Tribute Examples Grid — immediately after hero */}
+      <section className="tribute-section bg-accent/10">
         <div className="tribute-container">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -213,7 +137,7 @@ const Landing = () => {
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
             viewport={{ once: true }}
-            className="mt-10 flex flex-col items-center gap-4 text-center"
+            className="mt-10 flex flex-col items-center gap-3 text-center"
           >
             <Link
               to="/example-tribute"
@@ -221,37 +145,60 @@ const Landing = () => {
             >
               Read a full example tribute →
             </Link>
-            <Button
-              size="lg"
-              className="px-8 py-5 text-base shadow-glow"
-              onClick={() => navigate("/create")}
-            >
-              <PawPrint className="mr-2 h-5 w-5" />
-              Create a Tribute for Your Pet
-            </Button>
           </motion.div>
         </div>
       </section>
 
-      {/* Emotional pre-pricing block */}
+      {/* How It Works */}
       <section className="tribute-section">
-        <div className="tribute-container max-w-2xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="space-y-4">
-            
-            <p className="font-display text-xl leading-relaxed text-foreground md:text-3xl">
-              Pets are family. Their memories deserve more than a few photos on a phone.
-            </p>
-            <p className="text-base text-muted-foreground">
-              VellumPet helps you turn those memories into something lasting.
-            </p>
-          </motion.div>
+        <div className="tribute-container text-center">
+          <h2 className="mb-12 text-3xl font-bold text-foreground">
+            How It Works
+          </h2>
+          <div className="grid gap-8 md:grid-cols-3">
+            {[
+              {
+                icon: PawPrint,
+                title: "Share a Few Memories",
+                desc: "Answer a few simple questions about your pet — no writing required.",
+              },
+              {
+                icon: BookOpen,
+                title: "We Create Your Tribute",
+                desc: "Your memories are transformed into a heartfelt, beautifully written story.",
+              },
+              {
+                icon: FileText,
+                title: "Keep and Share It",
+                desc: "Download your tribute or create a memorial page to share with others.",
+              },
+            ].map((step, i) => (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.15, duration: 0.5 }}
+                viewport={{ once: true }}
+                className="flex flex-col items-center"
+              >
+                <div className="mb-4 rounded-full bg-accent p-4">
+                  <step.icon className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="mb-2 font-display text-xl font-semibold text-foreground">
+                  {step.title}
+                </h3>
+                <p className="text-muted-foreground">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
+
+      {/* Before → After Transformation */}
+      <BeforeAfterTransform />
+
+      {/* Social proof — Recently Remembered */}
+      <RecentlyRemembered />
 
       {/* Pricing */}
       <section className="tribute-section">
@@ -264,63 +211,69 @@ const Landing = () => {
               Create something meaningful, lasting, and truly personal.
             </p>
           </div>
-          {/* Mobile: Tier 2 first, then 1, then 3 */}
           <div className="grid gap-6 md:grid-cols-3">
             {(() => {
               const mobileTiers = [TIERS[1], TIERS[0], TIERS[2]];
               const desktopTiers = TIERS;
               return (
                 <>
-                  {/* Mobile order */}
                   <div className="contents md:hidden">
-                    {mobileTiers.map((tier, i) =>
-                    <motion.div
-                      key={tier.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.1, duration: 0.5 }}
-                      viewport={{ once: true }}>
-                      
-                        <TierCard tier={tier} onSelect={() => navigate(`/create?tier=${tier.id}`)} />
+                    {mobileTiers.map((tier, i) => (
+                      <motion.div
+                        key={tier.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.1, duration: 0.5 }}
+                        viewport={{ once: true }}
+                      >
+                        <TierCard
+                          tier={tier}
+                          onSelect={() =>
+                            navigate(`/create?tier=${tier.id}`)
+                          }
+                        />
                       </motion.div>
-                    )}
+                    ))}
                   </div>
-                  {/* Desktop order */}
                   <div className="contents hidden md:contents">
-                    {desktopTiers.map((tier, i) =>
-                    <motion.div
-                      key={tier.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.1, duration: 0.5 }}
-                      viewport={{ once: true }}
-                      className="hidden md:block">
-                      
-                        <TierCard tier={tier} onSelect={() => navigate(`/create?tier=${tier.id}`)} />
+                    {desktopTiers.map((tier, i) => (
+                      <motion.div
+                        key={tier.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.1, duration: 0.5 }}
+                        viewport={{ once: true }}
+                        className="hidden md:block"
+                      >
+                        <TierCard
+                          tier={tier}
+                          onSelect={() =>
+                            navigate(`/create?tier=${tier.id}`)
+                          }
+                        />
                       </motion.div>
-                    )}
+                    ))}
                   </div>
-                </>);
-
+                </>
+              );
             })()}
           </div>
           <p className="mt-8 text-center text-sm text-muted-foreground">
             One-time payment · No subscription
           </p>
           <p className="mt-2 text-center text-sm text-muted-foreground">
-            Your tribute is created in seconds and can be edited before you download or share.
+            Your tribute is created in seconds and can be edited before you
+            download or share.
           </p>
           <p className="mt-1 text-center text-xs text-muted-foreground/70">
-            Digital product — ready to print, frame, or keep digitally. No physical item shipped.
+            Digital product — ready to print, frame, or keep digitally. No
+            physical item shipped.
           </p>
           <div className="mt-6">
             <GuaranteeBadge />
           </div>
         </div>
       </section>
-
-      {/* Recently Remembered Pets */}
-      <RecentlyRemembered />
 
       {/* Guarantee + FAQ */}
       <section className="tribute-section bg-accent/20">
@@ -337,9 +290,10 @@ const Landing = () => {
                   Do you offer refunds?
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground leading-relaxed">
-                  Yes. We offer a 7-Day Tribute Satisfaction Guarantee. If the tribute doesn't feel
-                  right to you, simply contact us within 7 days of purchase and we'll issue a full
-                  refund. We may ask for feedback so we can improve future tributes, but there's no
+                  Yes. We offer a 7-Day Tribute Satisfaction Guarantee. If the
+                  tribute doesn't feel right to you, simply contact us within 7
+                  days of purchase and we'll issue a full refund. We may ask for
+                  feedback so we can improve future tributes, but there's no
                   complicated process.
                 </AccordionContent>
               </AccordionItem>
@@ -348,8 +302,8 @@ const Landing = () => {
                   How long does it take to create a tribute?
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground leading-relaxed">
-                  The questionnaire takes about 2 minutes. Your tribute is generated within seconds
-                  after you submit your answers.
+                  The questionnaire takes about 2 minutes. Your tribute is
+                  generated within seconds after you submit your answers.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="edit">
@@ -357,8 +311,8 @@ const Landing = () => {
                   Can I edit my tribute after it's generated?
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground leading-relaxed">
-                  Yes. Every tribute can be edited before downloading. You can also regenerate it
-                  if you'd like a different version.
+                  Yes. Every tribute can be edited before downloading. You can
+                  also regenerate it if you'd like a different version.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -376,36 +330,59 @@ const Landing = () => {
               </h4>
               <ul className="space-y-2">
                 <li>
-                  <Link to="/dog-obituary-example" className="hover:text-primary transition-colors">
+                  <Link
+                    to="/dog-obituary-example"
+                    className="transition-colors hover:text-primary"
+                  >
                     Dog Obituary Example
                   </Link>
                 </li>
                 <li>
-                  <Link to="/cat-memorial-tribute-example" className="hover:text-primary transition-colors">
+                  <Link
+                    to="/cat-memorial-tribute-example"
+                    className="transition-colors hover:text-primary"
+                  >
                     Cat Memorial Tribute Example
                   </Link>
                 </li>
                 <li>
-                  <Link to="/pet-memorial-message" className="hover:text-primary transition-colors">
+                  <Link
+                    to="/pet-memorial-message"
+                    className="transition-colors hover:text-primary"
+                  >
                     Pet Memorial Messages
                   </Link>
                 </li>
                 <li>
-                  <Link to="/what-to-write-when-a-dog-dies" className="hover:text-primary transition-colors">
+                  <Link
+                    to="/what-to-write-when-a-dog-dies"
+                    className="transition-colors hover:text-primary"
+                  >
                     What to Write When a Dog Dies
                   </Link>
                 </li>
               </ul>
             </div>
             <div className="flex flex-col items-center gap-2">
-              <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
-              <Link to="/terms" className="hover:text-primary transition-colors">Terms</Link>
+              <Link
+                to="/privacy"
+                className="transition-colors hover:text-primary"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                to="/terms"
+                className="transition-colors hover:text-primary"
+              >
+                Terms
+              </Link>
             </div>
             <div className="flex flex-col items-center md:items-end md:justify-end">
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => navigate("/create")}>
+                onClick={() => navigate("/create")}
+              >
                 <PawPrint className="mr-2 h-4 w-4" />
                 Create a Beautiful Tribute for Your Pet
               </Button>
@@ -414,16 +391,14 @@ const Landing = () => {
           <p className="mb-2 text-center text-xs text-muted-foreground/70">
             Your memories are private and never used for AI training.
           </p>
-          
-
-          
           <p className="text-center">
-            Made with <Heart className="inline h-3 w-3 text-primary" /> by {BRAND.name}
+            Made with <Heart className="inline h-3 w-3 text-primary" /> by{" "}
+            {BRAND.name}
           </p>
         </div>
       </footer>
-    </div>);
-
+    </div>
+  );
 };
 
 export default Landing;
