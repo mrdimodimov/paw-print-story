@@ -153,6 +153,7 @@ ${data.personality_description ? `Owner's description: ${data.personality_descri
 ${contextSections.join("\n\n")}
 
 TONE: ${toneDesc}
+TONE RULES: The tone affects writing STYLE only — never content. Do NOT invent memories to match the tone. Do NOT exaggerate beyond what the user described. Keep tone consistent across the entire tribute.
 TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.`;
 
   if (data.include_social_post) {
