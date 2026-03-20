@@ -7,6 +7,11 @@ import { TIERS } from "@/lib/types";
 import TierCard from "@/components/TierCard";
 import GuaranteeBadge from "@/components/GuaranteeBadge";
 import RecentlyRemembered from "@/components/RecentlyRemembered";
+import TributePreviewCard from "@/components/TributePreviewCard";
+import tributeLuna from "@/assets/tribute-preview-luna.jpg";
+import tributeWhiskers from "@/assets/tribute-preview-whiskers.jpg";
+import tributeMona from "@/assets/tribute-preview-mona.jpg";
+import tributeBear from "@/assets/tribute-preview-bear.jpg";
 import {
   Accordion,
   AccordionContent,
