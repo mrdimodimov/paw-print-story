@@ -125,6 +125,26 @@ PARAGRAPH FORMATTING (MANDATORY): Write the tribute in 3–5 natural paragraphs,
 MEMORY TITLES: Each paragraph should work as a distinct memory chapter with a cinematic 3–6 word title. First title must be the strongest hook. Derive titles from places, behaviors, sensory details, or turning points — never generic phrases. Do NOT use dashes or decorative symbols in the prose.
 OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words) capturing the pet's spirit. No dashes or decorative characters except the "---TITLE---" marker. Then a blank line, then the tribute text with paragraphs separated by blank lines. No other headers or labels.`;
 
+// Detect input depth to guide expansion strategy
+function getDepthInstruction(data: TributeRequest): string {
+  const signals: string[] = [];
+  if (data.memories) signals.push(...data.memories.split(/\n+/).filter(s => s.trim().length > 10));
+  if (data.special_habits && data.special_habits.trim().length > 10) signals.push(data.special_habits);
+  if (data.favorite_activities && data.favorite_activities.trim().length > 10) signals.push(data.favorite_activities);
+  if (data.favorite_people_or_animals && data.favorite_people_or_animals.trim().length > 10) signals.push(data.favorite_people_or_animals);
+  if (data.personality_description && data.personality_description.trim().length > 10) signals.push(data.personality_description);
+
+  const count = signals.length;
+
+  if (count <= 2) {
+    return `INPUT DEPTH: LOW — The user provided few details. Do NOT shorten the tribute. Instead, revisit the same memories from multiple angles: what happened, how it felt, and what it meant over time. Expand sensory detail and emotional reflection on the existing moments. Never invent new events to fill space. Every paragraph must feel complete and meaningful.`;
+  }
+  if (count <= 5) {
+    return `INPUT DEPTH: MEDIUM — Distribute focus across the provided memories. Expand each with moderate sensory and emotional detail. Balance coverage so no single memory dominates.`;
+  }
+  return `INPUT DEPTH: HIGH — Use the full range of provided memories. Vary structure and pacing naturally. Select the most vivid details for scene-building and weave others into context.`;
+}
+
 function buildPrompt(data: TributeRequest): string {
   const toneDescriptions: Record<string, string> = {
     warm: "warm and natural storytelling — heartfelt, comforting, conversational pacing. Let moments breathe. Default to sincerity and grounded emotion.",
@@ -136,6 +156,7 @@ function buildPrompt(data: TributeRequest): string {
   };
 
   const toneDesc = toneDescriptions[data.tone] || toneDescriptions.warm;
+  const depthInst = getDepthInstruction(data);
 
   const contextSections: string[] = [];
   if (data.memories) contextSections.push(`MEMORIES:\n${data.memories}`);
@@ -151,6 +172,8 @@ Personality traits: ${data.personality_traits || "loving and special"}
 ${data.personality_description ? `Owner's description: ${data.personality_description}` : ""}
 
 ${contextSections.join("\n\n")}
+
+${depthInst}
 
 TONE: ${toneDesc}
 TONE RULES: The tone affects writing STYLE only — never content. Do NOT invent memories to match the tone. Do NOT exaggerate beyond what the user described. Keep tone consistent across the entire tribute.
