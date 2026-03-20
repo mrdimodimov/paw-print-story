@@ -97,7 +97,7 @@ const Landing = () => {
             </p>
           </motion.div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <TributePreviewCard
               imageUrl={tributeLuna}
               petName="Luna"
@@ -105,6 +105,7 @@ const Landing = () => {
               memoryTitle="The Door That Was Never Empty"
               preview="She waited by the front window every afternoon, tail wagging the moment she heard the car pull into the driveway, as if choosing our next small adventure together..."
               index={0}
+              linkTo="/example-tribute"
             />
             <TributePreviewCard
               imageUrl={tributeWhiskers}
