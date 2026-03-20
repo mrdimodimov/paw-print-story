@@ -188,6 +188,7 @@ NARRATIVE CONTEXT:
 ${narrativeContext}${extraMemories}
 
 TONE: ${toneDesc}
+TONE RULES: Tone affects style only — never content. Do not invent or exaggerate beyond provided details. Keep tone consistent throughout.
 TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.`;
 
   if (data.include_social_post) {
