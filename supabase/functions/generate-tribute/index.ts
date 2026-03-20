@@ -127,12 +127,12 @@ OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words
 
 function buildPrompt(data: TributeRequest): string {
   const toneDescriptions: Record<string, string> = {
-    warm: "warm, heartfelt, and comforting",
-    celebratory: "joyful, celebratory, and uplifting",
-    gentle: "soft, peaceful, and tender",
-    lighthearted: "fun, loving, and lighthearted",
+    warm: "warm and natural storytelling — heartfelt, comforting, conversational pacing. Let moments breathe. Default to sincerity and grounded emotion.",
+    celebratory: "celebratory and uplifting — highlight joy, energy, and personality. Focus on what made this pet vibrant and alive. Lean into their spark and the happiness they created. Keep it bright without being shallow.",
+    gentle: "calm and gentle — softer pacing, simple language, focus on quiet presence and peaceful moments. Shorter sentences. Let silence and stillness carry weight. No dramatic crescendos.",
+    lighthearted: "playful and lighthearted — light humor drawn ONLY from real behaviors described by the user. Slight exaggeration of existing traits is allowed (e.g., 'professional napper' for a sleepy pet). Never invent funny moments. Keep warmth underneath the humor, never sarcasm.",
     rainbow_bridge:
-      "comforting and spiritual, with peaceful farewell imagery, themes of the Rainbow Bridge crossing, reunion, waiting, and continued love beyond parting",
+      "comforting and spiritual — peaceful farewell imagery, themes of crossing, reunion, waiting, and continued love beyond parting. Softer emotional weight with hope woven through. Still grounded in real memories, not abstract spirituality.",
   };
 
   const toneDesc = toneDescriptions[data.tone] || toneDescriptions.warm;
