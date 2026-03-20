@@ -65,10 +65,17 @@ export default function MemoriesGallery() {
   const getExcerpt = (story: string) => {
     if (!story || story.trim().length === 0) return "A heartfelt tribute to a beloved pet.";
     const cleaned = story.replace(/---[A-Z_]+---[^\n]*/g, "").replace(/\n{3,}/g, "\n\n").trim();
-    const paras = cleaned.split(/\n\s*\n/).filter(p => p.trim().length > 20);
-    const first = paras[0]?.trim() || cleaned.trim();
-    if (first.length < 20) return "A heartfelt tribute to a beloved pet.";
-    return first.length > 140 ? first.slice(0, 140).trimEnd() + "…" : first;
+    const paras = cleaned.split(/\n\s*\n/).filter(p => p.trim().length > 30);
+    const hookPara = paras[0]?.trim() || cleaned.trim();
+    if (hookPara.length < 20) return "A heartfelt tribute to a beloved pet.";
+    if (hookPara.length <= 160) return hookPara;
+    const sentenceEnd = hookPara.slice(80, 160).search(/[.!?;—]\s/);
+    if (sentenceEnd !== -1) {
+      const cutAt = 80 + sentenceEnd + 1;
+      return hookPara.slice(0, cutAt).trim() + "…";
+    }
+    const wordCut = hookPara.slice(0, 145).lastIndexOf(" ");
+    return hookPara.slice(0, wordCut > 80 ? wordCut : 140).trim() + "…";
   };
 
   const getTributeUrl = (t: TributeCard) =>
