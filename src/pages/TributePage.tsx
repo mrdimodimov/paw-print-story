@@ -784,6 +784,44 @@ const TributePage = () => {
             />
           )}
 
+          {/* Hero Share Card Preview */}
+          {effectiveUnlocked && tribute?.share_card_text && (
+            <div className="mb-8 flex flex-col items-center">
+              <p className="mb-3 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+                Shareable memory card
+              </p>
+              <div
+                className="w-full max-w-[400px] rounded-xl border border-border/50 p-7 text-center shadow-soft"
+                style={{
+                  background: "linear-gradient(160deg, hsl(var(--card)), hsl(var(--accent) / 0.25), hsl(var(--card)))",
+                }}
+              >
+                {photoUrls[0] ? (
+                  <div className="mx-auto mb-4 h-20 w-20 overflow-hidden rounded-full border-2 border-accent/60 shadow-sm">
+                    <img src={photoUrls[0]} alt={petName || "Pet"} className="h-full w-full object-cover" />
+                  </div>
+                ) : (
+                  <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-accent/20">
+                    <PawPrint className="h-8 w-8 text-primary/50" />
+                  </div>
+                )}
+                <h4 className="font-display text-xl font-bold text-foreground">{petName || "Your Pet"}</h4>
+                {yearsOfLife && (
+                  <p className="mt-0.5 text-xs italic text-muted-foreground">{yearsOfLife}</p>
+                )}
+                <div className="mx-auto my-4 h-px w-10 bg-primary/20" />
+                <p className="mx-auto max-w-[300px] text-sm italic leading-relaxed text-foreground/75">
+                  "{tribute.share_card_text.length > 120
+                    ? tribute.share_card_text.slice(0, 120).trim() + "…"
+                    : tribute.share_card_text}"
+                </p>
+                <p className="mt-5 text-[8px] tracking-widest text-muted-foreground/35">
+                  🐾 vellumpet.com
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Memory Timeline */}
           {tribute && (
             <MemoryTimeline
