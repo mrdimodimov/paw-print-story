@@ -66,6 +66,7 @@ const defaultForm: TributeFormData = {
 };
 
 const Questionnaire = () => {
+  const { isTestMode } = useTestMode();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const tier = searchParams.get("tier") || "story";
