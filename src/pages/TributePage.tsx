@@ -543,7 +543,7 @@ const TributePage = () => {
             {/* Reaction counters (social proof) */}
             {tributeDbId && (
               <div className="mt-5">
-                <ReactionCounters tributeId={tributeDbId} petName={petName} unlocked={unlocked} />
+                <ReactionCounters tributeId={tributeDbId} petName={petName} effectiveUnlocked={effectiveUnlocked} />
               </div>
             )}
           </div>
@@ -587,7 +587,7 @@ const TributePage = () => {
 
           {/* Tribute Story */}
           <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
-            {!unlocked && (
+            {!effectiveUnlocked && (
               <div className="mb-6 text-center">
                 <h2 className="font-display text-xl font-semibold text-foreground">Your tribute is ready</h2>
                 <p className="mt-1 font-display text-base text-muted-foreground">This is a story worth holding onto.</p>
@@ -595,7 +595,7 @@ const TributePage = () => {
               </div>
             )}
 
-            {!unlocked && (
+            {!effectiveUnlocked && (
               <div className="mb-4 text-center">
                 <h3 className="font-display text-2xl font-semibold text-foreground">{petName}</h3>
                 {yearsOfLife && <p className="mt-1 text-sm text-muted-foreground">{yearsOfLife}</p>}
@@ -603,13 +603,13 @@ const TributePage = () => {
             )}
 
             {/* Emotional hook above story */}
-            {!unlocked && (
+            {!effectiveUnlocked && (
               <p className="mb-6 text-center text-sm italic text-muted-foreground">
                 We've turned your memories into something meaningful.
               </p>
             )}
 
-            {unlocked && (
+            {effectiveUnlocked && (
               <>
                 <div className="mb-4 rounded-lg bg-accent/50 px-4 py-3 text-center">
                   <p className="text-sm font-medium text-primary">Your full tribute is now yours.</p>
@@ -618,7 +618,7 @@ const TributePage = () => {
               </>
             )}
 
-            {isEditing && unlocked ? (
+            {isEditing && effectiveUnlocked ? (
               <div className="space-y-4">
                 <Textarea
                   value={editedStory}
@@ -641,7 +641,7 @@ const TributePage = () => {
               <div className="mx-auto max-w-prose font-body text-foreground">
                 {(() => {
                   const allParagraphs = ensureParagraphs(tribute.story);
-                  if (unlocked) {
+                  if (effectiveUnlocked) {
                     return allParagraphs.map((p, i) => (
                       <p key={i} className="mb-4 leading-[1.7]">{p}</p>
                     ));
@@ -678,7 +678,7 @@ const TributePage = () => {
               </div>
             )}
 
-            {!unlocked && (
+            {!effectiveUnlocked && (
               <div className="mt-8 border-t border-border pt-6 text-center">
                 <p className="text-sm text-muted-foreground/70">
                   Your memories are private and never used for AI training.
@@ -700,7 +700,7 @@ const TributePage = () => {
               yearsOfLife={yearsOfLife}
               photoUrls={photoUrls}
               tierId={currentTier.id}
-              unlocked={unlocked}
+              effectiveUnlocked={effectiveUnlocked}
               onUnlock={() => setUnlocked(true)}
             />
           )}
@@ -711,13 +711,13 @@ const TributePage = () => {
               <TributeReactions
                 tributeId={tributeDbId}
                 petName={petName}
-                unlocked={unlocked}
+                effectiveUnlocked={effectiveUnlocked}
                 slug={tributeSlug}
               />
             </div>
           )}
 
-          {!unlocked && (
+          {!effectiveUnlocked && (
             <div className="mb-6 rounded-xl border border-primary/20 bg-card p-8 shadow-card md:p-10">
               {/* Emotional bridge */}
               <div className="mb-6 text-center">
@@ -798,7 +798,7 @@ const TributePage = () => {
           )}
 
           {/* Post-unlock quick actions */}
-          {unlocked && (
+          {effectiveUnlocked && (
             <div className="mb-6 flex flex-wrap justify-center gap-3">
               <Button size="lg" className="px-8 text-base" onClick={handleDownloadPDF}>
                 <Download className="mr-1 h-5 w-5" /> Download PDF
@@ -816,7 +816,7 @@ const TributePage = () => {
           )}
 
           {/* Actions */}
-          {unlocked && (
+          {effectiveUnlocked && (
             <>
               <div className="mb-6 flex flex-wrap gap-3">
                 {!isEditing && (
@@ -880,7 +880,7 @@ const TributePage = () => {
           )}
 
           {/* Social Post (Tier 2+) */}
-          {unlocked && tribute.social_post && (
+          {effectiveUnlocked && tribute.social_post && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
               <div className="mb-3 flex items-center gap-2">
                 <Share2 className="h-4 w-4 text-primary" />
@@ -902,7 +902,7 @@ const TributePage = () => {
           )}
 
           {/* Memorial Share Card */}
-          {unlocked && currentTier.include_share_card && tribute.share_card_text && (
+          {effectiveUnlocked && currentTier.include_share_card && tribute.share_card_text && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
               <div className="mb-4 flex items-center gap-2">
                 <FileText className="h-4 w-4 text-primary" />
@@ -974,11 +974,11 @@ const TributePage = () => {
           {/* Leave a Memory */}
           {tributeDbId && (
             <div className="mb-6">
-              <TributeMemories tributeId={tributeDbId} petName={petName || "Your Pet"} unlocked={unlocked} slug={tributeSlug} />
+              <TributeMemories tributeId={tributeDbId} petName={petName || "Your Pet"} effectiveUnlocked={effectiveUnlocked} slug={tributeSlug} />
             </div>
           )}
 
-          {unlocked && (
+          {effectiveUnlocked && (
             <div className="mb-6">
               <PublicTributeToggle
                 petName={petName || ""}
