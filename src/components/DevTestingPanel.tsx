@@ -1,4 +1,4 @@
-import { Bug, FlaskConical } from "lucide-react";
+import { Bug, FlaskConical, SkipForward, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -7,24 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { TEST_PRESETS } from "@/lib/test-presets";
 import type { TributeFormData, TributeStyle } from "@/lib/types";
-
-const EXAMPLE_DATA: Partial<TributeFormData> = {
-  pet_name: "Milo",
-  pet_type: "Dog",
-  breed: "Golden Retriever",
-  years_of_life: "2012–2026",
-  owner_name: "Emma",
-  personality_traits: ["Gentle", "Playful", "Loyal"],
-  personality_description:
-    "Milo loved carrying socks around the house and greeting everyone at the door with a toy.",
-  memories: ["He waited every evening by the window for his dad to come home."],
-  special_habits: "Slept on the same corner of the couch every night.",
-  favorite_activities: "Swimming in the lake and chasing tennis balls.",
-  favorite_people_or_animals: "Followed the younger brother everywhere.",
-  owner_message: "Thank you for growing up with us.",
-  tone: "warm" as TributeStyle,
-};
 
 const TONE_OPTIONS: { value: TributeStyle; label: string }[] = [
   { value: "warm", label: "Warm" },
@@ -38,32 +22,77 @@ interface DevTestingPanelProps {
   onFill: (data: Partial<TributeFormData>) => void;
   onToneChange: (tone: TributeStyle) => void;
   currentTone: TributeStyle;
+  onSkipToPreview?: () => void;
+  isTestMode?: boolean;
 }
 
-export function DevTestingPanel({ onFill, onToneChange, currentTone }: DevTestingPanelProps) {
-  if (!import.meta.env.DEV) return null;
+export function DevTestingPanel({
+  onFill,
+  onToneChange,
+  currentTone,
+  onSkipToPreview,
+  isTestMode,
+}: DevTestingPanelProps) {
+  // Show panel in DEV mode OR when test mode is active
+  if (!import.meta.env.DEV && !isTestMode) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 w-64 rounded-lg border border-dashed border-yellow-500/50 bg-card p-3 shadow-lg">
+    <div className="fixed bottom-4 right-4 z-50 w-72 rounded-lg border border-dashed border-yellow-500/50 bg-card p-3 shadow-lg">
       <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-yellow-600">
         <Bug className="h-3.5 w-3.5" />
-        Dev Testing
+        {isTestMode ? "Test Mode" : "Dev Testing"}
       </div>
 
       <div className="space-y-2">
+        {/* Preset selector */}
+        <div>
+          <label className="mb-1 block text-[10px] font-medium uppercase text-muted-foreground">
+            Test Scenario
+          </label>
+          <Select
+            onValueChange={(presetId) => {
+              const preset = TEST_PRESETS.find((p) => p.id === presetId);
+              if (preset) {
+                onFill(preset.data);
+                if (preset.data.tone) onToneChange(preset.data.tone);
+              }
+            }}
+          >
+            <SelectTrigger className="h-8 text-xs">
+              <SelectValue placeholder="Choose preset…" />
+            </SelectTrigger>
+            <SelectContent>
+              {TEST_PRESETS.map((p) => (
+                <SelectItem key={p.id} value={p.id} className="text-xs">
+                  <span className="font-medium">{p.label}</span>
+                  <span className="ml-1 text-muted-foreground">— {p.description}</span>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Quick fill */}
         <Button
           variant="outline"
           size="sm"
           className="w-full text-xs"
-          onClick={() => onFill(EXAMPLE_DATA)}
+          onClick={() => {
+            const medium = TEST_PRESETS.find((p) => p.id === "medium");
+            if (medium) {
+              onFill(medium.data);
+              if (medium.data.tone) onToneChange(medium.data.tone);
+            }
+          }}
         >
           <FlaskConical className="mr-1.5 h-3.5 w-3.5" />
-          Fill Example Data
+          Auto-Fill (Medium)
         </Button>
 
+        {/* Tone override */}
         <div>
-          <label className="mb-1 block text-[10px] font-medium text-muted-foreground uppercase">
-            Test Tone
+          <label className="mb-1 block text-[10px] font-medium uppercase text-muted-foreground">
+            Override Tone
           </label>
           <Select value={currentTone} onValueChange={(v) => onToneChange(v as TributeStyle)}>
             <SelectTrigger className="h-8 text-xs">
@@ -78,6 +107,19 @@ export function DevTestingPanel({ onFill, onToneChange, currentTone }: DevTestin
             </SelectContent>
           </Select>
         </div>
+
+        {/* Skip to preview */}
+        {onSkipToPreview && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-full text-xs border-yellow-500/40 text-yellow-700 hover:bg-yellow-50"
+            onClick={onSkipToPreview}
+          >
+            <SkipForward className="mr-1.5 h-3.5 w-3.5" />
+            Skip to Preview
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -13,6 +13,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { DevTestingPanel } from "@/components/DevTestingPanel";
 import ImageCropModal from "@/components/ImageCropModal";
+import { useTestMode } from "@/hooks/use-test-mode";
+import { TEST_PRESETS } from "@/lib/test-presets";
 import type { TributeFormData, TributeStyle } from "@/lib/types";
 
 const PERSONALITY_OPTIONS = [
@@ -64,6 +66,7 @@ const defaultForm: TributeFormData = {
 };
 
 const Questionnaire = () => {
+  const { isTestMode } = useTestMode();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const tier = searchParams.get("tier") || "story";
@@ -163,7 +166,19 @@ const Questionnaire = () => {
   })();
 
   const handleGenerate = () => {
-    navigate(`/tribute?tier=${tier}`, { state: { formData: form, isPublic, email: email.trim() || undefined } });
+    navigate(`/tribute?tier=${tier}${isTestMode ? "&test=true" : ""}`, {
+      state: { formData: form, isPublic: isTestMode ? false : isPublic, email: email.trim() || undefined, isTestMode },
+    });
+  };
+
+  const handleSkipToPreview = () => {
+    // Auto-fill with medium preset if form is empty
+    const filledForm = form.pet_name.trim()
+      ? form
+      : { ...form, ...TEST_PRESETS.find((p) => p.id === "medium")!.data } as TributeFormData;
+    navigate(`/tribute?tier=${tier}&test=true`, {
+      state: { formData: filledForm, isPublic: false, isTestMode: true },
+    });
   };
 
   const renderStep = () => {
@@ -437,6 +452,8 @@ const Questionnaire = () => {
         onFill={(data) => setForm((prev) => ({ ...prev, ...data }))}
         onToneChange={(tone) => update("tone", tone)}
         currentTone={form.tone}
+        onSkipToPreview={handleSkipToPreview}
+        isTestMode={isTestMode}
       />
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">

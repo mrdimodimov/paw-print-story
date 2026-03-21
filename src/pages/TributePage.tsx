@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock } from "lucide-react";
+import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock, Bug, SkipForward } from "lucide-react";
 import MemoryTimeline from "@/components/MemoryTimeline";
 import PostGenerationShare from "@/components/PostGenerationShare";
 import TributeShareCard from "@/components/TributeShareCard";
@@ -13,12 +13,20 @@ import TributeReactions, { ReactionCounters } from "@/components/TributeReaction
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { toast } from "sonner";
 import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
 import { generateTribute, loadTributeById, loadTributeBySlug, loadJobById, getActiveJobId } from "@/lib/tribute-api";
 import { supabase } from "@/integrations/supabase/client";
 import { downloadTributePDF, downloadMemorialPDF, ensureParagraphs } from "@/lib/pdf-export";
+import { TEST_PRESETS } from "@/lib/test-presets";
 import type { TributeFormData, GeneratedTribute, TierConfig } from "@/lib/types";
 
 const TributePage = () => {
@@ -38,6 +46,8 @@ const TributePage = () => {
   const isPublicRef = useRef<boolean>(
     (location.state as { isPublic?: boolean })?.isPublic || false
   );
+  const isTestMode = searchParams.get("test") === "true" ||
+    !!(location.state as { isTestMode?: boolean })?.isTestMode;
   const formData = formDataRef.current;
 
   const [tribute, setTribute] = useState<GeneratedTribute | null>(null);
@@ -98,7 +108,7 @@ const TributePage = () => {
         if (result.jobId) setLastJobId(result.jobId);
         if (result.tributeId) setTributeDbId(result.tributeId);
         // Save pre-generation email if provided
-        if (preEmail.current && result.tributeId) {
+        if (preEmail.current && result.tributeId && !isTestMode) {
           try {
             const { data: emailRow } = await supabase.from("tribute_emails").insert({
               email: preEmail.current,
@@ -323,6 +333,10 @@ const TributePage = () => {
   };
 
   const handleCheckout = async () => {
+    if (isTestMode) {
+      toast.info("Checkout disabled in test mode");
+      return;
+    }
     if (!tributeDbId) {
       toast.error("Please wait for your tribute to finish generating.");
       return;
@@ -361,7 +375,19 @@ const TributePage = () => {
     toast.success("Memorial PDF downloaded!");
   };
 
-  // Loading from database or recovering
+  const handleTestRegenerate = (presetId: string) => {
+    const preset = TEST_PRESETS.find((p) => p.id === presetId);
+    if (!preset || !formData) return;
+    const testForm = { ...formData, ...preset.data } as TributeFormData;
+    formDataRef.current = testForm;
+    setPetName(testForm.pet_name);
+    setPhotoUrls(testForm.photo_urls || []);
+    setYearsOfLife(testForm.years_of_life || "");
+    setPetType(testForm.pet_type || "dog");
+    setBreed(testForm.breed);
+    runGeneration(testForm, currentTier, lastJobId);
+  };
+
   if (loading) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
@@ -420,6 +446,38 @@ const TributePage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Test Mode Panel */}
+      {isTestMode && (
+        <div className="fixed bottom-4 right-4 z-50 w-72 rounded-lg border border-dashed border-yellow-500/50 bg-card p-3 shadow-lg">
+          <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-yellow-600">
+            <Bug className="h-3.5 w-3.5" />
+            Test Mode — Preview
+          </div>
+          <div className="space-y-2">
+            <div>
+              <label className="mb-1 block text-[10px] font-medium uppercase text-muted-foreground">
+                Regenerate with Preset
+              </label>
+              <Select onValueChange={handleTestRegenerate}>
+                <SelectTrigger className="h-8 text-xs">
+                  <SelectValue placeholder="Choose preset…" />
+                </SelectTrigger>
+                <SelectContent>
+                  {TEST_PRESETS.map((p) => (
+                    <SelectItem key={p.id} value={p.id} className="text-xs">
+                      <span className="font-medium">{p.label}</span>
+                      <span className="ml-1 text-muted-foreground">— {p.description}</span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <p className="text-[10px] text-muted-foreground">
+              ⚠ Payments, public pages & emails disabled
+            </p>
+          </div>
+        </div>
+      )}
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
