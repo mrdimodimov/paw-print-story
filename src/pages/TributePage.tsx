@@ -375,7 +375,19 @@ const TributePage = () => {
     toast.success("Memorial PDF downloaded!");
   };
 
-  // Loading from database or recovering
+  const handleTestRegenerate = (presetId: string) => {
+    const preset = TEST_PRESETS.find((p) => p.id === presetId);
+    if (!preset || !formData) return;
+    const testForm = { ...formData, ...preset.data } as TributeFormData;
+    formDataRef.current = testForm;
+    setPetName(testForm.pet_name);
+    setPhotoUrls(testForm.photo_urls || []);
+    setYearsOfLife(testForm.years_of_life || "");
+    setPetType(testForm.pet_type || "dog");
+    setBreed(testForm.breed);
+    runGeneration(testForm, currentTier, lastJobId);
+  };
+
   if (loading) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
