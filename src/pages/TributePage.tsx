@@ -785,7 +785,7 @@ const TributePage = () => {
           )}
 
           {/* Hero Share Card Preview */}
-          {effectiveUnlocked && tribute?.share_card_text && photoUrls.length > 0 && (
+          {effectiveUnlocked && photoUrls.length > 0 && (
             <div className="mb-8 flex justify-center">
               <div className="w-full max-w-sm rounded-2xl border border-border bg-gradient-to-br from-[hsl(30,30%,96%)] to-[hsl(30,25%,92%)] p-6 text-center shadow-lg">
                 <div className="mb-4 flex justify-center">
@@ -805,7 +805,7 @@ const TributePage = () => {
                 )}
                 <div className="mx-auto my-3 h-[2px] w-12 rounded-full bg-primary/30" />
                 <p className="text-sm italic leading-relaxed text-foreground">
-                  "{tribute.share_card_text}"
+                  "{tribute?.share_card_text || tribute?.story?.split('\n')[0]?.slice(0, 120) || ''}"
                 </p>
                 <p className="mt-4 text-[10px] text-muted-foreground/50">
                   Created with VellumPet
