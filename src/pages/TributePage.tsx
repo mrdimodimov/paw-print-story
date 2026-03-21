@@ -637,6 +637,9 @@ const TributePage = () => {
                 <div className="mb-4 rounded-lg bg-accent/50 px-4 py-3 text-center">
                   <p className="text-sm font-medium text-primary">Your full tribute is now yours.</p>
                 </div>
+                {tribute.title && (
+                  <h2 className="mb-2 text-center font-display text-2xl font-semibold text-foreground">{tribute.title}</h2>
+                )}
                 <p className="mb-6 text-center text-sm text-muted-foreground">{currentTier.name}</p>
               </>
             )}
