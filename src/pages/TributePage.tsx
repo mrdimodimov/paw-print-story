@@ -1045,6 +1045,31 @@ const TributePage = () => {
             </div>
           )}
 
+          {/* Quick Share Caption */}
+          {effectiveUnlocked && tribute.short_caption && (
+            <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
+              <div className="mb-3 flex items-center gap-2">
+                <Copy className="h-4 w-4 text-primary" />
+                <h3 className="font-display text-lg font-semibold text-foreground">
+                  Quick Share Caption
+                </h3>
+              </div>
+              <p className="mb-1 text-xs text-muted-foreground">Short, personal — perfect for a quick post or story.</p>
+              <div className="rounded-lg border border-border bg-muted/30 p-4">
+                <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">{tribute.short_caption}</p>
+              </div>
+              <div className="mt-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => { handleCopyToClipboard(tribute.short_caption!); toast.success("Caption copied!"); }}
+                >
+                  <Copy className="mr-1.5 h-3.5 w-3.5" /> Copy Caption
+                </Button>
+              </div>
+            </div>
+          )}
+
           {/* Auto-preview Share Card */}
           {effectiveUnlocked && tribute.share_card_text && (
             <HeroShareCard
