@@ -31,14 +31,15 @@ export function useTestMode() {
 
   const toggleTestMode = () => {
     if (!import.meta.env.DEV) return;
+    const next = new URLSearchParams(searchParams);
     if (isTestMode) {
       localStorage.removeItem(STORAGE_KEY);
-      searchParams.delete("test");
+      next.delete("test");
     } else {
       localStorage.setItem(STORAGE_KEY, "true");
-      searchParams.set("test", "true");
+      next.set("test", "true");
     }
-    setSearchParams(searchParams, { replace: true });
+    setSearchParams(next, { replace: true });
   };
 
   return { isTestMode, toggleTestMode };
