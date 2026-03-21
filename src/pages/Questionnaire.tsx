@@ -166,7 +166,19 @@ const Questionnaire = () => {
   })();
 
   const handleGenerate = () => {
-    navigate(`/tribute?tier=${tier}`, { state: { formData: form, isPublic, email: email.trim() || undefined } });
+    navigate(`/tribute?tier=${tier}${isTestMode ? "&test=true" : ""}`, {
+      state: { formData: form, isPublic: isTestMode ? false : isPublic, email: email.trim() || undefined, isTestMode },
+    });
+  };
+
+  const handleSkipToPreview = () => {
+    // Auto-fill with medium preset if form is empty
+    const filledForm = form.pet_name.trim()
+      ? form
+      : { ...form, ...TEST_PRESETS.find((p) => p.id === "medium")!.data } as TributeFormData;
+    navigate(`/tribute?tier=${tier}&test=true`, {
+      state: { formData: filledForm, isPublic: false, isTestMode: true },
+    });
   };
 
   const renderStep = () => {
