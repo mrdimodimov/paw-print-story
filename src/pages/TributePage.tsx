@@ -175,6 +175,7 @@ const TributePage = () => {
           title: (data as any).title || undefined,
           social_post: data.social_post || undefined,
           share_card_text: data.share_card_text || undefined,
+          short_caption: (data as any).short_caption || undefined,
         });
         setEditedStory(data.tribute_story);
         setPetName(data.pet_name);
