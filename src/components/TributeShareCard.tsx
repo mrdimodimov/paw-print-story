@@ -215,7 +215,7 @@ const TributeShareCard = ({
   const getCanvas = async () => {
     if (!cardRef.current) return null;
     return html2canvas(cardRef.current, {
-      scale: 2,
+      scale: 1080 / 540,
       useCORS: true,
       backgroundColor: null,
     });
