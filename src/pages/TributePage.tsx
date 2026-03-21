@@ -67,6 +67,10 @@ const TributePage = () => {
   const [tributeSlug, setTributeSlug] = useState<string | undefined>();
   const [justGenerated, setJustGenerated] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
+  const [testUnlocked, setTestUnlocked] = useState(true);
+
+  // In test mode, allow toggling between unlocked/locked views
+  const effectiveUnlocked = isTestMode ? testUnlocked : unlocked;
   const [tributeDbId, setTributeDbId] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
