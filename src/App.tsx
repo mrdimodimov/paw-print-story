@@ -32,11 +32,14 @@ const PREVIEW_KEY = "founder";
 const PreviewGate = ({ children }: { children: React.ReactNode }) => {
   const [searchParams] = useSearchParams();
   const [unlocked, setUnlocked] = useState(false);
-  const { isTestMode, toggleTestMode } = useTestMode();
+  const { isTestMode, isFounderMode, toggleTestMode, disableFounderMode } = useTestMode();
 
   useEffect(() => {
+    // Unlock via URL param or persisted founder/session state
     if (searchParams.get("preview") === PREVIEW_KEY) {
       sessionStorage.setItem("preview_unlocked", "true");
+      setUnlocked(true);
+    } else if (localStorage.getItem("founderMode") === "true") {
       setUnlocked(true);
     } else if (sessionStorage.getItem("preview_unlocked") === "true") {
       setUnlocked(true);
@@ -49,7 +52,12 @@ const PreviewGate = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <TestModeBadge isTestMode={isTestMode} onToggleOff={toggleTestMode} />
+      <TestModeBadge
+        isTestMode={isTestMode}
+        isFounderMode={isFounderMode}
+        onToggleOff={toggleTestMode}
+        onDisableFounder={disableFounderMode}
+      />
       {children}
     </>
   );
