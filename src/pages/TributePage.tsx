@@ -243,6 +243,7 @@ const TributePage = () => {
                 story: updated.tribute_story,
                 social_post: updated.social_post || undefined,
                 share_card_text: updated.share_card_text || undefined,
+                short_caption: (updated as any).short_caption || undefined,
               });
               setEditedStory(updated.tribute_story);
               localStorage.removeItem("vellumpet_active_job");
