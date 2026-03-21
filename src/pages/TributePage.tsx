@@ -1021,6 +1021,27 @@ const TributePage = () => {
             </div>
           )}
 
+          {/* Instagram Story Card */}
+          {effectiveUnlocked && currentTier.include_share_card && tribute.share_card_text && (
+            <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
+              <div className="mb-4 flex items-center gap-2">
+                <Image className="h-4 w-4 text-primary" />
+                <h3 className="font-display text-lg font-semibold text-foreground">
+                  Instagram Story
+                </h3>
+              </div>
+              <p className="mb-4 text-sm text-muted-foreground">
+                Share a beautiful vertical card on your Instagram Story.
+              </p>
+              <InstagramStoryCard
+                petName={petName || "Your Pet"}
+                years={yearsOfLife}
+                excerpt={tribute.share_card_text}
+                photoUrls={photoUrls}
+              />
+            </div>
+          )}
+
           {/* Share Buttons */}
           {tributeSlug && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
