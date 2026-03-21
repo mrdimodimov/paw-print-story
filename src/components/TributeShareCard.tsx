@@ -52,9 +52,9 @@ const CARD_STYLES: CardStyle[] = [
     textColor: "hsl(0,0%,20%)",
     footerColor: "hsl(0,0%,55%)",
     accentColor: "hsla(30,40%,55%,0.35)",
-    photoSize: 160,
-    nameFontSize: 28,
-    quoteFontSize: 14,
+    photoSize: 180,
+    nameFontSize: 36,
+    quoteFontSize: 20,
     showYears: true,
     quoteStyle: "italic",
   },
@@ -69,9 +69,9 @@ const CARD_STYLES: CardStyle[] = [
     textColor: "hsl(210,20%,85%)",
     footerColor: "hsla(210,20%,70%,0.5)",
     accentColor: "hsla(40,50%,65%,0.4)",
-    photoSize: 110,
-    nameFontSize: 24,
-    quoteFontSize: 13,
+    photoSize: 140,
+    nameFontSize: 32,
+    quoteFontSize: 18,
     showYears: false,
     quoteStyle: "normal",
   },
@@ -86,14 +86,13 @@ const CARD_STYLES: CardStyle[] = [
     textColor: "hsl(30,10%,15%)",
     footerColor: "hsl(30,8%,50%)",
     accentColor: "hsla(32,80%,50%,0.4)",
-    photoSize: 120,
-    nameFontSize: 30,
-    quoteFontSize: 13,
+    photoSize: 160,
+    nameFontSize: 36,
+    quoteFontSize: 18,
     showYears: true,
     quoteStyle: "italic",
   },
 ];
-
 interface TributeShareCardProps {
   petName: string;
   years: string;
@@ -216,7 +215,7 @@ const TributeShareCard = ({
   const getCanvas = async () => {
     if (!cardRef.current) return null;
     return html2canvas(cardRef.current, {
-      scale: 2,
+      scale: 1080 / 540,
       useCORS: true,
       backgroundColor: null,
     });
@@ -357,7 +356,7 @@ const TributeShareCard = ({
       </div>
 
       {/* Card preview */}
-      <div className="mx-auto w-full max-w-md overflow-hidden rounded-xl border border-border shadow-card">
+      <div className="mx-auto w-full max-w-[500px] overflow-hidden rounded-xl border border-border shadow-card" style={{ aspectRatio: "1 / 1" }}>
         <div
           ref={cardRef}
           style={{
@@ -368,11 +367,11 @@ const TributeShareCard = ({
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            padding: style.id === "minimal" ? "50px 50px" : "40px 40px",
+            padding: "56px 48px",
             fontFamily: "'Playfair Display', serif",
             position: "relative",
             overflow: "hidden",
-            gap: style.id === "minimal" ? 16 : 12,
+            gap: 18,
           }}
         >
           {/* Background photo overlay */}
@@ -389,7 +388,7 @@ const TributeShareCard = ({
                   height: "100%",
                   objectFit: "cover",
                   opacity: style.id === "story" ? 0.1 : 0.12,
-                  filter: "blur(3px)",
+                  filter: "blur(4px)",
                 }}
               />
               <div
@@ -407,12 +406,12 @@ const TributeShareCard = ({
           <div
             style={{
               position: "absolute",
-              top: 16,
-              left: 16,
-              right: 16,
-              bottom: 16,
+              top: 20,
+              left: 20,
+              right: 20,
+              bottom: 20,
               border: `1px solid ${style.borderColor}`,
-              borderRadius: 12,
+              borderRadius: 14,
               pointerEvents: "none",
             }}
           />
@@ -427,9 +426,10 @@ const TributeShareCard = ({
               fontWeight: 700,
               color: style.nameColor,
               textAlign: "center",
-              lineHeight: 1.2,
+              lineHeight: 1.15,
               position: "relative",
               zIndex: 1,
+              letterSpacing: "0.01em",
             }}
           >
             {petName}
@@ -439,13 +439,13 @@ const TributeShareCard = ({
           {style.showYears && years && (
             <div
               style={{
-                fontSize: 13,
+                fontSize: 15,
                 color: style.yearsColor,
                 fontStyle: "italic",
                 fontFamily: "'Source Sans 3', sans-serif",
                 position: "relative",
                 zIndex: 1,
-                marginTop: -8,
+                marginTop: -10,
               }}
             >
               {years}
@@ -455,7 +455,7 @@ const TributeShareCard = ({
           {/* Divider */}
           <div
             style={{
-              width: style.id === "minimal" ? 40 : 50,
+              width: 44,
               height: 2,
               background: style.accentColor,
               borderRadius: 1,
@@ -468,10 +468,10 @@ const TributeShareCard = ({
           <div
             style={{
               fontSize: style.quoteFontSize,
-              lineHeight: 1.65,
+              lineHeight: 1.75,
               color: style.textColor,
               textAlign: "center",
-              maxWidth: style.id === "minimal" ? 340 : 380,
+              maxWidth: 400,
               fontFamily: "'Source Sans 3', sans-serif",
               fontStyle: style.quoteStyle,
               position: "relative",
@@ -485,8 +485,8 @@ const TributeShareCard = ({
           <div
             style={{
               position: "absolute",
-              bottom: 22,
-              fontSize: 9,
+              bottom: 26,
+              fontSize: 10,
               color: style.footerColor,
               fontFamily: "'Source Sans 3', sans-serif",
               display: "flex",
@@ -494,10 +494,11 @@ const TributeShareCard = ({
               alignItems: "center",
               gap: 2,
               zIndex: 1,
+              opacity: 0.7,
             }}
           >
             <span>🐾 Created with {BRAND.name}</span>
-            <span style={{ fontSize: 8, opacity: 0.7 }}>vellumpet.com</span>
+            <span style={{ fontSize: 9 }}>vellumpet.com</span>
           </div>
         </div>
       </div>
