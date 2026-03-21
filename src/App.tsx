@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes, useSearchParams } from "react-router-dom"
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { TestModeBadge } from "@/components/TestModeBadge";
+import { useTestMode } from "@/hooks/use-test-mode";
 import { useEffect, useState } from "react";
 import Landing from "./pages/Landing";
 import Questionnaire from "./pages/Questionnaire";
@@ -30,6 +32,7 @@ const PREVIEW_KEY = "founder";
 const PreviewGate = ({ children }: { children: React.ReactNode }) => {
   const [searchParams] = useSearchParams();
   const [unlocked, setUnlocked] = useState(false);
+  const { isTestMode, toggleTestMode } = useTestMode();
 
   useEffect(() => {
     if (searchParams.get("preview") === PREVIEW_KEY) {
@@ -44,7 +47,12 @@ const PreviewGate = ({ children }: { children: React.ReactNode }) => {
     return <ComingSoon />;
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <TestModeBadge isTestMode={isTestMode} onToggleOff={toggleTestMode} />
+      {children}
+    </>
+  );
 };
 
 const App = () => (
