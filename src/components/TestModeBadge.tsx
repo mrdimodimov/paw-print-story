@@ -8,7 +8,6 @@ interface TestModeBadgeProps {
 }
 
 export function TestModeBadge({ isTestMode, isFounderMode, onToggleOff, onDisableFounder }: TestModeBadgeProps) {
-  if (!import.meta.env.DEV) return null;
   if (!isTestMode && !isFounderMode) return null;
 
   return (
