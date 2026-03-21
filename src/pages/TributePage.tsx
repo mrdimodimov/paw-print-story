@@ -580,8 +580,7 @@ const TributePage = () => {
             />
           )}
 
-          {/* Email save prompt (only if no pre-email was provided) */}
-          {justGenerated && !preEmail.current && (
+          {justGenerated && effectiveUnlocked && !preEmail.current && (
             <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} />
           )}
 
