@@ -219,7 +219,7 @@ TONE: ${toneDesc}
 TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.`;
 
   if (data.include_social_post) {
-    prompt += `\n\nAfter the tribute, on a new line write "---SOCIAL_POST---" followed by a short social media post (under 280 characters) honoring ${data.pet_name}. Make it personal and specific. Include relevant emojis and 2-3 hashtags.`;
+    prompt += `\n\nAfter the tribute, on a new line write "---SOCIAL_POST---" followed by a short social media post (3–5 lines max) honoring ${data.pet_name}. Structure: Line 1 = emotional hook, Line 2 = specific memory detail from the tribute, Line 3 = reflective closing. Add 2–4 relevant hashtags and include @vellumpetapp. Make it personal, specific, and human — not generic or AI-like. Under 280 characters total.`;
   }
   if (data.include_share_card) {
     prompt += `\n\nAfter that, on a new line write "---SHARE_CARD---" followed by a 2-3 line memorial card text with ${data.pet_name}'s name, years, and a brief touching phrase specific to them.`;
