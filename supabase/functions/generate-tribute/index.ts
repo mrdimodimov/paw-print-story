@@ -200,7 +200,13 @@ TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.`;
     prompt += `\n\nAfter the tribute, on a new line write "---SOCIAL_POST---" followed by a short social media post (3–5 lines max) honoring ${data.pet_name}. Structure: Line 1 = emotional hook, Line 2 = specific memory detail from the tribute, Line 3 = reflective closing. Add 2–4 relevant hashtags and include @vellumpetapp. Make it personal, specific, and human — not generic or AI-like. Under 280 characters total.`;
   }
   if (data.include_share_card) {
-    prompt += `\n\nAfter that, on a new line write "---SHARE_CARD---" followed by a 2-3 line memorial card text with ${data.pet_name}'s name, years, and a brief touching phrase specific to them.`;
+    prompt += `\n\nAfter that, on a new line write "---SHARE_CARD---" followed by a single short phrase (MAX 20 words) for a memorial share card. Rules:
+- Must feel deeply personal and specific to ${data.pet_name} — reference a real habit, identity trait, or quirk from the tribute.
+- Must sound like something the owner would actually say out loud.
+- NO generic memorial phrases ("forever in our hearts", "best friend", "loyal companion").
+- Tone: bittersweet, honest, emotionally sticky — the kind of line that makes someone stop scrolling.
+- Examples of the right feel: "Our midnight chaos gremlin. We'll miss you forever." / "Still waiting by the door, even now." / "You made ordinary days feel full."
+- Do NOT include ${data.pet_name}'s name, years, or any heading — just the raw quote line.`;
   }
 
   return prompt;
@@ -222,7 +228,13 @@ TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.`;
     prompt += `\n\nAfter the tribute, on a new line write "---SOCIAL_POST---" followed by a short social media post (3–5 lines max) honoring ${data.pet_name}. Structure: Line 1 = emotional hook, Line 2 = specific memory detail from the tribute, Line 3 = reflective closing. Add 2–4 relevant hashtags and include @vellumpetapp. Make it personal, specific, and human — not generic or AI-like. Under 280 characters total.`;
   }
   if (data.include_share_card) {
-    prompt += `\n\nAfter that, on a new line write "---SHARE_CARD---" followed by a 2-3 line memorial card text with ${data.pet_name}'s name, years, and a brief touching phrase specific to them.`;
+    prompt += `\n\nAfter that, on a new line write "---SHARE_CARD---" followed by a single short phrase (MAX 20 words) for a memorial share card. Rules:
+- Must feel deeply personal and specific to ${data.pet_name} — reference a real habit, identity trait, or quirk from the tribute.
+- Must sound like something the owner would actually say out loud.
+- NO generic memorial phrases ("forever in our hearts", "best friend", "loyal companion").
+- Tone: bittersweet, honest, emotionally sticky — the kind of line that makes someone stop scrolling.
+- Examples of the right feel: "Our midnight chaos gremlin. We'll miss you forever." / "Still waiting by the door, even now." / "You made ordinary days feel full."
+- Do NOT include ${data.pet_name}'s name, years, or any heading — just the raw quote line.`;
   }
 
   return prompt;
