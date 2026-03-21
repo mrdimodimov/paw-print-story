@@ -269,7 +269,7 @@ export default function MemoryTimeline({
                 See every memory beautifully preserved
               </p>
               <Button size="lg" onClick={onUnlock}>
-                Unlock My Tribute
+                Keep {petName}'s Story Forever
               </Button>
             </div>
           </div>
