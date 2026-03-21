@@ -50,6 +50,7 @@ const TributePage = () => {
     (location.state as { isPublic?: boolean })?.isPublic || false
   );
   const isTestMode = searchParams.get("test") === "true" ||
+    searchParams.get("preview") === "founder" ||
     !!(location.state as { isTestMode?: boolean })?.isTestMode;
   const formData = formDataRef.current;
 
