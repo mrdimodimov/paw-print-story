@@ -94,16 +94,21 @@ CORE RULE (CRITICAL):
 WRITING STYLE:
 - Write in natural, flowing paragraphs. It should feel like someone remembering their pet, not structured output.
 - Avoid rigid sections or fragmented blocks. Use clear, human language.
-- Vary sentence length for a natural rhythm. Avoid overly long or complex sentences.
+- Vary sentence length naturally. Avoid overly complex or overly flat sentences.
+
+NARRATIVE FLOW (IMPORTANT):
+- The tribute must feel like a single continuous story, not disconnected memory blocks.
+- Let one memory naturally lead into another. Subtly reference earlier moments when appropriate.
+- Memories should connect and build on each other emotionally.
 
 STRUCTURE:
-- Begin with a specific moment, habit, or memory.
-- Let the story flow naturally between memories.
-- End with a simple, meaningful reflection connected to earlier moments.
+- Opening: Start with a specific moment, habit, or scene — never a summary.
+- Middle: Expand memories naturally, showing personality through actions.
+- Ending (CRITICAL): The final paragraph must feel like a gentle emotional landing — reflect on what those moments meant. Keep it simple, grounded, and human. Not poetic or cliché.
 
 MEMORY TITLES:
-- Include short titles (3–6 words) before each paragraph. Titles should feel like chapter headings.
-- Keep them clean — no symbols like --- or ***. Titles should support the story, not interrupt it.
+- Include short titles (3–6 words) before each paragraph. Each title must be followed immediately by its paragraph.
+- Keep them clean — no symbols like --- or ***. Titles should support the story, not interrupt it. Do NOT stack multiple titles together.
 
 TONE:
 - Follow the selected tone provided in the user prompt. Apply tone naturally through wording. Do NOT exaggerate or invent details to match tone.
@@ -113,7 +118,7 @@ AVOID:
 - Repetitive phrasing
 - Overly poetic or artificial language
 
-OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words). Then a blank line, then 3–5 paragraphs of the tribute, each separated by a blank line. No other headers or labels.`;
+OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words). Then a blank line, then 3–5 titled paragraphs of the tribute, each separated by a blank line. No other headers or labels.`;
 
 const REGEN_SYSTEM_PROMPT = `You are a gifted pet memorial writer. Write a NEW variation of a pet tribute using the provided narrative context. Create a fresh tribute that feels different while staying true to the same pet and memories.
 
