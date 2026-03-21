@@ -612,8 +612,8 @@ const TributePage = () => {
           <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
             {!effectiveUnlocked && (
               <div className="mb-6 text-center">
-                <h2 className="font-display text-xl font-semibold text-foreground">This is your story. Don't let it fade.</h2>
-                <p className="mt-1 font-display text-base text-muted-foreground">We've turned your memories into something you can keep forever.</p>
+                <h2 className="font-display text-xl font-semibold text-foreground">You didn't expect this to feel like this.</h2>
+                <p className="mt-1 font-display text-base text-muted-foreground">This is more than a story — it's how you remember {petName || "them"}.</p>
               </div>
             )}
 
@@ -622,13 +622,6 @@ const TributePage = () => {
                 <h3 className="font-display text-2xl font-semibold text-foreground">{petName}</h3>
                 {yearsOfLife && <p className="mt-1 text-sm text-muted-foreground">{yearsOfLife}</p>}
               </div>
-            )}
-
-            {/* Emotional hook above story */}
-            {!effectiveUnlocked && (
-              <p className="mb-6 text-center text-sm italic text-muted-foreground">
-                We've turned your memories into something meaningful.
-              </p>
             )}
 
             {effectiveUnlocked && (
