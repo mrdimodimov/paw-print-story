@@ -774,6 +774,16 @@ const TributePage = () => {
             </div>
           )}
 
+          {/* Hero Share Card */}
+          {effectiveUnlocked && tribute.share_card_text && (
+            <HeroShareCard
+              petName={petName || "Your Pet"}
+              years={yearsOfLife}
+              quote={tribute.share_card_text}
+              photoUrl={photoUrls[0]}
+            />
+          )}
+
           {/* Memory Timeline */}
           {tribute && (
             <MemoryTimeline
