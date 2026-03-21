@@ -452,6 +452,16 @@ const TributePage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Test Mode Banner */}
+      {isTestMode && (
+        <div className="border-b border-yellow-500/30 bg-yellow-50 px-4 py-2 text-center dark:bg-yellow-950/20">
+          <div className="flex items-center justify-center gap-2 text-xs font-medium text-yellow-700 dark:text-yellow-400">
+            <Eye className="h-3.5 w-3.5" />
+            Test Mode: {testUnlocked ? "Full Preview Enabled" : "Paywall Simulated"}
+          </div>
+        </div>
+      )}
+
       {/* Test Mode Panel */}
       {isTestMode && (
         <div className="fixed bottom-4 right-4 z-50 w-72 rounded-lg border border-dashed border-yellow-500/50 bg-card p-3 shadow-lg">
@@ -460,6 +470,19 @@ const TributePage = () => {
             Test Mode — Preview
           </div>
           <div className="space-y-2">
+            {/* Paywall toggle */}
+            <div className="flex items-center justify-between rounded-md border border-border/60 bg-accent/20 px-3 py-2">
+              <label className="text-[11px] font-medium text-foreground">
+                Toggle Paywall
+              </label>
+              <Switch
+                checked={!testUnlocked}
+                onCheckedChange={(checked) => setTestUnlocked(!checked)}
+              />
+            </div>
+            <p className="text-[10px] text-muted-foreground">
+              {testUnlocked ? "🔓 Viewing as paid user" : "🔒 Viewing as free user"}
+            </p>
             <div>
               <label className="mb-1 block text-[10px] font-medium uppercase text-muted-foreground">
                 Regenerate with Preset
