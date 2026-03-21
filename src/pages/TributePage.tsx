@@ -777,45 +777,6 @@ const TributePage = () => {
             </div>
           )}
 
-          {/* Hero Share Card */}
-          {effectiveUnlocked && tribute.share_card_text && (
-            <HeroShareCard
-              petName={petName || "Your Pet"}
-              years={yearsOfLife}
-              quote={tribute.share_card_text}
-              photoUrl={photoUrls[0]}
-            />
-          )}
-
-          {/* Hero Share Card Preview */}
-          {effectiveUnlocked && photoUrls.length > 0 && (
-            <div className="mb-8 flex justify-center">
-              <div className="w-full max-w-sm rounded-2xl border border-border bg-gradient-to-br from-[hsl(30,30%,96%)] to-[hsl(30,25%,92%)] p-6 text-center shadow-lg">
-                <div className="mb-4 flex justify-center">
-                  <div className="h-24 w-24 overflow-hidden rounded-full border-4 border-white shadow-md">
-                    <img
-                      src={photoUrls[0]}
-                      alt={petName || "Your Pet"}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                </div>
-                <h3 className="font-display text-xl font-semibold text-foreground">
-                  {petName || "Your Pet"}
-                </h3>
-                {yearsOfLife && (
-                  <p className="text-sm text-muted-foreground">{yearsOfLife}</p>
-                )}
-                <div className="mx-auto my-3 h-[2px] w-12 rounded-full bg-primary/30" />
-                <p className="text-sm italic leading-relaxed text-foreground">
-                  "{tribute?.share_card_text || tribute?.story?.split('\n')[0]?.slice(0, 120) || ''}"
-                </p>
-                <p className="mt-4 text-[10px] text-muted-foreground/50">
-                  Created with VellumPet
-                </p>
-              </div>
-            </div>
-          )}
 
           {/* Memory Timeline */}
           {tribute && (
