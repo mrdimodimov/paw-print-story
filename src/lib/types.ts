@@ -120,6 +120,7 @@ export interface GeneratedTribute {
   title?: string;
   social_post?: string;
   share_card_text?: string;
+  short_caption?: string;
 }
 
 // AI Prompt template builder

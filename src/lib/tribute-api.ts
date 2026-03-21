@@ -261,6 +261,7 @@ function parseGeneratedOutput(text: string): GeneratedTribute {
     title: undefined,
     social_post: undefined,
     share_card_text: undefined,
+    short_caption: undefined,
   };
 
   // Extract title
@@ -270,31 +271,24 @@ function parseGeneratedOutput(text: string): GeneratedTribute {
     const titleEnd = afterTitle.indexOf("\n");
     if (titleEnd !== -1) {
       result.title = afterTitle.slice(0, titleEnd).trim() || undefined;
-      // Remove title section from remaining text
       text = (text.slice(0, titleIdx) + afterTitle.slice(titleEnd + 1)).trim();
     }
   }
 
-  const socialIdx = text.indexOf("---SOCIAL_POST---");
-  const cardIdx = text.indexOf("---SHARE_CARD---");
+  const markers = ["---SOCIAL_POST---", "---SHARE_CARD---", "---SHORT_CAPTION---"] as const;
+  const positions = markers.map(m => ({ marker: m, idx: text.indexOf(m) })).filter(p => p.idx !== -1).sort((a, b) => a.idx - b.idx);
 
-  if (socialIdx !== -1 || cardIdx !== -1) {
-    const storyEnd = Math.min(
-      socialIdx !== -1 ? socialIdx : Infinity,
-      cardIdx !== -1 ? cardIdx : Infinity
-    );
-    result.story = text.slice(0, storyEnd).trim();
+  if (positions.length > 0) {
+    result.story = text.slice(0, positions[0].idx).trim();
 
-    if (socialIdx !== -1) {
-      const socialEnd = cardIdx !== -1 && cardIdx > socialIdx ? cardIdx : text.length;
-      const parsed = text.slice(socialIdx + "---SOCIAL_POST---".length, socialEnd).trim();
-      result.social_post = parsed || undefined;
-    }
+    for (let i = 0; i < positions.length; i++) {
+      const start = positions[i].idx + positions[i].marker.length;
+      const end = i + 1 < positions.length ? positions[i + 1].idx : text.length;
+      const parsed = text.slice(start, end).trim();
 
-    if (cardIdx !== -1) {
-      const cardEnd = socialIdx !== -1 && socialIdx > cardIdx ? socialIdx : text.length;
-      const parsed = text.slice(cardIdx + "---SHARE_CARD---".length, cardEnd).trim();
-      result.share_card_text = parsed || undefined;
+      if (positions[i].marker === "---SOCIAL_POST---") result.social_post = parsed || undefined;
+      else if (positions[i].marker === "---SHARE_CARD---") result.share_card_text = parsed || undefined;
+      else if (positions[i].marker === "---SHORT_CAPTION---") result.short_caption = parsed || undefined;
     }
   } else {
     result.story = text.trim();

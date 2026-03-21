@@ -175,6 +175,7 @@ const TributePage = () => {
           title: (data as any).title || undefined,
           social_post: data.social_post || undefined,
           share_card_text: data.share_card_text || undefined,
+          short_caption: (data as any).short_caption || undefined,
         });
         setEditedStory(data.tribute_story);
         setPetName(data.pet_name);
@@ -215,6 +216,7 @@ const TributePage = () => {
             story: job.tribute_story,
             social_post: job.social_post || undefined,
             share_card_text: job.share_card_text || undefined,
+            short_caption: (job as any).short_caption || undefined,
           });
           setEditedStory(job.tribute_story);
           applyJobData(job);
@@ -241,6 +243,7 @@ const TributePage = () => {
                 story: updated.tribute_story,
                 social_post: updated.social_post || undefined,
                 share_card_text: updated.share_card_text || undefined,
+                short_caption: (updated as any).short_caption || undefined,
               });
               setEditedStory(updated.tribute_story);
               localStorage.removeItem("vellumpet_active_job");
@@ -1037,6 +1040,31 @@ const TributePage = () => {
                   onClick={() => { handleCopyToClipboard(tribute.social_post!); toast.success("Copied — paste it on Facebook!"); }}
                 >
                   <Copy className="mr-1.5 h-3.5 w-3.5" /> Copy for Facebook
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Quick Share Caption */}
+          {effectiveUnlocked && tribute.short_caption && (
+            <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
+              <div className="mb-3 flex items-center gap-2">
+                <Copy className="h-4 w-4 text-primary" />
+                <h3 className="font-display text-lg font-semibold text-foreground">
+                  Quick Share Caption
+                </h3>
+              </div>
+              <p className="mb-1 text-xs text-muted-foreground">Short, personal — perfect for a quick post or story.</p>
+              <div className="rounded-lg border border-border bg-muted/30 p-4">
+                <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">{tribute.short_caption}</p>
+              </div>
+              <div className="mt-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => { handleCopyToClipboard(tribute.short_caption!); toast.success("Caption copied!"); }}
+                >
+                  <Copy className="mr-1.5 h-3.5 w-3.5" /> Copy Caption
                 </Button>
               </div>
             </div>
