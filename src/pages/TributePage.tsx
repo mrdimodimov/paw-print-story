@@ -477,7 +477,7 @@ const TributePage = () => {
             </p>
           </div>
         </div>
-      )
+      )}
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
