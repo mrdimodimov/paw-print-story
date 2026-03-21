@@ -663,37 +663,47 @@ const TributePage = () => {
                       <p key={i} className="mb-4 leading-[1.7]">{p}</p>
                     ));
                   }
-                  // Show ~40% of paragraphs (min 1, max 2) to increase curiosity
-                  const cutoff = Math.max(1, Math.min(2, Math.ceil(allParagraphs.length * 0.4), allParagraphs.length - 1));
-                  const visible = allParagraphs.slice(0, cutoff);
-                  return (
-                    <>
-                      {visible.map((p, i) => (
-                        <p key={i} className="mb-4 leading-[1.7]">{p}</p>
-                      ))}
-                      {/* Intentional story break */}
-                      <p className="mb-2 text-center font-display text-sm tracking-widest text-muted-foreground/50">
-                        — Their story continues —
-                      </p>
-                      {/* Gradient fade */}
-                      <div
-                        className="pointer-events-none relative mb-2 select-none"
-                        style={{
-                          background: "linear-gradient(to bottom, hsl(var(--card)) 0%, transparent 100%)",
-                          height: "80px",
-                          marginTop: "-80px",
-                          position: "relative",
-                          zIndex: 1,
-                        }}
-                      />
-                      <p className="mb-2 text-center text-sm italic text-muted-foreground">
-                        ...and there's more you haven't seen yet.
-                      </p>
-                      <p className="text-center text-sm font-medium text-primary/80">
-                        [ Unlock to read the full tribute ]
-                      </p>
-                    </>
-                  );
+                   // Show paragraphs 1-2 fully, then partial paragraph 3 with mid-sentence blur
+                   const fullVisible = allParagraphs.slice(0, 2);
+                   const partialParagraph = allParagraphs[2] || null;
+                   // Take ~40% of paragraph 3 to cut mid-sentence
+                   const partialText = partialParagraph
+                     ? partialParagraph.slice(0, Math.max(60, Math.floor(partialParagraph.length * 0.4)))
+                     : null;
+
+                   return (
+                     <>
+                       {fullVisible.map((p, i) => (
+                         <p key={i} className="mb-4 leading-[1.7]">{p}</p>
+                       ))}
+
+                       {/* Emotional tension line */}
+                       <p className="mb-4 text-center font-display text-sm italic text-muted-foreground/70">
+                         That's when it started to mean more.
+                       </p>
+
+                       {/* Partial paragraph 3 with mid-sentence blur */}
+                       {partialText && (
+                         <div className="relative mb-0 select-none">
+                           <p className="leading-[1.7] text-foreground">{partialText}…</p>
+                           {/* Gradient fade starting mid-paragraph */}
+                           <div
+                             className="pointer-events-none absolute bottom-0 left-0 right-0"
+                             style={{
+                               background: "linear-gradient(to bottom, transparent 0%, hsl(var(--card) / 0.7) 40%, hsl(var(--card)) 100%)",
+                               height: "100%",
+                               top: 0,
+                             }}
+                           />
+                         </div>
+                       )}
+
+                       {/* Curiosity line */}
+                       <p className="mt-3 mb-2 text-center text-sm italic text-muted-foreground">
+                         ...and there's more you haven't seen yet.
+                       </p>
+                     </>
+                   );
                 })()}
               </div>
             )}
