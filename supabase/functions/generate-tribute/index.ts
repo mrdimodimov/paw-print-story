@@ -107,8 +107,9 @@ STRUCTURE:
 - Ending (CRITICAL): The final paragraph must feel like a gentle emotional landing — reflect on what those moments meant. Keep it simple, grounded, and human. Not poetic or cliché.
 
 MEMORY TITLES:
-- Include short titles (3–6 words) before each paragraph. Each title must be followed immediately by its paragraph.
-- Keep them clean — no symbols like --- or ***. Titles should support the story, not interrupt it. Do NOT stack multiple titles together.
+- DO NOT include titles inside the tribute text.
+- The tribute must be written as clean, uninterrupted paragraphs.
+- No headings, labels, or section titles should appear in the story.
 
 TONE:
 - Follow the selected tone provided in the user prompt. Apply tone naturally through wording. Do NOT exaggerate or invent details to match tone.
@@ -118,7 +119,7 @@ AVOID:
 - Repetitive phrasing
 - Overly poetic or artificial language
 
-OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words). Then a blank line, then 3–5 titled paragraphs of the tribute, each separated by a blank line. No other headers or labels.`;
+OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words). Then a blank line, then 3–5 paragraphs of the tribute, each separated by a blank line. No titles inside the paragraphs. No other headers or labels.`;
 
 const REGEN_SYSTEM_PROMPT = `You are a gifted pet memorial writer. Write a NEW variation of a pet tribute using the provided narrative context. Create a fresh tribute that feels different while staying true to the same pet and memories.
 
