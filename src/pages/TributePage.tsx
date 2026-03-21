@@ -580,8 +580,7 @@ const TributePage = () => {
             />
           )}
 
-          {/* Email save prompt (only if no pre-email was provided) */}
-          {justGenerated && !preEmail.current && (
+          {justGenerated && effectiveUnlocked && !preEmail.current && (
             <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} />
           )}
 
@@ -612,8 +611,8 @@ const TributePage = () => {
           <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
             {!effectiveUnlocked && (
               <div className="mb-6 text-center">
-                <h2 className="font-display text-xl font-semibold text-foreground">This is your story. Don't let it fade.</h2>
-                <p className="mt-1 font-display text-base text-muted-foreground">We've turned your memories into something you can keep forever.</p>
+                <h2 className="font-display text-xl font-semibold text-foreground">You didn't expect this to feel like this.</h2>
+                <p className="mt-1 font-display text-base text-muted-foreground">This is more than a story — it's how you remember {petName || "them"}.</p>
               </div>
             )}
 
@@ -622,13 +621,6 @@ const TributePage = () => {
                 <h3 className="font-display text-2xl font-semibold text-foreground">{petName}</h3>
                 {yearsOfLife && <p className="mt-1 text-sm text-muted-foreground">{yearsOfLife}</p>}
               </div>
-            )}
-
-            {/* Emotional hook above story */}
-            {!effectiveUnlocked && (
-              <p className="mb-6 text-center text-sm italic text-muted-foreground">
-                We've turned your memories into something meaningful.
-              </p>
             )}
 
             {effectiveUnlocked && (
@@ -694,6 +686,9 @@ const TributePage = () => {
                           zIndex: 1,
                         }}
                       />
+                      <p className="mb-2 text-center text-sm italic text-muted-foreground">
+                        ...and there's more you haven't seen yet.
+                      </p>
                       <p className="text-center text-sm font-medium text-primary/80">
                         [ Unlock to read the full tribute ]
                       </p>
@@ -704,7 +699,7 @@ const TributePage = () => {
             )}
 
             {!effectiveUnlocked && (
-              <div className="mt-8 border-t border-border pt-6 text-center">
+              <div className="mt-10 border-t border-border pt-6 text-center">
                 <p className="text-sm text-muted-foreground/70">
                   Your memories are private and never used for AI training.
                 </p>
@@ -716,6 +711,13 @@ const TributePage = () => {
               Generated with {BRAND.name}
             </p>
           </div>
+
+          {/* Email save — below story card for locked users */}
+          {!effectiveUnlocked && justGenerated && !preEmail.current && (
+            <div className="mb-2">
+              <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} />
+            </div>
+          )}
 
           {/* Memory Timeline */}
           {tribute && (
@@ -743,12 +745,12 @@ const TributePage = () => {
           )}
 
           {!effectiveUnlocked && (
-            <div className="mb-6 rounded-xl border border-primary/20 bg-card p-8 shadow-card md:p-10">
-              {/* Emotional bridge */}
+            <div className="mb-8 rounded-xl border border-primary/20 bg-card p-8 shadow-card md:p-10">
+              {/* Emotional anchor */}
               <div className="mb-6 text-center">
                 <PawPrint className="mx-auto mb-3 h-7 w-7 text-primary/70" />
                 <p className="font-display text-lg font-medium text-foreground">
-                  Continue your pet's story
+                  This isn't just a tribute. It's how you keep them close.
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
                   Unlock the full tribute, download it, and create a page you can share with family and friends.
@@ -786,7 +788,7 @@ const TributePage = () => {
               </div>
 
               {/* CTA */}
-              <div className="mb-4 text-center">
+              <div className="mb-2 text-center">
                 <Button
                   size="lg"
                   className="px-10 text-base"
@@ -794,12 +796,14 @@ const TributePage = () => {
                   onClick={handleCheckout}
                 >
                   <Lock className="mr-2 h-4 w-4" />
-                  {checkoutLoading ? "Redirecting…" : "Unlock My Tribute"}
+                  {checkoutLoading ? "Redirecting…" : `Keep ${petName || "Their"}'s Story Forever`}
                 </Button>
-                <p className="mt-3 text-xs text-muted-foreground">
-                  One-time payment • Yours forever
-                </p>
               </div>
+
+              {/* Light urgency */}
+              <p className="mb-4 text-center text-xs text-muted-foreground">
+                This tribute is unique — it won't be generated the same way again.
+              </p>
 
               {/* Ownership trigger */}
               <p className="mb-4 text-center text-sm italic text-muted-foreground/80">
