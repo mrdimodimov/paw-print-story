@@ -52,9 +52,9 @@ const CARD_STYLES: CardStyle[] = [
     textColor: "hsl(0,0%,20%)",
     footerColor: "hsl(0,0%,55%)",
     accentColor: "hsla(30,40%,55%,0.35)",
-    photoSize: 160,
-    nameFontSize: 28,
-    quoteFontSize: 14,
+    photoSize: 180,
+    nameFontSize: 36,
+    quoteFontSize: 20,
     showYears: true,
     quoteStyle: "italic",
   },
@@ -69,9 +69,9 @@ const CARD_STYLES: CardStyle[] = [
     textColor: "hsl(210,20%,85%)",
     footerColor: "hsla(210,20%,70%,0.5)",
     accentColor: "hsla(40,50%,65%,0.4)",
-    photoSize: 110,
-    nameFontSize: 24,
-    quoteFontSize: 13,
+    photoSize: 140,
+    nameFontSize: 32,
+    quoteFontSize: 18,
     showYears: false,
     quoteStyle: "normal",
   },
@@ -86,14 +86,13 @@ const CARD_STYLES: CardStyle[] = [
     textColor: "hsl(30,10%,15%)",
     footerColor: "hsl(30,8%,50%)",
     accentColor: "hsla(32,80%,50%,0.4)",
-    photoSize: 120,
-    nameFontSize: 30,
-    quoteFontSize: 13,
+    photoSize: 160,
+    nameFontSize: 36,
+    quoteFontSize: 18,
     showYears: true,
     quoteStyle: "italic",
   },
 ];
-
 interface TributeShareCardProps {
   petName: string;
   years: string;
