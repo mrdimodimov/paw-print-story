@@ -6,6 +6,7 @@ import MemoryTimeline from "@/components/MemoryTimeline";
 import PostGenerationShare from "@/components/PostGenerationShare";
 import TributeShareCard from "@/components/TributeShareCard";
 import InstagramStoryCard from "@/components/InstagramStoryCard";
+import HeroShareCard from "@/components/HeroShareCard";
 import TributeWritingExperience from "@/components/TributeWritingExperience";
 import PublicTributeToggle from "@/components/PublicTributeToggle";
 import PostGenerationEmailSave from "@/components/PostGenerationEmailSave";
@@ -771,6 +772,16 @@ const TributePage = () => {
             <div className="mb-2">
               <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} />
             </div>
+          )}
+
+          {/* Hero Share Card */}
+          {effectiveUnlocked && tribute.share_card_text && (
+            <HeroShareCard
+              petName={petName || "Your Pet"}
+              years={yearsOfLife}
+              quote={tribute.share_card_text}
+              photoUrl={photoUrls[0]}
+            />
           )}
 
           {/* Memory Timeline */}
