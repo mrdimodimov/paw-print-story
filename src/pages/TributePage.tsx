@@ -446,6 +446,38 @@ const TributePage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Test Mode Panel */}
+      {isTestMode && (
+        <div className="fixed bottom-4 right-4 z-50 w-72 rounded-lg border border-dashed border-yellow-500/50 bg-card p-3 shadow-lg">
+          <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-yellow-600">
+            <Bug className="h-3.5 w-3.5" />
+            Test Mode — Preview
+          </div>
+          <div className="space-y-2">
+            <div>
+              <label className="mb-1 block text-[10px] font-medium uppercase text-muted-foreground">
+                Regenerate with Preset
+              </label>
+              <Select onValueChange={handleTestRegenerate}>
+                <SelectTrigger className="h-8 text-xs">
+                  <SelectValue placeholder="Choose preset…" />
+                </SelectTrigger>
+                <SelectContent>
+                  {TEST_PRESETS.map((p) => (
+                    <SelectItem key={p.id} value={p.id} className="text-xs">
+                      <span className="font-medium">{p.label}</span>
+                      <span className="ml-1 text-muted-foreground">— {p.description}</span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <p className="text-[10px] text-muted-foreground">
+              ⚠ Payments, public pages & emails disabled
+            </p>
+          </div>
+        </div>
+      )
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
