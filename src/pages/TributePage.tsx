@@ -967,8 +967,8 @@ const TributePage = () => {
             </>
           )}
 
-          {/* Social Post (Tier 2+) */}
-          {effectiveUnlocked && tribute.social_post && (
+          {/* Social Media Post (single instance) */}
+          {effectiveUnlocked && typeof tribute.social_post === "string" && tribute.social_post && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
               <div className="mb-3 flex items-center gap-2">
                 <Share2 className="h-4 w-4 text-primary" />
@@ -981,33 +981,21 @@ const TributePage = () => {
                 <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">{tribute.social_post}</p>
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => { handleCopyToClipboard(tribute.social_post!); toast.success("Copied — paste it on Instagram!"); }}
-                >
+                <Button variant="outline" size="sm" onClick={() => { handleCopyToClipboard(tribute.social_post!); toast.success("Copied — paste it on Instagram!"); }}>
                   <Copy className="mr-1.5 h-3.5 w-3.5" /> Copy for Instagram
                 </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => { handleCopyToClipboard(tribute.social_post!); toast.success("Copied — paste it on X!"); }}
-                >
+                <Button variant="outline" size="sm" onClick={() => { handleCopyToClipboard(tribute.social_post!); toast.success("Copied — paste it on X!"); }}>
                   <Copy className="mr-1.5 h-3.5 w-3.5" /> Copy for X
                 </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => { handleCopyToClipboard(tribute.social_post!); toast.success("Copied — paste it on Facebook!"); }}
-                >
+                <Button variant="outline" size="sm" onClick={() => { handleCopyToClipboard(tribute.social_post!); toast.success("Copied — paste it on Facebook!"); }}>
                   <Copy className="mr-1.5 h-3.5 w-3.5" /> Copy for Facebook
                 </Button>
               </div>
             </div>
           )}
 
-          {/* Quick Share Caption */}
-          {effectiveUnlocked && tribute.short_caption && (
+          {/* Quick Share Caption (single instance) */}
+          {effectiveUnlocked && typeof tribute.short_caption === "string" && tribute.short_caption && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
               <div className="mb-3 flex items-center gap-2">
                 <Copy className="h-4 w-4 text-primary" />
@@ -1020,19 +1008,15 @@ const TributePage = () => {
                 <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">{tribute.short_caption}</p>
               </div>
               <div className="mt-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => { handleCopyToClipboard(tribute.short_caption!); toast.success("Caption copied!"); }}
-                >
+                <Button variant="outline" size="sm" onClick={() => { handleCopyToClipboard(tribute.short_caption!); toast.success("Caption copied!"); }}>
                   <Copy className="mr-1.5 h-3.5 w-3.5" /> Copy Caption
                 </Button>
               </div>
             </div>
           )}
 
-          {/* Auto-preview Share Card */}
-          {effectiveUnlocked && tribute.share_card_text && (
+          {/* Hero Share Card Preview (single instance) */}
+          {effectiveUnlocked && typeof tribute.share_card_text === "string" && tribute.share_card_text && (
             <HeroShareCard
               petName={petName || "Your Pet"}
               years={yearsOfLife}
