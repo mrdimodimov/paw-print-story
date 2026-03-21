@@ -5,6 +5,7 @@ import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe
 import MemoryTimeline from "@/components/MemoryTimeline";
 import PostGenerationShare from "@/components/PostGenerationShare";
 import TributeShareCard from "@/components/TributeShareCard";
+import InstagramStoryCard from "@/components/InstagramStoryCard";
 import TributeWritingExperience from "@/components/TributeWritingExperience";
 import PublicTributeToggle from "@/components/PublicTributeToggle";
 import PostGenerationEmailSave from "@/components/PostGenerationEmailSave";
