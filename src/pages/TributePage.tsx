@@ -333,6 +333,10 @@ const TributePage = () => {
   };
 
   const handleCheckout = async () => {
+    if (isTestMode) {
+      toast.info("Checkout disabled in test mode");
+      return;
+    }
     if (!tributeDbId) {
       toast.error("Please wait for your tribute to finish generating.");
       return;
