@@ -108,7 +108,7 @@ const TributePage = () => {
         if (result.jobId) setLastJobId(result.jobId);
         if (result.tributeId) setTributeDbId(result.tributeId);
         // Save pre-generation email if provided
-        if (preEmail.current && result.tributeId) {
+        if (preEmail.current && result.tributeId && !isTestMode) {
           try {
             const { data: emailRow } = await supabase.from("tribute_emails").insert({
               email: preEmail.current,
