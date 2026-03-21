@@ -699,7 +699,7 @@ const TributePage = () => {
             )}
 
             {!effectiveUnlocked && (
-              <div className="mt-8 border-t border-border pt-6 text-center">
+              <div className="mt-10 border-t border-border pt-6 text-center">
                 <p className="text-sm text-muted-foreground/70">
                   Your memories are private and never used for AI training.
                 </p>
@@ -711,6 +711,13 @@ const TributePage = () => {
               Generated with {BRAND.name}
             </p>
           </div>
+
+          {/* Email save — below story card for locked users */}
+          {!effectiveUnlocked && justGenerated && !preEmail.current && (
+            <div className="mb-2">
+              <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} />
+            </div>
+          )}
 
           {/* Memory Timeline */}
           {tribute && (
