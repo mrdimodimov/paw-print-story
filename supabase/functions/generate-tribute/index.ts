@@ -245,6 +245,15 @@ TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.`;
 - Examples of the right feel: "Our midnight chaos gremlin. We'll miss you forever." / "Still waiting by the door, even now." / "You made ordinary days feel full."
 - Do NOT include ${data.pet_name}'s name, years, or any heading — just the raw quote line.`;
   }
+  if (data.include_share_card) {
+    prompt += `\n\nAfter that, on a new line write "---SHORT_CAPTION---" followed by a quick social caption (1–3 short sentences). Rules:
+- Include ${data.pet_name}'s name naturally.
+- Simple, human, emotional — like something you'd text a close friend.
+- Max 1 emoji allowed.
+- Optionally add 2–4 hashtags at the end.
+- Example feel: "We miss you every day, Mochi 🐹 Nothing feels the same without you."
+- Do NOT repeat the social post. This is shorter and more personal.`;
+  }
 
   return prompt;
 }
