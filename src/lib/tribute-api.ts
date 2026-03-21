@@ -221,6 +221,7 @@ export async function generateTribute(
         slug: slugToTry,
         social_post: result.social_post || null,
         share_card_text: result.share_card_text || null,
+        short_caption: result.short_caption || null,
         photo_urls: form.photo_urls,
         form_data: form as any,
         is_public: isPublic || false,
