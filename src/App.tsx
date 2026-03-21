@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes, useSearchParams } from "react-router-dom"
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { TestModeBadge } from "@/components/TestModeBadge";
+import { useTestMode } from "@/hooks/use-test-mode";
 import { useEffect, useState } from "react";
 import Landing from "./pages/Landing";
 import Questionnaire from "./pages/Questionnaire";
