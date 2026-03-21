@@ -745,12 +745,12 @@ const TributePage = () => {
           )}
 
           {!effectiveUnlocked && (
-            <div className="mb-6 rounded-xl border border-primary/20 bg-card p-8 shadow-card md:p-10">
-              {/* Emotional bridge */}
+            <div className="mb-8 rounded-xl border border-primary/20 bg-card p-8 shadow-card md:p-10">
+              {/* Emotional anchor */}
               <div className="mb-6 text-center">
                 <PawPrint className="mx-auto mb-3 h-7 w-7 text-primary/70" />
                 <p className="font-display text-lg font-medium text-foreground">
-                  Continue your pet's story
+                  This isn't just a tribute. It's how you keep them close.
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
                   Unlock the full tribute, download it, and create a page you can share with family and friends.
@@ -788,7 +788,7 @@ const TributePage = () => {
               </div>
 
               {/* CTA */}
-              <div className="mb-4 text-center">
+              <div className="mb-2 text-center">
                 <Button
                   size="lg"
                   className="px-10 text-base"
@@ -796,12 +796,14 @@ const TributePage = () => {
                   onClick={handleCheckout}
                 >
                   <Lock className="mr-2 h-4 w-4" />
-                  {checkoutLoading ? "Redirecting…" : "Unlock My Tribute"}
+                  {checkoutLoading ? "Redirecting…" : `Keep ${petName || "Their"}'s Story Forever`}
                 </Button>
-                <p className="mt-3 text-xs text-muted-foreground">
-                  One-time payment • Yours forever
-                </p>
               </div>
+
+              {/* Light urgency */}
+              <p className="mb-4 text-center text-xs text-muted-foreground">
+                This tribute is unique — it won't be generated the same way again.
+              </p>
 
               {/* Ownership trigger */}
               <p className="mb-4 text-center text-sm italic text-muted-foreground/80">
