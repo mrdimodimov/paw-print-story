@@ -6,6 +6,7 @@ import MemoryTimeline from "@/components/MemoryTimeline";
 import PostGenerationShare from "@/components/PostGenerationShare";
 import TributeShareCard from "@/components/TributeShareCard";
 import InstagramStoryCard from "@/components/InstagramStoryCard";
+import HeroShareCard from "@/components/HeroShareCard";
 import TributeWritingExperience from "@/components/TributeWritingExperience";
 import PublicTributeToggle from "@/components/PublicTributeToggle";
 import PostGenerationEmailSave from "@/components/PostGenerationEmailSave";
