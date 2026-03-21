@@ -612,9 +612,8 @@ const TributePage = () => {
           <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
             {!effectiveUnlocked && (
               <div className="mb-6 text-center">
-                <h2 className="font-display text-xl font-semibold text-foreground">Your tribute is ready</h2>
-                <p className="mt-1 font-display text-base text-muted-foreground">This is a story worth holding onto.</p>
-                <p className="mt-1 text-xs text-muted-foreground/70">Created from the memories you shared.</p>
+                <h2 className="font-display text-xl font-semibold text-foreground">This is your story. Don't let it fade.</h2>
+                <p className="mt-1 font-display text-base text-muted-foreground">We've turned your memories into something you can keep forever.</p>
               </div>
             )}
 
