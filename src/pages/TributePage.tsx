@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock, Bug, SkipForward } from "lucide-react";
+import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock, Bug, SkipForward, Eye } from "lucide-react";
 import MemoryTimeline from "@/components/MemoryTimeline";
 import PostGenerationShare from "@/components/PostGenerationShare";
 import TributeShareCard from "@/components/TributeShareCard";
@@ -13,6 +13,8 @@ import TributeReactions, { ReactionCounters } from "@/components/TributeReaction
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -65,6 +67,10 @@ const TributePage = () => {
   const [tributeSlug, setTributeSlug] = useState<string | undefined>();
   const [justGenerated, setJustGenerated] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
+  const [testUnlocked, setTestUnlocked] = useState(true);
+
+  // In test mode, allow toggling between unlocked/locked views
+  const effectiveUnlocked = isTestMode ? testUnlocked : unlocked;
   const [tributeDbId, setTributeDbId] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
@@ -446,6 +452,16 @@ const TributePage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Test Mode Banner */}
+      {isTestMode && (
+        <div className="border-b border-yellow-500/30 bg-yellow-50 px-4 py-2 text-center dark:bg-yellow-950/20">
+          <div className="flex items-center justify-center gap-2 text-xs font-medium text-yellow-700 dark:text-yellow-400">
+            <Eye className="h-3.5 w-3.5" />
+            Test Mode: {testUnlocked ? "Full Preview Enabled" : "Paywall Simulated"}
+          </div>
+        </div>
+      )}
+
       {/* Test Mode Panel */}
       {isTestMode && (
         <div className="fixed bottom-4 right-4 z-50 w-72 rounded-lg border border-dashed border-yellow-500/50 bg-card p-3 shadow-lg">
@@ -454,6 +470,19 @@ const TributePage = () => {
             Test Mode — Preview
           </div>
           <div className="space-y-2">
+            {/* Paywall toggle */}
+            <div className="flex items-center justify-between rounded-md border border-border/60 bg-accent/20 px-3 py-2">
+              <label className="text-[11px] font-medium text-foreground">
+                Toggle Paywall
+              </label>
+              <Switch
+                checked={!testUnlocked}
+                onCheckedChange={(checked) => setTestUnlocked(!checked)}
+              />
+            </div>
+            <p className="text-[10px] text-muted-foreground">
+              {testUnlocked ? "🔓 Viewing as paid user" : "🔒 Viewing as free user"}
+            </p>
             <div>
               <label className="mb-1 block text-[10px] font-medium uppercase text-muted-foreground">
                 Regenerate with Preset
@@ -537,7 +566,7 @@ const TributePage = () => {
             {/* Reaction counters (social proof) */}
             {tributeDbId && (
               <div className="mt-5">
-                <ReactionCounters tributeId={tributeDbId} petName={petName} unlocked={unlocked} />
+                <ReactionCounters tributeId={tributeDbId} petName={petName} unlocked={effectiveUnlocked} />
               </div>
             )}
           </div>
@@ -581,7 +610,7 @@ const TributePage = () => {
 
           {/* Tribute Story */}
           <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
-            {!unlocked && (
+            {!effectiveUnlocked && (
               <div className="mb-6 text-center">
                 <h2 className="font-display text-xl font-semibold text-foreground">Your tribute is ready</h2>
                 <p className="mt-1 font-display text-base text-muted-foreground">This is a story worth holding onto.</p>
@@ -589,7 +618,7 @@ const TributePage = () => {
               </div>
             )}
 
-            {!unlocked && (
+            {!effectiveUnlocked && (
               <div className="mb-4 text-center">
                 <h3 className="font-display text-2xl font-semibold text-foreground">{petName}</h3>
                 {yearsOfLife && <p className="mt-1 text-sm text-muted-foreground">{yearsOfLife}</p>}
@@ -597,13 +626,13 @@ const TributePage = () => {
             )}
 
             {/* Emotional hook above story */}
-            {!unlocked && (
+            {!effectiveUnlocked && (
               <p className="mb-6 text-center text-sm italic text-muted-foreground">
                 We've turned your memories into something meaningful.
               </p>
             )}
 
-            {unlocked && (
+            {effectiveUnlocked && (
               <>
                 <div className="mb-4 rounded-lg bg-accent/50 px-4 py-3 text-center">
                   <p className="text-sm font-medium text-primary">Your full tribute is now yours.</p>
@@ -612,7 +641,7 @@ const TributePage = () => {
               </>
             )}
 
-            {isEditing && unlocked ? (
+            {isEditing && effectiveUnlocked ? (
               <div className="space-y-4">
                 <Textarea
                   value={editedStory}
@@ -635,7 +664,7 @@ const TributePage = () => {
               <div className="mx-auto max-w-prose font-body text-foreground">
                 {(() => {
                   const allParagraphs = ensureParagraphs(tribute.story);
-                  if (unlocked) {
+                  if (effectiveUnlocked) {
                     return allParagraphs.map((p, i) => (
                       <p key={i} className="mb-4 leading-[1.7]">{p}</p>
                     ));
@@ -672,7 +701,7 @@ const TributePage = () => {
               </div>
             )}
 
-            {!unlocked && (
+            {!effectiveUnlocked && (
               <div className="mt-8 border-t border-border pt-6 text-center">
                 <p className="text-sm text-muted-foreground/70">
                   Your memories are private and never used for AI training.
@@ -694,7 +723,7 @@ const TributePage = () => {
               yearsOfLife={yearsOfLife}
               photoUrls={photoUrls}
               tierId={currentTier.id}
-              unlocked={unlocked}
+              unlocked={effectiveUnlocked}
               onUnlock={() => setUnlocked(true)}
             />
           )}
@@ -705,13 +734,13 @@ const TributePage = () => {
               <TributeReactions
                 tributeId={tributeDbId}
                 petName={petName}
-                unlocked={unlocked}
+                unlocked={effectiveUnlocked}
                 slug={tributeSlug}
               />
             </div>
           )}
 
-          {!unlocked && (
+          {!effectiveUnlocked && (
             <div className="mb-6 rounded-xl border border-primary/20 bg-card p-8 shadow-card md:p-10">
               {/* Emotional bridge */}
               <div className="mb-6 text-center">
@@ -792,7 +821,7 @@ const TributePage = () => {
           )}
 
           {/* Post-unlock quick actions */}
-          {unlocked && (
+          {effectiveUnlocked && (
             <div className="mb-6 flex flex-wrap justify-center gap-3">
               <Button size="lg" className="px-8 text-base" onClick={handleDownloadPDF}>
                 <Download className="mr-1 h-5 w-5" /> Download PDF
@@ -810,7 +839,7 @@ const TributePage = () => {
           )}
 
           {/* Actions */}
-          {unlocked && (
+          {effectiveUnlocked && (
             <>
               <div className="mb-6 flex flex-wrap gap-3">
                 {!isEditing && (
@@ -874,7 +903,7 @@ const TributePage = () => {
           )}
 
           {/* Social Post (Tier 2+) */}
-          {unlocked && tribute.social_post && (
+          {effectiveUnlocked && tribute.social_post && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
               <div className="mb-3 flex items-center gap-2">
                 <Share2 className="h-4 w-4 text-primary" />
@@ -896,7 +925,7 @@ const TributePage = () => {
           )}
 
           {/* Memorial Share Card */}
-          {unlocked && currentTier.include_share_card && tribute.share_card_text && (
+          {effectiveUnlocked && currentTier.include_share_card && tribute.share_card_text && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
               <div className="mb-4 flex items-center gap-2">
                 <FileText className="h-4 w-4 text-primary" />
@@ -968,11 +997,11 @@ const TributePage = () => {
           {/* Leave a Memory */}
           {tributeDbId && (
             <div className="mb-6">
-              <TributeMemories tributeId={tributeDbId} petName={petName || "Your Pet"} unlocked={unlocked} slug={tributeSlug} />
+              <TributeMemories tributeId={tributeDbId} petName={petName || "Your Pet"} unlocked={effectiveUnlocked} slug={tributeSlug} />
             </div>
           )}
 
-          {unlocked && (
+          {effectiveUnlocked && (
             <div className="mb-6">
               <PublicTributeToggle
                 petName={petName || ""}
