@@ -113,6 +113,7 @@ export type Database = {
           photo_urls: string[]
           prompt_context_hash: string | null
           share_card_text: string | null
+          short_caption: string | null
           social_post: string | null
           status: string
           tier_name: string
@@ -129,6 +130,7 @@ export type Database = {
           photo_urls?: string[]
           prompt_context_hash?: string | null
           share_card_text?: string | null
+          short_caption?: string | null
           social_post?: string | null
           status?: string
           tier_name: string
@@ -145,6 +147,7 @@ export type Database = {
           photo_urls?: string[]
           prompt_context_hash?: string | null
           share_card_text?: string | null
+          short_caption?: string | null
           social_post?: string | null
           status?: string
           tier_name?: string
@@ -370,6 +373,7 @@ export type Database = {
           pet_type: string
           photo_urls: string[]
           share_card_text: string | null
+          short_caption: string | null
           slug: string | null
           social_post: string | null
           stripe_session_id: string | null
@@ -390,6 +394,7 @@ export type Database = {
           pet_type?: string
           photo_urls?: string[]
           share_card_text?: string | null
+          short_caption?: string | null
           slug?: string | null
           social_post?: string | null
           stripe_session_id?: string | null
@@ -410,6 +415,7 @@ export type Database = {
           pet_type?: string
           photo_urls?: string[]
           share_card_text?: string | null
+          short_caption?: string | null
           slug?: string | null
           social_post?: string | null
           stripe_session_id?: string | null
