@@ -70,8 +70,9 @@ const TributePage = () => {
   const [unlocked, setUnlocked] = useState(false);
   const [testUnlocked, setTestUnlocked] = useState(true);
 
-  // In test mode, allow toggling between unlocked/locked views
-  const effectiveUnlocked = isTestMode ? testUnlocked : unlocked;
+  // In test/founder mode, default to unlocked (toggleable via panel)
+  const isFounderMode = localStorage.getItem("founderMode") === "true";
+  const effectiveUnlocked = (isTestMode || isFounderMode) ? testUnlocked : unlocked;
   const [tributeDbId, setTributeDbId] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
