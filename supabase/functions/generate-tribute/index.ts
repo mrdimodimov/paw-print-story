@@ -32,6 +32,11 @@ interface TributeRequest {
 
 // Tier security rules — enforced server-side
 const tierRules: Record<string, { include_social_post: boolean; include_share_card: boolean }> = {
+  // Current tier names
+  "Simple Tribute": { include_social_post: false, include_share_card: true },
+  "Beautiful Tribute": { include_social_post: true, include_share_card: true },
+  "Legacy Memorial Page": { include_social_post: true, include_share_card: true },
+  // Legacy tier names (backward compat)
   "Quick Story": { include_social_post: false, include_share_card: false },
   "Full Memorial Pack": { include_social_post: true, include_share_card: true },
   "Everlasting Legacy Page": { include_social_post: true, include_share_card: true },
