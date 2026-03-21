@@ -663,17 +663,59 @@ const TributePage = () => {
                       <p key={i} className="mb-4 leading-[1.7]">{p}</p>
                     ));
                   }
-                   // Show paragraphs 1-2 fully, then partial paragraph 3 with mid-sentence blur
-                   const fullVisible = allParagraphs.slice(0, 2);
-                   const partialParagraph = allParagraphs[2] || null;
-                   // Take ~40% of paragraph 3 to cut mid-sentence
-                   const partialText = partialParagraph
-                     ? partialParagraph.slice(0, Math.max(60, Math.floor(partialParagraph.length * 0.4)))
-                     : null;
+                   // Intelligent emotional cut point
+                   const EMOTIONAL_TRIGGERS = [
+                     /\bthat['']?s when\b/i,
+                     /\bover time\b/i,
+                     /\bit became\b/i,
+                     /\blooking back\b/i,
+                     /\bwhat i didn['']?t realize\b/i,
+                     /\bthose moments\b/i,
+                     /\bthrough all of it\b/i,
+                     /\bi never expected\b/i,
+                     /\bwithout (him|her|them)\b/i,
+                     /\bthe house felt\b/i,
+                   ];
+
+                   // Find the emotional turning point across all paragraphs
+                   let cutParaIndex = -1;
+                   let cutSentenceIndex = -1;
+                   for (let pi = 1; pi < allParagraphs.length && cutParaIndex === -1; pi++) {
+                     const sentences = allParagraphs[pi].match(/[^.!?]+[.!?]+/g) || [allParagraphs[pi]];
+                     for (let si = 0; si < sentences.length; si++) {
+                       if (EMOTIONAL_TRIGGERS.some((r) => r.test(sentences[si]))) {
+                         cutParaIndex = pi;
+                         cutSentenceIndex = si;
+                         break;
+                       }
+                     }
+                   }
+
+                   let visibleParas: string[];
+                   let partialText: string | null = null;
+
+                   if (cutParaIndex >= 1) {
+                     // Show all paragraphs before the emotional sentence
+                     visibleParas = allParagraphs.slice(0, cutParaIndex);
+                     const triggerPara = allParagraphs[cutParaIndex];
+                     const sentences = triggerPara.match(/[^.!?]+[.!?]+/g) || [triggerPara];
+                     // Include sentences before trigger + first half of trigger sentence
+                     const before = sentences.slice(0, cutSentenceIndex).join("");
+                     const triggerSentence = sentences[cutSentenceIndex] || "";
+                     const halfTrigger = triggerSentence.slice(0, Math.max(30, Math.floor(triggerSentence.length * 0.5)));
+                     partialText = (before + halfTrigger).trim() || null;
+                   } else {
+                     // Fallback: paragraph 1 + 2 full, partial paragraph 3
+                     visibleParas = allParagraphs.slice(0, 2);
+                     const p3 = allParagraphs[2] || null;
+                     partialText = p3
+                       ? p3.slice(0, Math.max(60, Math.floor(p3.length * 0.4)))
+                       : null;
+                   }
 
                    return (
                      <>
-                       {fullVisible.map((p, i) => (
+                       {visibleParas.map((p, i) => (
                          <p key={i} className="mb-4 leading-[1.7]">{p}</p>
                        ))}
 
@@ -682,11 +724,10 @@ const TributePage = () => {
                          That's when it started to mean more.
                        </p>
 
-                       {/* Partial paragraph 3 with mid-sentence blur */}
+                       {/* Partial paragraph with mid-sentence blur */}
                        {partialText && (
                          <div className="relative mb-0 select-none">
                            <p className="leading-[1.7] text-foreground">{partialText}…</p>
-                           {/* Gradient fade starting mid-paragraph */}
                            <div
                              className="pointer-events-none absolute bottom-0 left-0 right-0"
                              style={{
