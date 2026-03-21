@@ -687,6 +687,9 @@ const TributePage = () => {
                           zIndex: 1,
                         }}
                       />
+                      <p className="mb-2 text-center text-sm italic text-muted-foreground">
+                        ...and there's more you haven't seen yet.
+                      </p>
                       <p className="text-center text-sm font-medium text-primary/80">
                         [ Unlock to read the full tribute ]
                       </p>
