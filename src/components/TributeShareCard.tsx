@@ -80,17 +80,16 @@ interface TributeShareCardProps {
 
 function extractQuote(text: string): string {
   const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+  // Score by emotional weight: prefer 8-20 word sentences
   const scored = sentences.map((s) => {
-    const words = s.trim().split(/\s+/).length;
-    const score = words >= 8 && words <= 25 ? words : words > 25 ? 10 : words;
-    return { s: s.trim(), score };
+    const trimmed = s.trim();
+    const words = trimmed.split(/\s+/).length;
+    const score = words >= 8 && words <= 20 ? words + 5 : words > 20 ? 8 : words;
+    return { s: trimmed, score };
   });
   scored.sort((a, b) => b.score - a.score);
-  let quote = scored[0]?.s || text;
-  if (scored[1] && (quote.split(/\s+/).length + scored[1].s.split(/\s+/).length) <= 35) {
-    quote += " " + scored[1].s;
-  }
-  return quote;
+  // Return single strongest sentence — keeps quote to max 2 lines on the card
+  return scored[0]?.s || text;
 }
 
 // Photo layout configurations for different counts
