@@ -216,6 +216,7 @@ const TributePage = () => {
             story: job.tribute_story,
             social_post: job.social_post || undefined,
             share_card_text: job.share_card_text || undefined,
+            short_caption: (job as any).short_caption || undefined,
           });
           setEditedStory(job.tribute_story);
           applyJobData(job);
