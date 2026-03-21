@@ -80,17 +80,16 @@ interface TributeShareCardProps {
 
 function extractQuote(text: string): string {
   const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+  // Score by emotional weight: prefer 8-20 word sentences
   const scored = sentences.map((s) => {
-    const words = s.trim().split(/\s+/).length;
-    const score = words >= 8 && words <= 25 ? words : words > 25 ? 10 : words;
-    return { s: s.trim(), score };
+    const trimmed = s.trim();
+    const words = trimmed.split(/\s+/).length;
+    const score = words >= 8 && words <= 20 ? words + 5 : words > 20 ? 8 : words;
+    return { s: trimmed, score };
   });
   scored.sort((a, b) => b.score - a.score);
-  let quote = scored[0]?.s || text;
-  if (scored[1] && (quote.split(/\s+/).length + scored[1].s.split(/\s+/).length) <= 35) {
-    quote += " " + scored[1].s;
-  }
-  return quote;
+  // Return single strongest sentence — keeps quote to max 2 lines on the card
+  return scored[0]?.s || text;
 }
 
 // Photo layout configurations for different counts
@@ -236,7 +235,8 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
 
   const availableCount = shareCardLimit === -1 ? TEMPLATES.length : Math.min(shareCardLimit, TEMPLATES.length);
   const quote = extractQuote(excerpt);
-  const shortQuote = quote.split(/\s+/).slice(0, 30).join(" ") + (quote.split(/\s+/).length > 30 ? "…" : "");
+  // Limit to ~20 words max for 2-line visual fit
+  const shortQuote = quote.split(/\s+/).slice(0, 20).join(" ") + (quote.split(/\s+/).length > 20 ? "…" : "");
   const tmpl = TEMPLATES[activeTemplate];
 
   // Use background overlay from first photo if available
@@ -268,7 +268,7 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
     }
   };
 
-  const getShareText = () => `In Loving Memory of ${petName} — "${shortQuote}" 🐾 Created with ${BRAND.name}`;
+  const getShareText = () => `In Loving Memory of ${petName} — "${shortQuote}" 🐾 Created with ${BRAND.name} • ${BRAND.baseUrl}`;
 
 
 
@@ -545,12 +545,14 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
               color: tmpl.footerColor,
               fontFamily: "'Source Sans 3', sans-serif",
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
-              gap: 4,
+              gap: 2,
               zIndex: 1,
             }}
           >
-            🐾 Created with {BRAND.name}
+            <span>🐾 Created with {BRAND.name}</span>
+            <span style={{ fontSize: 8, opacity: 0.7 }}>vellumpet.com</span>
           </div>
         </div>
       </div>

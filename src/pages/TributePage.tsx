@@ -965,19 +965,36 @@ const TributePage = () => {
               <div className="mb-3 flex items-center gap-2">
                 <Share2 className="h-4 w-4 text-primary" />
                 <h3 className="font-display text-lg font-semibold text-foreground">
-                  Social Media Post
+                  Share on Social Media
                 </h3>
               </div>
-              <p className="text-sm leading-relaxed text-foreground">{tribute.social_post}</p>
-              <Button
-                variant="outline"
-                size="sm"
-                className="mt-3"
-                onClick={() => handleCopyToClipboard(tribute.social_post!)}
-              >
-                {copied ? <Check className="mr-1 h-4 w-4" /> : <Copy className="mr-1 h-4 w-4" />}
-                {copied ? "Copied!" : "Copy to Clipboard"}
-              </Button>
+              <p className="mb-1 text-xs text-muted-foreground">Ready-to-post caption — just paste and share.</p>
+              <div className="rounded-lg border border-border bg-muted/30 p-4">
+                <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">{tribute.social_post}</p>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => { handleCopyToClipboard(tribute.social_post!); toast.success("Copied — paste it on Instagram!"); }}
+                >
+                  <Copy className="mr-1.5 h-3.5 w-3.5" /> Copy for Instagram
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => { handleCopyToClipboard(tribute.social_post!); toast.success("Copied — paste it on X!"); }}
+                >
+                  <Copy className="mr-1.5 h-3.5 w-3.5" /> Copy for X
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => { handleCopyToClipboard(tribute.social_post!); toast.success("Copied — paste it on Facebook!"); }}
+                >
+                  <Copy className="mr-1.5 h-3.5 w-3.5" /> Copy for Facebook
+                </Button>
+              </div>
             </div>
           )}
 
