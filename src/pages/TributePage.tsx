@@ -566,7 +566,7 @@ const TributePage = () => {
             {/* Reaction counters (social proof) */}
             {tributeDbId && (
               <div className="mt-5">
-                <ReactionCounters tributeId={tributeDbId} petName={petName} effectiveUnlocked={effectiveUnlocked} />
+                <ReactionCounters tributeId={tributeDbId} petName={petName} unlocked={effectiveUnlocked} />
               </div>
             )}
           </div>
@@ -723,7 +723,7 @@ const TributePage = () => {
               yearsOfLife={yearsOfLife}
               photoUrls={photoUrls}
               tierId={currentTier.id}
-              effectiveUnlocked={effectiveUnlocked}
+              unlocked={effectiveUnlocked}
               onUnlock={() => setUnlocked(true)}
             />
           )}
@@ -734,7 +734,7 @@ const TributePage = () => {
               <TributeReactions
                 tributeId={tributeDbId}
                 petName={petName}
-                effectiveUnlocked={effectiveUnlocked}
+                unlocked={effectiveUnlocked}
                 slug={tributeSlug}
               />
             </div>
@@ -997,7 +997,7 @@ const TributePage = () => {
           {/* Leave a Memory */}
           {tributeDbId && (
             <div className="mb-6">
-              <TributeMemories tributeId={tributeDbId} petName={petName || "Your Pet"} effectiveUnlocked={effectiveUnlocked} slug={tributeSlug} />
+              <TributeMemories tributeId={tributeDbId} petName={petName || "Your Pet"} unlocked={effectiveUnlocked} slug={tributeSlug} />
             </div>
           )}
 
