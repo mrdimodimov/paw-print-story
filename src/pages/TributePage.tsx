@@ -669,8 +669,8 @@ const TributePage = () => {
                       <p key={i} className="mb-4 leading-[1.7]">{p}</p>
                     ));
                   }
-                  // Show ~50-55% of paragraphs (min 2, max all-1)
-                  const cutoff = Math.max(2, Math.min(Math.ceil(allParagraphs.length * 0.55), allParagraphs.length - 1));
+                  // Show ~40% of paragraphs (min 1, max 2) to increase curiosity
+                  const cutoff = Math.max(1, Math.min(2, Math.ceil(allParagraphs.length * 0.4), allParagraphs.length - 1));
                   const visible = allParagraphs.slice(0, cutoff);
                   return (
                     <>
