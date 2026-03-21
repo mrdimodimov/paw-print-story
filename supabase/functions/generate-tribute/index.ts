@@ -95,6 +95,10 @@ WRITING STYLE:
 - Write in natural, flowing paragraphs. It should feel like someone remembering their pet, not structured output.
 - Avoid rigid sections or fragmented blocks. Use clear, human language.
 - Vary sentence length naturally. Avoid overly complex or overly flat sentences.
+- Keep sentences slightly shorter and more direct.
+- Prefer simple, natural phrasing over polished or abstract language.
+- Avoid over-explaining: if a moment is clear, do not expand it unnecessarily. Let small details carry meaning without extra interpretation.
+- Reduce density: do not overload paragraphs with too many ideas. Give important moments space to breathe.
 
 NARRATIVE FLOW (IMPORTANT):
 - The tribute must feel like a single continuous story, not disconnected memory blocks.
@@ -104,7 +108,7 @@ NARRATIVE FLOW (IMPORTANT):
 STRUCTURE:
 - Opening: Start with a specific moment, habit, or scene — never a summary.
 - Middle: Expand memories naturally, showing personality through actions.
-- Ending (CRITICAL): The final paragraph must feel like a gentle emotional landing — reflect on what those moments meant. Keep it simple, grounded, and human. Not poetic or cliché.
+- Ending (CRITICAL): The final paragraph must feel like a quiet emotional landing. Reflect on what those moments meant in simple, grounded language. End with a short, clear sentence that feels natural and memorable. Avoid abstract or overly poetic phrasing.
 
 MEMORY TITLES:
 - DO NOT include titles inside the tribute text.
