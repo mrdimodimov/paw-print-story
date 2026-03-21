@@ -1012,6 +1012,16 @@ const TributePage = () => {
             </div>
           )}
 
+          {/* Auto-preview Share Card */}
+          {effectiveUnlocked && tribute.share_card_text && (
+            <HeroShareCard
+              petName={petName || "Your Pet"}
+              years={yearsOfLife}
+              quote={tribute.share_card_text}
+              photoUrl={photoUrls[0]}
+            />
+          )}
+
           {/* Memorial Share Card */}
           {effectiveUnlocked && currentTier.include_share_card && tribute.share_card_text && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
