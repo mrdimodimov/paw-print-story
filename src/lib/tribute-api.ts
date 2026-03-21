@@ -197,11 +197,6 @@ export async function generateTribute(
   // Parse sections from the full text
   const result = parseGeneratedOutput(fullText);
 
-  // Generate URL slug using emotional priority logic
-  const slug = generateMemorialSlug(form.pet_name, {
-    yearsOfLife: form.years_of_life,
-    title: result.title,
-  });
 
   // Persist tribute to database with slug collision retry
   let tributeId: string | undefined;
