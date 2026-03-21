@@ -203,33 +203,48 @@ export async function generateTribute(
     title: result.title,
   });
 
-  // Persist tribute to database
+  // Persist tribute to database with slug collision retry
   let tributeId: string | undefined;
   let tributeSlug: string | undefined;
-  try {
-    const { data, error } = await supabase.from("tributes").insert({
-      pet_name: form.pet_name,
-      pet_type: form.pet_type,
-      breed: form.breed || null,
-      years_of_life: form.years_of_life || null,
-      owner_name: form.owner_name || null,
-      tier_name: tier.name,
-      tribute_story: result.story,
-      title: result.title || null,
-      slug,
-      social_post: result.social_post || null,
-      share_card_text: result.share_card_text || null,
-      photo_urls: form.photo_urls,
-      form_data: form as any,
-      is_public: isPublic || false,
-    }).select("id, slug").single();
+  const baseSlug = generateMemorialSlug(form.pet_name, {
+    yearsOfLife: form.years_of_life,
+    title: result.title,
+  });
 
-    if (!error && data) {
-      tributeId = data.id;
-      tributeSlug = data.slug ?? undefined;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const slugToTry = attempt === 0 ? baseSlug : generateMemorialSlugWithSuffix(baseSlug);
+    try {
+      const { data, error } = await supabase.from("tributes").insert({
+        pet_name: form.pet_name,
+        pet_type: form.pet_type,
+        breed: form.breed || null,
+        years_of_life: form.years_of_life || null,
+        owner_name: form.owner_name || null,
+        tier_name: tier.name,
+        tribute_story: result.story,
+        title: result.title || null,
+        slug: slugToTry,
+        social_post: result.social_post || null,
+        share_card_text: result.share_card_text || null,
+        photo_urls: form.photo_urls,
+        form_data: form as any,
+        is_public: isPublic || false,
+      }).select("id, slug").single();
+
+      if (!error && data) {
+        tributeId = data.id;
+        tributeSlug = data.slug ?? undefined;
+        break;
+      }
+      // If error is a unique constraint violation, retry with suffix
+      if (error && !error.message?.includes("duplicate")) {
+        console.warn("Failed to persist tribute:", error.message);
+        break;
+      }
+    } catch {
+      console.warn("Failed to persist tribute");
+      break;
     }
-  } catch {
-    console.warn("Failed to persist tribute");
   }
 
   // Update job as completed
