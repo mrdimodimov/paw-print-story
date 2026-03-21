@@ -235,7 +235,8 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
 
   const availableCount = shareCardLimit === -1 ? TEMPLATES.length : Math.min(shareCardLimit, TEMPLATES.length);
   const quote = extractQuote(excerpt);
-  const shortQuote = quote.split(/\s+/).slice(0, 30).join(" ") + (quote.split(/\s+/).length > 30 ? "…" : "");
+  // Limit to ~20 words max for 2-line visual fit
+  const shortQuote = quote.split(/\s+/).slice(0, 20).join(" ") + (quote.split(/\s+/).length > 20 ? "…" : "");
   const tmpl = TEMPLATES[activeTemplate];
 
   // Use background overlay from first photo if available
