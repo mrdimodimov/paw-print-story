@@ -46,6 +46,8 @@ const TributePage = () => {
   const isPublicRef = useRef<boolean>(
     (location.state as { isPublic?: boolean })?.isPublic || false
   );
+  const isTestMode = searchParams.get("test") === "true" ||
+    !!(location.state as { isTestMode?: boolean })?.isTestMode;
   const formData = formDataRef.current;
 
   const [tribute, setTribute] = useState<GeneratedTribute | null>(null);
