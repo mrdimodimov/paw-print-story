@@ -545,12 +545,14 @@ const TributeShareCard = ({ petName, years, excerpt, photoUrls, shareCardLimit }
               color: tmpl.footerColor,
               fontFamily: "'Source Sans 3', sans-serif",
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
-              gap: 4,
+              gap: 2,
               zIndex: 1,
             }}
           >
-            🐾 Created with {BRAND.name}
+            <span>🐾 Created with {BRAND.name}</span>
+            <span style={{ fontSize: 8, opacity: 0.7 }}>vellumpet.com</span>
           </div>
         </div>
       </div>
