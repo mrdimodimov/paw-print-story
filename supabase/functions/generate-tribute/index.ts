@@ -108,7 +108,7 @@ NARRATIVE FLOW (IMPORTANT):
 STRUCTURE:
 - Opening: Start with a specific moment, habit, or scene — never a summary.
 - Middle: Expand memories naturally, showing personality through actions.
-- Ending (CRITICAL): The final paragraph must feel like a complete emotional landing. It should connect the memories to what they meant in the user's life. Structure: (1) Briefly reflect on the shared moments or routines. (2) Acknowledge what is felt now — absence, memory, or change. (3) End with a short, simple, emotionally clear sentence. The final sentence must feel complete (not cut off or quoted), be natural and grounded, and feel like something someone would actually say or think. Do NOT end with a quote alone, an unfinished thought, or a list of memories.
+- Ending (CRITICAL): The tribute must end after ONE final paragraph — do NOT add a second reflective or summary paragraph after it. Structure: (1) Briefly reflect on the shared moments or routines. (2) Acknowledge what is felt now — absence, memory, or change. (3) End with a short, simple, emotionally clear sentence. The final sentence must feel complete (not cut off or quoted), be natural and grounded, and feel like something someone would actually say or think. Do NOT end with a quote alone, an unfinished thought, a list of memories, or a repeated summary. Once the emotional conclusion is reached, STOP writing — no restating earlier memories, no "When I think of…" summaries.
 
 MEMORY TITLES:
 - DO NOT include titles inside the tribute text.
