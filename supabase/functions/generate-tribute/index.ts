@@ -27,7 +27,7 @@ interface TributeRequest {
   include_social_post: boolean;
   include_share_card: boolean;
   job_id?: string;
-  previous_job_id?: string; // For regenerations — reuse narrative context
+  previous_job_id?: string;
 }
 
 // Tier security rules — enforced server-side
@@ -37,12 +37,10 @@ const tierRules: Record<string, { include_social_post: boolean; include_share_ca
   "Everlasting Legacy Page": { include_social_post: true, include_share_card: true },
 };
 
-// In-memory rate limiting: IP -> timestamps
+// In-memory rate limiting
 const rateLimitMap = new Map<string, number[]>();
 const RATE_LIMIT_MAX = 10;
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
-
-// Duplicate request guard: IP -> last request timestamp
 const activeRequests = new Map<string, number>();
 const DUPLICATE_WINDOW_MS = 10_000;
 
@@ -71,7 +69,6 @@ function clearActiveRequest(ip: string) {
   activeRequests.delete(ip);
 }
 
-// Generate a simple hash of the prompt context for cache matching
 async function hashContext(data: TributeRequest): Promise<string> {
   const input = [
     data.pet_name, data.pet_type, data.breed, data.years,
@@ -85,144 +82,116 @@ async function hashContext(data: TributeRequest): Promise<string> {
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-const SYSTEM_PROMPT = `You are a gifted pet memorial writer creating deeply personal tributes honoring the bond between a pet and their family.
+// ---------------------------------------------------------------------------
+// Simplified prompts — concise directives, no redundancy
+// ---------------------------------------------------------------------------
 
-ABSOLUTE AUTHENTICITY RULE (HIGHEST PRIORITY): You must ONLY use details explicitly provided by the user. NEVER invent, fabricate, or imagine new events, places, relationships, names, or actions that were not mentioned. Every sentence must be traceable to something the user shared. You MAY expand sensory detail (touch, sound, texture, feeling) and deepen emotional reflection on existing memories. You MUST NOT create new memories, introduce new characters, or add events the user never described. If the user's input is sparse, write a shorter, simpler, more reflective tribute — do NOT compensate by inventing content.
+const SYSTEM_PROMPT = `You are a gifted pet memorial writer creating deeply personal tributes.
 
-MEMORY PRIORITIZATION (CRITICAL): Before writing, silently analyze ALL user-provided memories and details. Classify them:
-- PRIMARY (1–2 memories): The most emotionally powerful, unique, or repeatedly emphasized moments. These are the heart of the tribute.
-- SECONDARY: Supporting traits, smaller habits, or less detailed moments.
-Apply this weighting throughout:
-- PRIMARY memories get deeper expansion — include what happened, how it felt, and what it meant over time. Subtly echo or revisit primary memories across the tribute to create emotional cohesion.
-- SECONDARY memories stay shorter, adding variety and texture without stealing focus.
-- When possible, OPEN with a primary memory to hook the reader immediately.
-- If only 1 strong memory exists, expand it from multiple angles: the moment itself, the feeling it created, and its lasting significance.
+CORE RULES:
+1. ONLY use details the user provided. Never invent events, places, people, or actions. You may deepen emotion and sensory texture on existing details. If input is sparse, stay simple and reflective — never fill gaps with fiction.
+2. Write in natural, flowing paragraphs (3–5 paragraphs, 2–4 sentences each, blank line between). Let the story breathe organically — no rigid templates or formulaic structure.
+3. Identify 1–2 PRIMARY memories (most powerful/unique) and give them deeper focus. Secondary details add texture without stealing focus.
 
-VOICE: Write as a close family member — someone present for morning routines, evening rituals, unremarkable afternoons that became meaningful. Warm, sincere, conversational. Never formal, clinical, or like an obituary or greeting card. It should feel like someone genuinely remembering, not a polished written piece. Lean into everyday moments already described by the user.
+VOICE & STYLE:
+- Write as a close family member genuinely remembering — warm, conversational, never formal or like an obituary.
+- Mix short and long sentences. Break anything over 25 words. Allow pauses.
+- Show personality through actions, not adjectives. Turn memories into lived scenes.
+- Prefer clarity over poetic density. No stacked descriptors.
 
-STYLE: Vary sentence length deliberately — mix brief grounded statements with longer unfolding sentences. Break any sentence over 25 words into smaller beats. Allow pauses for emotional impact. No purple prose — power comes from specificity. Never repeat sentence structures back-to-back. No recycled phrases or emotional beats. Turn memories into lived scenes, not summaries. Reveal personality through actions, not adjectives. If the owner included a message, weave that sentiment naturally without quoting directly. Do NOT stack multiple descriptors or over-write — prefer clarity over poetic density. Avoid generic transitional phrases like "Every pet leaves a story worth remembering."
+OPENING: Start inside a specific moment, a defining habit, or a sensory detail the user described. First sentence must be clean, specific, and feel spoken — never generic ("He was a wonderful pet..."). Pull the reader in immediately.
 
-SPECIFICITY WITHOUT FABRICATION: Zoom into details the user already provided. Expand a moment, highlight a small behavior, or linger on a feeling — but never add new facts. Example: if user says "He waited by the door" → "He waited by the door, always a little too early, as if the day might arrive faster if he was ready for it." The expansion is emotional, not factual invention.
+ENDING: Return to a primary memory or habit, reflect briefly on what it meant, then close with one short, grounded sentence. Let specificity carry the weight.
 
-FORBIDDEN PHRASES: "brought joy to everyone," "crossed the rainbow bridge," "will never be forgotten," "forever in our hearts," "unconditional love," "loyal companion to the end," "left paw prints on our hearts," "earned their wings," "watching over us," "running free," "no longer in pain," "every pet leaves a story worth remembering," or similar clichés.
+MEMORY TITLES: Give each paragraph a cinematic 3–6 word title — like a book chapter. Derive from places, behaviors, sensory details, or turning points. First title should be the strongest hook. Never generic ("Happy Times", "Memory 1"). No dashes or decorative symbols.
 
-ABSOLUTE CLICHÉ RULE: The tribute must NEVER contain generic memorial clichés. If a phrase such as "forever in our hearts," "rainbow bridge," "crossed the bridge," "paw prints on our hearts," "earned their wings," "watching over us," or similar appears in your draft, you MUST rewrite the sentence using a specific memory or concrete detail about the pet instead.
+FORBIDDEN: "brought joy to everyone," "crossed the rainbow bridge," "forever in our hearts," "unconditional love," "loyal companion," "left paw prints on our hearts," "earned their wings," "watching over us," "running free," or similar clichés. Replace any such phrase with a specific detail about the pet.
 
-STRUCTURE: Vary the order — you may start with a moment, a habit, or a feeling. Do NOT follow a rigid template. Generally include: a specific moment capturing who the pet was, personality shown through actions and habits, one or two vivid memory scenes with sensory detail, bonds formed, and a gentle grounded closing. But the sequence should feel organic, not formulaic.
+OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words) capturing the pet's spirit. Then a blank line, then the tribute with paragraphs separated by blank lines. No other headers or labels.`;
 
-PARAGRAPH FORMATTING (MANDATORY): Write the tribute in 3–5 natural paragraphs, each 2–4 sentences long. Insert a blank line between every paragraph. Never output the tribute as one continuous block of text.
+const REGEN_SYSTEM_PROMPT = `You are a gifted pet memorial writer. Write a NEW variation of a pet tribute using the provided narrative context. Create a fresh tribute that feels different while staying true to the same pet and memories.
 
-OPENING PARAGRAPH RULE (CRITICAL FOR PREVIEWS — HIGHEST WRITING PRIORITY): The first paragraph is the single most important paragraph. It must make the reader feel something within the first two sentences. Choose ONE opening strategy based on what fits the user's input best:
-a) DROP INTO A SCENE: Start inside a specific moment the user described — mid-action, mid-routine. The reader should feel like they walked into the room. Example: "The sock drawer was never safe. She'd nose it open before anyone was awake, carry her prize to the living room, and wait."
-b) A DEFINING HABIT: Lead with a repeated behavior that captures who the pet was. Make it feel lived-in, like something that happened a hundred times. Example: "Every evening, same spot by the window. Not watching for anything in particular — just waiting, because that was his job."
-c) SENSORY PRESENCE: Use a sound, texture, or environmental detail to place the reader in the pet's world. Example: "The jingle of her collar was always the first sound of the morning, before the coffee, before the light."
-Rules: The first sentence must be clean, clear, and specific — never generic ("He was a wonderful pet...") or summary-like ("For fourteen years..."). It should feel spoken, not written. Build naturally into the second sentence. Match the selected tone immediately — playful tones start with a light, slightly amused moment; emotional tones start soft and grounded; gentle tones open with calm warmth. The opening memory or habit should ideally be a PRIMARY memory that can echo later in the tribute. The paragraph must feel slightly incomplete — pulling the reader forward, not wrapping up.
+CORE RULES:
+1. ONLY use details from the provided context. Never invent new content. You may expand emotion and sensory texture on existing details.
+2. Write in natural, flowing paragraphs (3–5, blank line between). Let the story breathe organically.
+3. Focus on 1–2 PRIMARY memories. Use different angles and openings than the previous version.
 
-FINAL PARAGRAPH RULE (CRITICAL — EMOTIONAL PEAK): The last paragraph must be the emotional peak of the tribute. Structure it as:
-a) Return to a PRIMARY memory or a recurring habit — echo something from earlier in the tribute to create a sense of coming full circle.
-b) Add a brief reflection on what that moment or habit meant, or what remains now that the pet is gone.
-c) Close with a short, simple, emotionally grounded sentence. Let the specificity carry the weight — not dramatic language.
-Style for the ending: slightly shorter sentences, clear rather than overly poetic, emotion from concrete detail not abstraction. Match the selected tone — funny tributes end with a warm soft-smile moment, emotional tributes end quietly and reflectively, gentle tributes close with calm and peace.
+VOICE: Warm, conversational, personal — like a family member remembering. Mix sentence lengths, show personality through actions, prefer clarity.
 
-MEMORY TITLES (CRITICAL): Each paragraph represents a memory chapter. Generate a cinematic, emotionally resonant title of 3–6 words for each paragraph's emotional core. Titles must feel like book chapters or film scenes — evocative, specific, and curiosity-inducing. Derive each title from a place, a repeated behavior, a sensory detail, or a quiet turning point in the paragraph. Examples of good titles: "The Door She Always Waited At", "Where the Light Found Him", "Afternoons That Stayed Soft", "The Sound of Tiny Footsteps". NEVER use generic titles like "Happy Times", "Playing Together", "Memory 1", or "A Special Bond". NEVER include dashes, decorative symbols, or markers. NEVER repeat the pet's name unless it creates genuine emotional power. The FIRST title must be the strongest emotional hook — slightly more evocative, leaning into mystery, contrast, or a defining moment.
+OPENING: Drop into a specific moment or habit — never a summary. Pull the reader in immediately.
+ENDING: Echo a primary memory, reflect briefly, close with one grounded sentence.
 
-OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words) capturing the pet's spirit, personality, or a defining memory. No clichés, no generic phrases. Do NOT include dashes or decorative characters anywhere except the "---TITLE---" marker itself. Then a blank line, then the tribute story text with paragraphs separated by blank lines. No other headers or labels.`;
+MEMORY TITLES: Cinematic 3–6 word titles per paragraph. First title = strongest hook. No generic titles or decorative symbols.
 
-const REGEN_SYSTEM_PROMPT = `You are a gifted pet memorial writer. Write a NEW variation of a pet tribute using the provided narrative context. Create a fresh tribute that feels different from the previous version while staying true to the same pet and memories.
+FORBIDDEN: Generic memorial clichés — replace with specific pet details.
 
-ABSOLUTE AUTHENTICITY RULE (HIGHEST PRIORITY): ONLY use details from the provided context. NEVER invent new events, places, relationships, or actions. You may expand sensory detail and emotional reflection on existing memories, but must not fabricate new content. If context is sparse, write shorter and more reflective — never compensate by inventing.
+OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words). Then blank line, then tribute with paragraphs separated by blank lines. No other headers or labels.`;
 
-MEMORY PRIORITIZATION: Identify the 1–2 most emotionally powerful or unique memories from the context (PRIMARY). Give them deeper expansion and emotional reflection. Let secondary details add texture without dominating. Open with a primary memory when possible. If only one strong memory exists, explore it from multiple angles.
+// ---------------------------------------------------------------------------
+// Tone descriptions & input-depth detection
+// ---------------------------------------------------------------------------
 
-VOICE: Warm, sincere, personal. Write as a close family member genuinely remembering. Natural, conversational storytelling. It should feel like remembering, not writing.
-STYLE: Vary sentence length. Break sentences over 25 words. Allow pauses. No purple prose. Show moments as scenes. Reveal traits through actions. Focus on everyday details already described. No stacked descriptors. Prefer clarity over poetic density.
-SPECIFICITY: Zoom into existing details — expand moments, highlight behaviors, linger on feelings. Never add new facts.
-FORBIDDEN: "brought joy," "crossed the rainbow bridge," "forever in our hearts," "unconditional love," "earned their wings," "watching over us," "running free," "left paw prints on our hearts," "every pet leaves a story worth remembering," or similar clichés. If you catch yourself writing any generic memorial phrase, immediately replace it with a concrete memory or specific detail about the pet.
-STRUCTURE: Vary the order — start with a moment, a habit, or a feeling. Do not follow a rigid template. Include: specific moment → personality through actions → vivid memory scenes → bonds → gentle closing reflection. But let it feel organic.
-OPENING PARAGRAPH RULE (HIGHEST WRITING PRIORITY): The first paragraph must make the reader feel something within two sentences. Drop into a specific scene, a defining habit, or a sensory detail — never a summary or generic statement. First sentence must be clean, clear, specific, and feel spoken. Match the selected tone immediately. Use a PRIMARY memory that can echo later. Leave the paragraph slightly incomplete to pull the reader forward.
-FINAL PARAGRAPH RULE: The last paragraph must be the emotional peak. Return to a primary memory or recurring habit — echo something from earlier. Add brief reflection on what it meant or what remains. Close with a short, simple, grounded sentence. Match the selected tone for the ending style.
-PARAGRAPH FORMATTING (MANDATORY): Write the tribute in 3–5 natural paragraphs, each 2–4 sentences long. Insert a blank line between every paragraph. Never output as one continuous block.
-MEMORY TITLES: Each paragraph should work as a distinct memory chapter with a cinematic 3–6 word title. First title must be the strongest hook. Derive titles from places, behaviors, sensory details, or turning points — never generic phrases. Do NOT use dashes or decorative symbols in the prose.
-OUTPUT FORMAT: First line: "---TITLE---" followed by a short title (4–10 words) capturing the pet's spirit. No dashes or decorative characters except the "---TITLE---" marker. Then a blank line, then the tribute text with paragraphs separated by blank lines. No other headers or labels.`;
+const toneDescriptions: Record<string, string> = {
+  warm: "warm and natural — heartfelt, conversational pacing, grounded emotion.",
+  celebratory: "celebratory — highlight joy, energy, and personality. Keep it bright without being shallow.",
+  gentle: "calm and gentle — softer pacing, simple language, quiet presence. Let silence carry weight.",
+  lighthearted: "playful — light humor from real behaviors only. Slight exaggeration of existing traits allowed. Warmth underneath, never sarcasm.",
+  rainbow_bridge: "comforting and spiritual — peaceful farewell imagery, reunion, continued love. Still grounded in real memories.",
+};
 
-// Detect input depth to guide expansion strategy
-function getDepthInstruction(data: TributeRequest): string {
+function getDepthHint(data: TributeRequest): string {
   const signals: string[] = [];
   if (data.memories) signals.push(...data.memories.split(/\n+/).filter(s => s.trim().length > 10));
-  if (data.special_habits && data.special_habits.trim().length > 10) signals.push(data.special_habits);
-  if (data.favorite_activities && data.favorite_activities.trim().length > 10) signals.push(data.favorite_activities);
-  if (data.favorite_people_or_animals && data.favorite_people_or_animals.trim().length > 10) signals.push(data.favorite_people_or_animals);
-  if (data.personality_description && data.personality_description.trim().length > 10) signals.push(data.personality_description);
+  if (data.special_habits?.trim().length > 10) signals.push(data.special_habits);
+  if (data.favorite_activities?.trim().length > 10) signals.push(data.favorite_activities);
+  if (data.favorite_people_or_animals?.trim().length > 10) signals.push(data.favorite_people_or_animals);
+  if (data.personality_description?.trim().length > 10) signals.push(data.personality_description);
 
   const count = signals.length;
-
-  if (count <= 2) {
-    return `INPUT DEPTH: LOW — The user provided few details. Do NOT shorten the tribute. Instead, revisit the same memories from multiple angles: what happened, how it felt, and what it meant over time. Expand sensory detail and emotional reflection on the existing moments. Never invent new events to fill space. Every paragraph must feel complete and meaningful.`;
-  }
-  if (count <= 5) {
-    return `INPUT DEPTH: MEDIUM — Distribute focus across the provided memories. Expand each with moderate sensory and emotional detail. Balance coverage so no single memory dominates.`;
-  }
-  return `INPUT DEPTH: HIGH — Use the full range of provided memories. Vary structure and pacing naturally. Select the most vivid details for scene-building and weave others into context.`;
+  if (count <= 2) return "INPUT DEPTH: LOW — Few details provided. Revisit the same memories from multiple angles (what happened, how it felt, what it meant). Never invent new events to fill space.";
+  if (count <= 5) return "INPUT DEPTH: MEDIUM — Distribute focus across memories with moderate detail.";
+  return "INPUT DEPTH: HIGH — Use the full range of memories. Vary structure and pacing naturally.";
 }
 
+// ---------------------------------------------------------------------------
+// Prompt builders
+// ---------------------------------------------------------------------------
+
 function buildPrompt(data: TributeRequest): string {
-  const toneDescriptions: Record<string, string> = {
-    warm: "warm and natural storytelling — heartfelt, comforting, conversational pacing. Let moments breathe. Default to sincerity and grounded emotion.",
-    celebratory: "celebratory and uplifting — highlight joy, energy, and personality. Focus on what made this pet vibrant and alive. Lean into their spark and the happiness they created. Keep it bright without being shallow.",
-    gentle: "calm and gentle — softer pacing, simple language, focus on quiet presence and peaceful moments. Shorter sentences. Let silence and stillness carry weight. No dramatic crescendos.",
-    lighthearted: "playful and lighthearted — light humor drawn ONLY from real behaviors described by the user. Slight exaggeration of existing traits is allowed (e.g., 'professional napper' for a sleepy pet). Never invent funny moments. Keep warmth underneath the humor, never sarcasm.",
-    rainbow_bridge:
-      "comforting and spiritual — peaceful farewell imagery, themes of crossing, reunion, waiting, and continued love beyond parting. Softer emotional weight with hope woven through. Still grounded in real memories, not abstract spirituality.",
-  };
-
   const toneDesc = toneDescriptions[data.tone] || toneDescriptions.warm;
-  const depthInst = getDepthInstruction(data);
 
-  const contextSections: string[] = [];
-  if (data.memories) contextSections.push(`MEMORIES:\n${data.memories}`);
-  if (data.special_habits) contextSections.push(`HABITS & QUIRKS:\n${data.special_habits}`);
-  if (data.favorite_activities) contextSections.push(`WHAT THEY LOVED:\n${data.favorite_activities}`);
-  if (data.favorite_people_or_animals) contextSections.push(`SPECIAL BONDS:\n${data.favorite_people_or_animals}`);
-  if (data.owner_message) contextSections.push(`OWNER'S WORDS:\n"${data.owner_message}"`);
+  const sections: string[] = [];
+  if (data.memories) sections.push(`MEMORIES:\n${data.memories}`);
+  if (data.special_habits) sections.push(`HABITS & QUIRKS:\n${data.special_habits}`);
+  if (data.favorite_activities) sections.push(`WHAT THEY LOVED:\n${data.favorite_activities}`);
+  if (data.favorite_people_or_animals) sections.push(`SPECIAL BONDS:\n${data.favorite_people_or_animals}`);
+  if (data.owner_message) sections.push(`OWNER'S WORDS:\n"${data.owner_message}"`);
 
   let prompt = `Write a tribute for ${data.pet_name}, a ${data.pet_type}${data.breed && data.breed !== "unknown" ? ` (${data.breed})` : ""}, loved by ${data.owner_name}.
 
 Years of life: ${data.years || "many wonderful years"}
-Personality traits: ${data.personality_traits || "loving and special"}
+Personality: ${data.personality_traits || "loving and special"}
 ${data.personality_description ? `Owner's description: ${data.personality_description}` : ""}
 
-${contextSections.join("\n\n")}
+${sections.join("\n\n")}
 
-${depthInst}
+${getDepthHint(data)}
 
 TONE: ${toneDesc}
-TONE RULES: The tone affects writing STYLE only — never content. Do NOT invent memories to match the tone. Do NOT exaggerate beyond what the user described. Keep tone consistent across the entire tribute.
 TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.`;
 
   if (data.include_social_post) {
-    prompt += `\n\nAfter the tribute, on a new line write "---SOCIAL_POST---" followed by a short social media post (under 280 characters) honoring ${data.pet_name}. Make it personal and specific to their story — not generic. Include relevant emojis and 2-3 hashtags.`;
+    prompt += `\n\nAfter the tribute, on a new line write "---SOCIAL_POST---" followed by a short social media post (under 280 characters) honoring ${data.pet_name}. Make it personal and specific. Include relevant emojis and 2-3 hashtags.`;
   }
-
   if (data.include_share_card) {
-    prompt += `\n\nAfter that, on a new line write "---SHARE_CARD---" followed by a 2-3 line memorial card text with ${data.pet_name}'s name, years, and a brief touching phrase that reflects something specific about them.`;
+    prompt += `\n\nAfter that, on a new line write "---SHARE_CARD---" followed by a 2-3 line memorial card text with ${data.pet_name}'s name, years, and a brief touching phrase specific to them.`;
   }
 
   return prompt;
 }
 
 function buildRegenPrompt(narrativeContext: string, data: TributeRequest): string {
-  const toneDescriptions: Record<string, string> = {
-    warm: "warm and natural storytelling — heartfelt, comforting, conversational pacing. Let moments breathe. Default to sincerity and grounded emotion.",
-    celebratory: "celebratory and uplifting — highlight joy, energy, and personality. Focus on what made this pet vibrant and alive. Keep it bright without being shallow.",
-    gentle: "calm and gentle — softer pacing, simple language, focus on quiet presence and peaceful moments. Shorter sentences. Let silence carry weight.",
-    lighthearted: "playful and lighthearted — light humor drawn ONLY from real behaviors. Slight exaggeration of existing traits allowed. Never invent funny moments. Warmth underneath, never sarcasm.",
-    rainbow_bridge:
-      "comforting and spiritual — peaceful farewell imagery, themes of crossing, reunion, waiting, and continued love. Softer emotional weight with hope woven through. Still grounded in real memories.",
-  };
-
   const toneDesc = toneDescriptions[data.tone] || toneDescriptions.warm;
-
-  // Include any new memories added for regeneration
   const extraMemories = data.memories ? `\n\nADDITIONAL MEMORIES TO WEAVE IN:\n${data.memories}` : "";
 
   let prompt = `Using the following narrative context about ${data.pet_name}, write a completely new tribute variation. Use different opening scenes, different sentence structures, and fresh angles on the same memories.
@@ -231,21 +200,18 @@ NARRATIVE CONTEXT:
 ${narrativeContext}${extraMemories}
 
 TONE: ${toneDesc}
-TONE RULES: Tone affects style only — never content. Do not invent or exaggerate beyond provided details. Keep tone consistent throughout.
 TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.`;
 
   if (data.include_social_post) {
-    prompt += `\n\nAfter the tribute, on a new line write "---SOCIAL_POST---" followed by a short social media post (under 280 characters) honoring ${data.pet_name}. Make it personal and specific to their story — not generic. Include relevant emojis and 2-3 hashtags.`;
+    prompt += `\n\nAfter the tribute, on a new line write "---SOCIAL_POST---" followed by a short social media post (under 280 characters) honoring ${data.pet_name}. Make it personal and specific. Include relevant emojis and 2-3 hashtags.`;
   }
-
   if (data.include_share_card) {
-    prompt += `\n\nAfter that, on a new line write "---SHARE_CARD---" followed by a 2-3 line memorial card text with ${data.pet_name}'s name, years, and a brief touching phrase that reflects something specific about them.`;
+    prompt += `\n\nAfter that, on a new line write "---SHARE_CARD---" followed by a 2-3 line memorial card text with ${data.pet_name}'s name, years, and a brief touching phrase specific to them.`;
   }
 
   return prompt;
 }
 
-// Build a narrative context summary from questionnaire data for caching
 function buildNarrativeContext(data: TributeRequest): string {
   const parts: string[] = [];
   parts.push(`PET: ${data.pet_name}, a ${data.pet_type}${data.breed && data.breed !== "unknown" ? ` (${data.breed})` : ""}`);
@@ -266,6 +232,10 @@ function getSupabaseClient() {
   const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
   return createClient(url, key);
 }
+
+// ---------------------------------------------------------------------------
+// HTTP handler
+// ---------------------------------------------------------------------------
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -303,7 +273,7 @@ serve(async (req) => {
     const contextHash = await hashContext(data);
     const narrativeCtx = buildNarrativeContext(data);
 
-    // Check if this is a regeneration with a previous job that has cached context
+    // Check for regeneration with cached context
     let useRegenPrompt = false;
     let cachedNarrative: string | null = null;
 
@@ -317,13 +287,10 @@ serve(async (req) => {
           .single();
 
         if (prevJob?.narrative_context && prevJob?.prompt_context_hash === contextHash) {
-          // Same base context — use cached narrative for a shorter prompt
           cachedNarrative = prevJob.narrative_context;
           useRegenPrompt = true;
         }
-      } catch {
-        // Fall through to full prompt
-      }
+      } catch { /* Fall through to full prompt */ }
     }
 
     let systemPrompt: string;
