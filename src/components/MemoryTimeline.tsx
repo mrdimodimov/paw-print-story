@@ -57,12 +57,19 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
     { regex: /(cage|tank|enclosure|wheel|burrow|nest)/i, title: "A Whole World in Miniature", firstTitle: "The Tiny World That Held Everything" },
   ];
 
-  function capitalize(s: string) {
-    return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+  const LOWERCASE_WORDS = new Set(["of", "the", "and", "in", "to", "a", "an", "for", "but", "or", "nor", "on", "at", "by", "with"]);
+
+  function toTitleCase(s: string): string {
+    return s.split(/\s+/).map((word, i) => {
+      if (i === 0 || !LOWERCASE_WORDS.has(word.toLowerCase())) {
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      }
+      return word.toLowerCase();
+    }).join(" ");
   }
 
   function sanitizeTitle(raw: string): string {
-    return raw.replace(/^[—\-–\s:]+|[—\-–\s:]+$/g, "").trim();
+    return toTitleCase(raw.replace(/^[—\-–\s:]+|[—\-–\s:]+$/g, "").trim());
   }
 
   /** Generate a cinematic fallback title from paragraph text */
