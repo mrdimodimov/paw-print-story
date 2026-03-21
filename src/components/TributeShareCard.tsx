@@ -102,19 +102,45 @@ interface TributeShareCardProps {
   shareCardLimit: number;
 }
 
-// ── Quote extraction ──────────────────────────────────────────────────
+// ── Intelligent quote extraction ──────────────────────────────────────
+const ACTION_WORDS = /\b(waited|ran|slept|followed|curled|sat|watched|jumped|barked|purred|nudged|licked|leaned|stayed|walked|played|chased|snored|wagged|stretched|buried|pressed|climbed|carried|greeted|danced)\b/i;
+const ROUTINE_WORDS = /\b(every\s+(day|night|morning|evening|time)|always|each\s+(night|morning|day)|without\s+fail|never\s+missed)\b/i;
+const EMOTIONAL_WORDS = /\b(miss|quiet|remember|stayed|gone|absence|heart|love|meant|felt|empty|still|silence|peace|goodbye|forever|close|warm|gentle|soft)\b/i;
+
 function extractQuote(text: string, maxWords: number): string {
   const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-  // Score: prefer 8-20 word sentences with emotional weight
+
   const scored = sentences.map((s) => {
     const trimmed = s.trim();
     const words = trimmed.split(/\s+/).length;
-    const score = words >= 8 && words <= 20 ? words + 5 : words > 20 ? 8 : words;
+    let score = 0;
+
+    // Action bonus
+    if (ACTION_WORDS.test(trimmed)) score += 2;
+    // Routine bonus
+    if (ROUTINE_WORDS.test(trimmed)) score += 2;
+    // Short sentence bonus
+    if (words <= 20) score += 1;
+    // Emotional word bonus
+    if (EMOTIONAL_WORDS.test(trimmed)) score += 1;
+    // Length penalty
+    if (words > 30) score -= 2;
+    // Sweet spot bonus
+    if (words >= 8 && words <= 20) score += 2;
+
     return { s: trimmed, score, words };
   });
+
   scored.sort((a, b) => b.score - a.score);
 
+  // Pick top sentence; optionally combine with second if both fit
   let quote = scored[0]?.s || text;
+  const topWords = quote.split(/\s+/).length;
+  if (scored[1] && topWords + scored[1].words <= maxWords) {
+    quote += " " + scored[1].s;
+  }
+
+  // Trim to max words
   const quoteWords = quote.split(/\s+/);
   if (quoteWords.length > maxWords) {
     quote = quoteWords.slice(0, maxWords).join(" ") + "…";
