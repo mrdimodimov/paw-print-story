@@ -249,6 +249,7 @@ export async function generateTribute(
       tribute_story: result.story,
       social_post: result.social_post || null,
       share_card_text: result.share_card_text || null,
+      short_caption: result.short_caption || null,
     });
   }
 
