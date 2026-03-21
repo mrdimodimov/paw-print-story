@@ -32,6 +32,7 @@ const PREVIEW_KEY = "founder";
 const PreviewGate = ({ children }: { children: React.ReactNode }) => {
   const [searchParams] = useSearchParams();
   const [unlocked, setUnlocked] = useState(false);
+  const { isTestMode, toggleTestMode } = useTestMode();
 
   useEffect(() => {
     if (searchParams.get("preview") === PREVIEW_KEY) {
@@ -46,7 +47,12 @@ const PreviewGate = ({ children }: { children: React.ReactNode }) => {
     return <ComingSoon />;
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <TestModeBadge isTestMode={isTestMode} onToggleOff={toggleTestMode} />
+      {children}
+    </>
+  );
 };
 
 const App = () => (
