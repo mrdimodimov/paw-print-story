@@ -368,15 +368,15 @@ export async function downloadMemorialPDF(
   }
 
   // Story text — paragraph-aware rendering
-  doc.setFont("helvetica", "normal");
+  doc.setFont("times", "normal");
   doc.setFontSize(11.5);
-  doc.setTextColor(45, 40, 35);
+  doc.setTextColor(50, 45, 38);
   const sanitizedStory = sanitizeForPDF(story);
   const paragraphs = ensureParagraphs(sanitizedStory);
   let y = storyStartY;
-  const lineHeight = 6.8; // ~1.6x at 11.5pt
-  const paragraphGap = 5;
-  const footerZone = 250;
+  const lineHeight = 7.6; // ~1.75x at 11.5pt
+  const paragraphGap = 8;
+  const footerZone = 248;
 
   for (const para of paragraphs) {
     const trimmed = para.trim();
@@ -394,7 +394,10 @@ export async function downloadMemorialPDF(
         doc.setLineWidth(0.25);
         doc.rect(13, 13, pageWidth - 26, pageHeight - 26);
         drawPawWatermark(doc);
-        y = 25;
+        y = 28;
+        doc.setFont("times", "normal");
+        doc.setFontSize(11.5);
+        doc.setTextColor(50, 45, 38);
       }
       doc.text(line, margin, y);
       y += lineHeight;
