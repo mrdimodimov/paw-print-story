@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 interface TributePreviewCardProps {
   imageUrl: string;
   petName: string;
-  years: string;
+  years?: string;
   memoryTitle: string;
   preview: string;
   index: number;
   linkTo?: string;
+  blurPreview?: boolean;
 }
 
 const TributePreviewCard = ({
