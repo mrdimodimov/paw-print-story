@@ -111,7 +111,7 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
       if (match) return sanitizeTitle(isFirst ? pattern.firstTitle : pattern.title);
     }
 
-    // Fallback: use elevated set for first, standard for rest
+    // Always use curated cinematic fallbacks — never extract random word slices
     const fallbacks = isFirst ? FIRST_CINEMATIC_FALLBACKS : CINEMATIC_FALLBACKS;
     return fallbacks[index % fallbacks.length];
   }
