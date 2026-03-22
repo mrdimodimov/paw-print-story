@@ -1034,9 +1034,9 @@ const TributePage = () => {
           )}
 
           {/* Share Their Story */}
-          {tributeSlug && (
-            <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
-              <div className="mb-3 flex items-center gap-2">
+          {effectiveUnlocked && tributeSlug && (
+            <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft text-center">
+              <div className="mb-3 flex items-center justify-center gap-2">
                 <Share2 className="h-5 w-5 text-primary" />
                 <h3 className="font-display text-lg font-semibold text-foreground">
                   Share Their Story
@@ -1050,9 +1050,10 @@ const TributePage = () => {
               </p>
 
               {/* Primary channels */}
-              <div className="flex flex-wrap gap-3 mb-3">
+              <div className="flex flex-wrap justify-center gap-3 mb-3">
                 <Button
                   size="sm"
+                  variant="outline"
                   className="gap-2"
                   onClick={() => {
                     const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
@@ -1094,7 +1095,7 @@ const TributePage = () => {
               </div>
 
               {/* Secondary channels */}
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap justify-center gap-3">
                 <Button
                   variant="ghost"
                   size="sm"
