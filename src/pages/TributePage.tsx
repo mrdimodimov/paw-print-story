@@ -951,9 +951,21 @@ const TributePage = () => {
           {/* Post-unlock quick actions */}
           {effectiveUnlocked && (
             <div className="mb-6 flex flex-wrap justify-center gap-3">
-              <Button size="lg" className="px-8 text-base" onClick={handleDownloadPDF}>
-                <Download className="mr-1 h-5 w-5" /> Download PDF
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size="lg" className="gap-2 px-8 text-base">
+                    <Download className="mr-1 h-5 w-5" /> Download <ChevronDown className="h-3 w-3 opacity-60" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="center" className="min-w-[200px]">
+                  <DropdownMenuItem onClick={handleDownloadPDF} className="cursor-pointer gap-2">
+                    <FileText className="h-4 w-4" /> Full Tribute (PDF)
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleDownloadMemorial} className="cursor-pointer gap-2">
+                    <Printer className="h-4 w-4" /> Printable Memorial
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               {tributeSlug && (
                 <Button
                   variant="outline"
