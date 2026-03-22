@@ -41,41 +41,70 @@ const Landing = () => {
       </header>
 
       {/* Hero */}
-      <section className="tribute-section text-center">
-        <div className="tribute-container max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <div className="mb-6 flex justify-center">
-              <div className="rounded-full bg-accent p-4">
-                <Heart className="h-8 w-8 text-primary" />
-              </div>
-            </div>
-            <h1 className="mb-4 text-4xl font-bold leading-tight text-foreground md:text-5xl lg:text-6xl">
-              When Words Are Hard to Find
-            </h1>
-            <p className="mb-3 font-display text-xl text-foreground/80 md:text-2xl">
-              A beautiful way to remember the pet you loved.
-            </p>
-            <p className="mb-10 text-lg text-muted-foreground md:text-xl">
-              Turn your memories into a heartfelt tribute you can keep and share
-              forever.
-            </p>
-            <Button
-              size="lg"
-              className="px-8 py-6 text-lg shadow-glow"
-              onClick={() => navigate("/create")}
+      <section className="py-20 md:py-28">
+        <div className="tribute-container">
+          <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
+            {/* Left — Text */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
             >
-              <PawPrint className="mr-2 h-5 w-5" />
-              Create Your Tribute
-            </Button>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Takes less than 2 minutes · No writing needed · Private &amp;
-              secure
-            </p>
-          </motion.div>
+              <p className="mb-4 font-display text-sm tracking-wide text-muted-foreground">
+                For when saying goodbye is hard
+              </p>
+              <h1 className="mb-5 font-display text-4xl font-bold leading-[1.15] text-foreground md:text-5xl lg:text-[3.4rem]">
+                Turn your pet's memory into a story you can keep forever
+              </h1>
+              <p className="mb-10 max-w-lg text-lg leading-relaxed text-muted-foreground">
+                Answer a few simple questions, and we'll turn your memories into
+                a heartfelt tribute you can read, share, and hold onto.
+              </p>
+              <Button
+                size="lg"
+                className="px-8 py-6 text-lg shadow-glow"
+                onClick={() => navigate("/create")}
+              >
+                <PawPrint className="mr-2 h-5 w-5" />
+                Create Your Tribute
+              </Button>
+              <p className="mt-4 text-sm text-muted-foreground">
+                Takes less than 2 minutes
+              </p>
+            </motion.div>
+
+            {/* Right — Story Preview Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="relative mx-auto w-full max-w-sm md:max-w-none"
+            >
+              <div className="rounded-2xl border border-border bg-card p-8 shadow-card sm:p-10">
+                <p className="mb-5 font-display text-[0.95rem] leading-[1.85] text-foreground/85">
+                  She had a way of knowing exactly when you needed her. Not with
+                  grand gestures — just a quiet arrival at your feet, a warm
+                  weight against your leg that said,{" "}
+                  <em className="text-primary/70">"I'm here."</em>
+                </p>
+                <p className="mb-5 font-display text-[0.95rem] leading-[1.85] text-foreground/85">
+                  Mornings started with the sound of her paws on the kitchen
+                  floor. She'd sit by the door and wait — not impatiently, but
+                  like she trusted you'd always come back.
+                </p>
+                <div className="relative">
+                  <p className="font-display text-[0.95rem] leading-[1.85] text-foreground/85">
+                    The house feels different now. Quieter in a way that isn't
+                    peaceful. But every time the sun hits that spot on the rug
+                    where she used to sleep, it feels like she's still...
+                  </p>
+                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-card to-transparent" />
+                </div>
+              </div>
+              {/* Decorative glow */}
+              <div className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-primary/5 blur-2xl" />
+            </motion.div>
+          </div>
         </div>
       </section>
 
