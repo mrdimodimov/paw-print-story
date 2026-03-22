@@ -578,6 +578,77 @@ const TributePage = () => {
             )}
           </div>
 
+          {/* Emotional Reveal Moment */}
+          {effectiveUnlocked && (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="mb-8 text-center"
+            >
+              <p className="font-display text-lg text-muted-foreground">
+                This is more than a story.
+              </p>
+              <p className="mt-1 font-display text-xl font-semibold text-foreground">
+                It's how you remember {petName || "them"}.
+              </p>
+
+              <div className="mt-6 flex flex-col items-center gap-3">
+                <Button
+                  size="lg"
+                  className="gap-2"
+                  onClick={() => {
+                    if (tribute) {
+                      downloadTributePDF(tribute.story, petName || "Pet", currentTier.name);
+                      toast.success("Tribute downloaded!");
+                    }
+                  }}
+                >
+                  <Download className="h-4 w-4" /> Download Your Tribute
+                </Button>
+                <p className="text-xs text-muted-foreground">
+                  Save it, share it, or keep it forever.
+                </p>
+              </div>
+
+              {tributeSlug && (
+                <div className="mt-5">
+                  <p className="mb-3 text-xs text-muted-foreground">
+                    Share with someone who loved them too
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-3">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-2"
+                      onClick={() => {
+                        const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
+                        const caption = tribute?.short_caption
+                          ? `${tribute.short_caption}\n\n${url}`
+                          : `I created this tribute for ${petName}. I thought you'd like to see it ❤️\n\n${url}`;
+                        window.open(`https://wa.me/?text=${encodeURIComponent(caption)}`, "_blank", "noopener,noreferrer");
+                      }}
+                    >
+                      <MessageCircle className="h-4 w-4" /> WhatsApp
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-2"
+                      onClick={() => {
+                        const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
+                        navigator.clipboard.writeText(url);
+                        toast.success("Link copied!");
+                      }}
+                    >
+                      <Link className="h-4 w-4" /> Copy Link
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          )}
+
           {/* Post-generation share prompt */}
           {justGenerated && (
             <PostGenerationShare
