@@ -12,14 +12,14 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
     <div
       className={`relative flex flex-col rounded-xl border p-6 transition-all ${
         tier.popular
-          ? "border-primary shadow-glow scale-[1.02] md:scale-105 bg-card"
+          ? "border-primary shadow-glow scale-[1.03] md:scale-[1.07] bg-card ring-1 ring-primary/20"
           : "border-border shadow-soft hover:shadow-card"
       }`}
     >
       {tier.popular && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
-            ⭐ Most Loved Option
+          <span className="inline-flex items-center gap-1 rounded-full bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground shadow-sm">
+            ⭐ Most Chosen by Pet Owners
           </span>
         </div>
       )}
@@ -57,9 +57,10 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
       <Button
         variant={tier.popular ? "default" : "outline"}
         className={`w-full ${tier.popular ? "shadow-glow" : ""}`}
+        size={tier.popular ? "lg" : "default"}
         onClick={onSelect}
       >
-        {tier.id === "story" ? "Create Tribute" : tier.id === "pack" ? "Create & Share Tribute" : "Create Legacy Memorial"}
+        {tier.id === "story" ? "Create a Simple Tribute" : tier.id === "pack" ? "Create Their Full Story" : "Create a Lasting Memorial"}
       </Button>
 
       {tier.micro_text && (
