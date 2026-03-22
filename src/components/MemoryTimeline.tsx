@@ -138,11 +138,13 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
     const description = sentences.slice(0, 2).join(" ").trim();
 
     let title = sanitizeTitle(generateTitle(text, i, selected.length));
-    if (!title || /^Memory\s*\d+$/i.test(title)) {
-      title = summarizeFromText(text) || "A Cherished Moment";
+    if (!title || /^Memory\s*\d+$/i.test(title) || isBadTitle(title)) {
+      title = "A Cherished Moment";
     }
     if (usedTitles.has(title)) {
-      title = summarizeFromText(text.slice(text.length / 3)) || "A Special Moment";
+      // Pick a unique fallback from the cinematic list
+      const fallbacks = i === 0 ? FIRST_CINEMATIC_FALLBACKS : CINEMATIC_FALLBACKS;
+      title = fallbacks[(i + 2) % fallbacks.length];
     }
     usedTitles.add(title);
 
