@@ -64,7 +64,7 @@ const TributePreviewCard = ({
 
         {/* Preview text with fade */}
         <div className="relative flex-1">
-          <p className="line-clamp-3 font-body text-sm leading-relaxed text-foreground/70" style={{ overflowWrap: "break-word" }}>
+          <p className={`line-clamp-3 font-display text-sm leading-relaxed text-foreground/70 ${blurPreview ? "blur-preview-text" : ""}`} style={{ overflowWrap: "break-word" }}>
             {preview}
           </p>
           <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-card via-card/80 to-transparent" />
