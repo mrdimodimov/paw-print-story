@@ -602,7 +602,7 @@ const TributePage = () => {
                       downloadTributePDF(tribute.story, petName || "Pet", currentTier.name);
                       toast.success("Tribute downloaded!");
                     }
-                  }
+                  }}
                 >
                   <Download className="h-4 w-4" /> Download Your Tribute
                 </Button>
