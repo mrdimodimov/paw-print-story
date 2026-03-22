@@ -764,34 +764,47 @@ const TributePage = () => {
                       <p className="mb-4 leading-[1.7]">{allParagraphs[0]}</p>
                       <p className="mb-4 leading-[1.7]">{allParagraphs[1]}</p>
 
-                      {/* Partial paragraph with gradient fade */}
+                      {/* Partial paragraph with blur fade */}
                       <div className="relative mb-0 select-none">
                         <p className="leading-[1.7] text-foreground">{trimmed}...</p>
                         <div
                           className="pointer-events-none absolute inset-0"
                           style={{
-                            background: "linear-gradient(to bottom, transparent 0%, hsl(var(--card) / 0.6) 50%, hsl(var(--card)) 100%)",
+                            background: "linear-gradient(to bottom, transparent 20%, hsl(var(--card) / 0.4) 50%, hsl(var(--card) / 0.85) 70%, hsl(var(--card)) 100%)",
                           }}
                         />
                       </div>
 
-                      {/* Paywall CTA */}
-                      <div className="relative mt-2">
-                        <div className="flex flex-col items-center justify-center py-6 text-center">
-                          <p className="text-sm font-medium text-primary">
-                            Continue reading their story
+                      {/* Paywall CTA — seamless within story */}
+                      <div className="relative -mt-1">
+                        <div className="flex flex-col items-center justify-center py-8 text-center">
+                          <p className="font-display text-base font-medium text-foreground/80">
+                            This is where their story continues…
                           </p>
+
+                          <div className="mt-5 space-y-1.5 text-sm text-muted-foreground">
+                            <p>✦ {petName || "Your pet"}'s full tribute story</p>
+                            <p>✦ A printable memory you can keep</p>
+                            <p>✦ Something you can revisit forever</p>
+                          </div>
+
                           <Button
                             size="lg"
-                            className="mt-3 gap-2 px-8 shadow-glow"
+                            className="mt-6 gap-2 px-8 shadow-glow"
                             onClick={handleCheckout}
                           >
                             <Heart className="h-4 w-4" />
-                            {checkoutLoading ? "Redirecting…" : `Save ${petName || "Their"}'s Story`}
+                            {checkoutLoading ? "Redirecting…" : `Finish ${petName || "Their"}'s Story →`}
                           </Button>
-                          <p className="mt-2 text-xs text-muted-foreground">
-                            One-time — yours forever
-                          </p>
+
+                          <div className="mt-4 space-y-1">
+                            <p className="font-display text-sm font-medium text-foreground/70">
+                              Keep {petName || "their"}'s story with you, forever
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              One-time payment · Yours to revisit anytime
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </>
