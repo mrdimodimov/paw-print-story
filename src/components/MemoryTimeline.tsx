@@ -19,7 +19,78 @@ interface MemoryTimelineProps {
   onUnlock: () => void;
 }
 
-function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
+// --- Emotional arc slots ---
+enum ArcSlot {
+  ARRIVAL = 0,
+  PERSONALITY = 1,
+  RITUALS = 2,
+  BOND = 3,
+  FAREWELL = 4,
+}
+
+const ARC_KEYWORDS: { slot: ArcSlot; regex: RegExp }[] = [
+  { slot: ArcSlot.FAREWELL, regex: /\b(goodbye|farewell|rainbow|bridge|miss|gone|final|last|without|empty|quiet now|no longer|passed|heaven)\b/i },
+  { slot: ArcSlot.ARRIVAL, regex: /\b(first\s+(day|time|night)|adopt|rescue|brought\s+home|came\s+home|arrived|welcomed|puppy|kitten|baby)\b/i },
+  { slot: ArcSlot.PERSONALITY, regex: /\b(quirk|personalit|stubborn|gentle|crazy|wild|goofy|mischiev|curious|fearless|shy|bold|energetic|calm|sassy|dramatic)\b/i },
+  { slot: ArcSlot.RITUALS, regex: /\b(every\s+(morning|evening|night|day)|routine|ritual|always\s+would|habit|breakfast|dinner|walk|waited|same\s+spot)\b/i },
+  { slot: ArcSlot.BOND, regex: /\b(love|heart|soul|bond|best\s+friend|companion|comfort|safe|trust|together|family|meant\s+everything|unconditional)\b/i },
+];
+
+// Arc-specific title banks (each slot has its own cinematic titles)
+const ARC_TITLES: Record<ArcSlot, string[]> = {
+  [ArcSlot.ARRIVAL]: [
+    "The Day Everything Changed",
+    "The Moment the House Had a Heartbeat",
+    "Where It All Began",
+    "Coming Through the Door",
+    "The First Chapter",
+  ],
+  [ArcSlot.PERSONALITY]: [
+    "A Spirit Like No Other",
+    "The One Who Wrote the Rules",
+    "Wild in All the Right Ways",
+    "The Character We'll Never Forget",
+    "A Presence That Filled the Room",
+  ],
+  [ArcSlot.RITUALS]: [
+    "The Rituals That Made Us Whole",
+    "Every Morning, Without Fail",
+    "The Small Ceremonies",
+    "A Rhythm All Their Own",
+    "The Hours That Belonged to Us",
+  ],
+  [ArcSlot.BOND]: [
+    "The Space Only They Could Fill",
+    "Where Love Lived Loudest",
+    "The Bond That Words Can't Hold",
+    "Something Deeper Than Language",
+    "What the Heart Remembers Most",
+  ],
+  [ArcSlot.FAREWELL]: [
+    "The Light That Refused to Leave",
+    "Now the House Moves Differently",
+    "What Stays When They're Gone",
+    "The Quiet That Holds Everything",
+    "A Presence Still Felt",
+  ],
+};
+
+const LOWERCASE_WORDS = new Set(["of", "the", "and", "in", "to", "a", "an", "for", "but", "or", "nor", "on", "at", "by", "with"]);
+
+function toTitleCase(s: string): string {
+  return s.split(/\s+/).map((word, i) => {
+    if (i === 0 || !LOWERCASE_WORDS.has(word.toLowerCase())) {
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }
+    return word.toLowerCase();
+  }).join(" ");
+}
+
+function sanitizeTitle(raw: string): string {
+  return toTitleCase(raw.replace(/^[—\-–\s:]+|[—\-–\s:]+$/g, "").trim());
+}
+
+function extractTimeline(story: string, petName: string, yearsOfLife?: string): TimelineEntry[] {
   const paragraphs = story
     .split(/\n\n+|\n/)
     .map((p) => p.trim())
@@ -37,121 +108,102 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
     }
   }
 
-  // Cinematic title patterns — standard entries
-  const TITLE_PATTERNS: { regex: RegExp; title: string; firstTitle: string }[] = [
-    { regex: /first\s+(day|time|night|walk|trip|bath)/i, title: "The Day It All Began", firstTitle: "The Day Everything Changed" },
-    { regex: /(door|window|gate|porch|waiting|watched)/i, title: "The Door That Always Knew", firstTitle: "The Door That Was Never Empty" },
-    { regex: /(cuddle|snuggle|nap|sleep|pillow|blanket|couch)/i, title: "Where the Warmth Lived", firstTitle: "Where Every Silence Was Full" },
-    { regex: /(play|run|fetch|chase|jump|zoomie|ball)/i, title: "The Wild Hours", firstTitle: "The Hours the World Fell Away" },
-    { regex: /(walk|hike|adventure|explore|park|beach|trail)/i, title: "Miles That Mattered", firstTitle: "The Walk That Never Felt Long Enough" },
-    { regex: /(morning|sunrise|dawn|wake|breakfast|routine)/i, title: "Before the World Woke Up", firstTitle: "The Mornings That Belonged to Us" },
-    { regex: /(evening|sunset|night|dark|quiet|still)/i, title: "When the House Went Quiet", firstTitle: "The Quiet That Held Everything" },
-    { regex: /(home|family|house|welcome|arrive|adopt|rescue)/i, title: "Coming Through the Door", firstTitle: "The Moment the House Had a Heartbeat" },
-    { regex: /(food|eat|treat|dinner|chicken|kibble|cheese)/i, title: "The Small Negotiations", firstTitle: "The Ritual That Never Got Old" },
-    { regex: /(love|heart|soul|bond|friend|companion)/i, title: "The Space Between Us", firstTitle: "The Space Only They Could Fill" },
-    { regex: /(grow|older|age|year|season|winter|summer)/i, title: "Through Every Season", firstTitle: "The Years That Moved Too Fast" },
-    { regex: /(goodbye|farewell|last|miss|gone|final)/i, title: "The Light That Lingered", firstTitle: "The Light That Refused to Leave" },
-    { regex: /(toy|favorite|spot|place|chair|bed|corner)/i, title: "A Place That Was Only Theirs", firstTitle: "The Corner Where Time Stood Still" },
-    { regex: /(sound|bark|purr|meow|voice|noise|whine)/i, title: "The Sound the House Remembers", firstTitle: "The Sound That Filled the House" },
-    { regex: /(rain|storm|thunder|snow|cold|warm)/i, title: "What the Weather Taught Us", firstTitle: "The Storm That Drew Us Closer" },
-    { regex: /(cage|tank|enclosure|wheel|burrow|nest)/i, title: "A Whole World in Miniature", firstTitle: "The Tiny World That Held Everything" },
-  ];
+  // Score each paragraph for each arc slot
+  const slotBest: Record<ArcSlot, { idx: number; score: number }> = {
+    [ArcSlot.ARRIVAL]: { idx: -1, score: 0 },
+    [ArcSlot.PERSONALITY]: { idx: -1, score: 0 },
+    [ArcSlot.RITUALS]: { idx: -1, score: 0 },
+    [ArcSlot.BOND]: { idx: -1, score: 0 },
+    [ArcSlot.FAREWELL]: { idx: -1, score: 0 },
+  };
 
-  const LOWERCASE_WORDS = new Set(["of", "the", "and", "in", "to", "a", "an", "for", "but", "or", "nor", "on", "at", "by", "with"]);
+  paragraphs.forEach((p, pi) => {
+    // Bias: first paragraphs toward ARRIVAL, last toward FAREWELL
+    const positionBias = (slot: ArcSlot) => {
+      if (slot === ArcSlot.ARRIVAL) return Math.max(0, 1 - pi * 0.3);
+      if (slot === ArcSlot.FAREWELL) return Math.max(0, (pi - (paragraphs.length - 2)) * 0.5);
+      return 0;
+    };
 
-  function toTitleCase(s: string): string {
-    return s.split(/\s+/).map((word, i) => {
-      if (i === 0 || !LOWERCASE_WORDS.has(word.toLowerCase())) {
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    for (const { slot, regex } of ARC_KEYWORDS) {
+      const matches = (p.match(regex) || []).length;
+      const score = matches + positionBias(slot);
+      if (score > slotBest[slot].score) {
+        slotBest[slot] = { idx: pi, score };
       }
-      return word.toLowerCase();
-    }).join(" ");
-  }
-
-  function sanitizeTitle(raw: string): string {
-    return toTitleCase(raw.replace(/^[—\-–\s:]+|[—\-–\s:]+$/g, "").trim());
-  }
-
-  /** Check if a title is too generic or nonsensical */
-  function isBadTitle(title: string): boolean {
-    const words = title.split(/\s+/).filter(Boolean);
-    if (words.length < 3) return true;
-    const BAD_PATTERNS = [
-      /^(the|a|an)\s+(things?|moments?|times?|stuff|way)\s/i,
-      /\b(and come|like this|we had|it was|that was)\b/i,
-    ];
-    return BAD_PATTERNS.some((p) => p.test(title));
-  }
-
-  // Elevated cinematic fallbacks for the first entry
-  const FIRST_CINEMATIC_FALLBACKS = [
-    "The Moment Everything Shifted",
-    "Where It All Began to Matter",
-    "The First Chapter of Something Real",
-    "A Feeling the House Never Forgot",
-    "The Beginning of a Beautiful Disruption",
-  ];
-
-  const CINEMATIC_FALLBACKS = [
-    "The Hours That Held Us",
-    "Something Worth Remembering",
-    "A Rhythm All Their Own",
-    "What the Silence Kept",
-    "The Smallest Ceremony",
-    "A Moment I'll Always Remember",
-    "The Quiet Joy Between Us",
-    "Where Love Lived Loudest",
-  ];
-
-  function generateTitle(text: string, index: number, _total: number): string {
-    const isFirst = index === 0;
-
-    for (const pattern of TITLE_PATTERNS) {
-      const match = text.match(pattern.regex);
-      if (match) return sanitizeTitle(isFirst ? pattern.firstTitle : pattern.title);
     }
+  });
 
-    // Always use curated cinematic fallbacks — never extract random word slices
-    const fallbacks = isFirst ? FIRST_CINEMATIC_FALLBACKS : CINEMATIC_FALLBACKS;
-    return fallbacks[index % fallbacks.length];
+  // Assign paragraphs to slots, avoiding duplicates
+  const usedIdxs = new Set<number>();
+  const arcOrder: ArcSlot[] = [ArcSlot.ARRIVAL, ArcSlot.PERSONALITY, ArcSlot.RITUALS, ArcSlot.BOND, ArcSlot.FAREWELL];
+  const selected: { slot: ArcSlot; text: string }[] = [];
+
+  // First pass: assign best matches
+  for (const slot of arcOrder) {
+    const best = slotBest[slot];
+    if (best.idx >= 0 && best.score > 0 && !usedIdxs.has(best.idx)) {
+      selected.push({ slot, text: paragraphs[best.idx] });
+      usedIdxs.add(best.idx);
+    }
   }
 
-  const targetCount = Math.min(Math.max(3, Math.ceil(paragraphs.length * 0.6)), 5);
-  const step = Math.max(1, Math.floor(paragraphs.length / targetCount));
-  const selected: string[] = [];
-
-  for (let i = 0; i < paragraphs.length && selected.length < targetCount; i += step) {
-    selected.push(paragraphs[i]);
+  // Second pass: fill missing slots from remaining paragraphs by position
+  for (const slot of arcOrder) {
+    if (selected.find((s) => s.slot === slot)) continue;
+    // Pick paragraph at expected position
+    const idealIdx = Math.round((slot / 4) * (paragraphs.length - 1));
+    // Search outward from ideal
+    for (let d = 0; d < paragraphs.length; d++) {
+      for (const dir of [idealIdx + d, idealIdx - d]) {
+        if (dir >= 0 && dir < paragraphs.length && !usedIdxs.has(dir)) {
+          selected.push({ slot, text: paragraphs[dir] });
+          usedIdxs.add(dir);
+          break;
+        }
+      }
+      if (selected.find((s) => s.slot === slot)) break;
+    }
   }
 
-  const lastP = paragraphs[paragraphs.length - 1];
-  if (selected.length < 5 && lastP && !selected.includes(lastP)) {
-    if (/goodbye|farewell|rainbow|bridge|miss|forever|always|heart|legacy/i.test(lastP)) {
-      selected.push(lastP);
+  // Sort by arc order
+  selected.sort((a, b) => a.slot - b.slot);
+
+  // Limit to 3-5 entries
+  const entries = selected.slice(0, 5);
+  if (entries.length < 3 && paragraphs.length >= 3) {
+    // Pad with unused paragraphs
+    for (let i = 0; i < paragraphs.length && entries.length < 3; i++) {
+      if (!usedIdxs.has(i)) {
+        entries.push({ slot: ArcSlot.BOND, text: paragraphs[i] });
+        usedIdxs.add(i);
+      }
     }
   }
 
   const usedTitles = new Set<string>();
 
-  return selected.map((text, i) => {
-    const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-    const description = sentences.slice(0, 2).join(" ").trim();
+  return entries.map((entry, i) => {
+    // Extract 1-3 tight sentences
+    const sentences = entry.text.match(/[^.!?]+[.!?]+/g) || [entry.text];
+    const description = sentences.slice(0, 3).join(" ").trim();
 
-    let title = sanitizeTitle(generateTitle(text, i, selected.length));
-    if (!title || /^Memory\s*\d+$/i.test(title) || isBadTitle(title)) {
-      title = "A Cherished Moment";
-    }
-    if (usedTitles.has(title)) {
-      // Pick a unique fallback from the cinematic list
-      const fallbacks = i === 0 ? FIRST_CINEMATIC_FALLBACKS : CINEMATIC_FALLBACKS;
-      title = fallbacks[(i + 2) % fallbacks.length];
+    // Pick title from arc-specific bank
+    const bank = ARC_TITLES[entry.slot];
+    let title = sanitizeTitle(bank[0]);
+    for (const candidate of bank) {
+      const sanitized = sanitizeTitle(candidate);
+      if (!usedTitles.has(sanitized)) {
+        title = sanitized;
+        break;
+      }
     }
     usedTitles.add(title);
 
     let year: string | undefined;
-    if (startYear && endYear && selected.length > 1) {
+    if (startYear && endYear && entries.length > 1) {
       const yearSpan = endYear - startYear;
-      const entryYear = startYear + Math.round((i / (selected.length - 1)) * yearSpan);
+      const entryYear = startYear + Math.round((i / (entries.length - 1)) * yearSpan);
       year = String(entryYear);
     }
 
@@ -177,7 +229,7 @@ export default function MemoryTimeline({
   unlocked,
   onUnlock,
 }: MemoryTimelineProps) {
-  const entries = useMemo(() => extractTimeline(story, yearsOfLife), [story, yearsOfLife]);
+  const entries = useMemo(() => extractTimeline(story, petName, yearsOfLife), [story, petName, yearsOfLife]);
 
   if (entries.length === 0) return null;
 
@@ -210,7 +262,7 @@ export default function MemoryTimeline({
           {entries.map((entry, i) => {
             const isVisible = i < visibleCount;
             const isLocked = !isVisible;
-            const hasPhoto = !isTier1 && photoUrls && photoUrls[i];
+            const hasPhoto = !isTier1 && photoUrls && photoUrls[i] && (i === 0 || i === entries.length - 2) && i < 2;
 
             return (
               <motion.div
