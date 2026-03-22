@@ -201,8 +201,25 @@ const TributeShareCard = ({
   shareCardLimit,
 }: TributeShareCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
   const [activeStyle, setActiveStyle] = useState(0);
+
+  // Dynamically scale the 1080px canvas to fit the container
+  const updateScale = useCallback(() => {
+    if (wrapperRef.current) {
+      const containerWidth = wrapperRef.current.offsetWidth;
+      const scale = containerWidth / 1080;
+      wrapperRef.current.style.setProperty("--card-scale", String(scale));
+    }
+  }, []);
+
+  useEffect(() => {
+    updateScale();
+    const observer = new ResizeObserver(updateScale);
+    if (wrapperRef.current) observer.observe(wrapperRef.current);
+    return () => observer.disconnect();
+  }, [updateScale]);
 
   const availableCount =
     shareCardLimit === -1
