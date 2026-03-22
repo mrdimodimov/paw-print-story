@@ -1002,11 +1002,6 @@ const TributePage = () => {
                     )}
                   </Button>
                 )}
-                {currentTier.include_printable_pdf && (currentTier.id === "pack" || currentTier.id === "legacy") && (
-                  <Button variant="outline" size="sm" onClick={handleDownloadMemorial}>
-                    <FileText className="mr-1 h-4 w-4" /> Printable Memorial
-                  </Button>
-                )}
                 {formDataRef.current && (
                   <Button
                     variant="outline"
