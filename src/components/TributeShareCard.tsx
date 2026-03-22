@@ -381,7 +381,7 @@ const TributeShareCard = ({
       </div>
 
       {/* Card preview — scaled canvas */}
-      <div className="mx-auto w-full max-w-[500px] overflow-hidden rounded-xl border border-border shadow-card" style={{ aspectRatio: "1 / 1", position: "relative" }}>
+      <div ref={wrapperRef} className="mx-auto w-full max-w-[500px] overflow-hidden rounded-xl border border-border shadow-card" style={{ aspectRatio: "1 / 1", position: "relative" }}>
         <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
           <div
             ref={cardRef}
