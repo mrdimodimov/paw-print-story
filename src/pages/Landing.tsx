@@ -11,8 +11,10 @@ import TributePreviewCard from "@/components/TributePreviewCard";
 import BeforeAfterTransform from "@/components/BeforeAfterTransform";
 import tributeLuna from "@/assets/tribute-preview-luna.jpg";
 import tributeWhiskers from "@/assets/tribute-preview-whiskers.jpg";
-import tributeMona from "@/assets/tribute-preview-mona.jpg";
-import tributeBear from "@/assets/tribute-preview-bear.jpg";
+import tributeMax from "@/assets/tribute-preview-max.jpg";
+import tributeClover from "@/assets/tribute-preview-clover.jpg";
+import tributePickles from "@/assets/tribute-preview-pickles.jpg";
+import tributeKiwi from "@/assets/tribute-preview-kiwi.jpg";
 import {
   Accordion,
   AccordionContent,
@@ -79,58 +81,85 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Tribute Examples Grid — immediately after hero */}
+      {/* Tribute Examples — horizontal scroll */}
       <section className="tribute-section bg-accent/10">
-        <div className="tribute-container">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="mb-12 text-center"
+            className="mb-10 text-center"
           >
             <h2 className="mb-3 font-display text-3xl font-bold text-foreground">
               See What You'll Receive
             </h2>
             <p className="text-base text-muted-foreground">
-              Real tributes created from real memories.
+              Real tributes created from real memories — every kind of pet.
             </p>
           </motion.div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <TributePreviewCard
-              imageUrl={tributeLuna}
-              petName="Luna"
-              years="2016–2025"
-              memoryTitle="The Door That Was Never Empty"
-              preview="She waited by the front window every afternoon, tail wagging the moment she heard the car pull into the driveway, as if choosing our next small adventure together..."
-              index={0}
-              linkTo="/example-tribute"
-            />
-            <TributePreviewCard
-              imageUrl={tributeWhiskers}
-              petName="Oliver"
-              years="2013–2026"
-              memoryTitle="Where the Sunlight Always Found Him"
-              preview="He claimed the same patch of afternoon light on the kitchen floor every single day, stretching into warmth like he'd invented the concept of rest..."
-              index={1}
-            />
-            <TributePreviewCard
-              imageUrl={tributeMona}
-              petName="Mona"
-              years="2021–2025"
-              memoryTitle="The Sound That Filled the House"
-              preview="By night she turned into a tiny orchestra conductor, chewing and rattling the bars with such dramatic timing that the whole house learned the cadence of her supper concerts..."
-              index={2}
-            />
-            <TributePreviewCard
-              imageUrl={tributeBear}
-              petName="Bear"
-              years="2010–2024"
-              memoryTitle="Afternoons That Stayed Soft"
-              preview="He had a way of leaning into you with his full weight, like he was trying to hold you in place, as if standing still together was the most important thing in the world..."
-              index={3}
-            />
+          <div className="-mx-4 overflow-x-auto px-4 pb-4 scrollbar-hide sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+            <div className="flex gap-5" style={{ scrollSnapType: "x mandatory" }}>
+              {[
+                {
+                  imageUrl: tributeLuna,
+                  petName: "Luna",
+                  years: "2016–2025",
+                  memoryTitle: "The Door That Was Never Empty",
+                  preview: "She waited by the front window every afternoon, tail wagging the moment she heard the car pull into the driveway.",
+                  linkTo: "/example-tribute",
+                },
+                {
+                  imageUrl: tributeWhiskers,
+                  petName: "Oliver",
+                  years: "2013–2026",
+                  memoryTitle: "Where the Sunlight Always Found Him",
+                  preview: "He claimed the same patch of afternoon light on the kitchen floor every single day, stretching into warmth like he'd invented rest.",
+                  linkTo: "/example-tribute",
+                },
+                {
+                  imageUrl: tributeMax,
+                  petName: "Max",
+                  years: "2012–2025",
+                  memoryTitle: "The One Who Greeted Everyone",
+                  preview: "He never met a stranger. Every visitor was welcomed with a full-body wiggle that could knock a toddler over.",
+                  linkTo: "/example-tribute",
+                },
+                {
+                  imageUrl: tributeClover,
+                  petName: "Clover",
+                  years: "2020–2026",
+                  memoryTitle: "Soft Thumps in the Evening",
+                  preview: "She'd thump her feet at exactly 7pm, demanding her evening greens with a patience that lasted about three seconds.",
+                  linkTo: "/example-tribute",
+                },
+                {
+                  imageUrl: tributePickles,
+                  petName: "Pickles",
+                  years: "2022–2025",
+                  memoryTitle: "Tiny Paws, Giant Presence",
+                  preview: "He fit in the palm of your hand but filled the entire room. His wheel spinning at 2am was our nightly symphony.",
+                  linkTo: "/example-tribute",
+                },
+                {
+                  imageUrl: tributeKiwi,
+                  petName: "Kiwi",
+                  years: "2019–2026",
+                  memoryTitle: "The Morning Song That Woke Us",
+                  preview: "Every sunrise began with his chirping — a tiny, persistent alarm clock we never wanted to turn off.",
+                  linkTo: "/example-tribute",
+                },
+              ].map((card, i) => (
+                <div
+                  key={card.petName}
+                  className="w-[280px] flex-shrink-0 sm:w-[300px]"
+                  style={{ scrollSnapAlign: "start" }}
+                >
+                  <TributePreviewCard {...card} index={i} />
+                </div>
+              ))}
+            </div>
           </div>
 
           <motion.div
@@ -138,7 +167,7 @@ const Landing = () => {
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
             viewport={{ once: true }}
-            className="mt-10 flex flex-col items-center gap-3 text-center"
+            className="mt-8 flex flex-col items-center gap-3 text-center"
           >
             <Link
               to="/example-tribute"
