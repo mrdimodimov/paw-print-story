@@ -242,11 +242,11 @@ const Landing = () => {
       <section className="tribute-section">
         <div className="tribute-container">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold text-foreground">
-              Choose How You Want to Remember Your Pet
+            <h2 className="mb-3 font-display text-3xl font-bold text-foreground">
+              Choose How You'll Keep Their Memory Alive
             </h2>
             <p className="text-base text-muted-foreground">
-              Create something meaningful, lasting, and truly personal.
+              Start simple, or create something truly unforgettable.
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
@@ -296,20 +296,19 @@ const Landing = () => {
               );
             })()}
           </div>
-          <p className="mt-8 text-center text-sm text-muted-foreground">
-            One-time payment · No subscription
+          <div className="mt-8">
+            <GuaranteeBadge />
+          </div>
+          <p className="mt-4 text-center text-sm text-muted-foreground">
+            One-time payment · No subscription · Yours forever
           </p>
           <p className="mt-2 text-center text-sm text-muted-foreground">
-            Your tribute is created in seconds and can be edited before you
-            download or share.
+            Every tribute can be edited before you download or share.
           </p>
           <p className="mt-1 text-center text-xs text-muted-foreground/70">
             Digital product — ready to print, frame, or keep digitally. No
             physical item shipped.
           </p>
-          <div className="mt-6">
-            <GuaranteeBadge />
-          </div>
         </div>
       </section>
 
