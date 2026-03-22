@@ -13,8 +13,6 @@ import tributeLuna from "@/assets/tribute-preview-luna.jpg";
 import tributeWhiskers from "@/assets/tribute-preview-whiskers.jpg";
 import tributeMax from "@/assets/tribute-preview-max.jpg";
 import tributeClover from "@/assets/tribute-preview-clover.jpg";
-import tributePickles from "@/assets/tribute-preview-pickles.jpg";
-import tributeKiwi from "@/assets/tribute-preview-kiwi.jpg";
 import {
   Accordion,
   AccordionContent,
@@ -81,7 +79,7 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Tribute Examples — horizontal scroll */}
+      {/* Product Preview — horizontal scroll */}
       <section className="tribute-section bg-accent/10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -92,10 +90,10 @@ const Landing = () => {
             className="mb-10 text-center"
           >
             <h2 className="mb-3 font-display text-3xl font-bold text-foreground">
-              See What You'll Receive
+              A Glimpse of Your Pet's Tribute
             </h2>
             <p className="text-base text-muted-foreground">
-              Real tributes created from real memories — every kind of pet.
+              A preview of the story we'll create from your memories
             </p>
           </motion.div>
 
@@ -105,7 +103,6 @@ const Landing = () => {
                 {
                   imageUrl: tributeLuna,
                   petName: "Luna",
-                  years: "2016–2025",
                   memoryTitle: "The Door That Was Never Empty",
                   preview: "She waited by the front window every afternoon, tail wagging the moment she heard the car pull into the driveway.",
                   linkTo: "/example-tribute",
@@ -113,15 +110,14 @@ const Landing = () => {
                 {
                   imageUrl: tributeWhiskers,
                   petName: "Oliver",
-                  years: "2013–2026",
                   memoryTitle: "Where the Sunlight Always Found Him",
                   preview: "He claimed the same patch of afternoon light on the kitchen floor every single day, stretching into warmth like he'd invented rest.",
                   linkTo: "/example-tribute",
+                  blurPreview: true,
                 },
                 {
                   imageUrl: tributeMax,
                   petName: "Max",
-                  years: "2012–2025",
                   memoryTitle: "The One Who Greeted Everyone",
                   preview: "He never met a stranger. Every visitor was welcomed with a full-body wiggle that could knock a toddler over.",
                   linkTo: "/example-tribute",
@@ -129,25 +125,8 @@ const Landing = () => {
                 {
                   imageUrl: tributeClover,
                   petName: "Clover",
-                  years: "2020–2026",
                   memoryTitle: "Soft Thumps in the Evening",
                   preview: "She'd thump her feet at exactly 7pm, demanding her evening greens with a patience that lasted about three seconds.",
-                  linkTo: "/example-tribute",
-                },
-                {
-                  imageUrl: tributePickles,
-                  petName: "Pickles",
-                  years: "2022–2025",
-                  memoryTitle: "Tiny Paws, Giant Presence",
-                  preview: "He fit in the palm of your hand but filled the entire room. His wheel spinning at 2am was our nightly symphony.",
-                  linkTo: "/example-tribute",
-                },
-                {
-                  imageUrl: tributeKiwi,
-                  petName: "Kiwi",
-                  years: "2019–2026",
-                  memoryTitle: "The Morning Song That Woke Us",
-                  preview: "Every sunrise began with his chirping — a tiny, persistent alarm clock we never wanted to turn off.",
                   linkTo: "/example-tribute",
                 },
               ].map((card, i) => (
@@ -170,10 +149,10 @@ const Landing = () => {
             className="mt-8 flex flex-col items-center gap-3 text-center"
           >
             <Link
-              to="/example-tribute"
+              to="/create"
               className="inline-block text-sm font-medium text-primary underline underline-offset-4 transition-colors hover:text-primary/80"
             >
-              Read a full example tribute →
+              Create your pet's story →
             </Link>
           </motion.div>
         </div>

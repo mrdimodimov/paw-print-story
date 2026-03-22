@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 interface TributePreviewCardProps {
   imageUrl: string;
   petName: string;
-  years: string;
+  years?: string;
   memoryTitle: string;
   preview: string;
   index: number;
   linkTo?: string;
+  blurPreview?: boolean;
 }
 
 const TributePreviewCard = ({
@@ -19,6 +20,7 @@ const TributePreviewCard = ({
   preview,
   index,
   linkTo,
+  blurPreview,
 }: TributePreviewCardProps) => {
   const content = (
     <motion.div
@@ -49,9 +51,11 @@ const TributePreviewCard = ({
           <h3 className="font-display text-lg font-semibold text-foreground">
             {petName}
           </h3>
-          <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
-            {years}
-          </span>
+          {years && (
+            <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
+              {years}
+            </span>
+          )}
         </div>
 
         <p className="mb-3 font-display text-sm font-medium italic text-primary/80">
@@ -60,7 +64,7 @@ const TributePreviewCard = ({
 
         {/* Preview text with fade */}
         <div className="relative flex-1">
-          <p className="line-clamp-3 font-body text-sm leading-relaxed text-foreground/70" style={{ overflowWrap: "break-word" }}>
+          <p className={`line-clamp-3 font-display text-sm leading-relaxed text-foreground/70 ${blurPreview ? "blur-preview-text" : ""}`} style={{ overflowWrap: "break-word" }}>
             {preview}
           </p>
           <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-card via-card/80 to-transparent" />
