@@ -1097,9 +1097,9 @@ const TributePage = () => {
               {/* Secondary channels */}
               <div className="flex flex-wrap justify-center gap-3">
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="sm"
-                  className="gap-2 text-muted-foreground"
+                  className="gap-2"
                   onClick={() => {
                     const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
                     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank", "noopener,noreferrer,width=600,height=400");
@@ -1108,9 +1108,9 @@ const TributePage = () => {
                   Facebook
                 </Button>
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="sm"
-                  className="gap-2 text-muted-foreground"
+                  className="gap-2"
                   onClick={() => {
                     const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
                     const text = `In Loving Memory of ${petName}`;
