@@ -74,7 +74,10 @@ const TributePage = () => {
 
   // In test/founder mode, default to unlocked (toggleable via panel)
   const isFounderMode = localStorage.getItem("founderMode") === "true";
-  const effectiveUnlocked = (isTestMode || isFounderMode) ? testUnlocked : unlocked;
+  const forceLocked = searchParams.get("locked") === "true";
+  const effectiveUnlocked = forceLocked
+    ? false
+    : (isTestMode || isFounderMode) ? testUnlocked : unlocked;
   const [tributeDbId, setTributeDbId] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
