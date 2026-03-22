@@ -318,24 +318,24 @@ export async function downloadMemorialPDF(
   drawPawWatermark(doc);
 
   // Header section
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(14);
+  doc.setFont("times", "italic");
+  doc.setFontSize(13);
   doc.setTextColor(160, 140, 110);
   doc.text("In Loving Memory", pageWidth / 2, 38, { align: "center" });
 
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(30);
+  doc.setFont("times", "bold");
+  doc.setFontSize(32);
   doc.setTextColor(55, 42, 28);
-  doc.text(sanitizeForPDF(petName), pageWidth / 2, 54, { align: "center" });
+  doc.text(sanitizeForPDF(petName), pageWidth / 2, 55, { align: "center" });
 
-  let headerEndY = 60;
+  let headerEndY = 61;
 
   if (years) {
-    doc.setFont("helvetica", "italic");
+    doc.setFont("times", "italic");
     doc.setFontSize(12);
-    doc.setTextColor(120, 100, 80);
-    doc.text(sanitizeForPDF(years), pageWidth / 2, 66, { align: "center" });
-    headerEndY = 72;
+    doc.setTextColor(130, 110, 85);
+    doc.text(sanitizeForPDF(years), pageWidth / 2, 67, { align: "center" });
+    headerEndY = 73;
   }
 
   // Header divider
