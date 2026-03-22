@@ -603,13 +603,21 @@ const TributePage = () => {
               </p>
 
               <div className="mt-6 flex flex-col items-center gap-3">
-                <Button
-                  size="lg"
-                  className="gap-2"
-                  onClick={handleDownloadPDF}
-                >
-                  <Download className="h-4 w-4" /> Download Your Tribute
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button size="lg" className="gap-2">
+                      <Download className="h-4 w-4" /> Download <ChevronDown className="h-3 w-3 opacity-60" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="center" className="min-w-[200px]">
+                    <DropdownMenuItem onClick={handleDownloadPDF} className="cursor-pointer gap-2">
+                      <FileText className="h-4 w-4" /> Full Tribute (PDF)
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleDownloadMemorial} className="cursor-pointer gap-2">
+                      <Printer className="h-4 w-4" /> Printable Memorial
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 <p className="text-xs text-muted-foreground">
                   Save it, share it, or keep it forever.
                 </p>
