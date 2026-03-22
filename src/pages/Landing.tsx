@@ -13,8 +13,6 @@ import tributeLuna from "@/assets/tribute-preview-luna.jpg";
 import tributeWhiskers from "@/assets/tribute-preview-whiskers.jpg";
 import tributeMax from "@/assets/tribute-preview-max.jpg";
 import tributeClover from "@/assets/tribute-preview-clover.jpg";
-import tributePickles from "@/assets/tribute-preview-pickles.jpg";
-import tributeKiwi from "@/assets/tribute-preview-kiwi.jpg";
 import {
   Accordion,
   AccordionContent,
