@@ -355,150 +355,154 @@ const TributeShareCard = ({
         })}
       </div>
 
-      {/* Card preview */}
-      <div className="mx-auto w-full max-w-[500px] overflow-hidden rounded-xl border border-border shadow-card" style={{ aspectRatio: "1 / 1" }}>
-        <div
-          ref={cardRef}
-          style={{
-            width: 540,
-            height: 540,
-            background: style.background,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "56px 48px",
-            fontFamily: "'Playfair Display', serif",
-            position: "relative",
-            overflow: "hidden",
-            gap: 18,
-          }}
-        >
-          {/* Background photo overlay */}
-          {bgPhotoUrl && (
-            <>
-              <img
-                src={bgPhotoUrl}
-                alt=""
-                crossOrigin="anonymous"
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  opacity: style.id === "story" ? 0.1 : 0.12,
-                  filter: "blur(4px)",
-                }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background: style.background,
-                  opacity: 0.82,
-                }}
-              />
-            </>
-          )}
-
-          {/* Decorative border */}
+      {/* Card preview — scaled canvas */}
+      <div className="mx-auto w-full max-w-[500px] overflow-hidden rounded-xl border border-border shadow-card" style={{ aspectRatio: "1 / 1", position: "relative" }}>
+        <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
           <div
+            ref={cardRef}
             style={{
-              position: "absolute",
-              top: 20,
-              left: 20,
-              right: 20,
-              bottom: 20,
-              border: `1px solid ${style.borderColor}`,
-              borderRadius: 14,
-              pointerEvents: "none",
-            }}
-          />
-
-          {/* Photo */}
-          {renderPhoto(photoUrls, petName, style.photoSize, style.accentColor)}
-
-          {/* Pet name */}
-          <div
-            style={{
-              fontSize: style.nameFontSize,
-              fontWeight: 700,
-              color: style.nameColor,
-              textAlign: "center",
-              lineHeight: 1.15,
-              position: "relative",
-              zIndex: 1,
-              letterSpacing: "0.01em",
-            }}
-          >
-            {petName}
-          </div>
-
-          {/* Years */}
-          {style.showYears && years && (
-            <div
-              style={{
-                fontSize: 15,
-                color: style.yearsColor,
-                fontStyle: "italic",
-                fontFamily: "'Source Sans 3', sans-serif",
-                position: "relative",
-                zIndex: 1,
-                marginTop: -10,
-              }}
-            >
-              {years}
-            </div>
-          )}
-
-          {/* Divider */}
-          <div
-            style={{
-              width: 44,
-              height: 2,
-              background: style.accentColor,
-              borderRadius: 1,
-              position: "relative",
-              zIndex: 1,
-            }}
-          />
-
-          {/* Quote */}
-          <div
-            style={{
-              fontSize: style.quoteFontSize,
-              lineHeight: 1.75,
-              color: style.textColor,
-              textAlign: "center",
-              maxWidth: 400,
-              fontFamily: "'Source Sans 3', sans-serif",
-              fontStyle: style.quoteStyle,
-              position: "relative",
-              zIndex: 1,
-            }}
-          >
-            "{quote}"
-          </div>
-
-          {/* Footer */}
-          <div
-            style={{
-              position: "absolute",
-              bottom: 26,
-              fontSize: 10,
-              color: style.footerColor,
-              fontFamily: "'Source Sans 3', sans-serif",
+              width: 1080,
+              height: 1080,
+              transform: "scale(var(--card-scale, 0.4630))",
+              transformOrigin: "top left",
+              background: style.background,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: 2,
-              zIndex: 1,
-              opacity: 0.7,
+              justifyContent: "center",
+              padding: "112px 96px",
+              fontFamily: "'Playfair Display', serif",
+              position: "relative",
+              overflow: "hidden",
+              gap: 36,
             }}
           >
-            <span>🐾 Created with {BRAND.name}</span>
-            <span style={{ fontSize: 9 }}>vellumpet.com</span>
+            {/* Background photo overlay */}
+            {bgPhotoUrl && (
+              <>
+                <img
+                  src={bgPhotoUrl}
+                  alt=""
+                  crossOrigin="anonymous"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    opacity: style.id === "story" ? 0.1 : 0.12,
+                    filter: "blur(8px)",
+                  }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: style.background,
+                    opacity: 0.82,
+                  }}
+                />
+              </>
+            )}
+
+            {/* Decorative border */}
+            <div
+              style={{
+                position: "absolute",
+                top: 40,
+                left: 40,
+                right: 40,
+                bottom: 40,
+                border: `2px solid ${style.borderColor}`,
+                borderRadius: 28,
+                pointerEvents: "none",
+              }}
+            />
+
+            {/* Photo */}
+            {renderPhoto(photoUrls, petName, style.photoSize * 2, style.accentColor)}
+
+            {/* Pet name */}
+            <div
+              style={{
+                fontSize: style.nameFontSize * 2,
+                fontWeight: 700,
+                color: style.nameColor,
+                textAlign: "center",
+                lineHeight: 1.15,
+                position: "relative",
+                zIndex: 1,
+                letterSpacing: "0.01em",
+              }}
+            >
+              {petName}
+            </div>
+
+            {/* Years */}
+            {style.showYears && years && (
+              <div
+                style={{
+                  fontSize: 30,
+                  color: style.yearsColor,
+                  fontStyle: "italic",
+                  fontFamily: "'Source Sans 3', sans-serif",
+                  position: "relative",
+                  zIndex: 1,
+                  marginTop: -20,
+                }}
+              >
+                {years}
+              </div>
+            )}
+
+            {/* Divider */}
+            <div
+              style={{
+                width: 88,
+                height: 4,
+                background: style.accentColor,
+                borderRadius: 2,
+                position: "relative",
+                zIndex: 1,
+              }}
+            />
+
+            {/* Quote */}
+            <div
+              style={{
+                fontSize: style.quoteFontSize * 2,
+                lineHeight: 1.75,
+                color: style.textColor,
+                textAlign: "center",
+                maxWidth: 800,
+                fontFamily: "'Source Sans 3', sans-serif",
+                fontStyle: style.quoteStyle,
+                position: "relative",
+                zIndex: 1,
+              }}
+            >
+              "{quote}"
+            </div>
+
+            {/* Footer */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: 52,
+                fontSize: 20,
+                color: style.footerColor,
+                fontFamily: "'Source Sans 3', sans-serif",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 4,
+                zIndex: 1,
+                opacity: 0.7,
+              }}
+            >
+              <span>🐾 Created with {BRAND.name}</span>
+              <span style={{ fontSize: 18 }}>vellumpet.com</span>
+            </div>
           </div>
         </div>
       </div>
