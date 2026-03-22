@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock, Bug, SkipForward, Eye } from "lucide-react";
+import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock, Bug, SkipForward, Eye, MessageCircle, Mail } from "lucide-react";
 import MemoryTimeline from "@/components/MemoryTimeline";
 import PostGenerationShare from "@/components/PostGenerationShare";
 import TributeShareCard from "@/components/TributeShareCard";
@@ -1033,30 +1033,72 @@ const TributePage = () => {
             </div>
           )}
 
-          {/* Share Buttons */}
+          {/* Share Their Story */}
           {tributeSlug && (
             <div className="mb-6 rounded-xl border border-border bg-card p-6 shadow-soft">
               <div className="mb-3 flex items-center gap-2">
-                <Share2 className="h-4 w-4 text-primary" />
-                <h3 className="font-display text-sm font-semibold text-foreground">
-                  Share This Tribute
+                <Share2 className="h-5 w-5 text-primary" />
+                <h3 className="font-display text-lg font-semibold text-foreground">
+                  Share Their Story
                 </h3>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <p className="mb-1 text-sm text-muted-foreground">
+                Let friends and family remember them too.
+              </p>
+              <p className="mb-5 text-xs text-muted-foreground/70">
+                Includes their story, photos, and memories.
+              </p>
+
+              {/* Primary channels */}
+              <div className="flex flex-wrap gap-3 mb-3">
                 <Button
-                  variant="outline"
                   size="sm"
+                  className="gap-2"
+                  onClick={() => {
+                    const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
+                    const caption = tribute.short_caption
+                      ? `${tribute.short_caption}\n\n${url}`
+                      : `I created this tribute for ${petName}. I thought you'd like to see it ❤️\n\n${url}`;
+                    window.open(`https://wa.me/?text=${encodeURIComponent(caption)}`, "_blank", "noopener,noreferrer");
+                  }}
+                >
+                  <MessageCircle className="h-4 w-4" /> WhatsApp
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="gap-2"
                   onClick={() => {
                     const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
                     navigator.clipboard.writeText(url);
                     toast.success("Link copied!");
                   }}
                 >
-                  <Link className="mr-1 h-3 w-3" /> Copy Link
+                  <Link className="h-4 w-4" /> Copy Link
                 </Button>
                 <Button
-                  variant="outline"
                   size="sm"
+                  variant="outline"
+                  className="gap-2"
+                  onClick={() => {
+                    const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
+                    const subject = `In Loving Memory of ${petName}`;
+                    const body = tribute.short_caption
+                      ? `${tribute.short_caption}\n\nRead their full story: ${url}`
+                      : `I wanted to share this tribute I created for ${petName}.\n\nRead their full story: ${url}`;
+                    window.open(`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+                  }}
+                >
+                  <Mail className="h-4 w-4" /> Email
+                </Button>
+              </div>
+
+              {/* Secondary channels */}
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="gap-2 text-muted-foreground"
                   onClick={() => {
                     const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
                     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank", "noopener,noreferrer,width=600,height=400");
@@ -1065,8 +1107,9 @@ const TributePage = () => {
                   Facebook
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   size="sm"
+                  className="gap-2 text-muted-foreground"
                   onClick={() => {
                     const url = `${BRAND.baseUrl}/memorial/${tributeSlug}`;
                     const text = `In Loving Memory of ${petName}`;
