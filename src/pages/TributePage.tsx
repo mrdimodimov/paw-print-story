@@ -600,12 +600,7 @@ const TributePage = () => {
                 <Button
                   size="lg"
                   className="gap-2"
-                  onClick={() => {
-                    if (tribute) {
-                      downloadTributePDF(tribute.story, petName || "Pet", currentTier.name);
-                      toast.success("Tribute downloaded!");
-                    }
-                  }}
+                  onClick={handleDownloadPDF}
                 >
                   <Download className="h-4 w-4" /> Download Your Tribute
                 </Button>
