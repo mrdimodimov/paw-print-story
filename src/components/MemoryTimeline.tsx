@@ -229,7 +229,7 @@ export default function MemoryTimeline({
   unlocked,
   onUnlock,
 }: MemoryTimelineProps) {
-  const entries = useMemo(() => extractTimeline(story, yearsOfLife), [story, yearsOfLife]);
+  const entries = useMemo(() => extractTimeline(story, petName, yearsOfLife), [story, petName, yearsOfLife]);
 
   if (entries.length === 0) return null;
 
