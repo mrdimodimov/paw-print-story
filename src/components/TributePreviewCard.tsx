@@ -20,6 +20,7 @@ const TributePreviewCard = ({
   preview,
   index,
   linkTo,
+  blurPreview,
 }: TributePreviewCardProps) => {
   const content = (
     <motion.div
