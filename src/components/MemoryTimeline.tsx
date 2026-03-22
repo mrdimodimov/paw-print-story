@@ -72,15 +72,15 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
     return toTitleCase(raw.replace(/^[—\-–\s:]+|[—\-–\s:]+$/g, "").trim());
   }
 
-  /** Generate a cinematic fallback title from paragraph text */
-  function summarizeFromText(text: string): string {
-    // Extract the key noun/object from the first sentence for a more evocative title
-    const firstSentence = text.split(/[.!?]/)[0]?.trim() || "";
-    const words = firstSentence.split(/\s+/).filter(Boolean);
-    if (words.length <= 5) return words.join(" ");
-    // Take a compelling slice — skip first 1-2 filler words, grab the core
-    const start = words.length > 8 ? 2 : 1;
-    return words.slice(start, start + 4).join(" ");
+  /** Check if a title is too generic or nonsensical */
+  function isBadTitle(title: string): boolean {
+    const words = title.split(/\s+/).filter(Boolean);
+    if (words.length < 3) return true;
+    const BAD_PATTERNS = [
+      /^(the|a|an)\s+(things?|moments?|times?|stuff|way)\s/i,
+      /\b(and come|like this|we had|it was|that was)\b/i,
+    ];
+    return BAD_PATTERNS.some((p) => p.test(title));
   }
 
   // Elevated cinematic fallbacks for the first entry
@@ -98,6 +98,9 @@ function extractTimeline(story: string, yearsOfLife?: string): TimelineEntry[] {
     "A Rhythm All Their Own",
     "What the Silence Kept",
     "The Smallest Ceremony",
+    "A Moment I'll Always Remember",
+    "The Quiet Joy Between Us",
+    "Where Love Lived Loudest",
   ];
 
   function generateTitle(text: string, index: number, _total: number): string {
