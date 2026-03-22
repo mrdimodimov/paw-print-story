@@ -214,11 +214,19 @@ const TributeShareCard = ({
 
   const getCanvas = async () => {
     if (!cardRef.current) return null;
-    return html2canvas(cardRef.current, {
-      scale: 1080 / 540,
+    // Temporarily remove CSS scale for accurate capture at native 1080x1080
+    const el = cardRef.current;
+    const prevTransform = el.style.transform;
+    el.style.transform = "none";
+    const canvas = await html2canvas(el, {
+      scale: 1,
       useCORS: true,
       backgroundColor: null,
+      width: 1080,
+      height: 1080,
     });
+    el.style.transform = prevTransform;
+    return canvas;
   };
 
   const handleDownload = async () => {
