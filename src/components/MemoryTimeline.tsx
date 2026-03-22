@@ -262,7 +262,7 @@ export default function MemoryTimeline({
           {entries.map((entry, i) => {
             const isVisible = i < visibleCount;
             const isLocked = !isVisible;
-            const hasPhoto = !isTier1 && photoUrls && photoUrls[i];
+            const hasPhoto = !isTier1 && photoUrls && photoUrls[i] && (i === 0 || i === entries.length - 2) && i < 2;
 
             return (
               <motion.div
