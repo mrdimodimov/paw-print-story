@@ -51,9 +51,11 @@ const TributePreviewCard = ({
           <h3 className="font-display text-lg font-semibold text-foreground">
             {petName}
           </h3>
-          <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
-            {years}
-          </span>
+          {years && (
+            <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
+              {years}
+            </span>
+          )}
         </div>
 
         <p className="mb-3 font-display text-sm font-medium italic text-primary/80">
