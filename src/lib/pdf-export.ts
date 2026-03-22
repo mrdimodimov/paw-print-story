@@ -139,59 +139,69 @@ export async function downloadTributePDF(
 
   drawPageBackground();
 
-  let yPos = 36;
+  let yPos = 40;
 
-  // --- Photos (compact row above title, proportionally scaled) ---
+  // --- Photos (centered row above title, proportionally scaled) ---
   if (images.length === 1) {
-    const maxBox = 38;
+    const maxBox = 42;
     const { w, h } = fitImage(images[0].width, images[0].height, maxBox, maxBox);
-    const xOffset = margin;
+    const xOffset = (pageWidth - w) / 2;
     doc.addImage(images[0].dataUrl, "JPEG", xOffset, yPos, w, h);
-    yPos += h + 10;
+    yPos += h + 14;
   } else if (images.length >= 2) {
-    const maxBox = 34;
+    const maxBox = 36;
     const shown = images.slice(0, 3);
-    let x = margin;
+    const totalWidth = shown.length * maxBox + (shown.length - 1) * 6;
+    let x = (pageWidth - totalWidth) / 2;
     for (const img of shown) {
       const { w, h } = fitImage(img.width, img.height, maxBox, maxBox);
-      doc.addImage(img.dataUrl, "JPEG", x, yPos, w, h);
-      x += maxBox + 5;
+      const yOffset = yPos + (maxBox - h) / 2;
+      doc.addImage(img.dataUrl, "JPEG", x + (maxBox - w) / 2, yOffset, w, h);
+      x += maxBox + 6;
     }
-    yPos += maxBox + 10;
+    yPos += maxBox + 14;
   }
 
-  // --- Title: Pet name (left-aligned, large) ---
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(30);
+  // --- Title: Pet name (centered, large) ---
+  doc.setFont("times", "bold");
+  doc.setFontSize(32);
   doc.setTextColor(55, 42, 28);
-  doc.text(sanitizeForPDF(petName), margin, yPos);
-  yPos += 10;
+  doc.text(sanitizeForPDF(petName), pageWidth / 2, yPos, { align: "center" });
+  yPos += 11;
 
   // --- Years ---
   if (years) {
-    doc.setFont("helvetica", "italic");
+    doc.setFont("times", "italic");
     doc.setFontSize(12);
-    doc.setTextColor(120, 100, 80);
-    doc.text(sanitizeForPDF(years), margin, yPos);
-    yPos += 8;
+    doc.setTextColor(130, 110, 85);
+    doc.text(sanitizeForPDF(years), pageWidth / 2, yPos, { align: "center" });
+    yPos += 9;
   }
 
+  // --- Subline ---
+  doc.setFont("times", "italic");
+  doc.setFontSize(9);
+  doc.setTextColor(160, 145, 125);
+  doc.text("A life remembered in the quiet moments that meant everything.", pageWidth / 2, yPos, { align: "center" });
+  yPos += 8;
+
   // --- Divider under header ---
+  const divInset = 30;
   doc.setDrawColor(190, 170, 130);
   doc.setLineWidth(0.35);
-  doc.line(margin, yPos + 2, pageWidth - margin, yPos + 2);
-  yPos += 14;
+  doc.line(margin + divInset, yPos + 2, pageWidth - margin - divInset, yPos + 2);
+  yPos += 16;
 
   // --- Story body: paragraph-aware rendering ---
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(12);
-  doc.setTextColor(45, 40, 35);
+  doc.setFont("times", "normal");
+  doc.setFontSize(11.5);
+  doc.setTextColor(50, 45, 38);
 
   const sanitizedStory = sanitizeForPDF(story);
   const paragraphs = ensureParagraphs(sanitizedStory);
-  const lineHeight = 7.2; // ~1.6x at 12pt
-  const paragraphGap = 7;
-  const footerZone = pageHeight - 30;
+  const lineHeight = 7.6; // ~1.75x at 11.5pt
+  const paragraphGap = 8;
+  const footerZone = pageHeight - 32;
 
   for (const para of paragraphs) {
     const trimmed = para.trim();
@@ -201,7 +211,10 @@ export async function downloadTributePDF(
       if (yPos > footerZone) {
         doc.addPage();
         drawPageBackground();
-        yPos = 30;
+        yPos = 34;
+        doc.setFont("times", "normal");
+        doc.setFontSize(11.5);
+        doc.setTextColor(50, 45, 38);
       }
       doc.text(line, margin, yPos);
       yPos += lineHeight;
@@ -305,24 +318,24 @@ export async function downloadMemorialPDF(
   drawPawWatermark(doc);
 
   // Header section
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(14);
+  doc.setFont("times", "italic");
+  doc.setFontSize(13);
   doc.setTextColor(160, 140, 110);
   doc.text("In Loving Memory", pageWidth / 2, 38, { align: "center" });
 
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(30);
+  doc.setFont("times", "bold");
+  doc.setFontSize(32);
   doc.setTextColor(55, 42, 28);
-  doc.text(sanitizeForPDF(petName), pageWidth / 2, 54, { align: "center" });
+  doc.text(sanitizeForPDF(petName), pageWidth / 2, 55, { align: "center" });
 
-  let headerEndY = 60;
+  let headerEndY = 61;
 
   if (years) {
-    doc.setFont("helvetica", "italic");
+    doc.setFont("times", "italic");
     doc.setFontSize(12);
-    doc.setTextColor(120, 100, 80);
-    doc.text(sanitizeForPDF(years), pageWidth / 2, 66, { align: "center" });
-    headerEndY = 72;
+    doc.setTextColor(130, 110, 85);
+    doc.text(sanitizeForPDF(years), pageWidth / 2, 67, { align: "center" });
+    headerEndY = 73;
   }
 
   // Header divider
@@ -355,15 +368,15 @@ export async function downloadMemorialPDF(
   }
 
   // Story text — paragraph-aware rendering
-  doc.setFont("helvetica", "normal");
+  doc.setFont("times", "normal");
   doc.setFontSize(11.5);
-  doc.setTextColor(45, 40, 35);
+  doc.setTextColor(50, 45, 38);
   const sanitizedStory = sanitizeForPDF(story);
   const paragraphs = ensureParagraphs(sanitizedStory);
   let y = storyStartY;
-  const lineHeight = 6.8; // ~1.6x at 11.5pt
-  const paragraphGap = 5;
-  const footerZone = 250;
+  const lineHeight = 7.6; // ~1.75x at 11.5pt
+  const paragraphGap = 8;
+  const footerZone = 248;
 
   for (const para of paragraphs) {
     const trimmed = para.trim();
@@ -381,7 +394,10 @@ export async function downloadMemorialPDF(
         doc.setLineWidth(0.25);
         doc.rect(13, 13, pageWidth - 26, pageHeight - 26);
         drawPawWatermark(doc);
-        y = 25;
+        y = 28;
+        doc.setFont("times", "normal");
+        doc.setFontSize(11.5);
+        doc.setTextColor(50, 45, 38);
       }
       doc.text(line, margin, y);
       y += lineHeight;
@@ -401,7 +417,7 @@ export async function downloadMemorialPDF(
     // Footer text
     doc.setFontSize(7);
     doc.setTextColor(170, 165, 155);
-    doc.text(`Created with ${BRAND.name}`, pageWidth / 2, pageHeight - 18, { align: "center" });
+    doc.text("Written with love using VellumPet", pageWidth / 2, pageHeight - 18, { align: "center" });
 
     if (tier === "story") {
       doc.text("vellumpet.com", pageWidth / 2, pageHeight - 14, { align: "center" });
