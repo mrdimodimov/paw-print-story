@@ -12,7 +12,7 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
     <div
       className={`relative flex flex-col rounded-xl border p-6 transition-all ${
         tier.popular
-          ? "border-primary shadow-glow scale-[1.02] md:scale-105 bg-card"
+          ? "border-primary shadow-glow scale-[1.03] md:scale-[1.07] bg-card ring-1 ring-primary/20"
           : "border-border shadow-soft hover:shadow-card"
       }`}
     >
