@@ -744,88 +744,58 @@ const TributePage = () => {
                       <p key={i} className="mb-4 leading-[1.7]">{p}</p>
                     ));
                   }
-                   // Intelligent emotional cut point
-                   const EMOTIONAL_TRIGGERS = [
-                     /\bthat['']?s when\b/i,
-                     /\bover time\b/i,
-                     /\bit became\b/i,
-                     /\blooking back\b/i,
-                     /\bwhat i didn['']?t realize\b/i,
-                     /\bthose moments\b/i,
-                     /\bthrough all of it\b/i,
-                     /\bi never expected\b/i,
-                     /\bwithout (him|her|them)\b/i,
-                     /\bthe house felt\b/i,
-                   ];
 
-                   // Find the emotional turning point across all paragraphs
-                   let cutParaIndex = -1;
-                   let cutSentenceIndex = -1;
-                   for (let pi = 1; pi < allParagraphs.length && cutParaIndex === -1; pi++) {
-                     const sentences = allParagraphs[pi].match(/[^.!?]+[.!?]+/g) || [allParagraphs[pi]];
-                     for (let si = 0; si < sentences.length; si++) {
-                       if (EMOTIONAL_TRIGGERS.some((r) => r.test(sentences[si]))) {
-                         cutParaIndex = pi;
-                         cutSentenceIndex = si;
-                         break;
-                       }
-                     }
-                   }
+                  // Partial paragraph paywall: show 2 full + partial 3rd
+                  if (allParagraphs.length <= 2) {
+                    return allParagraphs.map((p, i) => (
+                      <p key={i} className="mb-4 leading-[1.7]">{p}</p>
+                    ));
+                  }
 
-                   let visibleParas: string[];
-                   let partialText: string | null = null;
+                  const targetPara = allParagraphs[2] || allParagraphs[1];
+                  const charLimit = Math.min(Math.max(180, targetPara.length * 0.4), 220);
+                  const sliced = targetPara.slice(0, charLimit);
+                  const trimmed = sliced.includes(" ")
+                    ? sliced.substring(0, sliced.lastIndexOf(" "))
+                    : sliced;
 
-                   if (cutParaIndex >= 1) {
-                     // Show all paragraphs before the emotional sentence
-                     visibleParas = allParagraphs.slice(0, cutParaIndex);
-                     const triggerPara = allParagraphs[cutParaIndex];
-                     const sentences = triggerPara.match(/[^.!?]+[.!?]+/g) || [triggerPara];
-                     // Include sentences before trigger + first half of trigger sentence
-                     const before = sentences.slice(0, cutSentenceIndex).join("");
-                     const triggerSentence = sentences[cutSentenceIndex] || "";
-                     const halfTrigger = triggerSentence.slice(0, Math.max(30, Math.floor(triggerSentence.length * 0.5)));
-                     partialText = (before + halfTrigger).trim() || null;
-                   } else {
-                     // Fallback: paragraph 1 + 2 full, partial paragraph 3
-                     visibleParas = allParagraphs.slice(0, 2);
-                     const p3 = allParagraphs[2] || null;
-                     partialText = p3
-                       ? p3.slice(0, Math.max(60, Math.floor(p3.length * 0.4)))
-                       : null;
-                   }
+                  return (
+                    <>
+                      <p className="mb-4 leading-[1.7]">{allParagraphs[0]}</p>
+                      <p className="mb-4 leading-[1.7]">{allParagraphs[1]}</p>
 
-                   return (
-                     <>
-                       {visibleParas.map((p, i) => (
-                         <p key={i} className="mb-4 leading-[1.7]">{p}</p>
-                       ))}
+                      {/* Partial paragraph with gradient fade */}
+                      <div className="relative mb-0 select-none">
+                        <p className="leading-[1.7] text-foreground">{trimmed}...</p>
+                        <div
+                          className="pointer-events-none absolute inset-0"
+                          style={{
+                            background: "linear-gradient(to bottom, transparent 0%, hsl(var(--card) / 0.6) 50%, hsl(var(--card)) 100%)",
+                          }}
+                        />
+                      </div>
 
-                       {/* Emotional tension line */}
-                       <p className="mb-4 text-center font-display text-sm italic text-muted-foreground/70">
-                         That's when it started to mean more.
-                       </p>
-
-                       {/* Partial paragraph with mid-sentence blur */}
-                       {partialText && (
-                         <div className="relative mb-0 select-none">
-                           <p className="leading-[1.7] text-foreground">{partialText}…</p>
-                           <div
-                             className="pointer-events-none absolute bottom-0 left-0 right-0"
-                             style={{
-                               background: "linear-gradient(to bottom, transparent 0%, hsl(var(--card) / 0.7) 40%, hsl(var(--card)) 100%)",
-                               height: "100%",
-                               top: 0,
-                             }}
-                           />
-                         </div>
-                       )}
-
-                       {/* Curiosity line */}
-                       <p className="mt-3 mb-2 text-center text-sm italic text-muted-foreground">
-                         ...and there's more you haven't seen yet.
-                       </p>
-                     </>
-                   );
+                      {/* Paywall CTA */}
+                      <div className="relative mt-2">
+                        <div className="flex flex-col items-center justify-center py-6 text-center">
+                          <p className="text-sm font-medium text-primary">
+                            Continue reading their story
+                          </p>
+                          <Button
+                            size="lg"
+                            className="mt-3 gap-2 px-8 shadow-glow"
+                            onClick={handleCheckout}
+                          >
+                            <Heart className="h-4 w-4" />
+                            {checkoutLoading ? "Redirecting…" : `Save ${petName || "Their"}'s Story`}
+                          </Button>
+                          <p className="mt-2 text-xs text-muted-foreground">
+                            One-time — yours forever
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  );
                 })()}
               </div>
             )}
