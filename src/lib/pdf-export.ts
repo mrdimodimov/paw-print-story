@@ -417,7 +417,7 @@ export async function downloadMemorialPDF(
     // Footer text
     doc.setFontSize(7);
     doc.setTextColor(170, 165, 155);
-    doc.text(`Created with ${BRAND.name}`, pageWidth / 2, pageHeight - 18, { align: "center" });
+    doc.text("Written with love using VellumPet", pageWidth / 2, pageHeight - 18, { align: "center" });
 
     if (tier === "story") {
       doc.text("vellumpet.com", pageWidth / 2, pageHeight - 14, { align: "center" });
