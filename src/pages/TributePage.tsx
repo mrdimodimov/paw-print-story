@@ -1006,6 +1006,8 @@ const TributePage = () => {
                 excerpt={tribute.share_card_text || tribute.story.split('\n')[0]?.slice(0, 120) || ""}
                 photoUrls={photoUrls}
                 shareCardLimit={currentTier.share_card_limit}
+                shortCaption={tribute.short_caption}
+                tributeUrl={tributeSlug ? `${BRAND.baseUrl}/memorial/${tributeSlug}` : undefined}
               />
             </div>
           )}
