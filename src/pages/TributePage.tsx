@@ -1,7 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock, Bug, SkipForward, Eye, MessageCircle, Mail, Heart } from "lucide-react";
+import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock, Bug, SkipForward, Eye, MessageCircle, Mail, Heart, ChevronDown, Printer } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import MemoryTimeline from "@/components/MemoryTimeline";
 import PostGenerationShare from "@/components/PostGenerationShare";
 import TributeShareCard from "@/components/TributeShareCard";
@@ -597,13 +603,21 @@ const TributePage = () => {
               </p>
 
               <div className="mt-6 flex flex-col items-center gap-3">
-                <Button
-                  size="lg"
-                  className="gap-2"
-                  onClick={handleDownloadPDF}
-                >
-                  <Download className="h-4 w-4" /> Download Your Tribute
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button size="lg" className="gap-2">
+                      <Download className="h-4 w-4" /> Download <ChevronDown className="h-3 w-3 opacity-60" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="center" className="min-w-[200px]">
+                    <DropdownMenuItem onClick={handleDownloadPDF} className="cursor-pointer gap-2">
+                      <FileText className="h-4 w-4" /> Full Tribute (PDF)
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleDownloadMemorial} className="cursor-pointer gap-2">
+                      <Printer className="h-4 w-4" /> Printable Memorial
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 <p className="text-xs text-muted-foreground">
                   Save it, share it, or keep it forever.
                 </p>
@@ -937,9 +951,21 @@ const TributePage = () => {
           {/* Post-unlock quick actions */}
           {effectiveUnlocked && (
             <div className="mb-6 flex flex-wrap justify-center gap-3">
-              <Button size="lg" className="px-8 text-base" onClick={handleDownloadPDF}>
-                <Download className="mr-1 h-5 w-5" /> Download PDF
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size="lg" className="gap-2 px-8 text-base">
+                    <Download className="mr-1 h-5 w-5" /> Download <ChevronDown className="h-3 w-3 opacity-60" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="center" className="min-w-[200px]">
+                  <DropdownMenuItem onClick={handleDownloadPDF} className="cursor-pointer gap-2">
+                    <FileText className="h-4 w-4" /> Full Tribute (PDF)
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleDownloadMemorial} className="cursor-pointer gap-2">
+                    <Printer className="h-4 w-4" /> Printable Memorial
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               {tributeSlug && (
                 <Button
                   variant="outline"
@@ -974,11 +1000,6 @@ const TributePage = () => {
                         ({maxRegens - regenCount} left)
                       </span>
                     )}
-                  </Button>
-                )}
-                {currentTier.include_printable_pdf && (currentTier.id === "pack" || currentTier.id === "legacy") && (
-                  <Button variant="outline" size="sm" onClick={handleDownloadMemorial}>
-                    <FileText className="mr-1 h-4 w-4" /> Printable Memorial
                   </Button>
                 )}
                 {formDataRef.current && (
