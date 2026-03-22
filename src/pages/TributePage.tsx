@@ -879,25 +879,27 @@ const TributePage = () => {
               {/* Emotional anchor */}
               <div className="mb-6 text-center">
                 <PawPrint className="mx-auto mb-3 h-7 w-7 text-primary/70" />
-                <p className="font-display text-lg font-medium text-foreground">
-                  This isn't just a tribute. It's how you keep them close.
+                <p className="font-display text-xl font-semibold text-foreground">
+                  Keep their story with you
                 </p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Unlock the full tribute, download it, and create a page you can share with family and friends.
+                <p className="mt-2 text-sm text-muted-foreground">
+                  This story isn't saved yet.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Unlock it to keep it forever.
                 </p>
               </div>
 
               {/* Value section */}
               <div className="mx-auto mb-6 max-w-sm">
                 <p className="mb-3 text-center text-sm font-medium text-foreground">
-                  What you'll get:
+                  What you get:
                 </p>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   {[
-                    "Full tribute story (complete memory preserved)",
-                    "Downloadable keepsake",
-                    "Shareable memorial page",
-                    "Lifetime access",
+                    "A story you can return to anytime",
+                    "A keepsake you'll never lose",
+                    "A page you can share with others",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2">
                       <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" />
@@ -913,7 +915,7 @@ const TributePage = () => {
                   ${currentTier.price}
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  One-time payment · No subscription
+                  One-time — yours forever
                 </p>
               </div>
 
@@ -921,19 +923,14 @@ const TributePage = () => {
               <div className="mb-2 text-center">
                 <Button
                   size="lg"
-                  className="px-10 text-base"
+                  className="px-10 text-base shadow-glow"
                   disabled={checkoutLoading}
                   onClick={handleCheckout}
                 >
-                  <Lock className="mr-2 h-4 w-4" />
-                  {checkoutLoading ? "Redirecting…" : `Keep ${petName || "Their"}'s Story Forever`}
+                  <Heart className="mr-2 h-4 w-4" />
+                  {checkoutLoading ? "Redirecting…" : `Save ${petName || "Their"}'s Story`}
                 </Button>
               </div>
-
-              {/* Light urgency */}
-              <p className="mb-4 text-center text-xs text-muted-foreground">
-                This tribute is unique — it won't be generated the same way again.
-              </p>
 
               {/* Ownership trigger */}
               <p className="mb-4 text-center text-sm italic text-muted-foreground/80">

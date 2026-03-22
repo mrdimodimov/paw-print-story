@@ -327,14 +327,17 @@ export default function MemoryTimeline({
             <div className="rounded-xl border border-primary/20 bg-accent/30 px-6 py-8 text-center">
               <Lock className="mx-auto mb-3 h-6 w-6 text-primary/60" />
               <h3 className="mb-1 font-display text-lg font-semibold text-foreground">
-                Unlock {petName}'s full life story
+                Keep their story with you
               </h3>
-              <p className="mx-auto mb-5 max-w-sm text-sm text-muted-foreground">
-                See every memory beautifully preserved
+              <p className="mx-auto mb-2 max-w-sm text-sm text-muted-foreground">
+                This story isn't saved yet. Unlock it to keep it forever.
               </p>
               <Button size="lg" onClick={onUnlock}>
-                Keep {petName}'s Story Forever
+                Save {petName}'s Story
               </Button>
+              <p className="mt-3 text-xs text-muted-foreground">
+                One-time — yours forever
+              </p>
             </div>
           </div>
         )}
