@@ -1,7 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock, Bug, SkipForward, Eye, MessageCircle, Mail, Heart } from "lucide-react";
+import { PawPrint, ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock, Bug, SkipForward, Eye, MessageCircle, Mail, Heart, ChevronDown, Printer } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import MemoryTimeline from "@/components/MemoryTimeline";
 import PostGenerationShare from "@/components/PostGenerationShare";
 import TributeShareCard from "@/components/TributeShareCard";
