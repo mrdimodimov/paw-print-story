@@ -599,10 +599,10 @@ const TributePage = () => {
                   className="gap-2"
                   onClick={() => {
                     if (tribute) {
-                      downloadMemorialPDF(tribute, petName, yearsOfLife, photoUrls);
+                      downloadTributePDF(tribute.story, petName || "Pet", currentTier.name);
                       toast.success("Tribute downloaded!");
                     }
-                  }}
+                  }
                 >
                   <Download className="h-4 w-4" /> Download Your Tribute
                 </Button>
