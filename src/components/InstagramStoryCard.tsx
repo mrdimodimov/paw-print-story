@@ -1,4 +1,5 @@
 import PawIcon from "@/components/PawIcon";
+import { useRef, useState, forwardRef, useImperativeHandle } from "react";
 import { BRAND } from "@/lib/brand";
 import html2canvas from "html2canvas";
 import { Download, Copy } from "lucide-react";

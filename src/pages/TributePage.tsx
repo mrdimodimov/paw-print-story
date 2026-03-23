@@ -1,4 +1,5 @@
 import PawIcon from "@/components/PawIcon";
+import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Download, Share2, Edit, RefreshCw, FileText, Globe, Plus, Copy, Check, Image, Link, Lock, Bug, SkipForward, Eye, MessageCircle, Mail, Heart, ChevronDown, Printer } from "lucide-react";

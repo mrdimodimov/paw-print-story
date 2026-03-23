@@ -1,4 +1,5 @@
 import PawIcon from "@/components/PawIcon";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { BRAND } from "@/lib/brand";
 import html2canvas from "html2canvas";
 import { Download, Share2, Facebook, Twitter, Mail, MessageCircle, Send, Copy, Check, Link } from "lucide-react";

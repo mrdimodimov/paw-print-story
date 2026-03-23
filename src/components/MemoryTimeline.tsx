@@ -1,4 +1,5 @@
 import PawIcon from "@/components/PawIcon";
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";

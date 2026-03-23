@@ -1,4 +1,5 @@
 import PawIcon from "@/components/PawIcon";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart, Share2 } from "lucide-react";
