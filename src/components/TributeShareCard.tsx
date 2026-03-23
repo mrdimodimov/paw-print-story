@@ -197,7 +197,7 @@ function renderPhoto(
             justifyContent: "center",
           }}
         >
-          <PawIcon style={{ width: size * 0.35, height: size * 0.35, color: accentColor }} />
+          <PawIcon size={Math.round(size * 0.35)} color={accentColor} />
         </div>
       </div>
     );
