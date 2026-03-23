@@ -26,15 +26,15 @@ const PawIcon = ({
     className={cn("lucide", className)}
   >
     {/* Toe pad 1 — far left */}
-    <ellipse cx="5.5" cy="7.2" rx="2.0" ry="2.6" />
+    <ellipse cx="5.8" cy="7.0" rx="2.6" ry="3.2" />
     {/* Toe pad 2 — inner left */}
-    <ellipse cx="9.4" cy="5.0" rx="2.0" ry="2.6" />
+    <ellipse cx="9.6" cy="4.6" rx="2.6" ry="3.2" />
     {/* Toe pad 3 — inner right */}
-    <ellipse cx="14.6" cy="5.0" rx="2.0" ry="2.6" />
+    <ellipse cx="14.4" cy="4.6" rx="2.6" ry="3.2" />
     {/* Toe pad 4 — far right */}
-    <ellipse cx="18.5" cy="7.2" rx="2.0" ry="2.6" />
-    {/* Base pad — wider, centered, heart-like bottom */}
-    <path d="M7.8 13.2C7.8 11.2 9.6 9.8 12 9.8C14.4 9.8 16.2 11.2 16.2 13.2C16.2 15.6 14.4 18.8 12 20.4C9.6 18.8 7.8 15.6 7.8 13.2Z" />
+    <ellipse cx="18.2" cy="7.0" rx="2.6" ry="3.2" />
+    {/* Base pad — wide, flat, soft bottom */}
+    <path d="M5.8 14.0C5.8 11.6 8.4 10.0 12 10.0C15.6 10.0 18.2 11.6 18.2 14.0C18.2 16.8 15.8 20.0 12 21.6C8.2 20.0 5.8 16.8 5.8 14.0Z" />
   </svg>
 );
 
