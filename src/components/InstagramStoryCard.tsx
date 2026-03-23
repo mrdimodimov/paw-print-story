@@ -1,3 +1,4 @@
+import PawIcon from "@/components/PawIcon";
 import { BRAND } from "@/lib/brand";
 import html2canvas from "html2canvas";
 import { Download, Copy } from "lucide-react";

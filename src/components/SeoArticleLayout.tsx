@@ -1,3 +1,4 @@
+import PawIcon from "@/components/PawIcon";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";

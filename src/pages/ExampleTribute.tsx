@@ -1,3 +1,4 @@
+import PawIcon from "@/components/PawIcon";
 import { motion } from "framer-motion";
 import { Heart, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";

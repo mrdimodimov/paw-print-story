@@ -1,3 +1,4 @@
+import PawIcon from "@/components/PawIcon";
 import { useEffect } from "react";
 import { Heart } from "lucide-react";
 import { BRAND } from "@/lib/brand";
