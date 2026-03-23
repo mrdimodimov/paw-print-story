@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint } from "lucide-react";
+import {  } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -167,7 +166,7 @@ export default function RecentlyRemembered() {
             className="px-8 py-5 text-base shadow-glow"
             onClick={() => navigate("/create")}
           >
-            <PawPrint className="mr-2 h-5 w-5" />
+            < className="mr-2 h-5 w-5" />
             Create a Tribute for Your Pet
           </Button>
         </div>

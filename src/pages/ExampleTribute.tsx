@@ -1,6 +1,5 @@
-import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint, Heart, ArrowLeft } from "lucide-react";
+import { Heart, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 import examplePhoto from "@/assets/example-tribute-bella.jpg";
@@ -36,7 +35,7 @@ const ExampleTribute = () => {
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <Link to="/" className="flex items-center gap-2">
-            <PawPrint className="h-6 w-6 text-primary" />
+            < className="h-6 w-6 text-primary" />
             <span className="font-display text-xl font-semibold text-foreground">
               {BRAND.name}
             </span>
@@ -132,7 +131,7 @@ const ExampleTribute = () => {
             className="px-8 py-5 text-base shadow-glow"
             onClick={() => navigate("/create")}>
             
-            <PawPrint className="mr-2 h-5 w-5" />
+            < className="mr-2 h-5 w-5" />
             Create Your Tribute
           </Button>
         </motion.section>

@@ -1,4 +1,3 @@
-import { PawPrint, Copy, Share2, Check } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -47,7 +46,7 @@ const HeroShareCard = ({ petName, years, quote, photoUrl, onShare }: HeroShareCa
           </div>
         ) : (
           <div className="mx-auto mb-5 flex h-24 w-24 items-center justify-center rounded-full bg-accent/30">
-            <PawPrint className="h-10 w-10 text-primary/60" />
+            < className="h-10 w-10 text-primary/60" />
           </div>
         )}
 
