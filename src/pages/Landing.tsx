@@ -31,8 +31,8 @@ const Landing = () => {
         <div className="tribute-container flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
             <PawIcon className="h-6 w-6 text-primary" />
-            <span className="font-display text-xl font-semibold text-foreground">
-              {BRAND.name}
+            <span className="font-display text-xl font-semibold text-foreground" style={{ letterSpacing: "0.03em" }}>
+              <span style={{ letterSpacing: "0.01em" }}>V</span>ellum<span style={{ letterSpacing: "-0.01em" }}>P</span>et
             </span>
           </div>
           <Button size="sm" onClick={() => navigate("/create")}>
