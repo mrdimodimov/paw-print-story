@@ -14,7 +14,7 @@ const ComingSoon = () => {
       >
         <div className="mb-6 flex justify-center">
           <div className="rounded-full bg-accent p-5">
-            < className="h-10 w-10 text-primary" />
+            <PawIcon className="h-10 w-10 text-primary" />
           </div>
         </div>
 

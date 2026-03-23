@@ -36,7 +36,7 @@ const ExampleTribute = () => {
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <Link to="/" className="flex items-center gap-2">
-            < className="h-6 w-6 text-primary" />
+            <PawIcon className="h-6 w-6 text-primary" />
             <span className="font-display text-xl font-semibold text-foreground">
               {BRAND.name}
             </span>
@@ -132,7 +132,7 @@ const ExampleTribute = () => {
             className="px-8 py-5 text-base shadow-glow"
             onClick={() => navigate("/create")}>
             
-            < className="mr-2 h-5 w-5" />
+            <PawIcon className="mr-2 h-5 w-5" />
             Create Your Tribute
           </Button>
         </motion.section>

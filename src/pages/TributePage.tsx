@@ -418,7 +418,7 @@ const TributePage = () => {
           transition={{ repeat: Infinity, duration: 1.5 }}
           className="mb-6 rounded-full bg-accent p-6"
         >
-          < className="h-10 w-10 text-primary" />
+          <PawIcon className="h-10 w-10 text-primary" />
         </motion.div>
         <p className="font-display text-xl text-foreground">
           {recoveryMessage || "Loading tribute..."}
@@ -436,7 +436,7 @@ const TributePage = () => {
           transition={{ repeat: Infinity, duration: 1.5 }}
           className="mb-6 rounded-full bg-accent p-6"
         >
-          < className="h-10 w-10 text-primary" />
+          <PawIcon className="h-10 w-10 text-primary" />
         </motion.div>
         <p className="font-display text-xl text-foreground">
           We're creating your tribute now…
@@ -526,7 +526,7 @@ const TributePage = () => {
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
-            < className="h-6 w-6 text-primary" />
+            <PawIcon className="h-6 w-6 text-primary" />
             <span className="font-display text-xl font-semibold text-foreground">
               {BRAND.name}
             </span>
@@ -873,7 +873,7 @@ const TributePage = () => {
             <div className="mb-8 rounded-xl border border-primary/20 bg-card p-8 shadow-card md:p-10">
               {/* Emotional anchor */}
               <div className="mb-6 text-center">
-                < className="mx-auto mb-3 h-7 w-7 text-primary/70" />
+                <PawIcon className="mx-auto mb-3 h-7 w-7 text-primary/70" />
                 <p className="font-display text-xl font-semibold text-foreground">
                   Keep their story with you
                 </p>

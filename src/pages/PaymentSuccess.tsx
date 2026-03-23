@@ -88,7 +88,7 @@ const PaymentSuccess = () => {
           transition={{ repeat: Infinity, duration: 1.5 }}
           className="mb-6 rounded-full bg-accent p-6"
         >
-          < className="h-10 w-10 text-primary" />
+          <PawIcon className="h-10 w-10 text-primary" />
         </motion.div>
         <p className="font-display text-xl text-foreground">Verifying your payment…</p>
         <p className="mt-2 text-sm text-muted-foreground">This will only take a moment.</p>
@@ -100,7 +100,7 @@ const PaymentSuccess = () => {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
         <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 text-center shadow-card md:p-10">
-          < className="mx-auto mb-4 h-8 w-8 text-muted-foreground" />
+          <PawIcon className="mx-auto mb-4 h-8 w-8 text-muted-foreground" />
           <h1 className="font-display text-xl font-semibold text-foreground">
             Payment not confirmed
           </h1>
@@ -129,7 +129,7 @@ const PaymentSuccess = () => {
           transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
           className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-accent"
         >
-          < className="h-8 w-8 text-primary" />
+          <PawIcon className="h-8 w-8 text-primary" />
         </motion.div>
 
         <h1 className="font-display text-2xl font-bold text-foreground md:text-3xl">

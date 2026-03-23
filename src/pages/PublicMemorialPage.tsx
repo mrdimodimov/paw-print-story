@@ -220,7 +220,7 @@ const PublicMemorialPage = () => {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <motion.div animate={{ scale: [1, 1.15, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} className="rounded-full bg-accent p-6">
-          < className="h-10 w-10 text-primary" />
+          <PawIcon className="h-10 w-10 text-primary" />
         </motion.div>
       </div>
     );
@@ -239,7 +239,7 @@ const PublicMemorialPage = () => {
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <div className="flex cursor-pointer items-center gap-2" onClick={() => navigate("/")}>
-            < className="h-6 w-6 text-primary" />
+            <PawIcon className="h-6 w-6 text-primary" />
             <span className="font-display text-xl font-semibold text-foreground">{BRAND.name}</span>
           </div>
         </div>
@@ -365,7 +365,7 @@ const PublicMemorialPage = () => {
             Takes less than 2 minutes · No writing required
           </p>
           <Button size="lg" className="px-8 shadow-glow" onClick={() => navigate("/create")}>
-            < className="mr-2 h-5 w-5" />
+            <PawIcon className="mr-2 h-5 w-5" />
             Create a Tribute
           </Button>
           <p className="mt-6 text-xs text-muted-foreground">Created with {BRAND.name}</p>

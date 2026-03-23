@@ -458,7 +458,7 @@ const Questionnaire = () => {
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
-            < className="h-6 w-6 text-primary" />
+            <PawIcon className="h-6 w-6 text-primary" />
             <span className="font-display text-xl font-semibold text-foreground">
               {BRAND.name}
             </span>
@@ -492,7 +492,7 @@ const Questionnaire = () => {
               className="px-8 py-6 text-lg shadow-glow"
               onClick={() => setStep(0)}
             >
-              < className="mr-2 h-5 w-5" />
+              <PawIcon className="mr-2 h-5 w-5" />
               Start My Tribute
             </Button>
             <p className="mt-6 text-xs text-muted-foreground/70">

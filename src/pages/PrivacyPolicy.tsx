@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
             onClick={() => navigate("/")}
             className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             
-            < className="h-6 w-6 text-primary" />
+            <PawIcon className="h-6 w-6 text-primary" />
             <span className="font-display text-xl font-semibold text-foreground">
               {BRAND.name}
             </span>
