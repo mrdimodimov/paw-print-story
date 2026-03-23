@@ -1,6 +1,7 @@
+import PawIcon from "@/components/PawIcon";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { PawPrint, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 import { BRAND } from "@/lib/brand";
 
 const TermsOfService = () => {
@@ -19,7 +20,7 @@ const TermsOfService = () => {
             onClick={() => navigate("/")}
             className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             
-            <PawPrint className="h-6 w-6 text-primary" />
+            <PawIcon className="h-6 w-6 text-primary" />
             <span className="font-display text-xl font-semibold text-foreground">
               {BRAND.name}
             </span>

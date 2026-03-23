@@ -1,7 +1,8 @@
+import PawIcon from "@/components/PawIcon";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint, ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 import { supabase } from "@/integrations/supabase/client";
@@ -86,7 +87,7 @@ export default function MemoriesGallery() {
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
-            <PawPrint className="h-6 w-6 text-primary" />
+            <PawIcon className="h-6 w-6 text-primary" />
             <span className="font-display text-xl font-semibold text-foreground">{BRAND.name}</span>
           </div>
           <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
@@ -112,7 +113,7 @@ export default function MemoriesGallery() {
             You can create one too.
           </p>
           <Button size="lg" onClick={() => navigate("/create")}>
-            <PawPrint className="mr-2 h-4 w-4" />
+            <PawIcon className="mr-2 h-4 w-4" />
             Create a Tribute
           </Button>
           <p className="mt-3 text-xs text-muted-foreground">
@@ -127,7 +128,7 @@ export default function MemoriesGallery() {
         {loading ? (
           <div className="flex justify-center py-16">
             <motion.div animate={{ scale: [1, 1.15, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} className="rounded-full bg-accent p-6">
-              <PawPrint className="h-8 w-8 text-primary" />
+              <PawIcon className="h-8 w-8 text-primary" />
             </motion.div>
           </div>
         ) : tributes.length === 0 ? (
@@ -191,7 +192,7 @@ export default function MemoriesGallery() {
             Create a lasting tribute for your pet today.
           </p>
           <Button size="lg" onClick={() => navigate("/create")}>
-            <PawPrint className="mr-2 h-4 w-4" />
+            <PawIcon className="mr-2 h-4 w-4" />
             Create a Tribute
           </Button>
           <p className="mt-3 text-xs text-muted-foreground">

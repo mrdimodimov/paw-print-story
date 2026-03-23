@@ -1,7 +1,8 @@
-import { useRef, useState, useEffect, useCallback } from "react";
+import PawIcon from "@/components/PawIcon";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { BRAND } from "@/lib/brand";
 import html2canvas from "html2canvas";
-import { Download, Share2, PawPrint, Facebook, Twitter, Mail, MessageCircle, Send, Copy, Check, Link } from "lucide-react";
+import { Download, Share2, Facebook, Twitter, Mail, MessageCircle, Send, Copy, Check, Link } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -197,7 +198,7 @@ function renderPhoto(
             justifyContent: "center",
           }}
         >
-          <PawPrint style={{ width: size * 0.35, height: size * 0.35, color: accentColor }} />
+          <PawIcon size={Math.round(size * 0.35)} color={accentColor} />
         </div>
       </div>
     );

@@ -1,6 +1,7 @@
+import PawIcon from "@/components/PawIcon";
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { PawPrint, Lock } from "lucide-react";
+import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface TimelineEntry {
@@ -248,7 +249,7 @@ export default function MemoryTimeline({
           transition={{ duration: 0.5 }}
           className="mb-10 text-center"
         >
-          <PawPrint className="mx-auto mb-3 h-6 w-6 text-primary/60" />
+          <PawIcon className="mx-auto mb-3 h-6 w-6 text-primary/60" />
           <h2 className="font-display text-2xl font-bold text-foreground md:text-3xl">
             A Life Remembered
           </h2>
@@ -278,7 +279,7 @@ export default function MemoryTimeline({
                 {/* Title row */}
                 <div className="mb-3 flex items-center gap-3">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-accent/50">
-                    <PawPrint className="h-4 w-4 text-primary" />
+                    <PawIcon className="h-4 w-4 text-primary" />
                   </div>
                   <div className="flex items-baseline gap-2">
                     <h3 className="font-display text-lg font-semibold text-foreground">

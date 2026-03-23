@@ -1,6 +1,7 @@
+import PawIcon from "@/components/PawIcon";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Heart, PawPrint, FileText, BookOpen } from "lucide-react";
+import { Heart, FileText, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
@@ -29,7 +30,7 @@ const Landing = () => {
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
-            <PawPrint className="h-6 w-6 text-primary" />
+            <PawIcon className="h-6 w-6 text-primary" />
             <span className="font-display text-xl font-semibold text-foreground">
               {BRAND.name}
             </span>
@@ -65,7 +66,7 @@ const Landing = () => {
                 className="px-8 py-6 text-lg shadow-glow"
                 onClick={() => navigate("/create")}
               >
-                <PawPrint className="mr-2 h-5 w-5" />
+                <PawIcon className="mr-2 h-5 w-5" />
                 Create Your Tribute
               </Button>
               <p className="mt-4 text-sm text-muted-foreground">
@@ -196,7 +197,7 @@ const Landing = () => {
           <div className="grid gap-8 md:grid-cols-3">
             {[
               {
-                icon: PawPrint,
+                icon: Heart,
                 title: "Share a Few Memories",
                 desc: "Answer a few simple questions about your pet — no writing required.",
               },
@@ -420,7 +421,7 @@ const Landing = () => {
                 size="sm"
                 onClick={() => navigate("/create")}
               >
-                <PawPrint className="mr-2 h-4 w-4" />
+                <PawIcon className="mr-2 h-4 w-4" />
                 Create a Beautiful Tribute for Your Pet
               </Button>
             </div>

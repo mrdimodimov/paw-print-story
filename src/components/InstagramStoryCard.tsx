@@ -1,7 +1,8 @@
-import { useRef, useState } from "react";
+import PawIcon from "@/components/PawIcon";
+import { useRef, useState, forwardRef, useImperativeHandle } from "react";
 import { BRAND } from "@/lib/brand";
 import html2canvas from "html2canvas";
-import { Download, Copy, PawPrint } from "lucide-react";
+import { Download, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -208,7 +209,7 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
                     justifyContent: "center",
                   }}
                 >
-                  <PawPrint style={{ width: 40, height: 40, color: "hsla(40,50%,65%,0.5)" }} />
+                  <PawIcon size={40} color="hsla(40,50%,65%,0.5)" />
                 </div>
               )}
             </div>

@@ -1,7 +1,8 @@
+import PawIcon from "@/components/PawIcon";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 
@@ -57,7 +58,7 @@ const SeoArticleLayout = ({
             onClick={() => navigate("/")}
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
-            <PawPrint className="h-6 w-6 text-primary" />
+            <PawIcon className="h-6 w-6 text-primary" />
             <span className="font-display text-xl font-semibold text-foreground">
               {BRAND.name}
             </span>
@@ -125,7 +126,7 @@ const SeoArticleLayout = ({
                   key={i}
                   className="flex items-start gap-3 text-foreground/90"
                 >
-                  <PawPrint className="mt-1 h-4 w-4 shrink-0 text-primary" />
+                  <PawIcon className="mt-1 h-4 w-4 shrink-0 text-primary" />
                   <span>{tip}</span>
                 </li>
               ))}
@@ -149,7 +150,7 @@ const SeoArticleLayout = ({
               className="px-8 py-5 text-base shadow-glow"
               onClick={() => navigate("/create")}
             >
-              <PawPrint className="mr-2 h-5 w-5" />
+              <PawIcon className="mr-2 h-5 w-5" />
               Create a Tribute for Your Pet
             </Button>
           </motion.section>

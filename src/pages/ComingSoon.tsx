@@ -1,5 +1,6 @@
+import PawIcon from "@/components/PawIcon";
 import { motion } from "framer-motion";
-import { Heart, PawPrint } from "lucide-react";
+import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 
@@ -14,7 +15,7 @@ const ComingSoon = () => {
       >
         <div className="mb-6 flex justify-center">
           <div className="rounded-full bg-accent p-5">
-            <PawPrint className="h-10 w-10 text-primary" />
+            <PawIcon className="h-10 w-10 text-primary" />
           </div>
         </div>
 
