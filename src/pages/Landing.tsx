@@ -196,7 +196,7 @@ const Landing = () => {
           <div className="grid gap-8 md:grid-cols-3">
             {[
               {
-                icon: ,
+                icon: Heart,
                 title: "Share a Few Memories",
                 desc: "Answer a few simple questions about your pet — no writing required.",
               },
