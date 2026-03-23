@@ -208,7 +208,7 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
                     justifyContent: "center",
                   }}
                 >
-                  < style={{ width: 40, height: 40, color: "hsla(40,50%,65%,0.5)" }} />
+                  <PawIcon style={{ width: 40, height: 40, color: "hsla(40,50%,65%,0.5)" }} />
                 </div>
               )}
             </div>
