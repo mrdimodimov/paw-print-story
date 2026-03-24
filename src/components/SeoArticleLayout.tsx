@@ -150,7 +150,7 @@ const SeoArticleLayout = ({
               className="px-8 py-5 text-base shadow-glow"
               onClick={() => navigate("/create")}
             >
-              <PawIcon className="mr-2 h-5 w-5" />
+              <PawIcon className="mr-3 h-6 w-6" />
               Create a Tribute for Your Pet
             </Button>
           </motion.section>

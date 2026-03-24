@@ -113,7 +113,7 @@ export default function MemoriesGallery() {
             You can create one too.
           </p>
           <Button size="lg" onClick={() => navigate("/create")}>
-            <PawIcon className="mr-2 h-4 w-4" />
+            <PawIcon className="mr-3 h-5 w-5" />
             Create a Tribute
           </Button>
           <p className="mt-3 text-xs text-muted-foreground">
@@ -192,7 +192,7 @@ export default function MemoriesGallery() {
             Create a lasting tribute for your pet today.
           </p>
           <Button size="lg" onClick={() => navigate("/create")}>
-            <PawIcon className="mr-2 h-4 w-4" />
+            <PawIcon className="mr-3 h-5 w-5" />
             Create a Tribute
           </Button>
           <p className="mt-3 text-xs text-muted-foreground">

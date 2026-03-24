@@ -66,7 +66,7 @@ const Landing = () => {
                 className="px-8 py-6 text-lg shadow-glow"
                 onClick={() => navigate("/create")}
               >
-                <PawIcon className="mr-2 h-5 w-5" />
+                <PawIcon className="mr-3 h-6 w-6" />
                 Create Your Tribute
               </Button>
               <p className="mt-4 text-sm text-muted-foreground">
@@ -421,7 +421,7 @@ const Landing = () => {
                 size="sm"
                 onClick={() => navigate("/create")}
               >
-                <PawIcon className="mr-2 h-4 w-4" />
+                <PawIcon className="mr-3 h-5 w-5" />
                 Create a Beautiful Tribute for Your Pet
               </Button>
             </div>

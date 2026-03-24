@@ -493,7 +493,7 @@ const Questionnaire = () => {
               className="px-8 py-6 text-lg shadow-glow"
               onClick={() => setStep(0)}
             >
-              <PawIcon className="mr-2 h-5 w-5" />
+              <PawIcon className="mr-3 h-6 w-6" />
               Start My Tribute
             </Button>
             <p className="mt-6 text-xs text-muted-foreground/70">
