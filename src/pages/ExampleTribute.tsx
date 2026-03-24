@@ -133,7 +133,7 @@ const ExampleTribute = () => {
             className="px-8 py-5 text-base shadow-glow"
             onClick={() => navigate("/create")}>
             
-            <PawIcon className="mr-3 h-6 w-6" />
+            <PawIcon className="mr-3 !h-[26px] !w-[26px] shrink-0 -mt-[1px]" size={26} />
             Create Your Tribute
           </Button>
         </motion.section>
