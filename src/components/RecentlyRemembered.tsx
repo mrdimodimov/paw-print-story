@@ -94,7 +94,10 @@ export default function RecentlyRemembered() {
             Recently Remembered Pets
           </h2>
           <p className="mt-2 text-base text-muted-foreground">
-            Each of these tributes was created by someone who loved their pet deeply.
+            Real tributes created by pet owners — each one started with just a few memories.
+          </p>
+          <p className="mt-2 text-xs text-muted-foreground/60">
+            New tributes are being created every day
           </p>
         </div>
 
