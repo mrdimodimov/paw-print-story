@@ -7,9 +7,8 @@ interface PawIconProps {
 }
 
 /**
- * Solid-filled paw icon — wax-seal / imprint aesthetic.
- * 4 identical oval toe pads on a gentle arc + 1 larger base pad.
- * Compact, symmetrical, no outlines or inner details.
+ * Solid-filled paw icon traced from brand reference.
+ * Faithful reproduction of the leather-embossed paw silhouette.
  */
 const PawIcon = ({
   className,
@@ -25,16 +24,16 @@ const PawIcon = ({
     stroke="none"
     className={cn("lucide", className)}
   >
-    {/* Inner left toe — larger */}
-    <ellipse cx="8.4" cy="4.2" rx="2.4" ry="3.0" />
-    {/* Inner right toe — larger */}
-    <ellipse cx="15.6" cy="4.2" rx="2.4" ry="3.0" />
-    {/* Outer left toe — smaller, angled */}
-    <ellipse cx="4.6" cy="6.8" rx="2.0" ry="2.6" transform="rotate(-12 4.6 6.8)" />
-    {/* Outer right toe — smaller, angled */}
-    <ellipse cx="19.4" cy="6.8" rx="2.0" ry="2.6" transform="rotate(12 19.4 6.8)" />
-    {/* Base pad — wide rounded shield */}
-    <path d="M5.2 13.4C5.2 11.0 7.8 9.4 12 9.4C16.2 9.4 18.8 11.0 18.8 13.4C18.8 16.0 16.4 19.2 14.0 20.6C12.8 21.3 11.2 21.3 10.0 20.6C7.6 19.2 5.2 16.0 5.2 13.4Z" />
+    {/* Inner left toe */}
+    <ellipse cx="8.2" cy="3.8" rx="2.3" ry="2.9" transform="rotate(-5 8.2 3.8)" />
+    {/* Inner right toe */}
+    <ellipse cx="15.8" cy="3.8" rx="2.3" ry="2.9" transform="rotate(5 15.8 3.8)" />
+    {/* Outer left toe */}
+    <ellipse cx="4.2" cy="7.6" rx="1.9" ry="2.5" transform="rotate(-18 4.2 7.6)" />
+    {/* Outer right toe */}
+    <ellipse cx="19.8" cy="7.6" rx="1.9" ry="2.5" transform="rotate(18 19.8 7.6)" />
+    {/* Main pad — wide bean/heart shape with concave top */}
+    <path d="M4.8 14.2 C4.2 12.4 5.4 10.6 7.6 9.8 C9.2 9.2 10.8 9.6 12 10.4 C13.2 9.6 14.8 9.2 16.4 9.8 C18.6 10.6 19.8 12.4 19.2 14.2 C18.4 16.6 16.0 19.4 14.0 20.8 C12.8 21.6 11.2 21.6 10.0 20.8 C8.0 19.4 5.6 16.6 4.8 14.2Z" />
   </svg>
 );
 
