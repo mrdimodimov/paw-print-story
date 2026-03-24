@@ -109,9 +109,16 @@ const ExampleTribute = () => {
           className="mb-14 rounded-xl border border-border bg-card p-8 shadow-card md:p-10">
           
           <div className="space-y-4 font-body text-sm leading-relaxed text-foreground/90 md:text-base md:leading-relaxed">
-            {exampleStory.map((paragraph, i) =>
-            <p key={i}>{paragraph}</p>
-            )}
+            {exampleStory.map((paragraph, i) => (
+              <React.Fragment key={i}>
+                <p>{paragraph}</p>
+                {i === 2 && (
+                  <p className="my-6 text-center text-sm italic text-muted-foreground">
+                    Your pet deserves to be remembered like this.
+                  </p>
+                )}
+              </React.Fragment>
+            ))}
           </div>
         </motion.article>
 
