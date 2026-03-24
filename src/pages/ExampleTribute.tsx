@@ -95,7 +95,7 @@ const ExampleTribute = () => {
 
               alt="Luna the Golden Retriever"
               className="h-auto w-full max-w-sm object-cover"
-              loading="lazy" src="/lovable-uploads/9de65cee-31e7-4d1e-bbe8-83f80983da9c.jpg" />
+              loading="lazy" src="https://ppfrtdbjsagytuhweywd.supabase.co/storage/v1/object/public/pet-photos/luna.jpg" />
             
           </div>
         </motion.div>
