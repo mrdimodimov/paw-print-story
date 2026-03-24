@@ -195,7 +195,7 @@ export async function downloadTributePDF(
   // --- Story body: paragraph-aware rendering ---
   doc.setFont("times", "normal");
   doc.setFontSize(11.5);
-  doc.setTextColor(50, 45, 38);
+  doc.setTextColor(74, 63, 53);
 
   const sanitizedStory = sanitizeForPDF(story);
   const paragraphs = ensureParagraphs(sanitizedStory);
