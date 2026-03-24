@@ -421,7 +421,7 @@ const Landing = () => {
                 size="sm"
                 onClick={() => navigate("/create")}
               >
-                <PawIcon className="mr-2 h-4 w-4" />
+                <PawIcon className="mr-3 h-5 w-5" />
                 Create a Beautiful Tribute for Your Pet
               </Button>
             </div>
