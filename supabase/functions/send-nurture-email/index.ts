@@ -17,7 +17,7 @@ function getSupabaseClient() {
 const BASE_URL = "https://paw-print-story.lovable.app";
 const SENDER_DOMAIN = "notify.vellumpet.com";
 const BRAND_NAME = "VellumPet";
-const PRIMARY_COLOR = "#d4842a"; // hsl(32 80% 50%) approximation
+const PRIMARY_COLOR = "#6B5744"; // warm brown from logo
 
 // ─── Email Templates ───────────────────────────────────────────────
 
