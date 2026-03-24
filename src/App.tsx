@@ -88,6 +88,9 @@ const App = () => (
             <Route path="/pet-memorial-message" element={<PetMemorialMessage />} />
             <Route path="/what-to-write-when-a-dog-dies" element={<WhatToWriteWhenDogDies />} />
             <Route path="/example-tribute" element={<ExampleTribute />} />
+            <Route path="/example-tribute/oliver" element={<ExampleTributeOliver />} />
+            <Route path="/example-tribute/max" element={<ExampleTributeMax />} />
+            <Route path="/example-tribute/clover" element={<ExampleTributeClover />} />
             <Route path="/payment-success" element={<PaymentSuccess />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfService />} />
