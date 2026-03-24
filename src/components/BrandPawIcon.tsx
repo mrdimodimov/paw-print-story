@@ -7,7 +7,7 @@ interface BrandPawIconProps {
 const BrandPawIcon = ({
   className,
   size = 24,
-  color = "#6B4F3A",
+  color = "currentColor",
 }: BrandPawIconProps) => (
   <svg
     width={size}
