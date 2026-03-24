@@ -143,7 +143,7 @@ const Landing = () => {
                   petName: "Oliver",
                   memoryTitle: "Where the Sunlight Always Found Him",
                   preview: "He claimed the same patch of afternoon light on the kitchen floor every single day, stretching into warmth like he'd invented rest.",
-                  linkTo: "/example-tribute",
+                  linkTo: "/example-tribute/oliver",
                   blurPreview: true,
                 },
                 {
