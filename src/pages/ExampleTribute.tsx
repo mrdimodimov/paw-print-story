@@ -82,6 +82,9 @@ const ExampleTribute = () => {
           <p className="mt-2 text-sm italic text-muted-foreground">
             Beloved companion to Sarah
           </p>
+          <p className="mt-3 text-xs text-muted-foreground/60">
+            Example tribute created from real memories
+          </p>
         </motion.div>
 
         {/* Photo */}
