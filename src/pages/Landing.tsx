@@ -258,6 +258,9 @@ const Landing = () => {
             <p className="text-base text-muted-foreground">
               Start simple, or create something truly unforgettable.
             </p>
+            <p className="mt-3 text-sm text-muted-foreground/70">
+              Most people choose the middle option to create a complete, lasting tribute.
+            </p>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {(() => {

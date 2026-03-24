@@ -96,7 +96,7 @@ export const TIERS: TierConfig[] = [
     id: "legacy",
     name: "Legacy Memorial",
     price: 79,
-    label: "For a love that deserves its own place",
+    label: "For families who want a shared place to remember and revisit together",
     description: "A permanent memorial page where family and friends can visit, leave reactions, and remember them together — long after goodbye.",
     micro_text: "A living tribute others can visit and remember",
     word_count_target: [500, 650],
