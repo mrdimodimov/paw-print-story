@@ -39,7 +39,7 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
           <span className="text-sm text-muted-foreground">one-time</span>
         </div>
         {tier.description && (
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          <p className={`mt-2 leading-relaxed ${tier.popular ? "text-sm text-muted-foreground" : "text-xs text-muted-foreground/70"}`}>
             {tier.description}
           </p>
         )}
