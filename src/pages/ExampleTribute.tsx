@@ -131,19 +131,21 @@ const ExampleTribute = () => {
           
           <Heart className="mx-auto mb-4 h-7 w-7 text-primary" />
           <h2 className="mb-3 font-display text-2xl font-bold text-foreground">
-            Create a Tribute for Your Own Pet
+            Create something like this for your pet
           </h2>
           <p className="mb-6 text-sm text-muted-foreground md:text-base">
-            Share your pet's memories and VellumPet will turn them into a beautiful tribute story.
+            Answer a few simple questions — we'll turn your memories into a story you can keep forever.
           </p>
           <Button
             size="lg"
             className="px-8 py-5 text-base shadow-glow"
             onClick={() => navigate("/create")}>
-            
             <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} />
             Create Your Tribute
           </Button>
+          <p className="mt-4 text-sm text-muted-foreground">
+            Takes less than 2 minutes · No writing needed
+          </p>
         </motion.section>
 
         {/* Back link */}
