@@ -113,7 +113,7 @@ export default function MemoriesGallery() {
             You can create one too.
           </p>
           <Button size="lg" onClick={() => navigate("/create")}>
-            <PawIcon className="mr-3 h-5 w-5" />
+            <PawIcon className="mr-3 !h-[22px] !w-[22px] shrink-0 -mt-[1px]" size={22} />
             Create a Tribute
           </Button>
           <p className="mt-3 text-xs text-muted-foreground">
