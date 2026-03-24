@@ -55,11 +55,11 @@ const Landing = () => {
                 For when saying goodbye is hard
               </p>
               <h1 className="mb-5 font-display text-4xl font-bold leading-[1.15] text-foreground md:text-5xl lg:text-[3.4rem]">
-                Turn your pet's memory into a story you can keep forever
+                When saying goodbye is hard, keep their story alive.
               </h1>
               <p className="mb-10 max-w-lg text-lg leading-relaxed text-muted-foreground">
                 Answer a few simple questions, and we'll turn your memories into
-                a heartfelt tribute you can read, share, and hold onto.
+                a heartfelt tribute you can keep, read, and share.
               </p>
               <Button
                 size="lg"
@@ -67,10 +67,10 @@ const Landing = () => {
                 onClick={() => navigate("/create")}
               >
                 <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} />
-                Create Your Tribute
+                Create Their Tribute
               </Button>
               <p className="mt-4 text-sm text-muted-foreground">
-                Takes less than 2 minutes
+                Takes less than 2 minutes — no writing needed
               </p>
             </motion.div>
 
