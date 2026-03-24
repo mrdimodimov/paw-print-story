@@ -416,7 +416,7 @@ export async function downloadMemorialPDF(
   // --- Subline at bottom ---
   doc.setFont("times", "italic");
   doc.setFontSize(8.5);
-  doc.setTextColor(160, 145, 125);
+  doc.setTextColor(148, 135, 118);
   doc.text(
     "A life remembered in the quiet moments that meant everything.",
     pageWidth / 2,
@@ -425,12 +425,12 @@ export async function downloadMemorialPDF(
   );
 
   // --- Footer ---
-  doc.setDrawColor(190, 170, 130);
+  doc.setDrawColor(180, 168, 148);
   doc.setLineWidth(0.25);
   doc.line(divInset, pageHeight - 26, pageWidth - divInset, pageHeight - 26);
 
   doc.setFontSize(7);
-  doc.setTextColor(170, 165, 155);
+  doc.setTextColor(158, 148, 135);
   doc.text("Written with love using VellumPet", pageWidth / 2, pageHeight - 20, { align: "center" });
   if (tier === "story") {
     doc.text("vellumpet.com", pageWidth / 2, pageHeight - 16, { align: "center" });
