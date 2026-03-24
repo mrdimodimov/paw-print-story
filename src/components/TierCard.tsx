@@ -24,27 +24,30 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
         </div>
       )}
 
-      {tier.label && !tier.popular && (
-        <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-          {tier.label}
+      {/* Label — consistent slot for all tiers */}
+      <p className={`mb-2 text-xs font-medium uppercase tracking-wider ${tier.popular ? "text-primary" : "text-muted-foreground"} ${!tier.label && !tier.popular ? "invisible" : ""}`}>
+        {tier.popular ? "Most Popular" : tier.label || "\u00A0"}
+      </p>
+
+      {/* Title */}
+      <h3 className="font-display text-xl font-semibold text-foreground">
+        {tier.name}
+      </h3>
+
+      {/* Price — consistent spacing */}
+      <div className="mt-2 mb-3 flex items-baseline gap-1">
+        <span className="text-3xl font-bold text-foreground">${tier.price}</span>
+        <span className="text-sm text-muted-foreground">one-time</span>
+      </div>
+
+      {/* Description */}
+      {tier.description && (
+        <p className={`mb-4 leading-relaxed ${tier.popular ? "text-sm text-muted-foreground" : "text-xs text-muted-foreground/70"}`}>
+          {tier.description}
         </p>
       )}
 
-      <div className="mb-4">
-        <h3 className="font-display text-xl font-semibold text-foreground">
-          {tier.name}
-        </h3>
-        <div className="mt-2 flex items-baseline gap-1">
-          <span className="text-3xl font-bold text-foreground">${tier.price}</span>
-          <span className="text-sm text-muted-foreground">one-time</span>
-        </div>
-        {tier.description && (
-          <p className={`mt-2 leading-relaxed ${tier.popular ? "text-sm text-muted-foreground" : "text-xs text-muted-foreground/70"}`}>
-            {tier.description}
-          </p>
-        )}
-      </div>
-
+      {/* Features */}
       <ul className="mb-6 flex-1 space-y-3">
         {tier.features.map((feature) => (
           <li key={feature} className="flex items-start gap-2">
@@ -54,6 +57,7 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
         ))}
       </ul>
 
+      {/* CTA */}
       <Button
         variant={tier.popular ? "default" : "outline"}
         className={`w-full ${tier.popular ? "shadow-glow" : ""}`}
