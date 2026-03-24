@@ -214,7 +214,7 @@ export async function downloadTributePDF(
         yPos = 34;
         doc.setFont("times", "normal");
         doc.setFontSize(11.5);
-        doc.setTextColor(50, 45, 38);
+        doc.setTextColor(74, 63, 53);
       }
       doc.text(line, margin, yPos);
       yPos += lineHeight;
