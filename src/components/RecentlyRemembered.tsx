@@ -165,13 +165,16 @@ export default function RecentlyRemembered() {
 
         {/* CTA */}
         <div className="mt-10 text-center">
+          <p className="mb-3 text-sm text-muted-foreground">
+            Your pet's story could be next
+          </p>
           <Button
             size="lg"
             className="px-8 py-5 text-base shadow-glow"
             onClick={() => navigate("/create")}
           >
             <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} />
-            Create a Tribute for Your Pet
+            Create your pet's story →
           </Button>
         </div>
       </div>
