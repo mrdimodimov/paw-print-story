@@ -379,7 +379,7 @@ export async function downloadMemorialPDF(
 
   // --- Ornamental divider ---
   const divInset = 50;
-  doc.setDrawColor(190, 170, 130);
+  doc.setDrawColor(180, 168, 148);
   doc.setLineWidth(0.35);
   doc.line(divInset, yPos + 4, pageWidth - divInset, yPos + 4);
   yPos += 16;
