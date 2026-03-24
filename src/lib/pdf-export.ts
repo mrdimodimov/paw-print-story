@@ -133,7 +133,7 @@ export async function downloadTributePDF(
 
   // --- Helper: draw warm background on current page ---
   const drawPageBackground = () => {
-    doc.setFillColor(250, 247, 242);
+    doc.setFillColor(240, 235, 228);
     doc.rect(0, 0, pageWidth, pageHeight, "F");
   };
 
@@ -165,7 +165,7 @@ export async function downloadTributePDF(
   // --- Title: Pet name (centered, large) ---
   doc.setFont("times", "bold");
   doc.setFontSize(32);
-  doc.setTextColor(55, 42, 28);
+  doc.setTextColor(61, 48, 40);
   doc.text(sanitizeForPDF(petName), pageWidth / 2, yPos, { align: "center" });
   yPos += 11;
 
@@ -173,7 +173,7 @@ export async function downloadTributePDF(
   if (years) {
     doc.setFont("times", "italic");
     doc.setFontSize(12);
-    doc.setTextColor(130, 110, 85);
+    doc.setTextColor(120, 105, 88);
     doc.text(sanitizeForPDF(years), pageWidth / 2, yPos, { align: "center" });
     yPos += 9;
   }
@@ -181,13 +181,13 @@ export async function downloadTributePDF(
   // --- Subline ---
   doc.setFont("times", "italic");
   doc.setFontSize(9);
-  doc.setTextColor(160, 145, 125);
+  doc.setTextColor(148, 135, 118);
   doc.text("A life remembered in the quiet moments that meant everything.", pageWidth / 2, yPos, { align: "center" });
   yPos += 8;
 
   // --- Divider under header ---
   const divInset = 30;
-  doc.setDrawColor(190, 170, 130);
+  doc.setDrawColor(180, 168, 148);
   doc.setLineWidth(0.35);
   doc.line(margin + divInset, yPos + 2, pageWidth - margin - divInset, yPos + 2);
   yPos += 16;
@@ -195,7 +195,7 @@ export async function downloadTributePDF(
   // --- Story body: paragraph-aware rendering ---
   doc.setFont("times", "normal");
   doc.setFontSize(11.5);
-  doc.setTextColor(50, 45, 38);
+  doc.setTextColor(74, 63, 53);
 
   const sanitizedStory = sanitizeForPDF(story);
   const paragraphs = ensureParagraphs(sanitizedStory);
@@ -214,7 +214,7 @@ export async function downloadTributePDF(
         yPos = 34;
         doc.setFont("times", "normal");
         doc.setFontSize(11.5);
-        doc.setTextColor(50, 45, 38);
+        doc.setTextColor(74, 63, 53);
       }
       doc.text(line, margin, yPos);
       yPos += lineHeight;
@@ -229,13 +229,13 @@ export async function downloadTributePDF(
     const ph = doc.internal.pageSize.getHeight();
 
     // Divider above footer
-    doc.setDrawColor(190, 170, 130);
+    doc.setDrawColor(180, 168, 148);
     doc.setLineWidth(0.25);
     doc.line(margin, ph - 22, pageWidth - margin, ph - 22);
 
     // Branding
     doc.setFontSize(7);
-    doc.setTextColor(170, 165, 155);
+    doc.setTextColor(158, 148, 135);
     doc.text("Written with love using VellumPet", pageWidth / 2, ph - 16, { align: "center" });
 
     if (tier === "story") {
@@ -261,8 +261,8 @@ function drawPawWatermark(doc: jsPDF) {
   const cy = pageHeight - 40;
 
   // ~10% opacity via light gray on warm background
-  doc.setFillColor(225, 218, 205);
-  doc.setDrawColor(225, 218, 205);
+  doc.setFillColor(218, 210, 198);
+  doc.setDrawColor(218, 210, 198);
 
   // Main pad
   doc.circle(cx, cy + 10, 11, "F");
@@ -340,11 +340,11 @@ export async function downloadMemorialPDF(
   const images = await loadImages(photoUrls);
 
   // --- Warm paper background ---
-  doc.setFillColor(250, 247, 242);
+  doc.setFillColor(240, 235, 228);
   doc.rect(0, 0, pageWidth, pageHeight, "F");
 
   // --- Double decorative border ---
-  doc.setDrawColor(180, 160, 120);
+  doc.setDrawColor(168, 155, 135);
   doc.setLineWidth(0.8);
   doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
   doc.setLineWidth(0.25);
@@ -356,13 +356,13 @@ export async function downloadMemorialPDF(
   // --- "In Loving Memory" pre-title ---
   doc.setFont("times", "italic");
   doc.setFontSize(11);
-  doc.setTextColor(170, 150, 120);
+  doc.setTextColor(148, 135, 118);
   doc.text("In Loving Memory", pageWidth / 2, 36, { align: "center" });
 
   // --- Pet name (large, centered) ---
   doc.setFont("times", "bold");
   doc.setFontSize(36);
-  doc.setTextColor(55, 42, 28);
+  doc.setTextColor(61, 48, 40);
   const safeName = sanitizeForPDF(petName);
   doc.text(safeName, pageWidth / 2, 54, { align: "center" });
 
@@ -372,14 +372,14 @@ export async function downloadMemorialPDF(
   if (years) {
     doc.setFont("times", "italic");
     doc.setFontSize(13);
-    doc.setTextColor(130, 110, 85);
+    doc.setTextColor(120, 105, 88);
     doc.text(sanitizeForPDF(years), pageWidth / 2, yPos, { align: "center" });
     yPos += 8;
   }
 
   // --- Ornamental divider ---
   const divInset = 50;
-  doc.setDrawColor(190, 170, 130);
+  doc.setDrawColor(180, 168, 148);
   doc.setLineWidth(0.35);
   doc.line(divInset, yPos + 4, pageWidth - divInset, yPos + 4);
   yPos += 16;
@@ -401,7 +401,7 @@ export async function downloadMemorialPDF(
   const excerptMaxWidth = pageWidth - 60; // generous side margins
   doc.setFont("times", "italic");
   doc.setFontSize(13);
-  doc.setTextColor(65, 55, 42);
+  doc.setTextColor(74, 63, 53);
   const lines = doc.splitTextToSize(excerpt, excerptMaxWidth);
   const lineHeight = 8.5;
   // Center the text block vertically in remaining space
@@ -416,7 +416,7 @@ export async function downloadMemorialPDF(
   // --- Subline at bottom ---
   doc.setFont("times", "italic");
   doc.setFontSize(8.5);
-  doc.setTextColor(160, 145, 125);
+  doc.setTextColor(148, 135, 118);
   doc.text(
     "A life remembered in the quiet moments that meant everything.",
     pageWidth / 2,
@@ -425,12 +425,12 @@ export async function downloadMemorialPDF(
   );
 
   // --- Footer ---
-  doc.setDrawColor(190, 170, 130);
+  doc.setDrawColor(180, 168, 148);
   doc.setLineWidth(0.25);
   doc.line(divInset, pageHeight - 26, pageWidth - divInset, pageHeight - 26);
 
   doc.setFontSize(7);
-  doc.setTextColor(170, 165, 155);
+  doc.setTextColor(158, 148, 135);
   doc.text("Written with love using VellumPet", pageWidth / 2, pageHeight - 20, { align: "center" });
   if (tier === "story") {
     doc.text("vellumpet.com", pageWidth / 2, pageHeight - 16, { align: "center" });
