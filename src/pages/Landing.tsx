@@ -30,7 +30,7 @@ const Landing = () => {
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
-            <PawIcon className="h-8 w-8 text-primary" style={{ marginTop: "-1px" }} size={30} />
+            <span style={{ marginTop: "-1px" }}><PawIcon className="h-8 w-8 text-primary" size={30} /></span>
             <span className="font-display text-xl font-medium text-foreground" style={{ letterSpacing: "0.06em" }}>
               <span style={{ letterSpacing: "0.01em" }}>V</span>ellum<span style={{ letterSpacing: "-0.01em" }}>P</span>et
             </span>
