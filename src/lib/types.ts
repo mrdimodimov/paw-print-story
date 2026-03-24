@@ -54,7 +54,7 @@ export const TIERS: TierConfig[] = [
     id: "story",
     name: "Simple Tribute",
     price: 19,
-    description: "A quiet, personal goodbye — capture their name, their spirit, and one favorite memory in a story you can hold onto.",
+    description: "A simple, heartfelt way to remember them — perfect if you want something meaningful, quickly.",
     micro_text: "A gentle way to say what words alone can't",
     word_count_target: [350, 450],
     features: [
@@ -96,7 +96,7 @@ export const TIERS: TierConfig[] = [
     id: "legacy",
     name: "Legacy Memorial",
     price: 79,
-    label: "For a love that deserves its own place",
+    label: "For families who want a shared place to remember and revisit together",
     description: "A permanent memorial page where family and friends can visit, leave reactions, and remember them together — long after goodbye.",
     micro_text: "A living tribute others can visit and remember",
     word_count_target: [500, 650],

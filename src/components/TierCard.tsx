@@ -63,7 +63,18 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
         {tier.id === "story" ? "Create a Simple Tribute" : tier.id === "pack" ? "Create Their Full Story" : "Create a Lasting Memorial"}
       </Button>
 
-      {tier.micro_text && (
+      {tier.popular && (
+        <div className="mt-3 space-y-1.5 text-center">
+          <p className="text-xs text-muted-foreground">
+            Everything you need to tell their full story — nothing unnecessary
+          </p>
+          <p className="text-xs text-primary/80">
+            7-day satisfaction guarantee — or your money back
+          </p>
+        </div>
+      )}
+
+      {tier.micro_text && !tier.popular && (
         <p className="mt-3 text-center text-xs text-muted-foreground">
           {tier.micro_text}
         </p>
