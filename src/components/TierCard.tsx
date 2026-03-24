@@ -39,7 +39,7 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
           <span className="text-sm text-muted-foreground">one-time</span>
         </div>
         {tier.description && (
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          <p className={`mt-2 leading-relaxed ${tier.popular ? "text-sm text-muted-foreground" : "text-xs text-muted-foreground/70"}`}>
             {tier.description}
           </p>
         )}
@@ -47,9 +47,9 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
 
       <ul className="mb-6 flex-1 space-y-3">
         {tier.features.map((feature) => (
-          <li key={feature} className="flex items-start gap-2 text-sm">
-            <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-            <span className="text-foreground">{feature}</span>
+          <li key={feature} className="flex items-start gap-2">
+            <Check className={`mt-0.5 h-4 w-4 shrink-0 text-primary ${!tier.popular ? "opacity-60" : ""}`} />
+            <span className={tier.popular ? "text-sm text-foreground" : "text-xs text-muted-foreground"}>{feature}</span>
           </li>
         ))}
       </ul>
@@ -65,10 +65,10 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
 
       {tier.popular && (
         <div className="mt-3 space-y-1.5 text-center">
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-muted-foreground/70">
             Everything you need to tell their full story — nothing unnecessary
           </p>
-          <p className="text-xs text-primary/80">
+          <p className="text-xs text-muted-foreground/60">
             7-day satisfaction guarantee — or your money back
           </p>
         </div>
