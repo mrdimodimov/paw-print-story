@@ -315,13 +315,6 @@ const Landing = () => {
           <p className="mt-4 text-center text-sm text-muted-foreground">
             One-time payment · No subscription · Yours forever
           </p>
-          <p className="mt-2 text-center text-sm text-muted-foreground">
-            Every tribute can be edited before you download or share.
-          </p>
-          <p className="mt-1 text-center text-xs text-muted-foreground/70">
-            Digital product — ready to print, frame, or keep digitally. No
-            physical item shipped.
-          </p>
         </div>
       </section>
 

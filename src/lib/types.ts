@@ -100,10 +100,9 @@ export const TIERS: TierConfig[] = [
     micro_text: "A living tribute others can visit and remember",
     word_count_target: [500, 650],
     features: [
-      "Everything in Beautiful Tribute",
-      "Custom personal memorial link",
-      "Public gallery with visitor reactions",
-      "Candles, paws, and hearts from loved ones",
+      "Shared memorial page",
+      "Custom personal link",
+      "Visitor reactions & messages",
     ],
     include_share_card: true,
     include_social_post: true,

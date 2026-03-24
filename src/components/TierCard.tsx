@@ -65,10 +65,10 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
 
       {tier.popular && (
         <div className="mt-3 space-y-1.5 text-center">
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-muted-foreground/70">
             Everything you need to tell their full story — nothing unnecessary
           </p>
-          <p className="text-xs text-primary/80">
+          <p className="text-xs text-muted-foreground/60">
             7-day satisfaction guarantee — or your money back
           </p>
         </div>
