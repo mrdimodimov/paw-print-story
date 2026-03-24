@@ -143,7 +143,7 @@ const Landing = () => {
                   petName: "Oliver",
                   memoryTitle: "Where the Sunlight Always Found Him",
                   preview: "He claimed the same patch of afternoon light on the kitchen floor every single day, stretching into warmth like he'd invented rest.",
-                  linkTo: "/example-tribute",
+                  linkTo: "/example-tribute/oliver",
                   blurPreview: true,
                 },
                 {
@@ -151,14 +151,14 @@ const Landing = () => {
                   petName: "Max",
                   memoryTitle: "The One Who Greeted Everyone",
                   preview: "He never met a stranger. Every visitor was welcomed with a full-body wiggle that could knock a toddler over.",
-                  linkTo: "/example-tribute",
+                  linkTo: "/example-tribute/max",
                 },
                 {
                   imageUrl: tributeClover,
                   petName: "Clover",
                   memoryTitle: "Soft Thumps in the Evening",
                   preview: "She'd thump her feet at exactly 7pm, demanding her evening greens with a patience that lasted about three seconds.",
-                  linkTo: "/example-tribute",
+                  linkTo: "/example-tribute/clover",
                 },
               ].map((card, i) => (
                 <div

@@ -18,6 +18,9 @@ import CatMemorialTributeExample from "./pages/seo/CatMemorialTributeExample";
 import PetMemorialMessage from "./pages/seo/PetMemorialMessage";
 import WhatToWriteWhenDogDies from "./pages/seo/WhatToWriteWhenDogDies";
 import ExampleTribute from "./pages/ExampleTribute";
+import ExampleTributeOliver from "./pages/ExampleTributeOliver";
+import ExampleTributeMax from "./pages/ExampleTributeMax";
+import ExampleTributeClover from "./pages/ExampleTributeClover";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
@@ -85,6 +88,9 @@ const App = () => (
             <Route path="/pet-memorial-message" element={<PetMemorialMessage />} />
             <Route path="/what-to-write-when-a-dog-dies" element={<WhatToWriteWhenDogDies />} />
             <Route path="/example-tribute" element={<ExampleTribute />} />
+            <Route path="/example-tribute/oliver" element={<ExampleTributeOliver />} />
+            <Route path="/example-tribute/max" element={<ExampleTributeMax />} />
+            <Route path="/example-tribute/clover" element={<ExampleTributeClover />} />
             <Route path="/payment-success" element={<PaymentSuccess />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfService />} />
