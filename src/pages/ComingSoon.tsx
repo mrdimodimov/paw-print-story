@@ -14,8 +14,8 @@ const ComingSoon = () => {
         className="max-w-lg"
       >
         <div className="mb-6 flex items-center justify-center gap-2">
-          <PawIcon className="h-8 w-8 text-primary" />
-          <span className="font-display text-xl font-semibold text-foreground" style={{ letterSpacing: "0.03em" }}>
+          <PawIcon className="h-8 w-8 text-primary" style={{ marginTop: "-1px" }} size={30} />
+          <span className="font-display text-xl font-medium text-foreground" style={{ letterSpacing: "0.06em" }}>
             <span style={{ letterSpacing: "0.01em" }}>V</span>ellum<span style={{ letterSpacing: "-0.01em" }}>P</span>et
           </span>
         </div>
