@@ -47,9 +47,9 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
 
       <ul className="mb-6 flex-1 space-y-3">
         {tier.features.map((feature) => (
-          <li key={feature} className="flex items-start gap-2 text-sm">
-            <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-            <span className="text-foreground">{feature}</span>
+          <li key={feature} className="flex items-start gap-2">
+            <Check className={`mt-0.5 h-4 w-4 shrink-0 text-primary ${!tier.popular ? "opacity-60" : ""}`} />
+            <span className={tier.popular ? "text-sm text-foreground" : "text-xs text-muted-foreground"}>{feature}</span>
           </li>
         ))}
       </ul>
