@@ -362,7 +362,7 @@ export async function downloadMemorialPDF(
   // --- Pet name (large, centered) ---
   doc.setFont("times", "bold");
   doc.setFontSize(36);
-  doc.setTextColor(55, 42, 28);
+  doc.setTextColor(61, 48, 40);
   const safeName = sanitizeForPDF(petName);
   doc.text(safeName, pageWidth / 2, 54, { align: "center" });
 
