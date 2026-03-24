@@ -100,12 +100,12 @@ const Landing = () => {
                 <p className="text-sm italic text-muted-foreground">
                   Your pet deserves to be remembered like this.
                 </p>
-                <button
-                  className="mt-2 text-sm text-primary hover:underline"
+                <span
+                  className="mt-2 inline-block cursor-pointer text-sm font-medium text-foreground hover:underline"
                   onClick={() => navigate("/create")}
                 >
                   Continue your pet's story →
-                </button>
+                </span>
               </div>
               <p className="font-display text-[0.95rem] leading-[1.85] text-foreground/85">
                   The house feels different now. Quieter in a way that isn't
