@@ -8,13 +8,14 @@ import { BRAND } from "@/lib/brand";
 const exampleTitle = "Soft Thumps in the Evening";
 
 const exampleStory = [
-  "Clover had her own clock. Every evening at seven, she would thump her back feet against the floor of her enclosure — two sharp, deliberate knocks that echoed through the hallway like a dinner bell she'd invented herself. It meant greens. It meant now. And she had a patience for waiting that lasted about three seconds.",
-  "She was a Holland Lop with ears that hung like velvet curtains and a nose that never stopped moving. Everything in the house was assessed by smell first — shoes, blankets, fingers, the corner of every book left on the floor. She catalogued the world one twitch at a time.",
-  "Her favorite spot was behind the couch. Not underneath it, not beside it — behind it, in the narrow gap between the cushions and the wall, where she could observe the room without being observed. She'd sit there for hours, perfectly still, a small warm shape in a place no one thought to look.",
-  "She loved being held, but only on her terms. She would climb into your lap, tuck her head under your chin, and stay for exactly as long as she wanted — which was usually longer than you expected. Her fur was impossibly soft, the kind of soft that made you slow down just to feel it.",
-  "Clover had a particular fondness for cardboard. Boxes, toilet paper rolls, cereal boxes left too close to the edge of the counter — she dismantled them all with a quiet, methodical precision. It wasn't destruction. It was art. Or architecture. Or maybe just something to do with her teeth.",
-  "Eight years with a rabbit teaches you to pay attention to small things. The way her ears would rotate toward a sound. The way she'd binky — that sudden, joyful leap — when she was let out into the garden on warm days. The way she'd press her forehead against your ankle, which meant, in rabbit, 'You are mine.'",
-  "The house is tidier now. No hay on the floor, no scattered pellets, no cardboard confetti behind the couch. But sometimes, around seven in the evening, the silence where her thumps used to be feels louder than any sound she ever made."
+  "Seven o'clock. Two thumps.",
+  "That was Clover's way. Not a request — a notification. Greens. Now. She had communicated this every single evening for eight years, and she had never once considered the possibility that the greens might not appear. They always did. She was right to be confident.",
+  "She was a Holland Lop with ears like crushed velvet and a nose that never, ever stopped. Everything was assessed by smell — shoes first, then hands, then the suspicious corner of whatever book you'd left on the floor. She filed things away. You could see her doing it. She was building a map of the house that only she could read.",
+  "Clover loved cardboard the way some people love crossword puzzles. Toilet paper rolls were disassembled with surgical precision. Amazon boxes were reduced to confetti within the hour. Emma once left a cereal box too close to the edge of the counter. She found it twenty minutes later, gutted, in the hallway. Clover sat beside it, looking satisfied.",
+  "She liked being held. This was unusual for a rabbit, and she knew it. She'd climb into your lap uninvited, tuck her head beneath your chin, and stay there — ten minutes, sometimes twenty — her fur impossibly soft against your throat, her breathing so slow you'd match it without realizing.",
+  "On warm days in the garden she'd binky. If you've never seen a rabbit binky, it's this: a sudden, vertical, completely unexplained leap of joy, often followed by a sprint in no particular direction. It looked like a glitch in the physics engine. It was the best thing in the world.",
+  "The hay is swept up now. The pellets are gone from behind the couch. The cardboard recycling has, for the first time in eight years, made it to the curb intact.",
+  "But at seven o'clock, the house still holds its breath."
 ];
 
 const ExampleTributeClover = () => {

@@ -9,15 +9,15 @@ import examplePhoto from "@/assets/example-tribute-bella.jpg";
 const exampleTitle = "The Dog Who Never Missed a Sunset Walk";
 
 const exampleStory = [
-  "Luna had a way of knowing when the light outside started to turn golden. She would appear at the door, tail sweeping slow arcs, watching you with those deep brown eyes that said everything without a word. It didn't matter what you were doing — if the sun was going down, Luna was ready to walk.",
-  "She was a Golden Retriever in every sense of the word. Warm, steady, endlessly patient. The kind of dog who would sit beside you during a thunderstorm, not because she wasn't afraid, but because she knew you might be. She leaned into people the way some dogs lean into the wind — fully, without hesitation.",
-  "Mornings with Luna always started the same way. She would stretch across the kitchen floor while breakfast was being made, one ear cocked toward the sound of the coffee grinder, the other tracking footsteps. She had a particular fondness for toast crusts, which she accepted with a gentleness that made you forget she weighed eighty pounds.",
-  "In the park, Luna was a diplomat. She greeted every dog with a calm, tail-low curiosity, diffusing tense encounters with nothing more than a slow wag and a polite sniff. Children adored her. She would sit perfectly still while tiny hands patted her head, occasionally offering a single lick that sent them into fits of laughter.",
-  "Her favorite spot in the house was the window seat in the living room. She would rest her chin on the cushion and watch the street for hours — the mail carrier, the neighbor's cat, the occasional squirrel that dared to cross the lawn. Sarah often joked that Luna was the neighborhood watch.",
-  "On the harder days, Luna didn't try to fix things. She just stayed close. She would press her side against your leg or rest her head on your knee, breathing slowly, as if reminding you that not every moment needed words. That quiet presence was her greatest gift.",
-  "Twelve years passed faster than anyone expected. The walks got shorter, the naps got longer, and the grey crept across her muzzle like morning frost. But her eyes never lost that gentle spark — the one that said, 'I'm still here. I'm still yours.'",
-  "Luna left behind a leash that still hangs by the front door, a spot on the couch that no one else sits in, and a family that learned what unconditional love really looks like. Not from a book or a sermon, but from a dog who showed up every single day and gave everything she had.",
-  "The sunsets still come. And sometimes, just for a moment, it feels like she's still waiting by the door."
+  "The leash hung by the front door. Luna knew the sound of it being lifted off the hook — the faint clink of the metal clasp — and she'd be there before you'd even turned around. Eighty pounds of golden fur, trembling with a joy so complete it made you wonder what you'd been worried about all day.",
+  "She wasn't a complicated dog.",
+  "She liked walks, toast crusts, and lying across your feet while you read. She liked thunderstorms less, but she'd sit through them pressed against your leg, breathing slow and steady, as though she'd decided that if someone had to be brave, it might as well be her.",
+  "In the park she moved through the world like someone running for office — greeting every dog, charming every child, diffusing the occasional tense standoff between a terrier and a German Shepherd with nothing more than a slow wag and a well-timed sit. People who didn't know her name knew her face. The mail carrier brought her biscuits.",
+  "Sarah used to say Luna was the only member of the family who never had a bad day. That wasn't quite true. But Luna's bad days looked like everyone else's good ones — a little quieter, a little slower, still ending with her chin on the windowsill, watching the street like she was keeping score of something only she understood.",
+  "Twelve years. The walks got shorter. The naps stretched longer. Grey crept across her muzzle the way winter creeps into November — slowly, then all at once.",
+  "But those eyes. Those deep, root-beer brown eyes never changed. They still said the same thing at twelve that they'd said at two: I'm here. That's enough, isn't it?",
+  "The leash still hangs by the front door. Nobody's moved it. The sunset still comes through the living room window at the same angle, lighting up the same spot on the rug where she used to sleep.",
+  "Sometimes you swear you can hear the clink."
 ];
 
 
