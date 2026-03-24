@@ -29,6 +29,10 @@
 
   <body>
     <div id="root"></div>
+    <script>
+      // Safari safe-storage polyfill: must run BEFORE ES modules load
+      (function(){try{var k="__st__";window.localStorage.setItem(k,k);window.localStorage.removeItem(k)}catch(e){var m={};var s={get length(){return Object.keys(m).length},clear:function(){m={}},getItem:function(k){return m[k]||null},setItem:function(k,v){m[k]=""+v},removeItem:function(k){delete m[k]},key:function(i){return Object.keys(m)[i]||null}};Object.defineProperty(window,"localStorage",{value:s,writable:false,configurable:true});try{Object.defineProperty(window,"sessionStorage",{value:s,writable:false,configurable:true})}catch(e2){}}})();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
