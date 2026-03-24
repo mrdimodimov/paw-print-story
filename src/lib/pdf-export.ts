@@ -257,25 +257,28 @@ export async function downloadTributePDF(
 function drawPawWatermark(doc: jsPDF) {
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
+  // Center of watermark in bottom-right
   const cx = pageWidth - 35;
-  const cy = pageHeight - 40;
+  const cy = pageHeight - 38;
+  const scale = 0.035; // scale factor from 1000-unit viewBox to ~35mm
 
   // ~10% opacity via light gray on warm background
   doc.setFillColor(218, 210, 198);
   doc.setDrawColor(218, 210, 198);
 
-  // Main pad
-  doc.circle(cx, cy + 10, 11, "F");
+  // Main pad (elliptical, matching SVG proportions)
+  doc.ellipse(cx, cy + 8, 7, 5.5, "F");
 
-  // Toe pads
+  // Toe pads — matching uploaded SVG layout (wider spread, rotated ellipses)
+  // Approximated as ellipses at correct relative positions & sizes
   const toes = [
-    { dx: -9, dy: -5, r: 5.5 },
-    { dx: -3, dy: -12, r: 5 },
-    { dx: 3, dy: -12, r: 5 },
-    { dx: 9, dy: -5, r: 5.5 },
+    { dx: -8.8, dy: -2.5, rx: 3.2, ry: 4.2 },   // top-left
+    { dx: -4.2, dy: -9.5, rx: 3.0, ry: 4.0 },    // upper-left
+    { dx: 4.2,  dy: -9.5, rx: 3.0, ry: 4.0 },    // upper-right
+    { dx: 8.8,  dy: -2.5, rx: 3.2, ry: 4.2 },    // top-right
   ];
   for (const t of toes) {
-    doc.circle(cx + t.dx, cy + t.dy, t.r, "F");
+    doc.ellipse(cx + t.dx, cy + t.dy, t.rx, t.ry, "F");
   }
 }
 
