@@ -158,7 +158,7 @@ const Landing = () => {
                   petName: "Clover",
                   memoryTitle: "Soft Thumps in the Evening",
                   preview: "She'd thump her feet at exactly 7pm, demanding her evening greens with a patience that lasted about three seconds.",
-                  linkTo: "/example-tribute",
+                  linkTo: "/example-tribute/clover",
                 },
               ].map((card, i) => (
                 <div
