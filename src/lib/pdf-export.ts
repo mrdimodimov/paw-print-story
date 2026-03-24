@@ -401,7 +401,7 @@ export async function downloadMemorialPDF(
   const excerptMaxWidth = pageWidth - 60; // generous side margins
   doc.setFont("times", "italic");
   doc.setFontSize(13);
-  doc.setTextColor(65, 55, 42);
+  doc.setTextColor(74, 63, 53);
   const lines = doc.splitTextToSize(excerpt, excerptMaxWidth);
   const lineHeight = 8.5;
   // Center the text block vertically in remaining space
