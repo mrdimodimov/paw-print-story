@@ -10,10 +10,11 @@ import GuaranteeBadge from "@/components/GuaranteeBadge";
 import RecentlyRemembered from "@/components/RecentlyRemembered";
 import TributePreviewCard from "@/components/TributePreviewCard";
 import BeforeAfterTransform from "@/components/BeforeAfterTransform";
-import tributeLuna from "@/assets/tribute-preview-luna.jpg";
-import tributeWhiskers from "@/assets/tribute-preview-whiskers.jpg";
-import tributeMax from "@/assets/tribute-preview-max.jpg";
-import tributeClover from "@/assets/tribute-preview-clover.jpg";
+const STORAGE_BASE = "https://ppfrtdbjsagytuhweywd.supabase.co/storage/v1/object/public/pet-photos";
+const tributeLuna = `${STORAGE_BASE}/luna.jpg`;
+const tributeWhiskers = `${STORAGE_BASE}/oliver.jpg`;
+const tributeMax = `${STORAGE_BASE}/max.jpg`;
+const tributeClover = `${STORAGE_BASE}/clover.jpg`;
 import {
   Accordion,
   AccordionContent,

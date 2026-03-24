@@ -84,8 +84,8 @@ const ExampleTributeMax = () => {
         >
           <div className="overflow-hidden rounded-xl border border-border shadow-card">
             <img
-              src={"/lovable-uploads/9de65cee-31e7-4d1e-bbe8-83f80983da9c.jpg"}
-              alt="Max the Chocolate Labrador"
+src="https://ppfrtdbjsagytuhweywd.supabase.co/storage/v1/object/public/pet-photos/max.jpg"
+              alt="Max the Chocolate Labrador dog"
               className="h-auto w-full max-w-sm object-cover"
               loading="lazy"
             />
