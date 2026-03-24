@@ -95,15 +95,11 @@ const Landing = () => {
                 floor. She'd sit by the door and wait — not impatiently, but
                 like she trusted you'd always come back.
               </p>
-              <div className="relative overflow-hidden" style={{ maxHeight: "4.5em" }}>
-                <p className="font-display text-[0.95rem] leading-[1.85] text-foreground/85">
+              <p className="font-display text-[0.95rem] leading-[1.85] text-foreground/85">
                   The house feels different now. Quieter in a way that isn't
-                  peaceful. But every time the sun hits that spot on the rug
-                  where she used to sleep, it feels like she's still right there,
-                  waiting for you to sit down beside her and
+                  peaceful. And sometimes, when the sun hits that same spot on
+                  the rug, it feels like she's still right there.
                 </p>
-                <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-card via-card/80 to-transparent" />
-              </div>
             </div>
             <div className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-primary/5 blur-2xl" />
           </motion.div>
