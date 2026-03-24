@@ -12,8 +12,9 @@ const exampleStory = [
   "He had copper eyes and a grey coat that turned silver in certain light. He was beautiful in the way that cats are beautiful: completely, without effort, and without caring whether you noticed.",
   "His morning routine was precise. Bathroom counter while teeth were brushed. Kitchen windowsill while coffee brewed. The reading chair — not on it, behind it, wedged into that narrow gap between cushion and wall — by nine. He ran the household from that chair. James just paid the rent.",
   "Oliver spoke rarely. His meow was a single syllable, deployed only when absolutely necessary: closed doors, empty bowls, the inexplicable decision to run the vacuum on a Saturday morning. He had opinions about the vacuum. They were not favorable.",
-  "But here's the thing about a quiet cat. You start to hear everything else. The soft thud of him landing on the bed at midnight. The barely-there rumble of his purr when he pressed against the back of your knees on cold nights. The way he'd slow-blink across the room — which, if you know cats, is the loudest thing he ever said.",
-  "He lived fourteen years. He spent most of them in a three-foot patch of afternoon sunlight on the kitchen floor.",
+  "But quiet cats have their own language.",
+  "The soft thud of him landing on the bed at midnight. The barely-there rumble of his purr against the back of your knees on cold nights. The slow blink across the room — the loudest thing he ever said.",
+  "Fourteen years went by like that. He spent most of them in a three-foot patch of afternoon sunlight on the kitchen floor.",
   "The light still comes through at the same time every day. It crosses the tiles, reaches that spot, and sits there. Empty. Warm. Waiting for someone who already knew exactly where to lie down."
 ];
 
