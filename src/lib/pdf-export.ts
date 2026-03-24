@@ -356,7 +356,7 @@ export async function downloadMemorialPDF(
   // --- "In Loving Memory" pre-title ---
   doc.setFont("times", "italic");
   doc.setFontSize(11);
-  doc.setTextColor(170, 150, 120);
+  doc.setTextColor(148, 135, 118);
   doc.text("In Loving Memory", pageWidth / 2, 36, { align: "center" });
 
   // --- Pet name (large, centered) ---
