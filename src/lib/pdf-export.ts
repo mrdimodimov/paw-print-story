@@ -181,13 +181,13 @@ export async function downloadTributePDF(
   // --- Subline ---
   doc.setFont("times", "italic");
   doc.setFontSize(9);
-  doc.setTextColor(160, 145, 125);
+  doc.setTextColor(148, 135, 118);
   doc.text("A life remembered in the quiet moments that meant everything.", pageWidth / 2, yPos, { align: "center" });
   yPos += 8;
 
   // --- Divider under header ---
   const divInset = 30;
-  doc.setDrawColor(190, 170, 130);
+  doc.setDrawColor(180, 168, 148);
   doc.setLineWidth(0.35);
   doc.line(margin + divInset, yPos + 2, pageWidth - margin - divInset, yPos + 2);
   yPos += 16;
