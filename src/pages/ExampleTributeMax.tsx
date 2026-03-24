@@ -111,12 +111,12 @@ src="https://ppfrtdbjsagytuhweywd.supabase.co/storage/v1/object/public/pet-photo
                     <p className="text-sm italic text-muted-foreground">
                       Your pet deserves to be remembered like this.
                     </p>
-                    <button
-                      className="mt-2 text-sm text-primary hover:underline"
+                    <span
+                      className="mt-2 inline-block cursor-pointer text-sm font-medium text-foreground hover:underline"
                       onClick={() => navigate("/create")}
                     >
                       Continue your pet's story →
-                    </button>
+                    </span>
                   </div>
                 )}
               </React.Fragment>
