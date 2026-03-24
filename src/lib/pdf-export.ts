@@ -133,7 +133,7 @@ export async function downloadTributePDF(
 
   // --- Helper: draw warm background on current page ---
   const drawPageBackground = () => {
-    doc.setFillColor(250, 247, 242);
+    doc.setFillColor(240, 235, 228);
     doc.rect(0, 0, pageWidth, pageHeight, "F");
   };
 
@@ -165,7 +165,7 @@ export async function downloadTributePDF(
   // --- Title: Pet name (centered, large) ---
   doc.setFont("times", "bold");
   doc.setFontSize(32);
-  doc.setTextColor(55, 42, 28);
+  doc.setTextColor(61, 48, 40);
   doc.text(sanitizeForPDF(petName), pageWidth / 2, yPos, { align: "center" });
   yPos += 11;
 
