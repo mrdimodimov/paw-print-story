@@ -61,7 +61,6 @@ export const TIERS: TierConfig[] = [
       "Heartfelt tribute story",
       "One cherished photo",
       "Downloadable keepsake",
-      "Edit before download",
     ],
     include_share_card: true,
     include_social_post: false,
