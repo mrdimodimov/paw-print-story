@@ -1,3 +1,4 @@
+import React from "react";
 import PawIcon from "@/components/PawIcon";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -100,7 +101,14 @@ src="https://ppfrtdbjsagytuhweywd.supabase.co/storage/v1/object/public/pet-photo
         >
           <div className="space-y-4 font-body text-sm leading-relaxed text-foreground/90 md:text-base md:leading-relaxed">
             {exampleStory.map((paragraph, i) => (
-              <p key={i}>{paragraph}</p>
+              <React.Fragment key={i}>
+                <p>{paragraph}</p>
+                {i === 2 && (
+                  <p className="my-6 text-center text-sm italic text-muted-foreground">
+                    Your pet deserves to be remembered like this.
+                  </p>
+                )}
+              </React.Fragment>
             ))}
           </div>
         </motion.article>
