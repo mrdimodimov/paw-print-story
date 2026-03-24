@@ -229,13 +229,13 @@ export async function downloadTributePDF(
     const ph = doc.internal.pageSize.getHeight();
 
     // Divider above footer
-    doc.setDrawColor(190, 170, 130);
+    doc.setDrawColor(180, 168, 148);
     doc.setLineWidth(0.25);
     doc.line(margin, ph - 22, pageWidth - margin, ph - 22);
 
     // Branding
     doc.setFontSize(7);
-    doc.setTextColor(170, 165, 155);
+    doc.setTextColor(158, 148, 135);
     doc.text("Written with love using VellumPet", pageWidth / 2, ph - 16, { align: "center" });
 
     if (tier === "story") {
