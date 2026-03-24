@@ -151,7 +151,7 @@ const Landing = () => {
                   petName: "Max",
                   memoryTitle: "The One Who Greeted Everyone",
                   preview: "He never met a stranger. Every visitor was welcomed with a full-body wiggle that could knock a toddler over.",
-                  linkTo: "/example-tribute",
+                  linkTo: "/example-tribute/max",
                 },
                 {
                   imageUrl: tributeClover,
