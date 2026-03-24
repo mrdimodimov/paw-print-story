@@ -16,8 +16,8 @@ const exampleStory = [
   "Sarah used to say Luna was the only member of the family who never had a bad day. That wasn't quite true. But Luna's bad days looked like everyone else's good ones — a little quieter, a little slower, still ending with her chin on the windowsill, watching the street like she was keeping score of something only she understood.",
   "Twelve years. The walks got shorter. The naps stretched longer. Grey crept across her muzzle the way winter creeps into November — slowly, then all at once.",
   "But those eyes. Those deep, root-beer brown eyes never changed. They still said the same thing at twelve that they'd said at two: I'm here. That's enough, isn't it?",
-  "The leash still hangs by the front door. Nobody's moved it. The sunset still comes through the living room window at the same angle, lighting up the same spot on the rug where she used to sleep.",
-  "Sometimes you swear you can hear the clink."
+  "The leash still hangs by the front door. Nobody's moved it.",
+  "And sometimes, in that quiet moment just before evening settles in, you swear you can hear the faint clink of metal — like she's still there, waiting."
 ];
 
 
