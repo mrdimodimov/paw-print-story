@@ -107,9 +107,17 @@ src="https://ppfrtdbjsagytuhweywd.supabase.co/storage/v1/object/public/pet-photo
               <React.Fragment key={i}>
                 <p>{paragraph}</p>
                 {i === 2 && (
-                  <p className="my-6 text-center text-sm italic text-muted-foreground">
-                    Your pet deserves to be remembered like this.
-                  </p>
+                  <div className="my-6 text-center">
+                    <p className="text-sm italic text-muted-foreground">
+                      Your pet deserves to be remembered like this.
+                    </p>
+                    <button
+                      className="mt-2 text-sm text-primary hover:underline"
+                      onClick={() => navigate("/create")}
+                    >
+                      Continue your pet's story →
+                    </button>
+                  </div>
                 )}
               </React.Fragment>
             ))}

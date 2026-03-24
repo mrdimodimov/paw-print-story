@@ -96,9 +96,17 @@ const Landing = () => {
                 floor. She'd sit by the door and wait — not impatiently, but
                 like she trusted you'd always come back.
               </p>
-              <p className="my-6 text-center text-sm italic text-muted-foreground">
-                Your pet deserves to be remembered like this.
-              </p>
+              <div className="my-6 text-center">
+                <p className="text-sm italic text-muted-foreground">
+                  Your pet deserves to be remembered like this.
+                </p>
+                <button
+                  className="mt-2 text-sm text-primary hover:underline"
+                  onClick={() => navigate("/create")}
+                >
+                  Continue your pet's story →
+                </button>
+              </div>
               <p className="font-display text-[0.95rem] leading-[1.85] text-foreground/85">
                   The house feels different now. Quieter in a way that isn't
                   peaceful. And sometimes, when the sun hits that same spot on
