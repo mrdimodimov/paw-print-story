@@ -173,7 +173,7 @@ export async function downloadTributePDF(
   if (years) {
     doc.setFont("times", "italic");
     doc.setFontSize(12);
-    doc.setTextColor(130, 110, 85);
+    doc.setTextColor(120, 105, 88);
     doc.text(sanitizeForPDF(years), pageWidth / 2, yPos, { align: "center" });
     yPos += 9;
   }
