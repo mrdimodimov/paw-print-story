@@ -8,13 +8,13 @@ import { BRAND } from "@/lib/brand";
 const exampleTitle = "Where the Sunlight Always Found Him";
 
 const exampleStory = [
-  "Oliver never announced himself. He simply appeared — on the arm of the couch, the edge of the desk, the one square of afternoon light that moved across the kitchen floor like clockwork. He had a way of claiming space without demanding it, as if the whole house had been arranged for his comfort and everyone else was just visiting.",
-  "He was a grey tabby with copper eyes that could hold a stare longer than most people. Not aggressive, never confrontational — just deeply, unmovably certain of himself. He watched the world from windowsills with the patience of someone who had already figured everything out.",
-  "Mornings belonged to him. He would sit on the bathroom counter while teeth were brushed, occasionally batting at the faucet stream with one precise paw. He tolerated being held for exactly four seconds before a gentle but firm push with his back legs signaled that the audience was over.",
-  "His favorite place was the reading chair. Not on it — behind it, wedged into the narrow space between the cushion and the wall. From there he could observe the entire living room, half-hidden, like a cat-shaped secret the house kept for itself.",
-  "He was never loud. His meow was more of a suggestion — a single, soft syllable that meant 'door' or 'dinner' or simply 'I see you.' He purred like a small engine on cold nights, curled against the back of your knees under the covers.",
-  "Fourteen years is a long time and no time at all. The house is quieter now — not because it was ever loud, but because the particular silence Oliver carried with him had a weight to it. A presence. The kind you only notice once it's gone.",
-  "The sunlight still crosses the kitchen floor every afternoon. It reaches the same spot, at the same time, and lingers there as if waiting for someone who already knows exactly where to lie down."
+  "The first thing you should know about Oliver is that he was never in a hurry. Not once. Not for food, not for attention, not for anything. He moved through the apartment like weather — slowly, inevitably, settling into whatever room felt right and staying there until it didn't.",
+  "He had copper eyes and a grey coat that turned silver in certain light. He was beautiful in the way that cats are beautiful: completely, without effort, and without caring whether you noticed.",
+  "His morning routine was precise. Bathroom counter while teeth were brushed. Kitchen windowsill while coffee brewed. The reading chair — not on it, behind it, wedged into that narrow gap between cushion and wall — by nine. He ran the household from that chair. James just paid the rent.",
+  "Oliver spoke rarely. His meow was a single syllable, deployed only when absolutely necessary: closed doors, empty bowls, the inexplicable decision to run the vacuum on a Saturday morning. He had opinions about the vacuum. They were not favorable.",
+  "But here's the thing about a quiet cat. You start to hear everything else. The soft thud of him landing on the bed at midnight. The barely-there rumble of his purr when he pressed against the back of your knees on cold nights. The way he'd slow-blink across the room — which, if you know cats, is the loudest thing he ever said.",
+  "He lived fourteen years. He spent most of them in a three-foot patch of afternoon sunlight on the kitchen floor.",
+  "The light still comes through at the same time every day. It crosses the tiles, reaches that spot, and sits there. Empty. Warm. Waiting for someone who already knew exactly where to lie down."
 ];
 
 const ExampleTributeOliver = () => {

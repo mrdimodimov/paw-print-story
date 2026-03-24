@@ -8,13 +8,13 @@ import { BRAND } from "@/lib/brand";
 const exampleTitle = "The One Who Greeted Everyone";
 
 const exampleStory = [
-  "Max never met a stranger. Every person who walked through the front door was welcomed with a full-body wiggle that started at his nose and didn't stop until it reached the tip of his tail. He had no concept of personal space and absolutely no interest in learning one.",
-  "He was a Labrador in the truest sense — built for joy, engineered for enthusiasm, and incapable of walking past a puddle without investigating it with his entire body. His coat was the color of dark chocolate, always slightly damp from some adventure he'd just returned from.",
-  "Walks with Max were less of a stroll and more of a negotiation. Every tree needed sniffing, every squirrel needed chasing, and every other dog on the path needed a proper hello. He pulled on the leash with the cheerful determination of someone who believed the best part of the walk was always just ahead.",
-  "At home, he was a different dog — or at least he tried to be. He would curl up on the couch with his head on your lap, sighing deeply, as if the effort of being that happy all day had finally caught up with him. His snoring could be heard from two rooms away.",
-  "He loved the beach more than anything. The moment his paws hit sand, something switched on inside him — a kind of pure, unfiltered delight that made everyone around him smile. He would charge into the waves, retrieve sticks that no one had thrown, and shake himself dry at exactly the worst possible moment.",
-  "The house is louder now, somehow. Not with noise, but with the echo of all the noise he used to make. The jingle of his collar, the thud of his tail against the table leg, the scramble of his paws on the hardwood when someone said the word 'walk.'",
-  "Max taught everyone around him that happiness doesn't need to be complicated. It can be a ball, a belly rub, or just being in the same room as the people you love. That's more than enough. That's everything."
+  "Max didn't walk into rooms. He arrived. Full-body wiggle, tail going like a metronome set to allegro, tongue already out and looking for the nearest available face. If you'd never met a Labrador before, Max would have explained the entire breed to you in about four seconds.",
+  "He was chocolate-brown, perpetually damp, and had the gravitational pull of a small planet. Strangers crossed the street to pet him. Children materialized out of nowhere. The UPS driver — who was terrified of dogs — once sat on the porch and let Max lean against his legs for ten minutes. 'He's different,' the driver said. He was.",
+  "Walks were chaos. Beautiful, joyful, completely unmanageable chaos. Every tree was a headline, every squirrel was breaking news, and every other dog on the trail was a long-lost friend he hadn't seen in years. The Riveras stopped using retractable leashes after the Incident at the Farmer's Market, which they still don't talk about at dinner.",
+  "But at home — at home he was a different animal. He'd collapse on the couch like someone had unplugged him, sigh once from somewhere deep in his chest, and fall asleep with his head on whatever lap was closest. His snoring rattled the windows. Nobody minded.",
+  "He loved the beach. God, he loved the beach. The moment his paws hit sand he became something elemental — pure velocity and joy, crashing into waves, retrieving sticks nobody threw, shaking himself dry at the exact moment you'd put your phone away and thought it was safe.",
+  "The collar is in a drawer now. The leash is in the closet. The house is clean in a way it never was before, and quieter in a way that nobody wanted.",
+  "But sometimes, when someone rings the doorbell, everyone in the family still pauses for half a second. Listening for the scramble of paws on hardwood that isn't coming. Smiling anyway."
 ];
 
 const ExampleTributeMax = () => {
