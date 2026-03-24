@@ -43,69 +43,69 @@ const Landing = () => {
 
       {/* Hero */}
       <section className="py-20 md:py-28">
-        <div className="tribute-container">
-          <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
-            {/* Left — Text */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
+        <div className="tribute-container max-w-2xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="text-center"
+          >
+            <p className="mb-4 font-display text-sm tracking-wide text-muted-foreground">
+              For when saying goodbye is hard
+            </p>
+            <h1 className="mb-5 font-display text-4xl font-bold leading-[1.15] text-foreground md:text-5xl lg:text-[3.4rem]">
+              When saying goodbye is hard, keep their story alive.
+            </h1>
+            <p className="mx-auto mb-10 max-w-lg text-lg leading-relaxed text-muted-foreground">
+              Answer a few simple questions, and we'll turn your memories into
+              a heartfelt tribute you can keep, read, and share.
+            </p>
+            <Button
+              size="lg"
+              className="px-8 py-6 text-lg shadow-glow"
+              onClick={() => navigate("/create")}
             >
-              <p className="mb-4 font-display text-sm tracking-wide text-muted-foreground">
-                For when saying goodbye is hard
-              </p>
-              <h1 className="mb-5 font-display text-4xl font-bold leading-[1.15] text-foreground md:text-5xl lg:text-[3.4rem]">
-                When saying goodbye is hard, keep their story alive.
-              </h1>
-              <p className="mb-10 max-w-lg text-lg leading-relaxed text-muted-foreground">
-                Answer a few simple questions, and we'll turn your memories into
-                a heartfelt tribute you can keep, read, and share.
-              </p>
-              <Button
-                size="lg"
-                className="px-8 py-6 text-lg shadow-glow"
-                onClick={() => navigate("/create")}
-              >
-                <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} />
-                Create Their Tribute
-              </Button>
-              <p className="mt-4 text-sm text-muted-foreground">
-                Takes less than 2 minutes — no writing needed
-              </p>
-            </motion.div>
+              <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} />
+              Create Their Tribute
+            </Button>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Takes less than 2 minutes — no writing needed
+            </p>
+          </motion.div>
 
-            {/* Right — Story Preview Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="relative mx-auto w-full max-w-sm md:max-w-none"
-            >
-              <div className="rounded-2xl border border-border bg-card p-8 shadow-card sm:p-10">
-                <p className="mb-5 font-display text-[0.95rem] leading-[1.85] text-foreground/85">
-                  She had a way of knowing exactly when you needed her. Not with
-                  grand gestures — just a quiet arrival at your feet, a warm
-                  weight against your leg that said,{" "}
-                  <em className="text-primary/70">"I'm here."</em>
+          {/* Story Preview Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="relative mt-10"
+          >
+            <p className="mb-3 text-center text-xs tracking-wide text-muted-foreground/70">
+              Example tribute
+            </p>
+            <div className="rounded-2xl border border-border bg-card p-8 shadow-card sm:p-10">
+              <p className="mb-5 font-display text-[0.95rem] leading-[1.85] text-foreground/85">
+                She had a way of knowing exactly when you needed her. Not with
+                grand gestures — just a quiet arrival at your feet, a warm
+                weight against your leg that said,{" "}
+                <em className="text-primary/70">"I'm here."</em>
+              </p>
+              <p className="mb-5 font-display text-[0.95rem] leading-[1.85] text-foreground/85">
+                Mornings started with the sound of her paws on the kitchen
+                floor. She'd sit by the door and wait — not impatiently, but
+                like she trusted you'd always come back.
+              </p>
+              <div className="relative">
+                <p className="font-display text-[0.95rem] leading-[1.85] text-foreground/85">
+                  The house feels different now. Quieter in a way that isn't
+                  peaceful. But every time the sun hits that spot on the rug
+                  where she used to sleep, it feels like she's still...
                 </p>
-                <p className="mb-5 font-display text-[0.95rem] leading-[1.85] text-foreground/85">
-                  Mornings started with the sound of her paws on the kitchen
-                  floor. She'd sit by the door and wait — not impatiently, but
-                  like she trusted you'd always come back.
-                </p>
-                <div className="relative">
-                  <p className="font-display text-[0.95rem] leading-[1.85] text-foreground/85">
-                    The house feels different now. Quieter in a way that isn't
-                    peaceful. But every time the sun hits that spot on the rug
-                    where she used to sleep, it feels like she's still...
-                  </p>
-                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-card to-transparent" />
-                </div>
+                <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-card to-transparent" />
               </div>
-              {/* Decorative glow */}
-              <div className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-primary/5 blur-2xl" />
-            </motion.div>
-          </div>
+            </div>
+            <div className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-primary/5 blur-2xl" />
+          </motion.div>
         </div>
       </section>
 
