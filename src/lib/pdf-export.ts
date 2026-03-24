@@ -261,8 +261,8 @@ function drawPawWatermark(doc: jsPDF) {
   const cy = pageHeight - 40;
 
   // ~10% opacity via light gray on warm background
-  doc.setFillColor(225, 218, 205);
-  doc.setDrawColor(225, 218, 205);
+  doc.setFillColor(218, 210, 198);
+  doc.setDrawColor(218, 210, 198);
 
   // Main pad
   doc.circle(cx, cy + 10, 11, "F");
