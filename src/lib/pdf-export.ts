@@ -340,11 +340,11 @@ export async function downloadMemorialPDF(
   const images = await loadImages(photoUrls);
 
   // --- Warm paper background ---
-  doc.setFillColor(250, 247, 242);
+  doc.setFillColor(240, 235, 228);
   doc.rect(0, 0, pageWidth, pageHeight, "F");
 
   // --- Double decorative border ---
-  doc.setDrawColor(180, 160, 120);
+  doc.setDrawColor(168, 155, 135);
   doc.setLineWidth(0.8);
   doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
   doc.setLineWidth(0.25);
