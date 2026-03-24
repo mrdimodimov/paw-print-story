@@ -54,6 +54,7 @@ export const TIERS: TierConfig[] = [
     id: "story",
     name: "Simple Tribute",
     price: 19,
+    label: "For quick, simple goodbyes",
     description: "A simple, heartfelt way to remember them — perfect if you want something meaningful, quickly.",
     micro_text: "A gentle way to say what words alone can't",
     word_count_target: [350, 450],
