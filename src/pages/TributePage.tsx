@@ -683,7 +683,7 @@ const TributePage = () => {
           )}
 
           {justGenerated && effectiveUnlocked && !preEmail.current && (
-            <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} />
+            <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} isTestMode={isTestMode} />
           )}
 
           {/* Additional Photos (if more than 1) */}
