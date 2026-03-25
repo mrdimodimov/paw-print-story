@@ -119,6 +119,7 @@ const templates: Record<number, (petName: string, tributeId: string) => EmailTem
 
 const RATE_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
 const MAX_SENDS_PER_WINDOW = 3;
+const DEDUP_WINDOW_MS = 60 * 1000; // 60 seconds per-user dedup
 
 async function isRateLimited(
   sb: ReturnType<typeof getSupabaseClient>,
