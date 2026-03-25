@@ -440,13 +440,17 @@ async function handleCron(sb: SB) {
       continue;
     }
 
-    // For conditional emails, re-check signals at send time (tribute may have been paid since)
+    // For conditional emails, re-check per-email qualification at send time
     if (schedule.conditional && row.tribute_id) {
       const signals = await getTributeSignals(sb, row.tribute_id);
-      if (!signals || signals.isPaid || !isHighIntent(signals)) {
+      const qualifies = signals && (
+        (row.email_number === 5 && qualifiesForPhotoEmail(signals)) ||
+        (row.email_number === 6 && qualifiesForEngagementEmail(signals))
+      );
+      if (!qualifies) {
         await sb.from("tribute_email_sequence").update({ stopped: true }).eq("id", row.id);
         skipped++;
-        console.log(`[cron] Conditional skip (signals changed): ${row.id}`);
+        console.log(`[cron] Conditional skip (email ${row.email_number}, signals changed): ${row.id}`);
         continue;
       }
     }
