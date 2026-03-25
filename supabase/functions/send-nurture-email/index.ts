@@ -363,10 +363,10 @@ async function handleTrigger(
   let conditionalNumbers: number[] = [];
   if (tributeId) {
     const signals = await getTributeSignals(sb, tributeId);
-    if (signals && isHighIntent(signals)) {
-      conditionalNumbers = Object.entries(SCHEDULE)
-        .filter(([, s]) => s.conditional).map(([n]) => Number(n));
-      console.log(`[trigger] High-intent detected: photos=${signals.photoCount}, hasStory=${signals.hasStory}`);
+    if (signals) {
+      if (qualifiesForPhotoEmail(signals)) conditionalNumbers.push(5);
+      if (qualifiesForEngagementEmail(signals)) conditionalNumbers.push(6);
+      console.log(`[trigger] Signals: photos=${signals.photoCount}, storyLen=${signals.storyLength}, isPaid=${signals.isPaid}, conditional=[${conditionalNumbers}]`);
     }
   }
 
