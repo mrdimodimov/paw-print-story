@@ -167,6 +167,12 @@ async function enqueueNurtureEmail(
     return;
   }
 
+  // 60s dedup guard
+  if (await isDuplicate(sb, recipientEmail, "nurture_email")) {
+    console.warn(`Duplicate within 60s: ${recipientEmail}`);
+    return;
+  }
+
   const tpl = templates[emailNumber](petName, tributeId);
   const payload = {
     to: recipientEmail,
