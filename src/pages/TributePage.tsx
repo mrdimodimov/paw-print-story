@@ -851,7 +851,7 @@ const TributePage = () => {
           {/* Email save — below story card for locked users */}
           {!effectiveUnlocked && justGenerated && !preEmail.current && (
             <div className="mb-2">
-              <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} />
+              <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} isTestMode={isTestMode} />
             </div>
           )}
 

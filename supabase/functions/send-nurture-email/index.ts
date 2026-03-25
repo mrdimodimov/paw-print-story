@@ -134,6 +134,22 @@ async function isRateLimited(
   return (count ?? 0) >= MAX_SENDS_PER_WINDOW;
 }
 
+/** Check if same email was triggered within 60s (dedup guard) */
+async function isDuplicate(
+  sb: ReturnType<typeof getSupabaseClient>,
+  email: string,
+  templatePrefix: string,
+): Promise<boolean> {
+  const windowStart = new Date(Date.now() - DEDUP_WINDOW_MS).toISOString();
+  const { count } = await sb
+    .from("email_send_log")
+    .select("id", { count: "exact", head: true })
+    .eq("recipient_email", email)
+    .like("template_name", `${templatePrefix}%`)
+    .gte("created_at", windowStart);
+  return (count ?? 0) > 0;
+}
+
 // ─── Handlers ──────────────────────────────────────────────────────
 
 /** Enqueue a single nurture email via pgmq */
