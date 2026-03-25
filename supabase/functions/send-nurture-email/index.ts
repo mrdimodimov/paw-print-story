@@ -7,19 +7,39 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-function getSupabaseClient() {
+type SB = ReturnType<typeof createClient>;
+
+function getSupabaseClient(): SB {
   return createClient(
     Deno.env.get("SUPABASE_URL")!,
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
   );
 }
 
+// ─── Brand constants ───────────────────────────────────────────────
+
 const BASE_URL = "https://paw-print-story.lovable.app";
 const SENDER_DOMAIN = "notify.vellumpet.com";
 const BRAND_NAME = "VellumPet";
-const PRIMARY_COLOR = "#6B5744"; // warm brown from logo
+const PRIMARY_COLOR = "#6B5744";
 
-// ─── Email Templates ───────────────────────────────────────────────
+// ─── Safety limits ─────────────────────────────────────────────────
+
+const MAX_SENDS_PER_5MIN = 3;
+const DEDUP_WINDOW_MS = 60_000; // 60s per-template dedup
+const SAME_TYPE_COOLDOWN_MS = 48 * 60 * 60 * 1000; // 48h per email_type
+const MAX_PER_CRON_RUN = 10; // hard cap per cron invocation
+
+// ─── Scheduling: emotion-based delays (hours after sequence created) ──
+
+const SCHEDULE: Record<number, { delayHours: number; label: string }> = {
+  1: { delayHours: 0, label: "confirmation" },       // immediate
+  2: { delayHours: 24, label: "gentle follow-up" },   // Day 1
+  3: { delayHours: 72, label: "memory prompt" },       // Day 3
+  4: { delayHours: 168, label: "sharing reminder" },   // Day 7
+};
+
+// ─── Email Templates (emotional, non-promotional) ──────────────────
 
 function tributeUrl(tributeId: string): string {
   return `${BASE_URL}/tribute/${tributeId}`;
@@ -56,143 +76,169 @@ function ctaButton(text: string, url: string): string {
 </td></tr></table>`;
 }
 
-interface EmailTemplate {
-  subject: string;
-  html: string;
-}
+interface EmailTemplate { subject: string; html: string }
 
-function email1(petName: string, tId: string): EmailTemplate {
-  return {
-    subject: "Your pet's tribute is saved",
+const templates: Record<number, (petName: string, tributeId: string) => EmailTemplate> = {
+  1: (petName, tId) => ({
+    subject: `${petName}'s tribute has been saved`,
     html: wrapHtml(`
-      <h2 style="margin:0 0 16px;font-size:22px;color:#2a2017;font-weight:600;">Your tribute has been safely saved</h2>
+      <h2 style="margin:0 0 16px;font-size:22px;color:#2a2017;font-weight:600;">${petName}'s tribute is safe with us</h2>
       <p style="margin:0 0 8px;font-size:16px;line-height:1.6;color:#4a4035;">
-        ${petName}'s tribute is ready and waiting for you.
+        We know how much ${petName} meant to you. Your tribute is saved and ready whenever you need it.
       </p>
       <p style="margin:0;font-size:16px;line-height:1.6;color:#4a4035;">
-        You can come back anytime to view, edit, or download it.
+        Come back anytime to read, share, or add to it.
       </p>
       ${ctaButton("View Your Tribute", tributeUrl(tId))}
     `),
-  };
-}
-
-function email2(petName: string, tId: string): EmailTemplate {
-  return {
-    subject: "You started something meaningful",
+  }),
+  2: (petName, tId) => ({
+    subject: "Add a memory you never want to forget",
     html: wrapHtml(`
-      <h2 style="margin:0 0 16px;font-size:22px;color:#2a2017;font-weight:600;">You started something meaningful</h2>
+      <h2 style="margin:0 0 16px;font-size:22px;color:#2a2017;font-weight:600;">Add a memory you never want to forget</h2>
       <p style="margin:0 0 8px;font-size:16px;line-height:1.6;color:#4a4035;">
-        You began creating a tribute for ${petName}.
+        Sometimes the smallest moments are the ones we miss most — the way ${petName} greeted you, a favorite spot, a silly habit.
       </p>
       <p style="margin:0;font-size:16px;line-height:1.6;color:#4a4035;">
-        Your story is still waiting.
+        Your tribute is a place to hold onto those details before they fade.
       </p>
-      ${ctaButton("Continue Your Tribute", tributeUrl(tId))}
+      ${ctaButton("Add a Memory", tributeUrl(tId))}
     `),
-  };
-}
-
-function email3(petName: string, tId: string): EmailTemplate {
-  return {
-    subject: "Every pet deserves to be remembered",
+  }),
+  3: (petName, tId) => ({
+    subject: `${petName}'s story deserves to be told`,
     html: wrapHtml(`
-      <h2 style="margin:0 0 16px;font-size:22px;color:#2a2017;font-weight:600;">Every pet deserves to be remembered</h2>
+      <h2 style="margin:0 0 16px;font-size:22px;color:#2a2017;font-weight:600;">${petName}'s story deserves to be told</h2>
       <p style="margin:0 0 8px;font-size:16px;line-height:1.6;color:#4a4035;">
-        A tribute is a simple way to preserve those memories.
+        The people who loved ${petName} would love to see this tribute too.
       </p>
       <p style="margin:0;font-size:16px;line-height:1.6;color:#4a4035;">
-        ${petName}'s tribute is still available.
+        Share it with family or friends — sometimes remembering together makes it a little easier.
       </p>
-      ${ctaButton("Finish Your Tribute", tributeUrl(tId))}
+      ${ctaButton("Share ${petName}'s Tribute", tributeUrl(tId))}
     `),
-  };
-}
-
-const templates: Record<number, (petName: string, tributeId: string) => EmailTemplate> = {
-  1: email1,
-  2: email2,
-  3: email3,
+  }),
+  4: (petName, tId) => ({
+    subject: "Take a moment to remember them today",
+    html: wrapHtml(`
+      <h2 style="margin:0 0 16px;font-size:22px;color:#2a2017;font-weight:600;">Take a moment to remember ${petName}</h2>
+      <p style="margin:0 0 8px;font-size:16px;line-height:1.6;color:#4a4035;">
+        It's been a little while, and we just wanted you to know — ${petName}'s tribute is still here, exactly where you left it.
+      </p>
+      <p style="margin:0;font-size:16px;line-height:1.6;color:#4a4035;">
+        Whenever you're ready, it's waiting for you.
+      </p>
+      ${ctaButton("Visit ${petName}'s Tribute", tributeUrl(tId))}
+    `),
+  }),
 };
 
-// ─── Rate-limit guard ──────────────────────────────────────────────
+// ─── safeEnqueueEmail (mandatory validation gate) ──────────────────
 
-const RATE_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
-const MAX_SENDS_PER_WINDOW = 3;
-const DEDUP_WINDOW_MS = 60 * 1000; // 60 seconds per-user dedup
+async function safeEnqueueEmail(
+  sb: SB,
+  queueName: string,
+  payload: Record<string, unknown>,
+): Promise<void> {
+  if (payload.purpose !== "transactional") {
+    const reason = !payload.purpose ? "missing 'purpose'" : `invalid purpose '${payload.purpose}'`;
+    console.error(`[safeEnqueue] REJECTED: ${reason}`, { to: payload.to, queue: queueName });
+    throw new Error(`Enqueue blocked: ${reason}`);
+  }
+  if (!payload.to || !payload.subject || !payload.html) {
+    console.error("[safeEnqueue] REJECTED: missing required fields", {
+      to: !!payload.to, subject: !!payload.subject, html: !!payload.html,
+    });
+    throw new Error("Enqueue blocked: missing to/subject/html");
+  }
+  console.log("[safeEnqueue] OK", { to: payload.to, queue: queueName });
+  await sb.rpc("enqueue_email", { queue_name: queueName, payload });
+}
 
-async function isRateLimited(
-  sb: ReturnType<typeof getSupabaseClient>,
-  email: string,
-): Promise<boolean> {
-  const windowStart = new Date(Date.now() - RATE_WINDOW_MS).toISOString();
+// ─── Guards ────────────────────────────────────────────────────────
+
+async function isRateLimited(sb: SB, email: string): Promise<boolean> {
+  const windowStart = new Date(Date.now() - 5 * 60 * 1000).toISOString();
   const { count } = await sb
     .from("email_send_log")
     .select("id", { count: "exact", head: true })
     .eq("recipient_email", email)
     .gte("created_at", windowStart);
-  return (count ?? 0) >= MAX_SENDS_PER_WINDOW;
+  return (count ?? 0) >= MAX_SENDS_PER_5MIN;
 }
 
-/** Check if same email was triggered within 60s (dedup guard) */
-async function isDuplicate(
-  sb: ReturnType<typeof getSupabaseClient>,
-  email: string,
-  templatePrefix: string,
-): Promise<boolean> {
+async function isDuplicateRecent(sb: SB, email: string, templateName: string): Promise<boolean> {
   const windowStart = new Date(Date.now() - DEDUP_WINDOW_MS).toISOString();
   const { count } = await sb
     .from("email_send_log")
     .select("id", { count: "exact", head: true })
     .eq("recipient_email", email)
-    .like("template_name", `${templatePrefix}%`)
+    .eq("template_name", templateName)
     .gte("created_at", windowStart);
   return (count ?? 0) > 0;
 }
 
-// ─── Handlers ──────────────────────────────────────────────────────
-
-/** Validate and enqueue — rejects payloads missing purpose: "transactional" */
-async function safeEnqueueEmail(
-  sb: ReturnType<typeof getSupabaseClient>,
-  queueName: string,
-  payload: Record<string, unknown>,
-) {
-  if (!payload.purpose) {
-    console.error("[safeEnqueue] REJECTED: missing 'purpose' field", { to: payload.to, queue: queueName });
-    throw new Error("Missing purpose field in email payload");
-  }
-  if (payload.purpose !== "transactional") {
-    console.error("[safeEnqueue] REJECTED: invalid purpose", { purpose: payload.purpose, to: payload.to });
-    throw new Error(`Invalid purpose: ${payload.purpose}`);
-  }
-  if (!payload.to || !payload.subject || !payload.html) {
-    console.error("[safeEnqueue] REJECTED: missing required fields", { to: payload.to, subject: !!payload.subject, html: !!payload.html });
-    throw new Error("Missing required email fields (to, subject, html)");
-  }
-  console.log("[safeEnqueue] OK", { to: payload.to, queue: queueName });
-  return sb.rpc("enqueue_email", { queue_name: queueName, payload });
+async function sameTypeSentRecently(sb: SB, email: string, templateName: string): Promise<boolean> {
+  const windowStart = new Date(Date.now() - SAME_TYPE_COOLDOWN_MS).toISOString();
+  const { count } = await sb
+    .from("email_send_log")
+    .select("id", { count: "exact", head: true })
+    .eq("recipient_email", email)
+    .eq("template_name", templateName)
+    .gte("created_at", windowStart);
+  return (count ?? 0) > 0;
 }
 
-/** Enqueue a single nurture email via pgmq */
+async function isSuppressed(sb: SB, email: string): Promise<boolean> {
+  const { count } = await sb
+    .from("suppressed_emails")
+    .select("id", { count: "exact", head: true })
+    .eq("email", email);
+  return (count ?? 0) > 0;
+}
+
+async function isTributeCompleted(sb: SB, tributeId: string): Promise<boolean> {
+  const { data } = await sb
+    .from("tributes")
+    .select("is_paid")
+    .eq("id", tributeId)
+    .single();
+  return data?.is_paid === true;
+}
+
+// ─── Enqueue with full guard chain ─────────────────────────────────
+
 async function enqueueNurtureEmail(
-  sb: ReturnType<typeof getSupabaseClient>,
+  sb: SB,
   recipientEmail: string,
   emailNumber: number,
   petName: string,
   tributeId: string,
   sequenceId: string,
-) {
-  // Server-side rate limit check
-  if (await isRateLimited(sb, recipientEmail)) {
-    console.warn(`Rate limited: ${recipientEmail}`);
-    return;
-  }
+): Promise<boolean> {
+  const templateName = `nurture_email_${emailNumber}`;
+  const idempotencyKey = `${recipientEmail}:${templateName}:${tributeId}`;
 
-  // 60s dedup guard
-  if (await isDuplicate(sb, recipientEmail, "nurture_email")) {
-    console.warn(`Duplicate within 60s: ${recipientEmail}`);
-    return;
+  // Guard chain — each logs its own rejection reason
+  if (await isSuppressed(sb, recipientEmail)) {
+    console.log(`[nurture] Suppressed: ${recipientEmail}`);
+    return false;
+  }
+  if (await isRateLimited(sb, recipientEmail)) {
+    console.log(`[nurture] Rate limited: ${recipientEmail}`);
+    return false;
+  }
+  if (await isDuplicateRecent(sb, recipientEmail, templateName)) {
+    console.log(`[nurture] Dedup (60s): ${idempotencyKey}`);
+    return false;
+  }
+  if (await sameTypeSentRecently(sb, recipientEmail, templateName)) {
+    console.log(`[nurture] Same type cooldown (48h): ${idempotencyKey}`);
+    return false;
+  }
+  if (tributeId && await isTributeCompleted(sb, tributeId)) {
+    console.log(`[nurture] Tribute completed, skipping: ${tributeId}`);
+    return false;
   }
 
   const tpl = templates[emailNumber](petName, tributeId);
@@ -202,30 +248,39 @@ async function enqueueNurtureEmail(
     html: tpl.html,
     from: `${BRAND_NAME} <hello@${SENDER_DOMAIN}>`,
     purpose: "transactional" as const,
+    idempotency_key: idempotencyKey,
     sequence_id: sequenceId,
     email_number: emailNumber,
   };
 
   await safeEnqueueEmail(sb, "transactional_emails", payload);
 
-  // Log
   await sb.from("email_send_log").insert({
     recipient_email: recipientEmail,
-    template_name: `nurture_email_${emailNumber}`,
+    template_name: templateName,
     status: "pending",
-    metadata: { tribute_id: tributeId, sequence_id: sequenceId },
+    metadata: {
+      tribute_id: tributeId,
+      sequence_id: sequenceId,
+      idempotency_key: idempotencyKey,
+      schedule_label: SCHEDULE[emailNumber]?.label ?? "unknown",
+    },
   });
+
+  console.log(`[nurture] Enqueued: ${idempotencyKey}`);
+  return true;
 }
 
-/** Called immediately when a user saves their email — sends email 1 and creates sequence rows */
+// ─── Trigger handler (user clicks "save email") ───────────────────
+
 async function handleTrigger(
-  sb: ReturnType<typeof getSupabaseClient>,
+  sb: SB,
   tributeEmailId: string,
   email: string,
   tributeId: string,
   petName: string,
 ) {
-  // Idempotency: check if sequence rows already exist
+  // Idempotency: check if sequence already exists
   const { data: existing } = await sb
     .from("tribute_email_sequence")
     .select("id")
@@ -233,18 +288,18 @@ async function handleTrigger(
     .eq("email_number", 1);
 
   if (existing && existing.length > 0) {
-    console.log(`[nurture] Idempotency block: sequence already exists for ${tributeEmailId}`);
+    console.log(`[trigger] Idempotent skip: sequence exists for ${tributeEmailId}`);
     return;
   }
 
-  // Server-side rate limit
   if (await isRateLimited(sb, email)) {
-    console.warn(`[nurture] Rate limited on trigger: ${email}`);
+    console.log(`[trigger] Rate limited: ${email}`);
     return;
   }
 
-  // Create sequence rows for emails 1, 2, 3
-  const rows = [1, 2, 3].map((n) => ({
+  // Create sequence rows for all scheduled emails
+  const emailNumbers = Object.keys(SCHEDULE).map(Number);
+  const rows = emailNumbers.map((n) => ({
     tribute_email_id: tributeEmailId,
     email,
     tribute_id: tributeId,
@@ -259,92 +314,98 @@ async function handleTrigger(
 
   if (!inserted) return;
 
-  // Send email 1 immediately
+  // Send email 1 immediately (delay = 0)
   const seq1 = inserted.find((r: any) => r.email_number === 1);
   if (seq1) {
-    await enqueueNurtureEmail(sb, email, 1, petName, tributeId, seq1.id);
-    await sb
-      .from("tribute_email_sequence")
-      .update({ sent_at: new Date().toISOString() })
-      .eq("id", seq1.id);
+    const sent = await enqueueNurtureEmail(sb, email, 1, petName, tributeId, seq1.id);
+    if (sent) {
+      await sb.from("tribute_email_sequence")
+        .update({ sent_at: new Date().toISOString() })
+        .eq("id", seq1.id);
+    }
   }
+
+  console.log(`[trigger] Sequence created: ${emailNumbers.length} emails for ${tributeEmailId}`);
 }
 
-/** Called by cron — checks for due emails 2 and 3 */
-async function handleCron(sb: ReturnType<typeof getSupabaseClient>) {
-  const now = new Date();
+// ─── Cron handler (scheduled emails 2, 3, 4) ──────────────────────
 
-  // Get unsent, not-stopped sequence entries for emails 2 and 3
+async function handleCron(sb: SB) {
+  const now = new Date();
+  const emailNumbers = Object.keys(SCHEDULE).map(Number).filter((n) => n > 1);
+
   const { data: pending } = await sb
     .from("tribute_email_sequence")
     .select("*")
     .is("sent_at", null)
     .eq("stopped", false)
-    .in("email_number", [2, 3])
-    .limit(50);
+    .in("email_number", emailNumbers)
+    .limit(MAX_PER_CRON_RUN);
 
-  if (!pending || pending.length === 0) return { processed: 0 };
+  if (!pending || pending.length === 0) return { processed: 0, skipped: 0 };
 
   let processed = 0;
+  let skipped = 0;
 
   for (const row of pending) {
+    // Hard cap per run
+    if (processed >= MAX_PER_CRON_RUN) {
+      console.log(`[cron] Hit max per run (${MAX_PER_CRON_RUN}), stopping`);
+      break;
+    }
+
     const createdAt = new Date(row.created_at);
     const hoursSince = (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60);
+    const schedule = SCHEDULE[row.email_number];
+    if (!schedule || hoursSince < schedule.delayHours) continue;
 
-    // Email 2: send after 8 hours (midpoint of 6-12)
-    // Email 3: send after 36 hours (midpoint of 24-48)
-    const minHours = row.email_number === 2 ? 8 : 36;
-    if (hoursSince < minHours) continue;
-
-    // Check stop conditions: has email 1 been marked stopped?
-    const { data: stopped } = await sb
+    // Check if any sibling in the sequence was stopped
+    const { data: stoppedSiblings } = await sb
       .from("tribute_email_sequence")
       .select("stopped")
       .eq("tribute_email_id", row.tribute_email_id)
       .eq("stopped", true)
       .limit(1);
 
-    if (stopped && stopped.length > 0) {
-      // Mark this one as stopped too
-      await sb
-        .from("tribute_email_sequence")
-        .update({ stopped: true })
-        .eq("id", row.id);
+    if (stoppedSiblings && stoppedSiblings.length > 0) {
+      await sb.from("tribute_email_sequence").update({ stopped: true }).eq("id", row.id);
+      skipped++;
+      console.log(`[cron] Stopped (sibling): ${row.id}`);
       continue;
     }
 
-    // Check suppression list
-    const { data: suppressed } = await sb
-      .from("suppressed_emails")
-      .select("id")
-      .eq("email", row.email)
-      .limit(1);
-
-    if (suppressed && suppressed.length > 0) {
-      await sb
-        .from("tribute_email_sequence")
-        .update({ stopped: true })
-        .eq("id", row.id);
+    // Suppression check
+    if (await isSuppressed(sb, row.email)) {
+      await sb.from("tribute_email_sequence").update({ stopped: true }).eq("id", row.id);
+      skipped++;
+      console.log(`[cron] Suppressed: ${row.email}`);
       continue;
     }
 
-    // Send
-    await enqueueNurtureEmail(
-      sb,
-      row.email,
-      row.email_number,
-      row.pet_name,
-      row.tribute_id,
-      row.id,
+    // Tribute completed check
+    if (row.tribute_id && await isTributeCompleted(sb, row.tribute_id)) {
+      await sb.from("tribute_email_sequence").update({ stopped: true }).eq("id", row.id);
+      skipped++;
+      console.log(`[cron] Tribute completed: ${row.tribute_id}`);
+      continue;
+    }
+
+    const sent = await enqueueNurtureEmail(
+      sb, row.email, row.email_number, row.pet_name, row.tribute_id, row.id,
     );
-    await sb
-      .from("tribute_email_sequence")
-      .update({ sent_at: now.toISOString() })
-      .eq("id", row.id);
-    processed++;
+
+    if (sent) {
+      await sb.from("tribute_email_sequence")
+        .update({ sent_at: now.toISOString() })
+        .eq("id", row.id);
+      processed++;
+    } else {
+      skipped++;
+    }
   }
 
-  return { processed };
+  console.log(`[cron] Done: processed=${processed}, skipped=${skipped}`);
+  return { processed, skipped };
 }
 
 // ─── Main ──────────────────────────────────────────────────────────
@@ -359,21 +420,13 @@ serve(async (req) => {
     const body = await req.json().catch(() => ({}));
 
     if (body.action === "trigger") {
-      // Immediate trigger from client
-      await handleTrigger(
-        sb,
-        body.tribute_email_id,
-        body.email,
-        body.tribute_id,
-        body.pet_name,
-      );
+      await handleTrigger(sb, body.tribute_email_id, body.email, body.tribute_id, body.pet_name);
       return new Response(JSON.stringify({ ok: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     if (body.action === "cron") {
-      // Cron-triggered check for delayed emails
       const result = await handleCron(sb);
       return new Response(JSON.stringify({ ok: true, ...result }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -381,9 +434,7 @@ serve(async (req) => {
     }
 
     if (body.action === "stop") {
-      // Stop sequence for a tribute_email_id
-      await sb
-        .from("tribute_email_sequence")
+      await sb.from("tribute_email_sequence")
         .update({ stopped: true })
         .eq("tribute_email_id", body.tribute_email_id)
         .is("sent_at", null);
