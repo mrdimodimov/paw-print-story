@@ -236,6 +236,7 @@ interface TributeSignals {
   photoCount: number;
   hasStory: boolean;
   isPaid: boolean;
+  storyLength: number;
 }
 
 async function getTributeSignals(sb: SB, tributeId: string): Promise<TributeSignals | null> {
@@ -243,15 +244,28 @@ async function getTributeSignals(sb: SB, tributeId: string): Promise<TributeSign
     .select("photo_urls, tribute_story, is_paid")
     .eq("id", tributeId).single();
   if (!data) return null;
+  const storyLen = data.tribute_story?.length ?? 0;
   return {
     photoCount: Array.isArray(data.photo_urls) ? data.photo_urls.length : 0,
-    hasStory: !!data.tribute_story && data.tribute_story.length > 100,
+    hasStory: storyLen > 100,
     isPaid: data.is_paid === true,
+    storyLength: storyLen,
   };
 }
 
-function isHighIntent(signals: TributeSignals): boolean {
+// Email 5: photos >= 3 AND not paid
+function qualifiesForPhotoEmail(signals: TributeSignals): boolean {
+  return signals.photoCount >= PHOTO_THRESHOLD && !signals.isPaid;
+}
+
+// Email 6: high engagement (photos + story) AND not paid
+function qualifiesForEngagementEmail(signals: TributeSignals): boolean {
   return signals.photoCount >= PHOTO_THRESHOLD && signals.hasStory && !signals.isPaid;
+}
+
+// Legacy compat
+function isHighIntent(signals: TributeSignals): boolean {
+  return qualifiesForPhotoEmail(signals);
 }
 
 // ─── Enqueue with full guard chain ─────────────────────────────────
