@@ -212,11 +212,14 @@ async function handleTrigger(
     .eq("tribute_email_id", tributeEmailId)
     .eq("email_number", 1);
 
-  if (existing && existing.length > 0) return; // already triggered
+  if (existing && existing.length > 0) {
+    console.log(`[nurture] Idempotency block: sequence already exists for ${tributeEmailId}`);
+    return;
+  }
 
   // Server-side rate limit
   if (await isRateLimited(sb, email)) {
-    console.warn(`Rate limited on trigger: ${email}`);
+    console.warn(`[nurture] Rate limited on trigger: ${email}`);
     return;
   }
 
