@@ -179,6 +179,7 @@ async function enqueueNurtureEmail(
     subject: tpl.subject,
     html: tpl.html,
     from: `${BRAND_NAME} <hello@${SENDER_DOMAIN}>`,
+    purpose: "transactional",
     sequence_id: sequenceId,
     email_number: emailNumber,
   };
