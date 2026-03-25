@@ -152,6 +152,28 @@ async function isDuplicate(
 
 // ─── Handlers ──────────────────────────────────────────────────────
 
+/** Validate and enqueue — rejects payloads missing purpose: "transactional" */
+async function safeEnqueueEmail(
+  sb: ReturnType<typeof getSupabaseClient>,
+  queueName: string,
+  payload: Record<string, unknown>,
+) {
+  if (!payload.purpose) {
+    console.error("[safeEnqueue] REJECTED: missing 'purpose' field", { to: payload.to, queue: queueName });
+    throw new Error("Missing purpose field in email payload");
+  }
+  if (payload.purpose !== "transactional") {
+    console.error("[safeEnqueue] REJECTED: invalid purpose", { purpose: payload.purpose, to: payload.to });
+    throw new Error(`Invalid purpose: ${payload.purpose}`);
+  }
+  if (!payload.to || !payload.subject || !payload.html) {
+    console.error("[safeEnqueue] REJECTED: missing required fields", { to: payload.to, subject: !!payload.subject, html: !!payload.html });
+    throw new Error("Missing required email fields (to, subject, html)");
+  }
+  console.log("[safeEnqueue] OK", { to: payload.to, queue: queueName });
+  return sb.rpc("enqueue_email", { queue_name: queueName, payload });
+}
+
 /** Enqueue a single nurture email via pgmq */
 async function enqueueNurtureEmail(
   sb: ReturnType<typeof getSupabaseClient>,
@@ -179,15 +201,12 @@ async function enqueueNurtureEmail(
     subject: tpl.subject,
     html: tpl.html,
     from: `${BRAND_NAME} <hello@${SENDER_DOMAIN}>`,
-    purpose: "transactional",
+    purpose: "transactional" as const,
     sequence_id: sequenceId,
     email_number: emailNumber,
   };
 
-  await sb.rpc("enqueue_email", {
-    queue_name: "transactional_emails",
-    payload,
-  });
+  await safeEnqueueEmail(sb, "transactional_emails", payload);
 
   // Log
   await sb.from("email_send_log").insert({
