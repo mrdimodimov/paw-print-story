@@ -37,7 +37,6 @@ import { TIERS } from "@/lib/types";
 import { generateTribute, loadTributeById, loadTributeBySlug, loadJobById, getActiveJobId } from "@/lib/tribute-api";
 import { supabase } from "@/integrations/supabase/client";
 import { isInCooldown, markSent, isEmailEnabled, logEmailAttempt } from "@/lib/email-guard";
-import { isInCooldown, markSent, isEmailEnabled, logEmailAttempt } from "@/lib/email-guard";
 import { downloadTributePDF, downloadMemorialPDF, ensureParagraphs } from "@/lib/pdf-export";
 import { TEST_PRESETS } from "@/lib/test-presets";
 import type { TributeFormData, GeneratedTribute, TierConfig } from "@/lib/types";
