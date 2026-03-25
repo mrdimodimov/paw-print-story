@@ -26,20 +26,28 @@ const PRIMARY_COLOR = "#6B5744";
 // ─── Safety limits ─────────────────────────────────────────────────
 
 const MAX_SENDS_PER_5MIN = 3;
-const DEDUP_WINDOW_MS = 60_000; // 60s per-template dedup
-const SAME_TYPE_COOLDOWN_MS = 48 * 60 * 60 * 1000; // 48h per email_type
-const MAX_PER_CRON_RUN = 10; // hard cap per cron invocation
+const DEDUP_WINDOW_MS = 60_000;
+const SAME_TYPE_COOLDOWN_MS = 48 * 60 * 60 * 1000;
+const MAX_PER_CRON_RUN = 10;
 
-// ─── Scheduling: emotion-based delays (hours after sequence created) ──
+// ─── Signal thresholds for conditional emails ──────────────────────
 
-const SCHEDULE: Record<number, { delayHours: number; label: string }> = {
-  1: { delayHours: 0, label: "confirmation" },       // immediate
-  2: { delayHours: 24, label: "gentle follow-up" },   // Day 1
-  3: { delayHours: 72, label: "memory prompt" },       // Day 3
-  4: { delayHours: 168, label: "sharing reminder" },   // Day 7
+const PHOTO_THRESHOLD = 3; // photos_uploaded >= 3 → high intent
+
+// ─── Scheduling ────────────────────────────────────────────────────
+// Emails 1-4: standard nurture (always created)
+// Emails 5-6: conditional (only created if tribute has high-intent signals)
+
+const SCHEDULE: Record<number, { delayHours: number; label: string; conditional: boolean }> = {
+  1: { delayHours: 0,    label: "confirmation",           conditional: false },
+  2: { delayHours: 24,   label: "gentle follow-up",       conditional: false },
+  3: { delayHours: 72,   label: "memory prompt",          conditional: false },
+  4: { delayHours: 168,  label: "sharing reminder",       conditional: false },
+  5: { delayHours: 336,  label: "photo tribute reminder", conditional: true  }, // Day 14
+  6: { delayHours: 720,  label: "long-term remembrance",  conditional: true  }, // Day 30
 };
 
-// ─── Email Templates (emotional, non-promotional) ──────────────────
+// ─── Email Templates ──────────────────────────────────────────────
 
 function tributeUrl(tributeId: string): string {
   return `${BASE_URL}/tribute/${tributeId}`;
@@ -115,7 +123,7 @@ const templates: Record<number, (petName: string, tributeId: string) => EmailTem
       <p style="margin:0;font-size:16px;line-height:1.6;color:#4a4035;">
         Share it with family or friends — sometimes remembering together makes it a little easier.
       </p>
-      ${ctaButton("Share ${petName}'s Tribute", tributeUrl(tId))}
+      ${ctaButton("Share the Tribute", tributeUrl(tId))}
     `),
   }),
   4: (petName, tId) => ({
@@ -128,12 +136,42 @@ const templates: Record<number, (petName: string, tributeId: string) => EmailTem
       <p style="margin:0;font-size:16px;line-height:1.6;color:#4a4035;">
         Whenever you're ready, it's waiting for you.
       </p>
-      ${ctaButton("Visit ${petName}'s Tribute", tributeUrl(tId))}
+      ${ctaButton("Visit the Tribute", tributeUrl(tId))}
+    `),
+  }),
+  // ─── Conditional emails (high-intent signals only) ──────────────
+  5: (petName, tId) => ({
+    subject: `${petName}'s photos tell a beautiful story`,
+    html: wrapHtml(`
+      <h2 style="margin:0 0 16px;font-size:22px;color:#2a2017;font-weight:600;">Those photos of ${petName} tell a beautiful story</h2>
+      <p style="margin:0 0 8px;font-size:16px;line-height:1.6;color:#4a4035;">
+        You've gathered something really special — ${petName}'s photos alongside the words that capture who they were.
+      </p>
+      <p style="margin:0;font-size:16px;line-height:1.6;color:#4a4035;">
+        A printed tribute can become something you hold onto for years. Something tangible, in a world where so much is fleeting.
+      </p>
+      ${ctaButton("See Your Tribute", tributeUrl(tId))}
+    `),
+  }),
+  6: (petName, tId) => ({
+    subject: `A month later, ${petName} is still loved`,
+    html: wrapHtml(`
+      <h2 style="margin:0 0 16px;font-size:22px;color:#2a2017;font-weight:600;">A month later, ${petName} is still loved</h2>
+      <p style="margin:0 0 8px;font-size:16px;line-height:1.6;color:#4a4035;">
+        Grief doesn't follow a schedule. Some days are harder than others, and that's okay.
+      </p>
+      <p style="margin:0 0 8px;font-size:16px;line-height:1.6;color:#4a4035;">
+        ${petName}'s tribute is still here — a quiet place to remember the joy they brought into your life.
+      </p>
+      <p style="margin:0;font-size:16px;line-height:1.6;color:#4a4035;">
+        Take a moment whenever you need it.
+      </p>
+      ${ctaButton("Remember ${petName}", tributeUrl(tId))}
     `),
   }),
 };
 
-// ─── safeEnqueueEmail (mandatory validation gate) ──────────────────
+// ─── safeEnqueueEmail ──────────────────────────────────────────────
 
 async function safeEnqueueEmail(
   sb: SB,
@@ -159,51 +197,64 @@ async function safeEnqueueEmail(
 
 async function isRateLimited(sb: SB, email: string): Promise<boolean> {
   const windowStart = new Date(Date.now() - 5 * 60 * 1000).toISOString();
-  const { count } = await sb
-    .from("email_send_log")
+  const { count } = await sb.from("email_send_log")
     .select("id", { count: "exact", head: true })
-    .eq("recipient_email", email)
-    .gte("created_at", windowStart);
+    .eq("recipient_email", email).gte("created_at", windowStart);
   return (count ?? 0) >= MAX_SENDS_PER_5MIN;
 }
 
 async function isDuplicateRecent(sb: SB, email: string, templateName: string): Promise<boolean> {
   const windowStart = new Date(Date.now() - DEDUP_WINDOW_MS).toISOString();
-  const { count } = await sb
-    .from("email_send_log")
+  const { count } = await sb.from("email_send_log")
     .select("id", { count: "exact", head: true })
-    .eq("recipient_email", email)
-    .eq("template_name", templateName)
+    .eq("recipient_email", email).eq("template_name", templateName)
     .gte("created_at", windowStart);
   return (count ?? 0) > 0;
 }
 
 async function sameTypeSentRecently(sb: SB, email: string, templateName: string): Promise<boolean> {
   const windowStart = new Date(Date.now() - SAME_TYPE_COOLDOWN_MS).toISOString();
-  const { count } = await sb
-    .from("email_send_log")
+  const { count } = await sb.from("email_send_log")
     .select("id", { count: "exact", head: true })
-    .eq("recipient_email", email)
-    .eq("template_name", templateName)
+    .eq("recipient_email", email).eq("template_name", templateName)
     .gte("created_at", windowStart);
   return (count ?? 0) > 0;
 }
 
 async function isSuppressed(sb: SB, email: string): Promise<boolean> {
-  const { count } = await sb
-    .from("suppressed_emails")
-    .select("id", { count: "exact", head: true })
-    .eq("email", email);
+  const { count } = await sb.from("suppressed_emails")
+    .select("id", { count: "exact", head: true }).eq("email", email);
   return (count ?? 0) > 0;
 }
 
 async function isTributeCompleted(sb: SB, tributeId: string): Promise<boolean> {
-  const { data } = await sb
-    .from("tributes")
-    .select("is_paid")
-    .eq("id", tributeId)
-    .single();
+  const { data } = await sb.from("tributes")
+    .select("is_paid").eq("id", tributeId).single();
   return data?.is_paid === true;
+}
+
+// ─── Signal detection for conditional emails ───────────────────────
+
+interface TributeSignals {
+  photoCount: number;
+  hasStory: boolean;
+  isPaid: boolean;
+}
+
+async function getTributeSignals(sb: SB, tributeId: string): Promise<TributeSignals | null> {
+  const { data } = await sb.from("tributes")
+    .select("photo_urls, tribute_story, is_paid")
+    .eq("id", tributeId).single();
+  if (!data) return null;
+  return {
+    photoCount: Array.isArray(data.photo_urls) ? data.photo_urls.length : 0,
+    hasStory: !!data.tribute_story && data.tribute_story.length > 100,
+    isPaid: data.is_paid === true,
+  };
+}
+
+function isHighIntent(signals: TributeSignals): boolean {
+  return signals.photoCount >= PHOTO_THRESHOLD && signals.hasStory && !signals.isPaid;
 }
 
 // ─── Enqueue with full guard chain ─────────────────────────────────
@@ -219,7 +270,6 @@ async function enqueueNurtureEmail(
   const templateName = `nurture_email_${emailNumber}`;
   const idempotencyKey = `${recipientEmail}:${templateName}:${tributeId}`;
 
-  // Guard chain — each logs its own rejection reason
   if (await isSuppressed(sb, recipientEmail)) {
     console.log(`[nurture] Suppressed: ${recipientEmail}`);
     return false;
@@ -264,6 +314,7 @@ async function enqueueNurtureEmail(
       sequence_id: sequenceId,
       idempotency_key: idempotencyKey,
       schedule_label: SCHEDULE[emailNumber]?.label ?? "unknown",
+      conditional: SCHEDULE[emailNumber]?.conditional ?? false,
     },
   });
 
@@ -271,7 +322,7 @@ async function enqueueNurtureEmail(
   return true;
 }
 
-// ─── Trigger handler (user clicks "save email") ───────────────────
+// ─── Trigger handler ──────────────────────────────────────────────
 
 async function handleTrigger(
   sb: SB,
@@ -280,15 +331,12 @@ async function handleTrigger(
   tributeId: string,
   petName: string,
 ) {
-  // Idempotency: check if sequence already exists
-  const { data: existing } = await sb
-    .from("tribute_email_sequence")
-    .select("id")
-    .eq("tribute_email_id", tributeEmailId)
-    .eq("email_number", 1);
+  // Idempotency
+  const { data: existing } = await sb.from("tribute_email_sequence")
+    .select("id").eq("tribute_email_id", tributeEmailId).eq("email_number", 1);
 
   if (existing && existing.length > 0) {
-    console.log(`[trigger] Idempotent skip: sequence exists for ${tributeEmailId}`);
+    console.log(`[trigger] Idempotent skip: ${tributeEmailId}`);
     return;
   }
 
@@ -297,8 +345,21 @@ async function handleTrigger(
     return;
   }
 
-  // Create sequence rows for all scheduled emails
-  const emailNumbers = Object.keys(SCHEDULE).map(Number);
+  // Determine which emails to create: always 1-4, conditionally 5-6
+  const standardNumbers = Object.entries(SCHEDULE)
+    .filter(([, s]) => !s.conditional).map(([n]) => Number(n));
+
+  let conditionalNumbers: number[] = [];
+  if (tributeId) {
+    const signals = await getTributeSignals(sb, tributeId);
+    if (signals && isHighIntent(signals)) {
+      conditionalNumbers = Object.entries(SCHEDULE)
+        .filter(([, s]) => s.conditional).map(([n]) => Number(n));
+      console.log(`[trigger] High-intent detected: photos=${signals.photoCount}, hasStory=${signals.hasStory}`);
+    }
+  }
+
+  const emailNumbers = [...standardNumbers, ...conditionalNumbers];
   const rows = emailNumbers.map((n) => ({
     tribute_email_id: tributeEmailId,
     email,
@@ -307,40 +368,33 @@ async function handleTrigger(
     email_number: n,
   }));
 
-  const { data: inserted } = await sb
-    .from("tribute_email_sequence")
-    .insert(rows)
-    .select("id, email_number");
+  const { data: inserted } = await sb.from("tribute_email_sequence")
+    .insert(rows).select("id, email_number");
 
   if (!inserted) return;
 
-  // Send email 1 immediately (delay = 0)
+  // Send email 1 immediately
   const seq1 = inserted.find((r: any) => r.email_number === 1);
   if (seq1) {
     const sent = await enqueueNurtureEmail(sb, email, 1, petName, tributeId, seq1.id);
     if (sent) {
       await sb.from("tribute_email_sequence")
-        .update({ sent_at: new Date().toISOString() })
-        .eq("id", seq1.id);
+        .update({ sent_at: new Date().toISOString() }).eq("id", seq1.id);
     }
   }
 
-  console.log(`[trigger] Sequence created: ${emailNumbers.length} emails for ${tributeEmailId}`);
+  console.log(`[trigger] Sequence: ${emailNumbers.length} emails (${conditionalNumbers.length} conditional) for ${tributeEmailId}`);
 }
 
-// ─── Cron handler (scheduled emails 2, 3, 4) ──────────────────────
+// ─── Cron handler ──────────────────────────────────────────────────
 
 async function handleCron(sb: SB) {
   const now = new Date();
-  const emailNumbers = Object.keys(SCHEDULE).map(Number).filter((n) => n > 1);
+  const deferredNumbers = Object.keys(SCHEDULE).map(Number).filter((n) => n > 1);
 
-  const { data: pending } = await sb
-    .from("tribute_email_sequence")
-    .select("*")
-    .is("sent_at", null)
-    .eq("stopped", false)
-    .in("email_number", emailNumbers)
-    .limit(MAX_PER_CRON_RUN);
+  const { data: pending } = await sb.from("tribute_email_sequence")
+    .select("*").is("sent_at", null).eq("stopped", false)
+    .in("email_number", deferredNumbers).limit(MAX_PER_CRON_RUN);
 
   if (!pending || pending.length === 0) return { processed: 0, skipped: 0 };
 
@@ -348,9 +402,8 @@ async function handleCron(sb: SB) {
   let skipped = 0;
 
   for (const row of pending) {
-    // Hard cap per run
     if (processed >= MAX_PER_CRON_RUN) {
-      console.log(`[cron] Hit max per run (${MAX_PER_CRON_RUN}), stopping`);
+      console.log(`[cron] Hit max (${MAX_PER_CRON_RUN})`);
       break;
     }
 
@@ -359,34 +412,37 @@ async function handleCron(sb: SB) {
     const schedule = SCHEDULE[row.email_number];
     if (!schedule || hoursSince < schedule.delayHours) continue;
 
-    // Check if any sibling in the sequence was stopped
-    const { data: stoppedSiblings } = await sb
-      .from("tribute_email_sequence")
-      .select("stopped")
-      .eq("tribute_email_id", row.tribute_email_id)
-      .eq("stopped", true)
-      .limit(1);
+    // Stopped sibling check
+    const { data: stoppedSiblings } = await sb.from("tribute_email_sequence")
+      .select("stopped").eq("tribute_email_id", row.tribute_email_id)
+      .eq("stopped", true).limit(1);
 
     if (stoppedSiblings && stoppedSiblings.length > 0) {
       await sb.from("tribute_email_sequence").update({ stopped: true }).eq("id", row.id);
       skipped++;
-      console.log(`[cron] Stopped (sibling): ${row.id}`);
       continue;
     }
 
-    // Suppression check
     if (await isSuppressed(sb, row.email)) {
       await sb.from("tribute_email_sequence").update({ stopped: true }).eq("id", row.id);
       skipped++;
-      console.log(`[cron] Suppressed: ${row.email}`);
       continue;
     }
 
-    // Tribute completed check
+    // For conditional emails, re-check signals at send time (tribute may have been paid since)
+    if (schedule.conditional && row.tribute_id) {
+      const signals = await getTributeSignals(sb, row.tribute_id);
+      if (!signals || signals.isPaid || !isHighIntent(signals)) {
+        await sb.from("tribute_email_sequence").update({ stopped: true }).eq("id", row.id);
+        skipped++;
+        console.log(`[cron] Conditional skip (signals changed): ${row.id}`);
+        continue;
+      }
+    }
+
     if (row.tribute_id && await isTributeCompleted(sb, row.tribute_id)) {
       await sb.from("tribute_email_sequence").update({ stopped: true }).eq("id", row.id);
       skipped++;
-      console.log(`[cron] Tribute completed: ${row.tribute_id}`);
       continue;
     }
 
@@ -396,8 +452,7 @@ async function handleCron(sb: SB) {
 
     if (sent) {
       await sb.from("tribute_email_sequence")
-        .update({ sent_at: now.toISOString() })
-        .eq("id", row.id);
+        .update({ sent_at: now.toISOString() }).eq("id", row.id);
       processed++;
     } else {
       skipped++;
@@ -406,6 +461,46 @@ async function handleCron(sb: SB) {
 
   console.log(`[cron] Done: processed=${processed}, skipped=${skipped}`);
   return { processed, skipped };
+}
+
+// ─── Conversion tracking ──────────────────────────────────────────
+
+async function handleConversionCheck(sb: SB) {
+  // Find tributes that converted (is_paid=true) after nurture emails were sent
+  // This correlates email_send_log with tributes to measure effectiveness
+  const { data: conversions } = await sb.from("email_send_log")
+    .select("recipient_email, template_name, metadata, created_at")
+    .like("template_name", "nurture_email_%")
+    .eq("status", "pending")
+    .limit(100);
+
+  if (!conversions || conversions.length === 0) return { conversions: 0 };
+
+  const tributeIds = new Set<string>();
+  for (const row of conversions) {
+    const meta = row.metadata as Record<string, unknown> | null;
+    if (meta?.tribute_id) tributeIds.add(meta.tribute_id as string);
+  }
+
+  if (tributeIds.size === 0) return { conversions: 0 };
+
+  const { data: paidTributes } = await sb.from("tributes")
+    .select("id").in("id", Array.from(tributeIds)).eq("is_paid", true);
+
+  const paidIds = new Set((paidTributes ?? []).map((t: any) => t.id));
+
+  // Stop sequences for converted tributes
+  let stopped = 0;
+  for (const tributeId of paidIds) {
+    await sb.from("tribute_email_sequence")
+      .update({ stopped: true })
+      .eq("tribute_id", tributeId)
+      .is("sent_at", null);
+    stopped++;
+  }
+
+  console.log(`[conversion] Found ${paidIds.size} converted tributes, stopped ${stopped} sequences`);
+  return { conversions: paidIds.size, stopped };
 }
 
 // ─── Main ──────────────────────────────────────────────────────────
@@ -427,8 +522,9 @@ serve(async (req) => {
     }
 
     if (body.action === "cron") {
-      const result = await handleCron(sb);
-      return new Response(JSON.stringify({ ok: true, ...result }), {
+      const nurture = await handleCron(sb);
+      const conversion = await handleConversionCheck(sb);
+      return new Response(JSON.stringify({ ok: true, ...nurture, ...conversion }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
