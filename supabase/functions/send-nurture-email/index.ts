@@ -43,8 +43,8 @@ const SCHEDULE: Record<number, { delayHours: number; label: string; conditional:
   2: { delayHours: 24,   label: "gentle follow-up",       conditional: false },
   3: { delayHours: 72,   label: "memory prompt",          conditional: false },
   4: { delayHours: 168,  label: "sharing reminder",       conditional: false },
-  5: { delayHours: 336,  label: "photo tribute reminder", conditional: true  }, // Day 14
-  6: { delayHours: 720,  label: "long-term remembrance",  conditional: true  }, // Day 30
+  5: { delayHours: 1,    label: "photo tribute nudge",    conditional: true  }, // 1h after trigger
+  6: { delayHours: 60,   label: "engagement reminder",    conditional: true  }, // ~2.5 days
 };
 
 // ─── Email Templates ──────────────────────────────────────────────
@@ -139,34 +139,31 @@ const templates: Record<number, (petName: string, tributeId: string) => EmailTem
       ${ctaButton("Visit the Tribute", tributeUrl(tId))}
     `),
   }),
-  // ─── Conditional emails (high-intent signals only) ──────────────
+  // ─── Conditional emails (conversion-focused, sent once per tribute) ──
   5: (petName, tId) => ({
-    subject: `${petName}'s photos tell a beautiful story`,
+    subject: `${petName}'s photos deserve more than a phone gallery`,
     html: wrapHtml(`
-      <h2 style="margin:0 0 16px;font-size:22px;color:#2a2017;font-weight:600;">Those photos of ${petName} tell a beautiful story</h2>
+      <h2 style="margin:0 0 16px;font-size:22px;color:#2a2017;font-weight:600;">You've captured something special</h2>
       <p style="margin:0 0 8px;font-size:16px;line-height:1.6;color:#4a4035;">
-        You've gathered something really special — ${petName}'s photos alongside the words that capture who they were.
+        The photos you saved of ${petName} — they're more than pictures. They're the look in their eyes, the tilt of their head, the moments that mattered.
       </p>
       <p style="margin:0;font-size:16px;line-height:1.6;color:#4a4035;">
-        A printed tribute can become something you hold onto for years. Something tangible, in a world where so much is fleeting.
+        Your tribute brings those photos and words together into something you can keep forever.
       </p>
       ${ctaButton("See Your Tribute", tributeUrl(tId))}
     `),
   }),
   6: (petName, tId) => ({
-    subject: `A month later, ${petName} is still loved`,
+    subject: `${petName}'s tribute is still waiting for you`,
     html: wrapHtml(`
-      <h2 style="margin:0 0 16px;font-size:22px;color:#2a2017;font-weight:600;">A month later, ${petName} is still loved</h2>
+      <h2 style="margin:0 0 16px;font-size:22px;color:#2a2017;font-weight:600;">${petName}'s memory is worth holding onto</h2>
       <p style="margin:0 0 8px;font-size:16px;line-height:1.6;color:#4a4035;">
-        Grief doesn't follow a schedule. Some days are harder than others, and that's okay.
-      </p>
-      <p style="margin:0 0 8px;font-size:16px;line-height:1.6;color:#4a4035;">
-        ${petName}'s tribute is still here — a quiet place to remember the joy they brought into your life.
+        You put real thought into ${petName}'s tribute — the memories, the personality, the little things only you would know.
       </p>
       <p style="margin:0;font-size:16px;line-height:1.6;color:#4a4035;">
-        Take a moment whenever you need it.
+        It's still here whenever you're ready. Some things are worth keeping in more than just your memory.
       </p>
-      ${ctaButton("Remember ${petName}", tributeUrl(tId))}
+      ${ctaButton("Return to ${petName}'s Tribute", tributeUrl(tId))}
     `),
   }),
 };
@@ -239,6 +236,7 @@ interface TributeSignals {
   photoCount: number;
   hasStory: boolean;
   isPaid: boolean;
+  storyLength: number;
 }
 
 async function getTributeSignals(sb: SB, tributeId: string): Promise<TributeSignals | null> {
@@ -246,15 +244,28 @@ async function getTributeSignals(sb: SB, tributeId: string): Promise<TributeSign
     .select("photo_urls, tribute_story, is_paid")
     .eq("id", tributeId).single();
   if (!data) return null;
+  const storyLen = data.tribute_story?.length ?? 0;
   return {
     photoCount: Array.isArray(data.photo_urls) ? data.photo_urls.length : 0,
-    hasStory: !!data.tribute_story && data.tribute_story.length > 100,
+    hasStory: storyLen > 100,
     isPaid: data.is_paid === true,
+    storyLength: storyLen,
   };
 }
 
-function isHighIntent(signals: TributeSignals): boolean {
+// Email 5: photos >= 3 AND not paid
+function qualifiesForPhotoEmail(signals: TributeSignals): boolean {
+  return signals.photoCount >= PHOTO_THRESHOLD && !signals.isPaid;
+}
+
+// Email 6: high engagement (photos + story) AND not paid
+function qualifiesForEngagementEmail(signals: TributeSignals): boolean {
   return signals.photoCount >= PHOTO_THRESHOLD && signals.hasStory && !signals.isPaid;
+}
+
+// Legacy compat
+function isHighIntent(signals: TributeSignals): boolean {
+  return qualifiesForPhotoEmail(signals);
 }
 
 // ─── Enqueue with full guard chain ─────────────────────────────────
@@ -352,10 +363,10 @@ async function handleTrigger(
   let conditionalNumbers: number[] = [];
   if (tributeId) {
     const signals = await getTributeSignals(sb, tributeId);
-    if (signals && isHighIntent(signals)) {
-      conditionalNumbers = Object.entries(SCHEDULE)
-        .filter(([, s]) => s.conditional).map(([n]) => Number(n));
-      console.log(`[trigger] High-intent detected: photos=${signals.photoCount}, hasStory=${signals.hasStory}`);
+    if (signals) {
+      if (qualifiesForPhotoEmail(signals)) conditionalNumbers.push(5);
+      if (qualifiesForEngagementEmail(signals)) conditionalNumbers.push(6);
+      console.log(`[trigger] Signals: photos=${signals.photoCount}, storyLen=${signals.storyLength}, isPaid=${signals.isPaid}, conditional=[${conditionalNumbers}]`);
     }
   }
 
@@ -429,13 +440,17 @@ async function handleCron(sb: SB) {
       continue;
     }
 
-    // For conditional emails, re-check signals at send time (tribute may have been paid since)
+    // For conditional emails, re-check per-email qualification at send time
     if (schedule.conditional && row.tribute_id) {
       const signals = await getTributeSignals(sb, row.tribute_id);
-      if (!signals || signals.isPaid || !isHighIntent(signals)) {
+      const qualifies = signals && (
+        (row.email_number === 5 && qualifiesForPhotoEmail(signals)) ||
+        (row.email_number === 6 && qualifiesForEngagementEmail(signals))
+      );
+      if (!qualifies) {
         await sb.from("tribute_email_sequence").update({ stopped: true }).eq("id", row.id);
         skipped++;
-        console.log(`[cron] Conditional skip (signals changed): ${row.id}`);
+        console.log(`[cron] Conditional skip (email ${row.email_number}, signals changed): ${row.id}`);
         continue;
       }
     }
