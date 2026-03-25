@@ -43,8 +43,8 @@ const SCHEDULE: Record<number, { delayHours: number; label: string; conditional:
   2: { delayHours: 24,   label: "gentle follow-up",       conditional: false },
   3: { delayHours: 72,   label: "memory prompt",          conditional: false },
   4: { delayHours: 168,  label: "sharing reminder",       conditional: false },
-  5: { delayHours: 336,  label: "photo tribute reminder", conditional: true  }, // Day 14
-  6: { delayHours: 720,  label: "long-term remembrance",  conditional: true  }, // Day 30
+  5: { delayHours: 1,    label: "photo tribute nudge",    conditional: true  }, // 1h after trigger
+  6: { delayHours: 60,   label: "engagement reminder",    conditional: true  }, // ~2.5 days
 };
 
 // ─── Email Templates ──────────────────────────────────────────────
