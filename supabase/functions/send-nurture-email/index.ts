@@ -115,6 +115,24 @@ const templates: Record<number, (petName: string, tributeId: string) => EmailTem
   3: email3,
 };
 
+// ─── Rate-limit guard ──────────────────────────────────────────────
+
+const RATE_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
+const MAX_SENDS_PER_WINDOW = 3;
+
+async function isRateLimited(
+  sb: ReturnType<typeof getSupabaseClient>,
+  email: string,
+): Promise<boolean> {
+  const windowStart = new Date(Date.now() - RATE_WINDOW_MS).toISOString();
+  const { count } = await sb
+    .from("email_send_log")
+    .select("id", { count: "exact", head: true })
+    .eq("recipient_email", email)
+    .gte("created_at", windowStart);
+  return (count ?? 0) >= MAX_SENDS_PER_WINDOW;
+}
+
 // ─── Handlers ──────────────────────────────────────────────────────
 
 /** Enqueue a single nurture email via pgmq */
@@ -126,6 +144,12 @@ async function enqueueNurtureEmail(
   tributeId: string,
   sequenceId: string,
 ) {
+  // Server-side rate limit check
+  if (await isRateLimited(sb, recipientEmail)) {
+    console.warn(`Rate limited: ${recipientEmail}`);
+    return;
+  }
+
   const tpl = templates[emailNumber](petName, tributeId);
   const payload = {
     to: recipientEmail,
@@ -158,7 +182,7 @@ async function handleTrigger(
   tributeId: string,
   petName: string,
 ) {
-  // Check if sequence rows already exist
+  // Idempotency: check if sequence rows already exist
   const { data: existing } = await sb
     .from("tribute_email_sequence")
     .select("id")
@@ -166,6 +190,12 @@ async function handleTrigger(
     .eq("email_number", 1);
 
   if (existing && existing.length > 0) return; // already triggered
+
+  // Server-side rate limit
+  if (await isRateLimited(sb, email)) {
+    console.warn(`Rate limited on trigger: ${email}`);
+    return;
+  }
 
   // Create sequence rows for emails 1, 2, 3
   const rows = [1, 2, 3].map((n) => ({

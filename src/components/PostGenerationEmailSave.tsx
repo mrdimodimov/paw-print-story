@@ -1,9 +1,30 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+
+const DEBOUNCE_MS = 60_000; // 60s cooldown between sends
+const STORAGE_PREFIX = "email_sent_";
+
+function recentlySent(tributeId?: string): boolean {
+  if (!tributeId) return false;
+  try {
+    const ts = localStorage.getItem(`${STORAGE_PREFIX}${tributeId}`);
+    if (!ts) return false;
+    return Date.now() - Number(ts) < DEBOUNCE_MS;
+  } catch {
+    return false;
+  }
+}
+
+function markSent(tributeId?: string) {
+  if (!tributeId) return;
+  try {
+    localStorage.setItem(`${STORAGE_PREFIX}${tributeId}`, String(Date.now()));
+  } catch { /* storage unavailable */ }
+}
 
 interface PostGenerationEmailSaveProps {
   tributeId?: string;
@@ -12,26 +33,56 @@ interface PostGenerationEmailSaveProps {
 
 const PostGenerationEmailSave = ({ tributeId, petName }: PostGenerationEmailSaveProps) => {
   const [email, setEmail] = useState("");
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(() => recentlySent(tributeId));
   const [saving, setSaving] = useState(false);
+  const [cooldown, setCooldown] = useState(false);
+  const lastSendRef = useRef<number>(0);
 
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
+    // Client-side debounce: block rapid re-clicks
+    if (Date.now() - lastSendRef.current < DEBOUNCE_MS) {
+      toast.info("Email already sent — please wait before retrying.");
+      setCooldown(true);
+      return;
+    }
+
+    // Reload-protection via localStorage
+    if (recentlySent(tributeId)) {
+      setSaved(true);
+      toast.info("Your tribute was already saved.");
+      return;
+    }
+
     const trimmed = email.trim();
     if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
       toast.error("Please enter a valid email address.");
       return;
     }
+
     setSaving(true);
     try {
-      const { data } = await supabase.from("tribute_emails").insert({
+      const { data, error } = await supabase.from("tribute_emails").insert({
         email: trimmed,
         tribute_id: tributeId || null,
       }).select("id").single();
 
+      if (error) {
+        // Duplicate insert (unique constraint) — treat as already saved
+        if (error.code === "23505") {
+          setSaved(true);
+          markSent(tributeId);
+          toast.info("Your tribute was already saved.");
+          return;
+        }
+        throw error;
+      }
+
+      lastSendRef.current = Date.now();
+      markSent(tributeId);
       setSaved(true);
       toast.success("Your tribute has been saved!");
 
-      // Trigger nurture email sequence
+      // Trigger nurture email sequence (non-critical)
       if (data?.id && tributeId) {
         try {
           await supabase.functions.invoke("send-nurture-email", {
@@ -50,7 +101,7 @@ const PostGenerationEmailSave = ({ tributeId, petName }: PostGenerationEmailSave
     } finally {
       setSaving(false);
     }
-  };
+  }, [email, tributeId, petName]);
 
   if (saved) {
     return (
@@ -84,11 +135,17 @@ const PostGenerationEmailSave = ({ tributeId, petName }: PostGenerationEmailSave
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="flex-1"
+          disabled={saving || cooldown}
         />
-        <Button onClick={handleSave} disabled={saving}>
-          {saving ? "Saving…" : "Save My Tribute"}
+        <Button onClick={handleSave} disabled={saving || cooldown}>
+          {saving ? "Saving…" : cooldown ? "Please wait…" : "Save My Tribute"}
         </Button>
       </div>
+      {cooldown && (
+        <p className="mt-2 text-xs text-muted-foreground">
+          Email sent — please wait before retrying.
+        </p>
+      )}
     </div>
   );
 };
