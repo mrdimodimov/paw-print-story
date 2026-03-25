@@ -119,6 +119,7 @@ const templates: Record<number, (petName: string, tributeId: string) => EmailTem
 
 const RATE_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
 const MAX_SENDS_PER_WINDOW = 3;
+const DEDUP_WINDOW_MS = 60 * 1000; // 60 seconds per-user dedup
 
 async function isRateLimited(
   sb: ReturnType<typeof getSupabaseClient>,
@@ -131,6 +132,22 @@ async function isRateLimited(
     .eq("recipient_email", email)
     .gte("created_at", windowStart);
   return (count ?? 0) >= MAX_SENDS_PER_WINDOW;
+}
+
+/** Check if same email was triggered within 60s (dedup guard) */
+async function isDuplicate(
+  sb: ReturnType<typeof getSupabaseClient>,
+  email: string,
+  templatePrefix: string,
+): Promise<boolean> {
+  const windowStart = new Date(Date.now() - DEDUP_WINDOW_MS).toISOString();
+  const { count } = await sb
+    .from("email_send_log")
+    .select("id", { count: "exact", head: true })
+    .eq("recipient_email", email)
+    .like("template_name", `${templatePrefix}%`)
+    .gte("created_at", windowStart);
+  return (count ?? 0) > 0;
 }
 
 // ─── Handlers ──────────────────────────────────────────────────────
@@ -147,6 +164,12 @@ async function enqueueNurtureEmail(
   // Server-side rate limit check
   if (await isRateLimited(sb, recipientEmail)) {
     console.warn(`Rate limited: ${recipientEmail}`);
+    return;
+  }
+
+  // 60s dedup guard
+  if (await isDuplicate(sb, recipientEmail, "nurture_email")) {
+    console.warn(`Duplicate within 60s: ${recipientEmail}`);
     return;
   }
 
@@ -189,11 +212,14 @@ async function handleTrigger(
     .eq("tribute_email_id", tributeEmailId)
     .eq("email_number", 1);
 
-  if (existing && existing.length > 0) return; // already triggered
+  if (existing && existing.length > 0) {
+    console.log(`[nurture] Idempotency block: sequence already exists for ${tributeEmailId}`);
+    return;
+  }
 
   // Server-side rate limit
   if (await isRateLimited(sb, email)) {
-    console.warn(`Rate limited on trigger: ${email}`);
+    console.warn(`[nurture] Rate limited on trigger: ${email}`);
     return;
   }
 

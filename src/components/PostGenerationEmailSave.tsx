@@ -4,50 +4,36 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-
-const DEBOUNCE_MS = 60_000; // 60s cooldown between sends
-const STORAGE_PREFIX = "email_sent_";
-
-function recentlySent(tributeId?: string): boolean {
-  if (!tributeId) return false;
-  try {
-    const ts = localStorage.getItem(`${STORAGE_PREFIX}${tributeId}`);
-    if (!ts) return false;
-    return Date.now() - Number(ts) < DEBOUNCE_MS;
-  } catch {
-    return false;
-  }
-}
-
-function markSent(tributeId?: string) {
-  if (!tributeId) return;
-  try {
-    localStorage.setItem(`${STORAGE_PREFIX}${tributeId}`, String(Date.now()));
-  } catch { /* storage unavailable */ }
-}
+import { isInCooldown, markSent, isEmailEnabled, logEmailAttempt } from "@/lib/email-guard";
 
 interface PostGenerationEmailSaveProps {
   tributeId?: string;
   petName: string;
+  isTestMode?: boolean;
 }
 
-const PostGenerationEmailSave = ({ tributeId, petName }: PostGenerationEmailSaveProps) => {
+const PostGenerationEmailSave = ({ tributeId, petName, isTestMode = false }: PostGenerationEmailSaveProps) => {
+  const guardKey = `email_save_${tributeId || "unknown"}`;
   const [email, setEmail] = useState("");
-  const [saved, setSaved] = useState(() => recentlySent(tributeId));
+  const [saved, setSaved] = useState(() => isInCooldown(guardKey));
   const [saving, setSaving] = useState(false);
   const [cooldown, setCooldown] = useState(false);
-  const lastSendRef = useRef<number>(0);
+  const submittedRef = useRef(false); // prevent double-click
 
   const handleSave = useCallback(async () => {
-    // Client-side debounce: block rapid re-clicks
-    if (Date.now() - lastSendRef.current < DEBOUNCE_MS) {
-      toast.info("Email already sent — please wait before retrying.");
-      setCooldown(true);
+    // Prevent double-click within same render
+    if (submittedRef.current) return;
+
+    // Dev-mode kill switch
+    if (!isEmailEnabled(isTestMode)) {
+      logEmailAttempt("email-save", guardKey, "blocked_dev");
+      toast.info("Email sending is disabled in dev mode.");
       return;
     }
 
-    // Reload-protection via localStorage
-    if (recentlySent(tributeId)) {
+    // Client-side cooldown (survives page reload)
+    if (isInCooldown(guardKey)) {
+      logEmailAttempt("email-save", guardKey, "blocked_cooldown");
       setSaved(true);
       toast.info("Your tribute was already saved.");
       return;
@@ -59,6 +45,7 @@ const PostGenerationEmailSave = ({ tributeId, petName }: PostGenerationEmailSave
       return;
     }
 
+    submittedRef.current = true;
     setSaving(true);
     try {
       const { data, error } = await supabase.from("tribute_emails").insert({
@@ -67,41 +54,52 @@ const PostGenerationEmailSave = ({ tributeId, petName }: PostGenerationEmailSave
       }).select("id").single();
 
       if (error) {
-        // Duplicate insert (unique constraint) — treat as already saved
         if (error.code === "23505") {
           setSaved(true);
-          markSent(tributeId);
+          markSent(guardKey);
+          logEmailAttempt("email-save", guardKey, "blocked_duplicate");
           toast.info("Your tribute was already saved.");
           return;
         }
         throw error;
       }
 
-      lastSendRef.current = Date.now();
-      markSent(tributeId);
+      markSent(guardKey);
       setSaved(true);
+      logEmailAttempt("email-save", guardKey, "sent");
       toast.success("Your tribute has been saved!");
 
-      // Trigger nurture email sequence (non-critical)
+      // Trigger nurture email sequence (non-critical, no retry)
       if (data?.id && tributeId) {
-        try {
-          await supabase.functions.invoke("send-nurture-email", {
-            body: {
-              action: "trigger",
-              tribute_email_id: data.id,
-              email: trimmed,
-              tribute_id: tributeId,
-              pet_name: petName,
-            },
-          });
-        } catch { /* non-critical */ }
+        const nurtureKey = `nurture_${tributeId}`;
+        if (!isInCooldown(nurtureKey)) {
+          try {
+            await supabase.functions.invoke("send-nurture-email", {
+              body: {
+                action: "trigger",
+                tribute_email_id: data.id,
+                email: trimmed,
+                tribute_id: tributeId,
+                pet_name: petName,
+              },
+            });
+            markSent(nurtureKey);
+            logEmailAttempt("nurture-trigger", nurtureKey, "sent");
+          } catch {
+            logEmailAttempt("nurture-trigger", nurtureKey, "error");
+          }
+        } else {
+          logEmailAttempt("nurture-trigger", nurtureKey, "blocked_cooldown");
+        }
       }
     } catch {
+      logEmailAttempt("email-save", guardKey, "error");
       toast.error("Something went wrong. Please try again.");
+      submittedRef.current = false; // allow retry on real error
     } finally {
       setSaving(false);
     }
-  }, [email, tributeId, petName]);
+  }, [email, tributeId, petName, guardKey, isTestMode]);
 
   if (saved) {
     return (

@@ -36,6 +36,7 @@ import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
 import { generateTribute, loadTributeById, loadTributeBySlug, loadJobById, getActiveJobId } from "@/lib/tribute-api";
 import { supabase } from "@/integrations/supabase/client";
+import { isInCooldown, markSent, isEmailEnabled, logEmailAttempt } from "@/lib/email-guard";
 import { downloadTributePDF, downloadMemorialPDF, ensureParagraphs } from "@/lib/pdf-export";
 import { TEST_PRESETS } from "@/lib/test-presets";
 import type { TributeFormData, GeneratedTribute, TierConfig } from "@/lib/types";
@@ -127,27 +128,37 @@ const TributePage = () => {
         setJustGenerated(true);
         if (result.jobId) setLastJobId(result.jobId);
         if (result.tributeId) setTributeDbId(result.tributeId);
-        // Save pre-generation email if provided
+        // Save pre-generation email if provided (guarded)
         if (preEmail.current && result.tributeId && !isTestMode) {
-          try {
-            const { data: emailRow } = await supabase.from("tribute_emails").insert({
-              email: preEmail.current,
-              tribute_id: result.tributeId,
-            }).select("id").single();
+          const guardKey = `nurture_${result.tributeId}`;
+          if (!isEmailEnabled(isTestMode)) {
+            logEmailAttempt("nurture-trigger", guardKey, "blocked_dev");
+          } else if (isInCooldown(guardKey)) {
+            logEmailAttempt("nurture-trigger", guardKey, "blocked_cooldown");
+          } else {
+            try {
+              const { data: emailRow } = await supabase.from("tribute_emails").insert({
+                email: preEmail.current,
+                tribute_id: result.tributeId,
+              }).select("id").single();
 
-            // Trigger nurture email sequence
-            if (emailRow?.id) {
-              await supabase.functions.invoke("send-nurture-email", {
-                body: {
-                  action: "trigger",
-                  tribute_email_id: emailRow.id,
-                  email: preEmail.current,
-                  tribute_id: result.tributeId,
-                  pet_name: data.pet_name,
-                },
-              });
+              if (emailRow?.id) {
+                await supabase.functions.invoke("send-nurture-email", {
+                  body: {
+                    action: "trigger",
+                    tribute_email_id: emailRow.id,
+                    email: preEmail.current,
+                    tribute_id: result.tributeId,
+                    pet_name: data.pet_name,
+                  },
+                });
+                markSent(guardKey);
+                logEmailAttempt("nurture-trigger", guardKey, "sent");
+              }
+            } catch {
+              logEmailAttempt("nurture-trigger", guardKey, "error");
             }
-          } catch { /* non-critical */ }
+          }
         }
         if (result.slug) {
           setTributeSlug(result.slug);
@@ -672,7 +683,7 @@ const TributePage = () => {
           )}
 
           {justGenerated && effectiveUnlocked && !preEmail.current && (
-            <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} />
+            <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} isTestMode={isTestMode} />
           )}
 
           {/* Additional Photos (if more than 1) */}
@@ -840,7 +851,7 @@ const TributePage = () => {
           {/* Email save — below story card for locked users */}
           {!effectiveUnlocked && justGenerated && !preEmail.current && (
             <div className="mb-2">
-              <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} />
+              <PostGenerationEmailSave tributeId={tributeDbId} petName={petName || "Your Pet"} isTestMode={isTestMode} />
             </div>
           )}
 
