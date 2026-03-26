@@ -46,7 +46,7 @@ const TributePreviewCard = ({
       </div>
 
       {/* Content */}
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col p-6">
         <div className="mb-1.5 flex items-baseline justify-between gap-2">
           <h3 className="font-display text-lg font-semibold text-foreground">
             {petName}
