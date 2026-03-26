@@ -151,13 +151,6 @@ const Landing = () => {
             <div className="flex gap-5" style={{ scrollSnapType: "x mandatory" }}>
               {[
                 {
-                  imageUrl: tributeLuna,
-                  petName: "Luna",
-                  memoryTitle: "The Door That Was Never Empty",
-                  preview: "She waited by the front window every afternoon, tail wagging the moment she heard the car pull into the driveway.",
-                  linkTo: "/example-tribute",
-                },
-                {
                   imageUrl: tributeWhiskers,
                   petName: "Oliver",
                   memoryTitle: "Where the Sunlight Always Found Him",
@@ -171,6 +164,13 @@ const Landing = () => {
                   memoryTitle: "The One Who Greeted Everyone",
                   preview: "He never met a stranger. Every visitor was welcomed with a full-body wiggle that could knock a toddler over.",
                   linkTo: "/example-tribute/max",
+                },
+                {
+                  imageUrl: tributeLuna,
+                  petName: "Luna",
+                  memoryTitle: "The Door That Was Never Empty",
+                  preview: "She waited by the front window every afternoon, tail wagging the moment she heard the car pull into the driveway.",
+                  linkTo: "/example-tribute",
                 },
                 {
                   imageUrl: tributeClover,
