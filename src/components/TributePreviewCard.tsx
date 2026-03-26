@@ -32,7 +32,7 @@ const TributePreviewCard = ({
         ease: [0.16, 1, 0.3, 1],
       }}
       viewport={{ once: true, amount: 0.2 }}
-      className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-[0_2px_12px_-4px_hsl(32_30%_50%/0.1)] transition-all duration-300 hover:shadow-[0_12px_36px_-8px_hsl(32_40%_50%/0.18)] hover:-translate-y-1 active:scale-[0.98]"
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border/50 bg-card shadow-soft transition-all duration-300 hover:shadow-card hover:-translate-y-1 active:scale-[0.98]"
     >
       {/* Image */}
       <div className="relative h-48 w-full overflow-hidden sm:h-56">
