@@ -57,8 +57,12 @@
     --font-body: 'Source Sans 3', sans-serif;
 
     --shadow-soft: 0 4px 20px -4px hsl(28 20% 30% / 0.08);
-    --shadow-card: 0 8px 30px -8px hsl(28 20% 30% / 0.10);
+    --shadow-card: 0 8px 30px -8px hsl(28 20% 30% / 0.12);
     --shadow-glow: 0 0 40px -10px hsl(28 22% 34% / 0.15);
+
+    /* CTA gradient */
+    --cta-from: 28 46% 44%;
+    --cta-to: 24 40% 37%;
   }
 
   .dark {
