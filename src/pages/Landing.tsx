@@ -66,7 +66,11 @@ const Landing = () => {
               </p>
               <Button
                 size="lg"
-                className="px-8 py-6 text-lg shadow-glow"
+                className="rounded-full px-10 py-6 text-lg text-primary-foreground transition-all duration-200 hover:scale-[1.03] hover:shadow-lg"
+                style={{
+                  background: "linear-gradient(135deg, hsl(28, 46%, 44%), hsl(24, 40%, 37%))",
+                  boxShadow: "0 4px 20px -4px hsla(28, 40%, 38%, 0.3)",
+                }}
                 onClick={() => navigate("/create")}
               >
                 <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} />
