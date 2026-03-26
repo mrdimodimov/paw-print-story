@@ -264,7 +264,7 @@ const Landing = () => {
       <RecentlyRemembered />
 
       {/* Pricing */}
-      <section className="tribute-section">
+      <section className="tribute-section bg-section-alt">
         <div className="tribute-container">
           <div className="mb-12 text-center">
             <h2 className="mb-3 font-display text-3xl font-bold text-foreground">
