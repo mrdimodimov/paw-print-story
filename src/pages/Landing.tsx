@@ -36,7 +36,7 @@ const Landing = () => {
               <span style={{ letterSpacing: "0.01em" }}>V</span>ellum<span style={{ letterSpacing: "-0.01em" }}>P</span>et
             </span>
           </div>
-          <Button size="sm" onClick={() => navigate("/create")}>
+          <Button size="sm" onClick={() => navigate("/create")} className="text-xs">
             Create Your Tribute
           </Button>
         </div>
