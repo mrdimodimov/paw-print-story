@@ -113,10 +113,15 @@ const BeforeAfterTransform = () => {
               </p>
               <p className="mt-3 text-sm text-foreground/75">
                 The sunny patch on the kitchen floor was hers alone — she'd stretch
-                into it like she'd invented the concept of rest. She flinched at
-                thunder but stood her ground against everything else…
+                into it like she'd invented the concept of rest, warming herself
+                through quiet afternoons while the house moved around her.
               </p>
-              <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-card to-transparent" />
+              <p className="mt-3 text-sm text-foreground/60">
+                She flinched at thunder but stood her ground against everything
+                else — the mailman, the neighbor's cat, the vacuum cleaner she
+                never quite forgave…
+              </p>
+              <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-card/90 to-transparent" />
             </div>
           </motion.div>
         </div>
