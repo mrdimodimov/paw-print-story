@@ -97,6 +97,15 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
+    line-height: 1.15;
+    color: hsl(var(--foreground));
+  }
+
+  h1 { line-height: 1.1; }
+
+  p.text-muted-foreground,
+  .text-muted-foreground {
+    opacity: 0.88;
   }
 }
 
