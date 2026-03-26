@@ -50,7 +50,7 @@ const BeforeAfterTransform = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.15 + i * 0.1, duration: 0.4 }}
                   viewport={{ once: true }}
-                  className="flex items-start gap-2.5 rounded-lg border border-border/30 bg-background/60 px-3.5 py-2.5"
+                  className="flex items-start gap-2.5 rounded-lg border border-border/30 bg-[hsl(30_20%_95%)] px-3.5 py-2.5"
                 >
                   <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/40" />
                   <span className="font-body text-[13px] leading-relaxed text-foreground/65">
