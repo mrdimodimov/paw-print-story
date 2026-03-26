@@ -433,9 +433,10 @@ const Landing = () => {
             </div>
             <div className="flex flex-col items-center md:items-end md:justify-end">
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => navigate("/create")}
+                className="text-xs"
               >
                 <PawIcon className="mr-3 !h-[22px] !w-[22px] shrink-0 -mt-[1px]" size={22} />
                 Create a Beautiful Tribute for Your Pet

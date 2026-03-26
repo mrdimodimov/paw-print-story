@@ -170,7 +170,7 @@ export default function RecentlyRemembered() {
           </p>
           <Button
             size="lg"
-            className="px-8 py-5 text-base shadow-glow"
+            className="px-8 py-5 text-base"
             onClick={() => navigate("/create")}
           >
             <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} />

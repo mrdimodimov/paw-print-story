@@ -34,7 +34,7 @@ const ComingSoon = () => {
 
         <Button
           size="lg"
-          className="px-8 py-6 text-base shadow-glow"
+          className="px-8 py-6 text-base"
           onClick={() => window.open("mailto:hello@vellumpet.com?subject=Early Access Request", "_blank")}
         >
           <Heart className="mr-2 h-5 w-5" />
