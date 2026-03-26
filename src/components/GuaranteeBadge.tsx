@@ -7,7 +7,7 @@ interface GuaranteeBadgeProps {
 const GuaranteeBadge = ({ variant = "inline" }: GuaranteeBadgeProps) => {
   if (variant === "card") {
     return (
-      <div className="mx-auto max-w-xl rounded-xl border border-border bg-card/60 p-6 text-center shadow-sm">
+      <div className="mx-auto max-w-xl rounded-2xl border border-border/50 bg-card/60 p-7 text-center shadow-soft">
         <div className="mb-3 flex justify-center">
           <div className="rounded-full bg-accent p-3">
             <Shield className="h-6 w-6 text-primary" />

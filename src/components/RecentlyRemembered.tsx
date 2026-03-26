@@ -101,7 +101,7 @@ export default function RecentlyRemembered() {
           </p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {tributes.map((t, i) => {
             const rx = reactions[t.id] || { candle: 0, heart: 0 };
             return (
@@ -112,7 +112,7 @@ export default function RecentlyRemembered() {
                 transition={{ delay: i * 0.08, duration: 0.4 }}
                 viewport={{ once: true }}
                 onClick={() => navigate(`/memorial/${t.slug}`)}
-                className="group cursor-pointer overflow-hidden rounded-xl border border-border bg-card shadow-soft transition-shadow duration-300 hover:shadow-card"
+                className="group cursor-pointer overflow-hidden rounded-2xl border border-border/50 bg-card shadow-soft transition-shadow duration-300 hover:shadow-card"
               >
                 {/* Photo */}
                 {t.photo_urls?.[0] && (
@@ -125,7 +125,7 @@ export default function RecentlyRemembered() {
                   </div>
                 )}
 
-                <div className="p-5">
+                <div className="p-6">
                   {/* Name + years */}
                   <h3 className="font-display text-lg font-semibold text-foreground">
                     {t.pet_name}

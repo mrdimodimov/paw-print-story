@@ -10,10 +10,10 @@ interface TierCardProps {
 const TierCard = ({ tier, onSelect }: TierCardProps) => {
   return (
     <div
-      className={`relative flex flex-col rounded-xl border p-6 transition-all ${
+      className={`relative flex flex-col rounded-2xl border p-7 transition-all ${
         tier.popular
           ? "border-primary shadow-glow scale-[1.03] md:scale-[1.07] bg-card ring-1 ring-primary/20"
-          : "border-border shadow-soft hover:shadow-card"
+          : "border-border/50 shadow-soft hover:shadow-card"
       }`}
     >
       {tier.popular && (
