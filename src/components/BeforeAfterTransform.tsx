@@ -6,7 +6,7 @@ const BeforeAfterTransform = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="tribute-section bg-secondary/30">
+    <section className="tribute-section bg-section-alt">
       <div className="tribute-container">
         <motion.div
           initial={{ opacity: 0, y: 16 }}

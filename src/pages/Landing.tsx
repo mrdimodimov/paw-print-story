@@ -334,7 +334,7 @@ const Landing = () => {
       </section>
 
       {/* Guarantee + FAQ */}
-      <section className="tribute-section bg-accent/20">
+      <section className="tribute-section">
         <div className="tribute-container max-w-2xl">
           <GuaranteeBadge variant="card" />
 
