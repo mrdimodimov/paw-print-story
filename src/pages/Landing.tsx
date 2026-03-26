@@ -134,7 +134,7 @@ const Landing = () => {
       </section>
 
       {/* Product Preview — horizontal scroll */}
-      <section className="tribute-section bg-accent/10">
+      <section className="tribute-section bg-section-alt">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -264,7 +264,7 @@ const Landing = () => {
       <RecentlyRemembered />
 
       {/* Pricing */}
-      <section className="tribute-section">
+      <section className="tribute-section bg-section-alt">
         <div className="tribute-container">
           <div className="mb-12 text-center">
             <h2 className="mb-3 font-display text-3xl font-bold text-foreground">
@@ -334,7 +334,7 @@ const Landing = () => {
       </section>
 
       {/* Guarantee + FAQ */}
-      <section className="tribute-section bg-accent/20">
+      <section className="tribute-section">
         <div className="tribute-container max-w-2xl">
           <GuaranteeBadge variant="card" />
 

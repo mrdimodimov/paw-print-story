@@ -56,6 +56,7 @@ export default {
         "soft-brown": "hsl(var(--soft-brown))",
         "gentle-sage": "hsl(var(--gentle-sage))",
         "paw-pink": "hsl(var(--paw-pink))",
+        "section-alt": "hsl(var(--section-alt))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

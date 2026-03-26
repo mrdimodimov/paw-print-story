@@ -51,6 +51,7 @@
     --soft-brown: 25 22% 20%;
     --gentle-sage: 30 10% 70%;
     --paw-pink: 25 18% 65%;
+    --section-alt: 30 27% 95%;
 
     --font-display: 'Playfair Display', serif;
     --font-body: 'Source Sans 3', sans-serif;
@@ -105,7 +106,7 @@
   }
 
   .tribute-section {
-    @apply py-16 md:py-24;
+    @apply py-20 md:py-28;
   }
 }
 
