@@ -101,7 +101,7 @@ export default function RecentlyRemembered() {
           </p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {tributes.map((t, i) => {
             const rx = reactions[t.id] || { candle: 0, heart: 0 };
             return (
