@@ -44,78 +44,88 @@ const Landing = () => {
 
       {/* Hero */}
       <section className="py-20 md:py-28">
-        <div className="tribute-container max-w-2xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="text-center"
-          >
-            <p className="mb-4 font-display text-sm tracking-wide text-muted-foreground">
-              For when saying goodbye is hard
-            </p>
-            <h1 className="mb-5 font-display text-4xl font-bold leading-[1.15] md:text-5xl lg:text-[3.4rem]" style={{ color: "hsl(20, 22%, 14%)" }}>
-              When saying goodbye is hard, keep their{" "}
-              <span className="font-extrabold" style={{ color: "hsl(28, 46%, 44%)" }}>story alive</span>.
-            </h1>
-            <p className="mx-auto mb-10 max-w-lg text-lg leading-relaxed text-muted-foreground">
-              Answer a few simple questions, and we'll turn your memories into
-              a heartfelt tribute you can keep, read, and share.
-            </p>
-            <Button
-              size="lg"
-              className="px-8 py-6 text-lg shadow-glow"
-              onClick={() => navigate("/create")}
+        <div className="tribute-container max-w-6xl">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            {/* Left — text content */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="text-center lg:text-left"
             >
-              <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} />
-              Create Their Tribute
-            </Button>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Takes less than 2 minutes — no writing needed
-            </p>
-          </motion.div>
+              <p className="mb-4 font-display text-sm tracking-wide text-muted-foreground">
+                For when saying goodbye is hard
+              </p>
+              <h1 className="mb-5 font-display text-4xl font-bold leading-[1.15] md:text-5xl lg:text-[3.4rem]" style={{ color: "hsl(20, 22%, 14%)" }}>
+                When saying goodbye is hard, keep their{" "}
+                <span className="font-extrabold" style={{ color: "hsl(28, 46%, 44%)" }}>story alive</span>.
+              </h1>
+              <p className="mx-auto mb-10 max-w-lg text-lg leading-relaxed text-muted-foreground lg:mx-0">
+                Answer a few simple questions, and we'll turn your memories into
+                a heartfelt tribute you can keep, read, and share.
+              </p>
+              <Button
+                size="lg"
+                className="px-8 py-6 text-lg shadow-glow"
+                onClick={() => navigate("/create")}
+              >
+                <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} />
+                Create Their Tribute
+              </Button>
+              <p className="mt-4 text-sm text-muted-foreground">
+                Takes less than 2 minutes — no writing needed
+              </p>
+            </motion.div>
 
-          {/* Story Preview Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="relative mt-10"
-          >
-            <p className="mb-3 text-center text-xs tracking-wide text-muted-foreground/70">
-              Example tribute
-            </p>
-            <div className="rounded-2xl border border-border bg-card p-8 shadow-card sm:p-10">
-              <p className="mb-5 font-display text-[0.95rem] leading-[1.85] text-foreground/85">
-                She had a way of knowing exactly when you needed her. Not with
-                grand gestures — just a quiet arrival at your feet, a warm
-                weight against your leg that said,{" "}
-                <em className="text-primary/70">"I'm here."</em>
-              </p>
-              <p className="mb-5 font-display text-[0.95rem] leading-[1.85] text-foreground/85">
-                Mornings started with the sound of her paws on the kitchen
-                floor. She'd sit by the door and wait — not impatiently, but
-                like she trusted you'd always come back.
-              </p>
-              <div className="my-6 text-center">
-                <p className="text-sm italic text-muted-foreground">
-                  Your pet deserves to be remembered like this.
+            {/* Right — visual preview card */}
+            <motion.div
+              initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="relative"
+            >
+              <div
+                className="overflow-hidden border border-border/50 bg-card shadow-card"
+                style={{ borderRadius: "20px", padding: "1.75rem" }}
+              >
+                {/* Pet image */}
+                <div className="mb-5 overflow-hidden" style={{ borderRadius: "14px" }}>
+                  <img
+                    src={tributeLuna}
+                    alt="Luna — example pet tribute"
+                    className="aspect-[4/3] w-full object-cover"
+                    loading="eager"
+                  />
+                </div>
+
+                {/* Tribute text excerpt */}
+                <p className="mb-1 font-display text-lg font-semibold text-foreground">
+                  Luna
+                </p>
+                <p className="mb-4 text-xs tracking-wide text-muted-foreground/70">
+                  Example tribute
+                </p>
+                <p className="font-display text-[0.92rem] leading-[1.85] text-foreground/85">
+                  She had a way of knowing exactly when you needed her. Not with
+                  grand gestures — just a quiet arrival at your feet, a warm
+                  weight against your leg that said,{" "}
+                  <em className="text-primary/70">"I'm here."</em>
+                </p>
+                <p className="mt-4 font-display text-[0.92rem] leading-[1.85] text-foreground/85 blur-preview-text">
+                  Mornings started with the sound of her paws on the kitchen
+                  floor. She'd sit by the door and wait — not impatiently, but
+                  like she trusted you'd always come back.
                 </p>
                 <span
-                  className="mt-2 inline-block cursor-pointer text-sm font-medium text-foreground hover:underline"
-                  onClick={() => navigate("/create")}
+                  className="mt-4 inline-block cursor-pointer text-sm font-medium text-primary hover:underline"
+                  onClick={() => navigate("/example-tribute")}
                 >
-                  Continue your pet's story →
+                  Read full tribute →
                 </span>
               </div>
-              <p className="font-display text-[0.95rem] leading-[1.85] text-foreground/85">
-                  The house feels different now. Quieter in a way that isn't
-                  peaceful. And sometimes, when the sun hits that same spot on
-                  the rug, it feels like she's still right there.
-                </p>
-            </div>
-            <div className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-primary/5 blur-2xl" />
-          </motion.div>
+              <div className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-primary/5 blur-2xl" />
+            </motion.div>
+          </div>
         </div>
       </section>
 
