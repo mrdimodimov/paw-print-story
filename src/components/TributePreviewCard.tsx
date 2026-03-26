@@ -81,7 +81,7 @@ const TributePreviewCard = ({
 
   if (linkTo) {
     return (
-      <Link to={linkTo} className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-xl">
+      <Link to={linkTo} className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-2xl">
         {content}
       </Link>
     );

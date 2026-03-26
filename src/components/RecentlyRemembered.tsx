@@ -125,7 +125,7 @@ export default function RecentlyRemembered() {
                   </div>
                 )}
 
-                <div className="p-5">
+                <div className="p-6">
                   {/* Name + years */}
                   <h3 className="font-display text-lg font-semibold text-foreground">
                     {t.pet_name}

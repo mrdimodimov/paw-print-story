@@ -64,7 +64,7 @@ const BeforeAfterTransform = () => {
             whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
             transition={{ delay: 0.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             viewport={{ once: true }}
-            className="relative flex flex-col overflow-hidden rounded-xl border border-primary/20 bg-card p-6 shadow-card"
+            className="relative flex flex-col overflow-hidden rounded-2xl border border-primary/20 bg-card p-7 shadow-card"
           >
             <p className="mb-4 text-xs font-medium uppercase tracking-wider text-primary/70">
               What you receive

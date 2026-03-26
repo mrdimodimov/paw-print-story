@@ -277,7 +277,7 @@ const Landing = () => {
               Most people choose the middle option to create a complete, lasting tribute.
             </p>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-3">
             {(() => {
               const mobileTiers = [TIERS[1], TIERS[0], TIERS[2]];
               const desktopTiers = TIERS;
