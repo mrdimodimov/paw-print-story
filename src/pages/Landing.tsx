@@ -54,8 +54,9 @@ const Landing = () => {
             <p className="mb-4 font-display text-sm tracking-wide text-muted-foreground">
               For when saying goodbye is hard
             </p>
-            <h1 className="mb-5 font-display text-4xl font-bold leading-[1.15] text-foreground md:text-5xl lg:text-[3.4rem]">
-              When saying goodbye is hard, keep their story alive.
+            <h1 className="mb-5 font-display text-4xl font-bold leading-[1.15] md:text-5xl lg:text-[3.4rem]" style={{ color: "hsl(20, 22%, 14%)" }}>
+              When saying goodbye is hard, keep their{" "}
+              <span className="font-extrabold" style={{ color: "hsl(28, 46%, 44%)" }}>story alive</span>.
             </h1>
             <p className="mx-auto mb-10 max-w-lg text-lg leading-relaxed text-muted-foreground">
               Answer a few simple questions, and we'll turn your memories into
