@@ -60,7 +60,7 @@ const TierCard = ({ tier, onSelect }: TierCardProps) => {
       {/* CTA */}
       <Button
         variant={tier.popular ? "default" : "outline"}
-        className={`w-full ${tier.popular ? "shadow-glow" : ""}`}
+        className="w-full"
         size={tier.popular ? "lg" : "default"}
         onClick={onSelect}
       >

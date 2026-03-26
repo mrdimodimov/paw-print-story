@@ -36,7 +36,7 @@ const Landing = () => {
               <span style={{ letterSpacing: "0.01em" }}>V</span>ellum<span style={{ letterSpacing: "-0.01em" }}>P</span>et
             </span>
           </div>
-          <Button size="sm" onClick={() => navigate("/create")}>
+          <Button size="sm" onClick={() => navigate("/create")} className="text-xs">
             Create Your Tribute
           </Button>
         </div>
@@ -66,11 +66,7 @@ const Landing = () => {
               </p>
               <Button
                 size="lg"
-                className="rounded-full px-10 py-6 text-lg text-primary-foreground transition-all duration-200 hover:scale-[1.03] hover:shadow-lg"
-                style={{
-                  background: "linear-gradient(135deg, hsl(28, 46%, 44%), hsl(24, 40%, 37%))",
-                  boxShadow: "0 4px 20px -4px hsla(28, 40%, 38%, 0.3)",
-                }}
+                className="px-10 py-6 text-lg"
                 onClick={() => navigate("/create")}
               >
                 <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} />
@@ -437,9 +433,10 @@ const Landing = () => {
             </div>
             <div className="flex flex-col items-center md:items-end md:justify-end">
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => navigate("/create")}
+                className="text-xs"
               >
                 <PawIcon className="mr-3 !h-[22px] !w-[22px] shrink-0 -mt-[1px]" size={22} />
                 Create a Beautiful Tribute for Your Pet

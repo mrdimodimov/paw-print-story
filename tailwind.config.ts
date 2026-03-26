@@ -57,6 +57,8 @@ export default {
         "gentle-sage": "hsl(var(--gentle-sage))",
         "paw-pink": "hsl(var(--paw-pink))",
         "section-alt": "hsl(var(--section-alt))",
+        "cta-from": "hsl(var(--cta-from))",
+        "cta-to": "hsl(var(--cta-to))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

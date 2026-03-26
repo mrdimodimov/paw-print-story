@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const BeforeAfterTransform = () => {
   const navigate = useNavigate();
@@ -91,13 +92,14 @@ const BeforeAfterTransform = () => {
           viewport={{ once: true }}
           className="mt-10 text-center"
         >
-          <button
+          <Button
+            variant="outline"
             onClick={() => navigate("/create")}
-            className="group inline-flex items-center gap-2 rounded-full border border-border/60 px-5 py-2.5 text-sm font-medium text-foreground/80 shadow-sm transition-all hover:border-primary/40 hover:bg-accent/20 hover:text-foreground active:scale-[0.97]"
+            className="group"
           >
             Try it with your own memories
             <span className="transition-transform group-hover:translate-x-1">→</span>
-          </button>
+          </Button>
         </motion.div>
       </div>
     </section>

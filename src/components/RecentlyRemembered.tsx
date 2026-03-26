@@ -112,7 +112,7 @@ export default function RecentlyRemembered() {
                 transition={{ delay: i * 0.08, duration: 0.4 }}
                 viewport={{ once: true }}
                 onClick={() => navigate(`/memorial/${t.slug}`)}
-                className="group cursor-pointer overflow-hidden rounded-2xl border border-border/50 bg-card shadow-soft transition-shadow duration-300 hover:shadow-card"
+                className="group cursor-pointer overflow-hidden rounded-2xl border border-border/30 bg-white shadow-soft transition-shadow duration-300 hover:shadow-card"
               >
                 {/* Photo */}
                 {t.photo_urls?.[0] && (
@@ -170,7 +170,7 @@ export default function RecentlyRemembered() {
           </p>
           <Button
             size="lg"
-            className="px-8 py-5 text-base shadow-glow"
+            className="px-8 py-5 text-base"
             onClick={() => navigate("/create")}
           >
             <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} />
