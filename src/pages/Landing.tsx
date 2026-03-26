@@ -54,7 +54,7 @@ const Landing = () => {
               className="text-center lg:text-left"
             >
               <p className="mb-4 font-display text-sm tracking-wide text-muted-foreground">
-                For when saying goodbye is hard
+                Turn a few simple memories into a beautiful tribute
               </p>
               <h1 className="mb-5 font-display text-4xl font-bold leading-[1.15] md:text-5xl lg:text-[3.4rem]" style={{ color: "hsl(20, 22%, 14%)" }}>
                 When saying goodbye is hard, keep their{" "}
