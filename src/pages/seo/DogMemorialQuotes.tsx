@@ -4,6 +4,7 @@ const DogMemorialQuotes = () => (
   <SeoArticleLayout
     slug="/dog-memorial-quotes"
     datePublished="2025-03-27"
+    breadcrumbs={[{ name: "Pet Memorial Quotes", href: "/pet-memorial-quotes" }]}
     meta={{
       title: "Dog Memorial Quotes: Heartfelt Words to Remember Your Dog",
       description:

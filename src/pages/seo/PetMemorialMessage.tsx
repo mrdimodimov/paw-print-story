@@ -4,6 +4,7 @@ const PetMemorialMessage = () => (
   <SeoArticleLayout
     slug="/pet-memorial-message"
     datePublished="2025-02-01"
+    breadcrumbs={[{ name: "Pet Memorial", href: "/pet-memorial" }]}
     meta={{
       title: "Pet Memorial Message Examples | What to Write for a Lost Pet",
       description:

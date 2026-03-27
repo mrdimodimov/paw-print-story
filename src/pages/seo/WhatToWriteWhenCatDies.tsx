@@ -4,6 +4,7 @@ const WhatToWriteWhenCatDies = () => (
   <SeoArticleLayout
     slug="/what-to-write-when-a-cat-dies"
     datePublished="2025-03-27"
+    breadcrumbs={[{ name: "Pet Memorial", href: "/pet-memorial" }]}
     meta={{
       title: "What to Write When a Cat Dies | Cat Memorial Writing Guide",
       description:

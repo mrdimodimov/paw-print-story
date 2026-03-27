@@ -4,6 +4,7 @@ const PetCondolenceMessages = () => (
   <SeoArticleLayout
     slug="/pet-condolence-messages"
     datePublished="2025-03-27"
+    breadcrumbs={[{ name: "Pet Sympathy Messages", href: "/pet-sympathy-messages" }]}
     meta={{
       title: "Pet Condolence Messages: What to Say When Someone Loses a Pet",
       description:
