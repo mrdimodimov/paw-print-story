@@ -2,6 +2,8 @@ import SeoArticleLayout from "@/components/SeoArticleLayout";
 
 const PetMemorialMessage = () => (
   <SeoArticleLayout
+    slug="/pet-memorial-message"
+    datePublished="2025-02-01"
     meta={{
       title: "Pet Memorial Message Examples | What to Write for a Lost Pet",
       description:

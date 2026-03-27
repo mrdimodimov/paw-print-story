@@ -2,6 +2,8 @@ import SeoArticleLayout from "@/components/SeoArticleLayout";
 
 const DogObituaryExample = () => (
   <SeoArticleLayout
+    slug="/dog-obituary-example"
+    datePublished="2025-01-15"
     meta={{
       title: "Dog Obituary Example | How to Write a Beautiful Tribute",
       description:

@@ -2,6 +2,8 @@ import SeoArticleLayout from "@/components/SeoArticleLayout";
 
 const CatMemorialTributeExample = () => (
   <SeoArticleLayout
+    slug="/cat-memorial-tribute-example"
+    datePublished="2025-01-20"
     meta={{
       title: "Cat Memorial Tribute Example | Write a Heartfelt Cat Tribute",
       description:

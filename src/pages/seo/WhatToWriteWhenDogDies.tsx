@@ -2,6 +2,8 @@ import SeoArticleLayout from "@/components/SeoArticleLayout";
 
 const WhatToWriteWhenDogDies = () => (
   <SeoArticleLayout
+    slug="/what-to-write-when-a-dog-dies"
+    datePublished="2025-02-10"
     meta={{
       title: "What to Write When a Dog Dies | Memorial Writing Guide",
       description:
