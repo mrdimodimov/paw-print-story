@@ -11,6 +11,10 @@ const CatMemorialTributeExample = () => (
     }}
     heading="Cat Memorial Tribute Example: How to Honor Your Cat's Life"
     intro="Cats have a quiet way of becoming the center of our world. They choose us as much as we choose them, and the bond they create is unlike anything else. When a cat passes away, it can be difficult to put that relationship into words. A memorial tribute gives you space to remember everything that made your cat special — their habits, their personality, and the comfort they brought to your life."
+    contextualLinks={[
+      { text: "Pet memorial message ideas", href: "/pet-memorial-message" },
+      { text: "Dog obituary example", href: "/dog-obituary-example" },
+    ]}
     exampleTitle="In Loving Memory of Luna"
     exampleBody={[
       "Luna arrived as a tiny grey kitten with enormous green eyes that seemed to take in everything at once. She was cautious at first, hiding under the dresser for two full days before deciding, on her own terms, that she belonged here.",
