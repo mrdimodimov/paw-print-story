@@ -237,6 +237,63 @@ const PetSympathyMessages = () => {
           </div>
         </motion.section>
 
+        {/* ─── Hub: Related Guides ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-5 text-2xl font-bold text-foreground">
+            More Guides for Supporting Pet Loss
+          </h2>
+          <p className="mb-8 text-muted-foreground">
+            Whether you're looking for the right words, helping someone grieve, or creating something lasting, these guides can help.
+          </p>
+          <div className="space-y-6">
+            {[
+              {
+                title: "Pet Condolence Messages",
+                intro: "Longer, more personal condolence messages — including a full example letter — for when you want to go beyond a short text.",
+                href: "/pet-condolence-messages",
+              },
+              {
+                title: "How to Cope With Losing a Pet",
+                intro: "A gentle, practical guide to understanding pet loss grief and finding healthy ways through it.",
+                href: "/cope-with-losing-a-pet",
+              },
+              {
+                title: "Pet Memorial Quotes",
+                intro: "Curated quotes for dogs, cats, and all pets — perfect for cards, tributes, and moments of remembrance.",
+                href: "/pet-memorial-quotes",
+              },
+              {
+                title: "Rainbow Bridge Quotes",
+                intro: "Comforting words drawn from the Rainbow Bridge tradition — especially helpful for those finding comfort in the hope of reunion.",
+                href: "/rainbow-bridge-quotes",
+              },
+              {
+                title: "Create a Pet Memorial Page",
+                intro: "Turn a few memories into a beautiful, lasting tribute page — a meaningful gesture for yourself or for someone you care about.",
+                href: "/pet-memorial",
+              },
+            ].map((hub) => (
+              <Link
+                key={hub.href}
+                to={hub.href}
+                className="group block rounded-xl border border-border bg-card p-5 shadow-card transition-all duration-200 hover:border-primary/30 hover:shadow-md"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                      {hub.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                      {hub.intro}
+                    </p>
+                  </div>
+                  <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </motion.section>
+
         {/* CTA */}
         <motion.section {...section()} className="mb-16 rounded-xl border border-border bg-accent/30 p-8 text-center md:p-10">
           <h2 className="mb-3 text-2xl font-bold text-foreground">Create a Beautiful Memorial for a Loved One's Pet</h2>
