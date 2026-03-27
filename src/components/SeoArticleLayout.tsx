@@ -5,7 +5,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Heart, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 
 interface SeoArticleMeta {
@@ -18,13 +17,20 @@ interface ContextualLink {
   href: string;
 }
 
+interface StructuredTip {
+  heading: string;
+  body: string;
+}
+
 interface SeoArticleProps {
   meta: SeoArticleMeta;
   heading: string;
   intro: string;
   exampleTitle: string;
   exampleBody: string[];
-  tips: string[];
+  howToWriteIntro?: string;
+  howToWriteBody?: string[];
+  tips: StructuredTip[];
   tipsIntro?: string;
   outroHeading?: string;
   outro?: string;
@@ -46,6 +52,13 @@ const SeoArticleLayout = ({
   intro,
   exampleTitle,
   exampleBody,
+  howToWriteIntro = "Writing a tribute doesn't require any special skill — just honesty and a willingness to remember. Here's a simple approach to get started.",
+  howToWriteBody = [
+    "Start by recalling the moment your pet entered your life. What do you remember most clearly?",
+    "Think about their daily habits — the things they did that made you smile without even trying.",
+    "Write about the way they made you feel. What did their presence bring to your home?",
+    "Don't edit too much. The best tributes feel natural, like you're speaking to someone who loved them too.",
+  ],
   tips,
   tipsIntro = "Here are a few tips to help you write a tribute that feels personal and true to your pet's life.",
   outroHeading = "You Don't Have to Write It Alone",
@@ -89,6 +102,7 @@ const SeoArticleLayout = ({
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
+
       {/* Header */}
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
@@ -105,7 +119,7 @@ const SeoArticleLayout = ({
       {/* Article */}
       <article className="tribute-section">
         <div className="tribute-container max-w-2xl">
-          {/* H1 */}
+          {/* H1 + Intro */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -119,7 +133,7 @@ const SeoArticleLayout = ({
             </p>
           </motion.div>
 
-          {/* Contextual links after intro */}
+          {/* Contextual links */}
           {contextualLinks.length > 0 && (
             <div className="mb-12 flex flex-wrap gap-3">
               {contextualLinks.map((link, i) => (
@@ -135,7 +149,7 @@ const SeoArticleLayout = ({
             </div>
           )}
 
-          {/* Example Tribute Card */}
+          {/* H2: Example Tribute */}
           <motion.section
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -157,7 +171,26 @@ const SeoArticleLayout = ({
             </div>
           </motion.section>
 
-          {/* Writing Tips */}
+          {/* H2: How to Write Your Own */}
+          <motion.section
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="mb-14"
+          >
+            <h2 className="mb-4 text-2xl font-bold text-foreground">
+              How to Write Your Own
+            </h2>
+            <p className="mb-6 text-muted-foreground">{howToWriteIntro}</p>
+            <div className="space-y-4 text-foreground/90">
+              {howToWriteBody.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+          </motion.section>
+
+          {/* H2: Tips */}
           <motion.section
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -168,21 +201,21 @@ const SeoArticleLayout = ({
             <h2 className="mb-4 text-2xl font-bold text-foreground">
               Tips for Writing a Meaningful Tribute
             </h2>
-            <p className="mb-6 text-muted-foreground">{tipsIntro}</p>
-            <ul className="space-y-3">
+            <p className="mb-8 text-muted-foreground">{tipsIntro}</p>
+            <div className="space-y-6">
               {tips.map((tip, i) => (
-                <li
-                  key={i}
-                  className="flex items-start gap-3 text-foreground/90"
-                >
+                <div key={i} className="flex items-start gap-3">
                   <PawIcon className="mt-1 h-4 w-4 shrink-0 text-primary" />
-                  <span>{tip}</span>
-                </li>
+                  <div>
+                    <h3 className="font-semibold text-foreground">{tip.heading}</h3>
+                    <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{tip.body}</p>
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           </motion.section>
 
-          {/* CTA — crawlable <a> tag */}
+          {/* CTA */}
           <motion.section
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}

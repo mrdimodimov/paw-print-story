@@ -23,12 +23,34 @@ const PetMemorialMessage = () => (
       "He was with us for nine years, and every single one of them was richer because of him. We miss the sound of his paws on the hardwood floor, the weight of him leaning against our legs, and the way he sighed before falling asleep.",
       "Thank you, Charlie, for all the love you gave so freely. You made our family whole.",
     ]}
+    howToWriteIntro="Whether it's for a card, a keepsake, or just for yourself, writing a pet memorial message starts with being honest about what they meant to you."
+    howToWriteBody={[
+      "Begin with their name. Simply addressing them directly — 'Dear Bella' or 'For Max' — can help the words flow more naturally.",
+      "Think about what you miss most. Is it a sound, a habit, a feeling? Starting from a sensory memory often unlocks deeper emotions.",
+      "If writing for someone else, acknowledge their bond. Saying 'I know how much they meant to you' can be more comforting than any metaphor.",
+      "Keep it short if needed. A memorial message can be a single sentence or a full page — what matters is that it feels true.",
+    ]}
     tips={[
-      "Focus on what made your pet unique — their quirks, habits, and personality.",
-      "Write about the feelings they brought into your life: comfort, joy, laughter, or calm.",
-      "Mention a specific memory or moment that captures your bond.",
-      "Don't worry about being a good writer — the most meaningful tributes are honest and simple.",
-      "If writing for someone else's pet, acknowledge the bond they shared and the loss they feel.",
+      {
+        heading: "Focus on what made them unique",
+        body: "Their quirks, habits, and personality traits are what made them irreplaceable. Write about those details — they're the heart of any memorial.",
+      },
+      {
+        heading: "Write about the feelings they brought",
+        body: "Comfort, joy, laughter, calm — describe the emotional impact your pet had on your daily life. That's what people connect with most.",
+      },
+      {
+        heading: "Mention a specific moment",
+        body: "A single vivid memory — a trip, a funny incident, a quiet evening — can capture your entire relationship in a few sentences.",
+      },
+      {
+        heading: "Keep it simple and honest",
+        body: "The most meaningful tributes aren't polished — they're real. Write the way you'd talk to a friend about your pet.",
+      },
+      {
+        heading: "Consider writing for someone else",
+        body: "If you're writing for a friend who lost a pet, acknowledge their grief and the bond they shared. Sometimes the simplest words mean the most.",
+      },
     ]}
     outroHeading="Let Us Help You Find the Words"
     outro="Writing a pet memorial message can be emotional. VellumPet helps you turn your memories into a beautiful, personalized tribute — just answer a few gentle questions and we'll do the rest."
