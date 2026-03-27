@@ -1,8 +1,8 @@
 import BrandLogo from "@/components/BrandLogo";
 import CtaIcon from "@/components/CtaIcon";
 import PawIcon from "@/components/PawIcon";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -38,21 +38,13 @@ const SeoArticleLayout = ({
 }: SeoArticleProps) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    document.title = meta.title;
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) {
-      metaDesc.setAttribute("content", meta.description);
-    } else {
-      const tag = document.createElement("meta");
-      tag.name = "description";
-      tag.content = meta.description;
-      document.head.appendChild(tag);
-    }
-  }, [meta]);
-
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>{meta.title}</title>
+        <meta name="description" content={meta.description} />
+        <link rel="canonical" href={`https://paw-print-story.lovable.app${typeof window !== "undefined" ? window.location.pathname : ""}`} />
+      </Helmet>
       {/* Header */}
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
