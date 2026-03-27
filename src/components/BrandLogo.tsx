@@ -55,7 +55,7 @@ const BrandLogo = ({
         <span style={{ color: "#2C1F1A" }}>Vellum</span>
         <span style={{ color: "#A46B3E" }}>Pet</span>
       </span>
-    </Tag>
+    </div>
   );
 };
 
