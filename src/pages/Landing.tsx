@@ -429,13 +429,11 @@ const Landing = () => {
             </div>
             <div className="flex flex-col items-center md:items-end md:justify-end">
               <Button
-                variant="secondary"
-                size="sm"
                 onClick={() => navigate("/create")}
-                className="text-xs"
+                className="rounded-full bg-gradient-to-r from-[hsl(28,48%,45%)] to-[hsl(24,42%,37%)] px-6 py-3 text-sm font-medium text-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
               >
-                <CtaIcon className="mr-2 shrink-0" size={18} />
-                Create a Beautiful Tribute for Your Pet
+                <CtaIcon className="mr-2 shrink-0" size={20} />
+                Create Their Tribute
               </Button>
             </div>
           </div>
