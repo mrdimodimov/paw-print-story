@@ -42,6 +42,7 @@ interface SeoArticleProps {
 const ALL_ARTICLES = [
   { title: "Pet Memorial Page Online", href: "/pet-memorial", short: "Create a beautiful online pet memorial" },
   { title: "Pet Memorial Quotes", href: "/pet-memorial-quotes", short: "Meaningful quotes to remember your pet" },
+  { title: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes", short: "Comforting Rainbow Bridge quotes for pet loss" },
   { title: "Dog Obituary Example", href: "/dog-obituary-example", short: "How to write a beautiful dog obituary" },
   { title: "Cat Memorial Tribute Example", href: "/cat-memorial-tribute-example", short: "A heartfelt cat memorial tribute guide" },
   { title: "Pet Memorial Message Examples", href: "/pet-memorial-message", short: "Thoughtful pet memorial message ideas" },
