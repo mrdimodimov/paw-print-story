@@ -92,6 +92,7 @@ const App = () => (
             <Route path="/what-to-write-when-a-dog-dies" element={<WhatToWriteWhenDogDies />} />
             <Route path="/pet-memorial" element={<PetMemorial />} />
             <Route path="/pet-memorial-quotes" element={<PetMemorialQuotes />} />
+            <Route path="/rainbow-bridge-quotes" element={<RainbowBridgeQuotes />} />
             <Route path="/example-tribute" element={<ExampleTribute />} />
             <Route path="/example-tribute/oliver" element={<ExampleTributeOliver />} />
             <Route path="/example-tribute/max" element={<ExampleTributeMax />} />
