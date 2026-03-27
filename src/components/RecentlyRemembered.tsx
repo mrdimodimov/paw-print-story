@@ -105,14 +105,10 @@ export default function RecentlyRemembered() {
           {tributes.map((t, i) => {
             const rx = reactions[t.id] || { candle: 0, heart: 0 };
             return (
-              <motion.div
+              <Link
                 key={t.id}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08, duration: 0.4 }}
-                viewport={{ once: true }}
-                onClick={() => navigate(`/memorial/${t.slug}`)}
-                className="group cursor-pointer overflow-hidden rounded-2xl border border-border/30 bg-white shadow-soft transition-shadow duration-300 hover:shadow-card"
+                to={`/memorial/${t.slug}`}
+                className="group block overflow-hidden rounded-2xl border border-border/30 bg-white shadow-soft transition-shadow duration-300 hover:shadow-card"
               >
                 {/* Photo */}
                 {t.photo_urls?.[0] && (
@@ -145,20 +141,12 @@ export default function RecentlyRemembered() {
                       {rx.candle > 0 && <span>🕯️ {rx.candle}</span>}
                       {rx.heart > 0 && <span>❤️ {rx.heart}</span>}
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-xs text-primary"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/memorial/${t.slug}`);
-                      }}
-                    >
+                    <span className="text-xs text-primary">
                       View Tribute →
-                    </Button>
+                    </span>
                   </div>
                 </div>
-              </motion.div>
+              </Link>
             );
           })}
         </div>
