@@ -173,9 +173,21 @@ const SeoArticleLayout = ({
             <h1 className="mb-6 text-3xl font-bold leading-tight text-foreground md:text-4xl lg:text-5xl">
               {heading}
             </h1>
-            <p className="mb-12 text-lg leading-relaxed text-muted-foreground">
+            <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
               {intro}
             </p>
+
+            {/* Inline emotional CTA */}
+            <div className="mb-12 text-center">
+              <p className="mb-3 text-base italic text-foreground/70">Your pet deserves to be remembered.</p>
+              <Link
+                to="/create"
+                className="inline-flex items-center gap-2 text-primary font-semibold hover:underline transition-colors"
+              >
+                <PawIcon className="h-4 w-4 shrink-0" />
+                Honor your pet's memory in minutes <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </motion.div>
 
           {/* Contextual links */}
