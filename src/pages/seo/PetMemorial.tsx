@@ -324,11 +324,6 @@ const PetMemorial = () => {
                 href: "/pet-memorial-quotes",
               },
               {
-                title: "How to Cope With Losing a Pet",
-                intro: "A gentle, practical guide to pet loss grief — why it hurts, what to expect, and healthy ways to move forward.",
-                href: "/cope-with-losing-a-pet",
-              },
-              {
                 title: "Dog Obituary Example",
                 intro: "A full example of a dog obituary with step-by-step writing advice. See what a heartfelt tribute looks like.",
                 href: "/dog-obituary-example",
@@ -337,16 +332,6 @@ const PetMemorial = () => {
                 title: "Cat Memorial Tribute Example",
                 intro: "A complete cat memorial tribute with tips for capturing your cat's quiet, independent personality.",
                 href: "/cat-memorial-tribute-example",
-              },
-              {
-                title: "Pet Sympathy Messages",
-                intro: "What to say when someone you care about loses a pet — thoughtful messages for cards, texts, and conversations.",
-                href: "/pet-sympathy-messages",
-              },
-              {
-                title: "Rainbow Bridge Quotes",
-                intro: "Comforting words drawn from the Rainbow Bridge tradition — for those who find solace in the hope of reunion.",
-                href: "/rainbow-bridge-quotes",
               },
             ].map((hub) => (
               <Link

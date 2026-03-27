@@ -13,10 +13,11 @@ const DogMemorialQuotes = () => (
     heading="Dog Memorial Quotes: Heartfelt Words to Remember Your Dog"
     intro="Dogs give us a love that is constant, uncomplicated, and deeply woven into our daily lives. When they're gone, the silence they leave behind can feel unbearable. These dog memorial quotes are here for those moments — when you need words to capture what your dog meant to you, whether for a tribute page, a sympathy card, an engraving, or simply to hold in your heart."
     contextualLinks={[
-      { text: "Create a pet memorial page", href: "/pet-memorial" },
       { text: "Short dog memorial quotes", href: "/short-dog-memorial-quotes" },
-      { text: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
       { text: "Dog obituary example", href: "/dog-obituary-example" },
+      { text: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
+      { text: "Create a pet memorial page", href: "/pet-memorial" },
+      { text: "Create a tribute", href: "/create" },
     ]}
     exampleTitle="In Memory of Buddy"
     exampleBody={[

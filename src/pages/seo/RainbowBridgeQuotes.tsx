@@ -320,9 +320,10 @@ const RainbowBridgeQuotes = () => {
           </h2>
           <div className="space-y-3">
             {[
-              { title: "How to Cope With Losing a Pet", desc: "A gentle guide to grief and healing", href: "/cope-with-losing-a-pet" },
-              { title: "Pet Sympathy Messages", desc: "What to say when someone loses a pet", href: "/pet-sympathy-messages" },
               { title: "Pet Memorial Quotes", desc: "Meaningful quotes to remember your pet", href: "/pet-memorial-quotes" },
+              { title: "Pet Sympathy Messages", desc: "What to say when someone loses a pet", href: "/pet-sympathy-messages" },
+              { title: "How to Cope With Losing a Pet", desc: "A gentle guide to grief and healing", href: "/cope-with-losing-a-pet" },
+              { title: "Pet Memorial Page Online", desc: "Create a beautiful online pet memorial", href: "/pet-memorial" },
             ].map((link) => (
               <Link
                 key={link.href}

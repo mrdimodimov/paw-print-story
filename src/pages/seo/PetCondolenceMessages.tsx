@@ -13,10 +13,11 @@ const PetCondolenceMessages = () => (
     heading="Pet Condolence Messages: What to Say When Someone Loses a Pet"
     intro="When someone you care about loses a pet, it's hard to know what to say. The loss is real and deep — but our culture doesn't always give pet grief the space it deserves. That silence can make your words even more meaningful. A simple, honest pet condolence message tells someone: I see your pain, and it matters. You don't need to be eloquent. You just need to be sincere."
     contextualLinks={[
-      { text: "Create a pet memorial page", href: "/pet-memorial" },
       { text: "Pet sympathy messages", href: "/pet-sympathy-messages" },
       { text: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
       { text: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
+      { text: "Create a pet memorial page", href: "/pet-memorial" },
+      { text: "Create a tribute", href: "/create" },
     ]}
     exampleTitle="An Example Pet Condolence Message"
     exampleBody={[

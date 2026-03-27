@@ -13,10 +13,11 @@ const PetRemembranceQuotes = () => (
     heading="Pet Remembrance Quotes: Meaningful Words to Honor Your Pet"
     intro="Some bonds don't fade just because they've ended. Whether you lost a dog, a cat, a rabbit, a bird, or any animal who shared your life, the grief is real — and so is the need to remember them well. These pet remembrance quotes are gathered here for you: words to write in a card, add to a memorial page, engrave on a keepsake, or simply read when the missing feels too heavy."
     contextualLinks={[
-      { text: "Create a pet memorial page", href: "/pet-memorial" },
       { text: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+      { text: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
       { text: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
-      { text: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+      { text: "Create a pet memorial page", href: "/pet-memorial" },
+      { text: "Create a tribute", href: "/create" },
     ]}
     exampleTitle="Remembering Pepper"
     exampleBody={[
