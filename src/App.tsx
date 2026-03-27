@@ -22,6 +22,7 @@ import PetMemorialQuotes from "./pages/seo/PetMemorialQuotes";
 import RainbowBridgeQuotes from "./pages/seo/RainbowBridgeQuotes";
 import CopeWithLosingAPet from "./pages/seo/CopeWithLosingAPet";
 import PetSympathyMessages from "./pages/seo/PetSympathyMessages";
+import ShortDogMemorialQuotes from "./pages/seo/ShortDogMemorialQuotes";
 import ExampleTribute from "./pages/ExampleTribute";
 import ExampleTributeOliver from "./pages/ExampleTributeOliver";
 import ExampleTributeMax from "./pages/ExampleTributeMax";
