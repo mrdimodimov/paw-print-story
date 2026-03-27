@@ -17,6 +17,7 @@ const routes = [
   "/pet-memorial-message",
   "/what-to-write-when-a-dog-dies",
   "/pet-memorial",
+  "/pet-memorial-quotes",
 ];
 
 for (const route of routes) {
