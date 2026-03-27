@@ -22,6 +22,11 @@ interface StructuredTip {
   body: string;
 }
 
+interface BreadcrumbItem {
+  name: string;
+  href: string;
+}
+
 interface SeoArticleProps {
   meta: SeoArticleMeta;
   heading: string;
@@ -37,6 +42,7 @@ interface SeoArticleProps {
   datePublished?: string;
   slug?: string;
   contextualLinks?: ContextualLink[];
+  breadcrumbs?: BreadcrumbItem[];
 }
 
 const ALL_ARTICLES = [
