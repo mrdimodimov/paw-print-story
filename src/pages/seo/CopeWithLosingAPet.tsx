@@ -46,6 +46,10 @@ const CopeWithLosingAPet = () => {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
+      <SeoBreadcrumbs items={[
+        { name: "Cope With Losing a Pet", href: "/cope-with-losing-a-pet" },
+      ]} />
+
       {/* Header */}
       <header className="border-b border-border/50">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-5 py-4">
