@@ -25,11 +25,7 @@ export default function MemoriesGallery() {
   const [loading, setLoading] = useState(true);
   const [reactionCounts, setReactionCounts] = useState<Record<string, { candle: number; paw: number; heart: number }>>({});
 
-  useEffect(() => {
-    document.title = `Pet Memorial Stories — Heartfelt Tributes | ${BRAND.name}`;
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Browse heartfelt pet memorials created by loving owners. Each tribute tells a unique story worth remembering.");
-  }, []);
+  // Removed manual DOM meta — using Helmet instead
 
   useEffect(() => {
     async function load() {
