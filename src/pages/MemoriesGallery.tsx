@@ -1,6 +1,7 @@
 import BrandLogo from "@/components/BrandLogo";
 import PawIcon from "@/components/PawIcon";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Sparkles } from "lucide-react";
@@ -24,11 +25,7 @@ export default function MemoriesGallery() {
   const [loading, setLoading] = useState(true);
   const [reactionCounts, setReactionCounts] = useState<Record<string, { candle: number; paw: number; heart: number }>>({});
 
-  useEffect(() => {
-    document.title = `Pet Memorial Stories — Heartfelt Tributes | ${BRAND.name}`;
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Browse heartfelt pet memorials created by loving owners. Each tribute tells a unique story worth remembering.");
-  }, []);
+  // Removed manual DOM meta — using Helmet instead
 
   useEffect(() => {
     async function load() {
@@ -85,6 +82,14 @@ export default function MemoriesGallery() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Pet Memorial Stories — Heartfelt Tributes | {BRAND.name}</title>
+        <meta name="description" content="Browse heartfelt pet memorials created by loving owners. Each tribute tells a unique story worth remembering." />
+        <link rel="canonical" href={`${BRAND.baseUrl}/memories`} />
+        <meta property="og:title" content={`Pet Memorial Stories | ${BRAND.name}`} />
+        <meta property="og:description" content="Browse heartfelt pet memorials created by loving owners." />
+        <meta property="og:url" content={`${BRAND.baseUrl}/memories`} />
+      </Helmet>
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <BrandLogo size="sm" />
@@ -139,10 +144,9 @@ export default function MemoriesGallery() {
               const c = reactionCounts[t.id];
               const total = c ? c.candle + c.paw + c.heart : 0;
               return (
-                <motion.div
+                <Link
                   key={t.id}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  to={getTributeUrl(t)}
                   className="flex flex-col rounded-xl border border-border bg-card p-5 shadow-soft transition-shadow hover:shadow-card"
                 >
                   <div className="mb-2 flex items-center gap-2">
@@ -162,10 +166,10 @@ export default function MemoriesGallery() {
                       {c.heart > 0 && `${c.heart} heart${c.heart !== 1 ? "s" : ""}`}
                     </p>
                   )}
-                  <Button variant="outline" size="sm" className="self-start" onClick={() => navigate(getTributeUrl(t))}>
-                    Read {t.pet_name}'s Story
-                  </Button>
-                </motion.div>
+                  <span className="self-start text-sm text-primary">
+                    Read {t.pet_name}'s Story →
+                  </span>
+                </Link>
               );
             })}
           </div>

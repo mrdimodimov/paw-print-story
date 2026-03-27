@@ -3,6 +3,7 @@ import PawIcon from "@/components/PawIcon";
 import BrandLogo from "@/components/BrandLogo";
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Heart, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -26,28 +27,6 @@ interface PublicTribute {
 }
 
 /* ── helpers ────────────────────────────────────────── */
-
-function setMetaTag(name: string, content: string, property = false) {
-  const attr = property ? "property" : "name";
-  let el = document.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement | null;
-  if (!el) {
-    el = document.createElement("meta");
-    el.setAttribute(attr, name);
-    document.head.appendChild(el);
-  }
-  el.content = content;
-}
-
-function setJsonLd(data: Record<string, unknown>) {
-  let el = document.querySelector('script[data-ld="memorial"]') as HTMLScriptElement | null;
-  if (!el) {
-    el = document.createElement("script");
-    el.type = "application/ld+json";
-    el.setAttribute("data-ld", "memorial");
-    document.head.appendChild(el);
-  }
-  el.textContent = JSON.stringify(data);
-}
 
 /* ── story split helper ─────────────────────────────── */
 
@@ -179,41 +158,6 @@ const PublicMemorialPage = () => {
 
       setTribute(data as PublicTribute);
 
-      /* ── Dynamic SEO ── */
-      const t = data as PublicTribute;
-      const storyExcerpt = t.story.replace(/\n+/g, " ").slice(0, 150).trim().replace(/\s+\S*$/, "…");
-      const pageTitle = `${t.pet_name} Memorial | ${BRAND.name}`;
-      const metaDesc = storyExcerpt || `Read ${t.pet_name}'s heartfelt tribute and celebrate the life of a beloved pet. Create your own pet memorial with ${BRAND.name}.`;
-      const pageUrl = `${BRAND.baseUrl}/memorial/${t.slug}`;
-
-      document.title = pageTitle;
-      setMetaTag("description", metaDesc);
-      setMetaTag("og:title", pageTitle, true);
-      setMetaTag("og:description", metaDesc, true);
-      setMetaTag("og:type", "article", true);
-      setMetaTag("og:url", pageUrl, true);
-      if (t.photo_urls[0]) setMetaTag("og:image", t.photo_urls[0], true);
-      setMetaTag("twitter:card", "summary_large_image");
-      setMetaTag("twitter:title", pageTitle);
-      setMetaTag("twitter:description", metaDesc);
-      if (t.photo_urls[0]) setMetaTag("twitter:image", t.photo_urls[0]);
-
-      let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-      if (!canonical) { canonical = document.createElement("link"); canonical.rel = "canonical"; document.head.appendChild(canonical); }
-      canonical.href = pageUrl;
-
-      setJsonLd({
-        "@context": "https://schema.org",
-        "@type": "CreativeWork",
-        name: `In Loving Memory of ${t.pet_name}`,
-        description: metaDesc,
-        url: pageUrl,
-        image: t.photo_urls[0] || undefined,
-        datePublished: t.created_at,
-        author: { "@type": "Organization", name: BRAND.name, url: BRAND.baseUrl },
-        publisher: { "@type": "Organization", name: BRAND.name, url: BRAND.baseUrl },
-      });
-
       setLoading(false);
     };
     fetchTribute();
@@ -232,12 +176,42 @@ const PublicMemorialPage = () => {
   if (!tribute) return null;
 
   const pageUrl = `${BRAND.baseUrl}/memorial/${tribute.slug}`;
+  const storyExcerpt = tribute.story.replace(/\n+/g, " ").slice(0, 150).trim().replace(/\s+\S*$/, "…");
+  const pageTitle = `${tribute.pet_name} Memorial | ${BRAND.name}`;
+  const metaDesc = storyExcerpt || `Read ${tribute.pet_name}'s heartfelt tribute and celebrate the life of a beloved pet.`;
   const isLegacy = tribute.tier_id === "legacy";
   const isPack = tribute.tier_id === "pack";
   const breedOrType = tribute.breed ? `${tribute.breed} ${tribute.pet_type}` : tribute.pet_type;
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: `In Loving Memory of ${tribute.pet_name}`,
+    description: metaDesc,
+    url: pageUrl,
+    image: tribute.photo_urls[0] || undefined,
+    datePublished: tribute.created_at,
+    author: { "@type": "Organization", name: BRAND.name, url: BRAND.baseUrl },
+    publisher: { "@type": "Organization", name: BRAND.name, url: BRAND.baseUrl },
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={metaDesc} />
+        <link rel="canonical" href={pageUrl} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={metaDesc} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={pageUrl} />
+        {tribute.photo_urls[0] && <meta property="og:image" content={tribute.photo_urls[0]} />}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={metaDesc} />
+        {tribute.photo_urls[0] && <meta name="twitter:image" content={tribute.photo_urls[0]} />}
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      </Helmet>
       {/* Header */}
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">

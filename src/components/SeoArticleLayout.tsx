@@ -278,6 +278,28 @@ const SeoArticleLayout = ({
               ))}
             </div>
           </motion.section>
+
+          {/* Recently Remembered */}
+          <motion.section
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="mb-14"
+          >
+            <h2 className="mb-3 text-2xl font-bold text-foreground">
+              Recently Remembered Pets
+            </h2>
+            <p className="mb-4 text-muted-foreground">
+              Browse heartfelt tributes created by pet owners honoring the pets they loved.
+            </p>
+            <Link
+              to="/memories"
+              className="group inline-flex items-center gap-2 text-primary font-medium hover:underline"
+            >
+              View all pet memorials <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </motion.section>
         </div>
       </article>
 
