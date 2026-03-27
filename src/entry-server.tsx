@@ -15,6 +15,11 @@ import RainbowBridgeQuotes from "./pages/seo/RainbowBridgeQuotes";
 import CopeWithLosingAPet from "./pages/seo/CopeWithLosingAPet";
 import PetSympathyMessages from "./pages/seo/PetSympathyMessages";
 import ShortDogMemorialQuotes from "./pages/seo/ShortDogMemorialQuotes";
+import DogMemorialQuotes from "./pages/seo/DogMemorialQuotes";
+import CatMemorialQuotes from "./pages/seo/CatMemorialQuotes";
+import PetRemembranceQuotes from "./pages/seo/PetRemembranceQuotes";
+import WhatToWriteWhenCatDies from "./pages/seo/WhatToWriteWhenCatDies";
+import PetCondolenceMessages from "./pages/seo/PetCondolenceMessages";
 
 export function render(url: string) {
   const helmetContext: { helmet?: any } = {};
