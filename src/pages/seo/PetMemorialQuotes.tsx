@@ -82,7 +82,10 @@ const PetMemorialQuotes = () => {
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
             These pet memorial quotes are here to help — whether you're writing a
             tribute, sending a sympathy card, or simply looking for words that
-            match what you're feeling. Some are short enough for a caption. Others
+            match what you're feeling. If you're looking to create a lasting{" "}
+            <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              pet memorial page
+            </Link>, these words can be a meaningful starting point. Some are short enough for a caption. Others
             carry the weight of a longer goodbye. All of them honour the bond
             between a person and their pet.
           </p>
