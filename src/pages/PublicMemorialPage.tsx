@@ -204,8 +204,8 @@ const PublicMemorialPage = () => {
 
       setJsonLd({
         "@context": "https://schema.org",
-        "@type": "Article",
-        headline: `In Loving Memory of ${t.pet_name}`,
+        "@type": "CreativeWork",
+        name: `In Loving Memory of ${t.pet_name}`,
         description: metaDesc,
         url: pageUrl,
         image: t.photo_urls[0] || undefined,
