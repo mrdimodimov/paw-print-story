@@ -173,7 +173,7 @@ export default function RecentlyRemembered() {
             className="px-8 py-5 text-base"
             onClick={() => navigate("/create")}
           >
-            <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} variant="white" />
+            <CtaIcon className="mr-2 shrink-0" size={22} />
             Create your pet's story →
           </Button>
         </div>

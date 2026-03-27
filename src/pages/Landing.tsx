@@ -1,4 +1,4 @@
-import PawIcon from "@/components/PawIcon";
+import CtaIcon from "@/components/CtaIcon";
 import BrandLogo from "@/components/BrandLogo";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
