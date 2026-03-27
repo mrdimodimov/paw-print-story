@@ -1,3 +1,4 @@
+import CtaIcon from "@/components/CtaIcon";
 import PawIcon from "@/components/PawIcon";
 import BrandLogo from "@/components/BrandLogo";
 import { useEffect, useState, useRef } from "react";
@@ -366,7 +367,7 @@ const PublicMemorialPage = () => {
             Takes less than 2 minutes · No writing required
           </p>
           <Button size="lg" className="px-8 shadow-glow" onClick={() => navigate("/create")}>
-            <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} variant="white" />
+            <CtaIcon className="mr-2 shrink-0" size={22} />
             Create a Tribute
           </Button>
           <p className="mt-6 text-xs text-muted-foreground">Created with {BRAND.name}</p>

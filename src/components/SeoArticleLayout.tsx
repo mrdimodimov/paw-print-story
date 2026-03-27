@@ -1,4 +1,5 @@
 import BrandLogo from "@/components/BrandLogo";
+import CtaIcon from "@/components/CtaIcon";
 import PawIcon from "@/components/PawIcon";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -143,7 +144,7 @@ const SeoArticleLayout = ({
               className="px-8 py-5 text-base shadow-glow"
               onClick={() => navigate("/create")}
             >
-              <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} variant="white" />
+              <CtaIcon className="mr-2 shrink-0" size={22} />
               Create a Tribute for Your Pet
             </Button>
           </motion.section>

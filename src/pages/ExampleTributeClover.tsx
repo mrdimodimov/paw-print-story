@@ -1,6 +1,6 @@
 import React from "react";
 import BrandLogo from "@/components/BrandLogo";
-import PawIcon from "@/components/PawIcon";
+import CtaIcon from "@/components/CtaIcon";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart, ArrowLeft } from "lucide-react";
@@ -140,7 +140,7 @@ src="https://ppfrtdbjsagytuhweywd.supabase.co/storage/v1/object/public/pet-photo
             className="px-8 py-5 text-base shadow-glow"
             onClick={() => navigate("/create")}
           >
-            <PawIcon className="mr-3 !h-[30px] !w-[30px] shrink-0 -mt-[1px] opacity-[0.92]" size={30} variant="white" />
+            <CtaIcon className="mr-2 shrink-0" size={22} />
             Create Your Tribute
           </Button>
           <p className="mt-4 text-sm text-muted-foreground">
