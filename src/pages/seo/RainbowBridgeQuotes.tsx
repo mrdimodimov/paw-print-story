@@ -82,8 +82,10 @@ const RainbowBridgeQuotes = () => {
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
             These rainbow bridge quotes are gathered here to help you find words
             when your own feel impossible. Whether you're looking for something
-            to write in a card, share online, or simply hold in your heart, we
-            hope they bring you a moment of peace.
+            to write in a card, share online, or include in a{" "}
+            <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              pet memorial page
+            </Link>, we hope they bring you a moment of peace.
           </p>
           <Link
             to="/create"
