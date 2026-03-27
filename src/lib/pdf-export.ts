@@ -346,8 +346,8 @@ export async function downloadMemorialPDF(
   doc.setLineWidth(0.25);
   doc.rect(13, 13, pageWidth - 26, pageHeight - 26);
 
-  // --- Paw watermark ---
-  drawPawWatermark(doc);
+  // --- Logo watermark ---
+  await drawLogoWatermark(doc);
 
   // --- "In Loving Memory" pre-title ---
   doc.setFont("times", "italic");
