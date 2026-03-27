@@ -22,6 +22,11 @@ const routes = [
   "/cope-with-losing-a-pet",
   "/pet-sympathy-messages",
   "/short-dog-memorial-quotes",
+  "/dog-memorial-quotes",
+  "/cat-memorial-quotes",
+  "/pet-remembrance-quotes",
+  "/what-to-write-when-a-cat-dies",
+  "/pet-condolence-messages",
 ];
 
 for (const route of routes) {

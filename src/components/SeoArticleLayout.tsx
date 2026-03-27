@@ -46,10 +46,15 @@ const ALL_ARTICLES = [
   { title: "How to Cope With Losing a Pet", href: "/cope-with-losing-a-pet", short: "A gentle guide to pet loss grief and healing" },
   { title: "Pet Sympathy Messages", href: "/pet-sympathy-messages", short: "What to say when someone loses a pet" },
   { title: "Short Dog Memorial Quotes", href: "/short-dog-memorial-quotes", short: "Simple words to remember your dog" },
+  { title: "Dog Memorial Quotes", href: "/dog-memorial-quotes", short: "Heartfelt words to remember your dog" },
+  { title: "Cat Memorial Quotes", href: "/cat-memorial-quotes", short: "Gentle words to remember your cat" },
+  { title: "Pet Remembrance Quotes", href: "/pet-remembrance-quotes", short: "Meaningful words to honor your pet" },
   { title: "Dog Obituary Example", href: "/dog-obituary-example", short: "How to write a beautiful dog obituary" },
   { title: "Cat Memorial Tribute Example", href: "/cat-memorial-tribute-example", short: "A heartfelt cat memorial tribute guide" },
   { title: "Pet Memorial Message Examples", href: "/pet-memorial-message", short: "Thoughtful pet memorial message ideas" },
   { title: "What to Write When a Dog Dies", href: "/what-to-write-when-a-dog-dies", short: "A gentle guide for writing a dog memorial" },
+  { title: "What to Write When a Cat Dies", href: "/what-to-write-when-a-cat-dies", short: "A gentle guide for writing a cat memorial" },
+  { title: "Pet Condolence Messages", href: "/pet-condolence-messages", short: "What to say when someone loses a pet" },
 ];
 
 const SeoArticleLayout = ({
