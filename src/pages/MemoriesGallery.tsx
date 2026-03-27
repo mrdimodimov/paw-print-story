@@ -1,6 +1,7 @@
 import BrandLogo from "@/components/BrandLogo";
 import PawIcon from "@/components/PawIcon";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Sparkles } from "lucide-react";
