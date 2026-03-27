@@ -434,7 +434,7 @@ const Landing = () => {
                 onClick={() => navigate("/create")}
                 className="text-xs"
               >
-                <PawIcon className="mr-3 !h-[22px] !w-[22px] shrink-0 -mt-[1px]" size={22} />
+                <PawIcon className="mr-3 !h-[22px] !w-[22px] shrink-0 -mt-[1px]" size={22} variant="white" />
                 Create a Beautiful Tribute for Your Pet
               </Button>
             </div>
