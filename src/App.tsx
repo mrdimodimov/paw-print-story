@@ -20,6 +20,7 @@ import WhatToWriteWhenDogDies from "./pages/seo/WhatToWriteWhenDogDies";
 import PetMemorial from "./pages/seo/PetMemorial";
 import PetMemorialQuotes from "./pages/seo/PetMemorialQuotes";
 import RainbowBridgeQuotes from "./pages/seo/RainbowBridgeQuotes";
+import CopeWithLosingAPet from "./pages/seo/CopeWithLosingAPet";
 import ExampleTribute from "./pages/ExampleTribute";
 import ExampleTributeOliver from "./pages/ExampleTributeOliver";
 import ExampleTributeMax from "./pages/ExampleTributeMax";
