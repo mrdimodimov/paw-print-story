@@ -1,16 +1,15 @@
-import BrandPawIcon from "@/components/BrandPawIcon";
+import logoFull from "@/assets/logo-full.png";
 
 interface BrandLogoProps {
   size?: "sm" | "md" | "lg";
   className?: string;
   onClick?: () => void;
-  as?: "button" | "div" | "span";
 }
 
 const sizeMap = {
-  sm: { icon: 28, text: "text-lg" },
-  md: { icon: 34, text: "text-xl" },
-  lg: { icon: 42, text: "text-2xl" },
+  sm: { height: 28 },
+  md: { height: 36 },
+  lg: { height: 46 },
 };
 
 const BrandLogo = ({
@@ -18,43 +17,32 @@ const BrandLogo = ({
   className = "",
   onClick,
 }: BrandLogoProps) => {
-  const { icon, text } = sizeMap[size];
+  const { height } = sizeMap[size];
 
-  const inner = (
-    <>
-      <BrandPawIcon size={icon} color="#2C1F1A" />
-      <span
-        className={`font-display ${text} font-medium`}
-        style={{ letterSpacing: "0.04em" }}
-      >
-        <span style={{ color: "#2C1F1A" }}>Vellum</span>
-        <span style={{ color: "#A46B3E" }}>Pet</span>
-      </span>
-    </>
+  const img = (
+    <img
+      src={logoFull}
+      alt="VellumPet"
+      style={{ height: `${height}px`, width: "auto" }}
+      className="block"
+    />
   );
 
   if (onClick) {
     return (
       <button
         type="button"
-        className={`flex items-center gap-2 cursor-pointer ${className}`}
+        className={`flex items-center cursor-pointer ${className}`}
         onClick={onClick}
       >
-        {inner}
+        {img}
       </button>
     );
   }
 
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      <BrandPawIcon size={icon} color="#2C1F1A" />
-      <span
-        className={`font-display ${text} font-medium`}
-        style={{ letterSpacing: "0.04em" }}
-      >
-        <span style={{ color: "#2C1F1A" }}>Vellum</span>
-        <span style={{ color: "#A46B3E" }}>Pet</span>
-      </span>
+    <div className={`flex items-center ${className}`}>
+      {img}
     </div>
   );
 };
