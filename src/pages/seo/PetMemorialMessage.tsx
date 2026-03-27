@@ -12,8 +12,10 @@ const PetMemorialMessage = () => (
     heading="Pet Memorial Messages: What to Write When Remembering a Pet"
     intro="When a pet passes away, finding the right words can feel impossible. Whether you're writing a message for yourself, a card for a friend, or a tribute to keep, it helps to start with something simple and sincere. A memorial message doesn't need to be poetic or grand — it just needs to come from the heart. Below is an example to inspire you, followed by practical advice for writing your own."
     contextualLinks={[
+      { text: "Create a pet memorial page", href: "/pet-memorial" },
       { text: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
       { text: "Cat memorial tribute guide", href: "/cat-memorial-tribute-example" },
+      { text: "Coping with pet loss", href: "/cope-with-losing-a-pet" },
     ]}
     exampleTitle="Remembering Charlie"
     exampleBody={[

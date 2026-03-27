@@ -385,9 +385,9 @@ const CopeWithLosingAPet = () => {
           </h2>
           <div className="space-y-3">
             {[
-              { title: "Pet Memorial Quotes", desc: "Meaningful quotes to remember your pet", href: "/pet-memorial-quotes" },
+              { title: "Pet Sympathy Messages", desc: "What to say when someone loses a pet", href: "/pet-sympathy-messages" },
               { title: "Rainbow Bridge Quotes", desc: "Comforting words for pet loss", href: "/rainbow-bridge-quotes" },
-              { title: "Dog Obituary Example", desc: "How to write a beautiful dog obituary", href: "/dog-obituary-example" },
+              { title: "Short Dog Memorial Quotes", desc: "Simple words to remember your dog", href: "/short-dog-memorial-quotes" },
             ].map((link) => (
               <Link
                 key={link.href}

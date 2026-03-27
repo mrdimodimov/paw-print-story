@@ -325,14 +325,14 @@ const PetMemorial = () => {
                 href: "/cat-memorial-tribute-example",
               },
               {
-                title: "Pet Memorial Message Examples",
-                desc: "Thoughtful pet memorial message ideas",
-                href: "/pet-memorial-message",
+                title: "Pet Sympathy Messages",
+                desc: "What to say when someone loses a pet",
+                href: "/pet-sympathy-messages",
               },
               {
-                title: "What to Write When a Dog Dies",
-                desc: "A gentle guide for writing a dog memorial",
-                href: "/what-to-write-when-a-dog-dies",
+                title: "Short Dog Memorial Quotes",
+                desc: "Simple words to remember your dog",
+                href: "/short-dog-memorial-quotes",
               },
             ].map((link) => (
               <Link

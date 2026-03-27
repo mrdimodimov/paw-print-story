@@ -253,9 +253,9 @@ const PetSympathyMessages = () => {
           <h2 className="mb-5 text-2xl font-bold text-foreground">Related Articles</h2>
           <div className="space-y-3">
             {[
-              { title: "Pet Memorial Quotes", desc: "Meaningful quotes to remember your pet", href: "/pet-memorial-quotes" },
-              { title: "Rainbow Bridge Quotes", desc: "Comforting words for pet loss", href: "/rainbow-bridge-quotes" },
-              { title: "How to Cope With Losing a Pet", desc: "A gentle guide to grief and healing", href: "/cope-with-losing-a-pet" },
+              { title: "Short Dog Memorial Quotes", desc: "Simple words to remember your dog", href: "/short-dog-memorial-quotes" },
+              { title: "Dog Obituary Example", desc: "How to write a beautiful dog obituary", href: "/dog-obituary-example" },
+              { title: "Cat Memorial Tribute Example", desc: "A heartfelt cat memorial tribute guide", href: "/cat-memorial-tribute-example" },
             ].map((link) => (
               <Link key={link.href} to={link.href} className="group flex items-center justify-between rounded-xl border border-border bg-card p-4 shadow-card transition-all duration-200 hover:border-primary/30 hover:shadow-md">
                 <div>
