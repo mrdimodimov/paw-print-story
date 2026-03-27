@@ -13,10 +13,11 @@ const DogObituaryExample = () => (
     heading="Dog Obituary Example: How to Write a Beautiful Tribute"
     intro="Losing a dog is one of the hardest goodbyes. They fill our days with loyalty, joy, and unconditional love — and when they're gone, the silence can feel overwhelming. Writing an obituary or tribute for your dog is a gentle way to honor everything they meant to you. It doesn't have to be long or perfect. It just has to be real. Below you'll find an example to guide you, along with tips for writing your own."
     contextualLinks={[
-      { text: "Create a pet memorial page", href: "/pet-memorial" },
-      { text: "Cat memorial tribute guide", href: "/cat-memorial-tribute-example" },
       { text: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
+      { text: "Pet memorial message ideas", href: "/pet-memorial-message" },
       { text: "Short dog memorial quotes", href: "/short-dog-memorial-quotes" },
+      { text: "Create a pet memorial page", href: "/pet-memorial" },
+      { text: "Create a tribute", href: "/create" },
     ]}
     exampleTitle="In Loving Memory of Max"
     exampleBody={[

@@ -13,10 +13,11 @@ const CatMemorialQuotes = () => (
     heading="Cat Memorial Quotes: Gentle Words to Remember Your Cat"
     intro="Cats love quietly — a slow blink across the room, a gentle headbutt, the weight of them settling into your lap at the end of a long day. When a cat dies, the loss is felt in those small, private moments that no one else saw. These cat memorial quotes are here for that grief — soft, honest words to help you remember the companion who chose you."
     contextualLinks={[
-      { text: "Create a pet memorial page", href: "/pet-memorial" },
       { text: "Cat memorial tribute example", href: "/cat-memorial-tribute-example" },
+      { text: "What to write when a cat dies", href: "/what-to-write-when-a-cat-dies" },
       { text: "Pet memorial quotes", href: "/pet-memorial-quotes" },
-      { text: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
+      { text: "Create a pet memorial page", href: "/pet-memorial" },
+      { text: "Create a tribute", href: "/create" },
     ]}
     exampleTitle="In Memory of Miso"
     exampleBody={[
