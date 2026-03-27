@@ -1,4 +1,5 @@
 import BrandLogo from "@/components/BrandLogo";
+import PawIcon from "@/components/PawIcon";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
