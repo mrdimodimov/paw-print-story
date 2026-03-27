@@ -3,6 +3,7 @@ import PawIcon from "@/components/PawIcon";
 import BrandLogo from "@/components/BrandLogo";
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Heart, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
