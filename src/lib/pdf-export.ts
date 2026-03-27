@@ -1,5 +1,6 @@
 import jsPDF from "jspdf";
 import { BRAND } from "./brand";
+import logoIconUrl from "@/assets/logo-icon.png";
 
 /**
  * Normalize text for safe PDF rendering and export.
