@@ -23,6 +23,8 @@ interface SeoArticleProps {
   tipsIntro?: string;
   outroHeading?: string;
   outro?: string;
+  datePublished?: string;
+  slug?: string;
 }
 
 const SeoArticleLayout = ({
