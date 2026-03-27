@@ -88,28 +88,39 @@ const SeoArticleLayout = ({
   const navigate = useNavigate();
 
   const canonicalUrl = `https://paw-print-story.lovable.app${slug || (typeof window !== "undefined" ? window.location.pathname : "")}`;
+  const siteBase = "https://paw-print-story.lovable.app";
 
   const relatedArticles = ALL_ARTICLES.filter((a) => a.href !== slug).slice(0, 3);
+
+  // Build breadcrumb trail: Home → [parent] → current page
+  const crumbs: BreadcrumbItem[] = [
+    { name: "Home", href: "/" },
+    ...(breadcrumbs || []),
+    { name: heading, href: slug || "" },
+  ];
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: meta.title,
     description: meta.description,
-    author: {
-      "@type": "Organization",
-      name: "VellumPet",
-      url: "https://paw-print-story.lovable.app",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "VellumPet",
-      url: "https://paw-print-story.lovable.app",
-    },
+    author: { "@type": "Organization", name: "VellumPet", url: siteBase },
+    publisher: { "@type": "Organization", name: "VellumPet", url: siteBase },
     datePublished,
     dateModified: datePublished,
     mainEntityOfPage: canonicalUrl,
     url: canonicalUrl,
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.name,
+      item: `${siteBase}${c.href}`,
+    })),
   };
 
   return (
@@ -119,6 +130,7 @@ const SeoArticleLayout = ({
         <meta name="description" content={meta.description} />
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
       </Helmet>
 
       {/* Header */}
