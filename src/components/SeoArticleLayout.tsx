@@ -37,15 +37,41 @@ const SeoArticleLayout = ({
   tipsIntro = "Here are a few tips to help you write a tribute that feels personal and true to your pet's life.",
   outroHeading = "You Don't Have to Write It Alone",
   outro = "If putting your feelings into words feels overwhelming, VellumPet can help. Answer a few simple questions about your pet, and we'll craft a beautiful, heartfelt tribute for you.",
+  datePublished = "2025-01-15",
+  slug = "",
 }: SeoArticleProps) => {
   const navigate = useNavigate();
+
+  const canonicalUrl = `https://paw-print-story.lovable.app${slug || (typeof window !== "undefined" ? window.location.pathname : "")}`;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: meta.title,
+    description: meta.description,
+    author: {
+      "@type": "Organization",
+      name: "VellumPet",
+      url: "https://paw-print-story.lovable.app",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "VellumPet",
+      url: "https://paw-print-story.lovable.app",
+    },
+    datePublished,
+    dateModified: datePublished,
+    mainEntityOfPage: canonicalUrl,
+    url: canonicalUrl,
+  };
 
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
         <title>{meta.title}</title>
         <meta name="description" content={meta.description} />
-        <link rel="canonical" href={`https://paw-print-story.lovable.app${typeof window !== "undefined" ? window.location.pathname : ""}`} />
+        <link rel="canonical" href={canonicalUrl} />
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
       {/* Header */}
       <header className="border-b border-border/50">
