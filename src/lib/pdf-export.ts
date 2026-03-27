@@ -1,5 +1,6 @@
 import jsPDF from "jspdf";
 import { BRAND } from "./brand";
+import logoIconUrl from "@/assets/logo-icon.png";
 
 /**
  * Normalize text for safe PDF rendering and export.
@@ -254,31 +255,23 @@ export async function downloadTributePDF(
 /**
  * Draw a faint paw-print watermark in the bottom-right corner.
  */
-function drawPawWatermark(doc: jsPDF) {
+async function drawLogoWatermark(doc: jsPDF) {
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
-  // Center of watermark in bottom-right
-  const cx = pageWidth - 35;
-  const cy = pageHeight - 38;
-  const scale = 0.035; // scale factor from 1000-unit viewBox to ~35mm
-
-  // ~10% opacity via light gray on warm background
-  doc.setFillColor(218, 210, 198);
-  doc.setDrawColor(218, 210, 198);
-
-  // Main pad (elliptical, matching SVG proportions)
-  doc.ellipse(cx, cy + 8, 7, 5.5, "F");
-
-  // Toe pads — matching uploaded SVG layout (wider spread, rotated ellipses)
-  // Approximated as ellipses at correct relative positions & sizes
-  const toes = [
-    { dx: -8.8, dy: -2.5, rx: 3.2, ry: 4.2 },   // top-left
-    { dx: -4.2, dy: -9.5, rx: 3.0, ry: 4.0 },    // upper-left
-    { dx: 4.2,  dy: -9.5, rx: 3.0, ry: 4.0 },    // upper-right
-    { dx: 8.8,  dy: -2.5, rx: 3.2, ry: 4.2 },    // top-right
-  ];
-  for (const t of toes) {
-    doc.ellipse(cx + t.dx, cy + t.dy, t.rx, t.ry, "F");
+  try {
+    const imgData = await loadImageAsDataURL(logoIconUrl);
+    if (imgData) {
+      const size = 28;
+      const x = pageWidth - size - 10;
+      const y = pageHeight - size - 10;
+      doc.saveGraphicsState();
+      // @ts-ignore - jsPDF supports GState for opacity
+      doc.setGState(new (jsPDF as any).GState({ opacity: 0.12 }));
+      doc.addImage(imgData, "PNG", x, y, size, size);
+      doc.restoreGraphicsState();
+    }
+  } catch {
+    // Silently skip watermark if image fails to load
   }
 }
 
@@ -353,8 +346,8 @@ export async function downloadMemorialPDF(
   doc.setLineWidth(0.25);
   doc.rect(13, 13, pageWidth - 26, pageHeight - 26);
 
-  // --- Paw watermark ---
-  drawPawWatermark(doc);
+  // --- Logo watermark ---
+  await drawLogoWatermark(doc);
 
   // --- "In Loving Memory" pre-title ---
   doc.setFont("times", "italic");
