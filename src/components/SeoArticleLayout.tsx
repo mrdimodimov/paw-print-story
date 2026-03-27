@@ -247,6 +247,26 @@ const SeoArticleLayout = ({
             </div>
           </motion.section>
 
+          {/* Mid-article CTA block */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="mb-14 rounded-xl border border-primary/20 bg-primary/5 p-6 text-center md:p-8"
+          >
+            <p className="mb-4 text-lg font-medium text-foreground">
+              Create a beautiful memorial for your pet
+            </p>
+            <Link
+              to="/create"
+              className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-6 py-3 text-sm font-medium text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+            >
+              <CtaIcon className="mr-1 shrink-0" size={18} />
+              Start Your Tribute
+            </Link>
+          </motion.div>
+
           {/* H2: Tips */}
           <motion.section
             initial={{ opacity: 0, y: 16 }}
