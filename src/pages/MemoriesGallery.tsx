@@ -81,6 +81,7 @@ export default function MemoriesGallery() {
     t.slug ? `/memorial/${t.slug}` : `/tribute/${t.id}`;
 
   return (
+    <div className="min-h-screen bg-background">
       <Helmet>
         <title>Pet Memorial Stories — Heartfelt Tributes | {BRAND.name}</title>
         <meta name="description" content="Browse heartfelt pet memorials created by loving owners. Each tribute tells a unique story worth remembering." />
