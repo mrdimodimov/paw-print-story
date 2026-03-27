@@ -13,6 +13,7 @@ import PetMemorial from "./pages/seo/PetMemorial";
 import PetMemorialQuotes from "./pages/seo/PetMemorialQuotes";
 import RainbowBridgeQuotes from "./pages/seo/RainbowBridgeQuotes";
 import CopeWithLosingAPet from "./pages/seo/CopeWithLosingAPet";
+import PetSympathyMessages from "./pages/seo/PetSympathyMessages";
 
 export function render(url: string) {
   const helmetContext: { helmet?: any } = {};
@@ -32,6 +33,7 @@ export function render(url: string) {
               <Route path="/pet-memorial-quotes" element={<PetMemorialQuotes />} />
               <Route path="/rainbow-bridge-quotes" element={<RainbowBridgeQuotes />} />
               <Route path="/cope-with-losing-a-pet" element={<CopeWithLosingAPet />} />
+              <Route path="/pet-sympathy-messages" element={<PetSympathyMessages />} />
             </Routes>
           </StaticRouter>
         </TooltipProvider>

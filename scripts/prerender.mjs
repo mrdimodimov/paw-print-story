@@ -20,6 +20,7 @@ const routes = [
   "/pet-memorial-quotes",
   "/rainbow-bridge-quotes",
   "/cope-with-losing-a-pet",
+  "/pet-sympathy-messages",
 ];
 
 for (const route of routes) {
