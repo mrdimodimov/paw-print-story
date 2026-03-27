@@ -65,7 +65,15 @@ const ShortDogMemorialQuotes = () => {
             Sometimes the shortest words carry the deepest meaning. When you've lost a dog, you don't always need a long tribute or a poem — sometimes just a few honest words are enough to say everything you're feeling.
           </p>
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
-            These short dog memorial quotes are here for those moments — when you need something brief for a card, a caption, an engraving, or simply to hold close. Simple dog memorial quotes that say what your heart already knows.
+            These short dog memorial quotes are here for those moments — when you need something brief for a card, a caption, an engraving, or simply to hold close. If you're looking for a more lasting way to remember your dog, you can{" "}
+            <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              create a pet memorial page
+            </Link>{" "}
+            in just a few minutes. For support with the grief itself, our guide on{" "}
+            <Link to="/cope-with-losing-a-pet" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              coping with pet loss
+            </Link>{" "}
+            may help.
           </p>
         </motion.section>
 
