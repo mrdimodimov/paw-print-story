@@ -334,12 +334,6 @@ const PetMemorial = () => {
                 href: "/cat-memorial-tribute-example",
               },
             ].map((hub) => (
-              {
-                title: "Rainbow Bridge Quotes",
-                intro: "Comforting words drawn from the Rainbow Bridge tradition — for those who find solace in the hope of reunion.",
-                href: "/rainbow-bridge-quotes",
-              },
-            ].map((hub) => (
               <Link
                 key={hub.href}
                 to={hub.href}
