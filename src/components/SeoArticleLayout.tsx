@@ -83,6 +83,7 @@ const SeoArticleLayout = ({
   datePublished = "2025-01-15",
   slug = "",
   contextualLinks = [],
+  breadcrumbs,
 }: SeoArticleProps) => {
   const navigate = useNavigate();
 
