@@ -74,7 +74,11 @@ const CopeWithLosingAPet = () => {
           <p className="mb-4 text-lg leading-relaxed text-muted-foreground">
             Learning how to cope with losing a pet isn't about "getting over it."
             It's about finding ways to carry the love forward while giving
-            yourself permission to grieve. This guide is here to help — not with
+            yourself permission to grieve. Whether you're looking to{" "}
+            <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              create a pet memorial page
+            </Link>{" "}
+            or simply need support, this guide is here to help — not with
             quick fixes, but with honest, gentle support.
           </p>
         </motion.section>
