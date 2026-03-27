@@ -146,10 +146,25 @@ const SeoArticleLayout = ({
         </div>
       </header>
 
+      {/* Breadcrumbs */}
+      <nav aria-label="Breadcrumb" className="tribute-container max-w-2xl pt-4">
+        <ol className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
+          {crumbs.map((c, i) => (
+            <li key={c.href} className="flex items-center gap-1">
+              {i > 0 && <span className="mx-1">›</span>}
+              {i < crumbs.length - 1 ? (
+                <Link to={c.href} className="hover:text-primary transition-colors">{c.name}</Link>
+              ) : (
+                <span className="text-foreground font-medium">{c.name}</span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+
       {/* Article */}
       <article className="tribute-section">
         <div className="tribute-container max-w-2xl">
-          {/* H1 + Intro */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
