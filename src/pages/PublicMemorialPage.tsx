@@ -180,41 +180,6 @@ const PublicMemorialPage = () => {
 
       setTribute(data as PublicTribute);
 
-      /* ── Dynamic SEO ── */
-      const t = data as PublicTribute;
-      const storyExcerpt = t.story.replace(/\n+/g, " ").slice(0, 150).trim().replace(/\s+\S*$/, "…");
-      const pageTitle = `${t.pet_name} Memorial | ${BRAND.name}`;
-      const metaDesc = storyExcerpt || `Read ${t.pet_name}'s heartfelt tribute and celebrate the life of a beloved pet. Create your own pet memorial with ${BRAND.name}.`;
-      const pageUrl = `${BRAND.baseUrl}/memorial/${t.slug}`;
-
-      document.title = pageTitle;
-      setMetaTag("description", metaDesc);
-      setMetaTag("og:title", pageTitle, true);
-      setMetaTag("og:description", metaDesc, true);
-      setMetaTag("og:type", "article", true);
-      setMetaTag("og:url", pageUrl, true);
-      if (t.photo_urls[0]) setMetaTag("og:image", t.photo_urls[0], true);
-      setMetaTag("twitter:card", "summary_large_image");
-      setMetaTag("twitter:title", pageTitle);
-      setMetaTag("twitter:description", metaDesc);
-      if (t.photo_urls[0]) setMetaTag("twitter:image", t.photo_urls[0]);
-
-      let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-      if (!canonical) { canonical = document.createElement("link"); canonical.rel = "canonical"; document.head.appendChild(canonical); }
-      canonical.href = pageUrl;
-
-      setJsonLd({
-        "@context": "https://schema.org",
-        "@type": "CreativeWork",
-        name: `In Loving Memory of ${t.pet_name}`,
-        description: metaDesc,
-        url: pageUrl,
-        image: t.photo_urls[0] || undefined,
-        datePublished: t.created_at,
-        author: { "@type": "Organization", name: BRAND.name, url: BRAND.baseUrl },
-        publisher: { "@type": "Organization", name: BRAND.name, url: BRAND.baseUrl },
-      });
-
       setLoading(false);
     };
     fetchTribute();
