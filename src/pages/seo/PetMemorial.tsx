@@ -289,7 +289,14 @@ const PetMemorial = () => {
             </p>
             <p>
               If you're struggling, consider talking to someone who understands pet
-              loss. There are grief support groups, hotlines, and counselors who
+              loss. You might also find comfort in{" "}
+              <Link to="/rainbow-bridge-quotes" className="text-primary underline underline-offset-2 hover:text-primary/80">
+                Rainbow Bridge quotes
+              </Link>{" "}
+              or{" "}
+              <Link to="/pet-memorial-quotes" className="text-primary underline underline-offset-2 hover:text-primary/80">
+                pet memorial quotes
+              </Link>. There are grief support groups, hotlines, and counselors who
               specialize in exactly this kind of loss. You're not alone, and what
               you're feeling is valid.
             </p>
