@@ -1,3 +1,4 @@
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 import BrandLogo from "@/components/BrandLogo";
 import CtaIcon from "@/components/CtaIcon";
 import PawIcon from "@/components/PawIcon";
@@ -44,6 +45,10 @@ const CopeWithLosingAPet = () => {
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
+
+      <SeoBreadcrumbs items={[
+        { name: "Cope With Losing a Pet", href: "/cope-with-losing-a-pet" },
+      ]} />
 
       {/* Header */}
       <header className="border-b border-border/50">

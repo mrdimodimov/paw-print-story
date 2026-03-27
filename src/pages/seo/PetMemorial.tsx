@@ -1,3 +1,4 @@
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 import BrandLogo from "@/components/BrandLogo";
 import CtaIcon from "@/components/CtaIcon";
 import PawIcon from "@/components/PawIcon";
@@ -53,6 +54,10 @@ const PetMemorial = () => {
         <link rel="canonical" href="https://paw-print-story.lovable.app/pet-memorial" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
+
+      <SeoBreadcrumbs items={[
+        { name: "Pet Memorial", href: "/pet-memorial" },
+      ]} />
 
       {/* Header */}
       <header className="border-b border-border/50">

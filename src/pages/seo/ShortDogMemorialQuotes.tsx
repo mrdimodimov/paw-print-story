@@ -1,3 +1,4 @@
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 import BrandLogo from "@/components/BrandLogo";
 import CtaIcon from "@/components/CtaIcon";
 import PawIcon from "@/components/PawIcon";
@@ -45,6 +46,11 @@ const ShortDogMemorialQuotes = () => {
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
+
+      <SeoBreadcrumbs items={[
+        { name: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
+        { name: "Short Dog Memorial Quotes", href: "/short-dog-memorial-quotes" },
+      ]} />
 
       <header className="border-b border-border/50">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-5 py-4">

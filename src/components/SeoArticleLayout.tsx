@@ -22,6 +22,11 @@ interface StructuredTip {
   body: string;
 }
 
+interface BreadcrumbItem {
+  name: string;
+  href: string;
+}
+
 interface SeoArticleProps {
   meta: SeoArticleMeta;
   heading: string;
@@ -37,6 +42,7 @@ interface SeoArticleProps {
   datePublished?: string;
   slug?: string;
   contextualLinks?: ContextualLink[];
+  breadcrumbs?: BreadcrumbItem[];
 }
 
 const ALL_ARTICLES = [
@@ -77,32 +83,44 @@ const SeoArticleLayout = ({
   datePublished = "2025-01-15",
   slug = "",
   contextualLinks = [],
+  breadcrumbs,
 }: SeoArticleProps) => {
   const navigate = useNavigate();
 
   const canonicalUrl = `https://paw-print-story.lovable.app${slug || (typeof window !== "undefined" ? window.location.pathname : "")}`;
+  const siteBase = "https://paw-print-story.lovable.app";
 
   const relatedArticles = ALL_ARTICLES.filter((a) => a.href !== slug).slice(0, 3);
+
+  // Build breadcrumb trail: Home → [parent] → current page
+  const crumbs: BreadcrumbItem[] = [
+    { name: "Home", href: "/" },
+    ...(breadcrumbs || []),
+    { name: heading, href: slug || "" },
+  ];
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: meta.title,
     description: meta.description,
-    author: {
-      "@type": "Organization",
-      name: "VellumPet",
-      url: "https://paw-print-story.lovable.app",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "VellumPet",
-      url: "https://paw-print-story.lovable.app",
-    },
+    author: { "@type": "Organization", name: "VellumPet", url: siteBase },
+    publisher: { "@type": "Organization", name: "VellumPet", url: siteBase },
     datePublished,
     dateModified: datePublished,
     mainEntityOfPage: canonicalUrl,
     url: canonicalUrl,
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.name,
+      item: `${siteBase}${c.href}`,
+    })),
   };
 
   return (
@@ -112,6 +130,7 @@ const SeoArticleLayout = ({
         <meta name="description" content={meta.description} />
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
       </Helmet>
 
       {/* Header */}
@@ -127,10 +146,25 @@ const SeoArticleLayout = ({
         </div>
       </header>
 
+      {/* Breadcrumbs */}
+      <nav aria-label="Breadcrumb" className="tribute-container max-w-2xl pt-4">
+        <ol className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
+          {crumbs.map((c, i) => (
+            <li key={c.href} className="flex items-center gap-1">
+              {i > 0 && <span className="mx-1">›</span>}
+              {i < crumbs.length - 1 ? (
+                <Link to={c.href} className="hover:text-primary transition-colors">{c.name}</Link>
+              ) : (
+                <span className="text-foreground font-medium">{c.name}</span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+
       {/* Article */}
       <article className="tribute-section">
         <div className="tribute-container max-w-2xl">
-          {/* H1 + Intro */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}

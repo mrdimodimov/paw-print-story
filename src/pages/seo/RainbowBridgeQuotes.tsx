@@ -1,3 +1,4 @@
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 import BrandLogo from "@/components/BrandLogo";
 import CtaIcon from "@/components/CtaIcon";
 import PawIcon from "@/components/PawIcon";
@@ -53,6 +54,11 @@ const RainbowBridgeQuotes = () => {
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
+
+      <SeoBreadcrumbs items={[
+        { name: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
+        { name: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes" },
+      ]} />
 
       {/* Header */}
       <header className="border-b border-border/50">
