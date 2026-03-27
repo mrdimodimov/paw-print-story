@@ -7,9 +7,9 @@ interface BrandLogoProps {
 }
 
 const sizeMap = {
-  sm: { height: 34 },
-  md: { height: 44 },
-  lg: { height: 56 },
+  sm: { height: 40 },
+  md: { height: 52 },
+  lg: { height: 64 },
 };
 
 const BrandLogo = ({
