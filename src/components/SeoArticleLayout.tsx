@@ -1,8 +1,8 @@
 import BrandLogo from "@/components/BrandLogo";
 import CtaIcon from "@/components/CtaIcon";
 import PawIcon from "@/components/PawIcon";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
