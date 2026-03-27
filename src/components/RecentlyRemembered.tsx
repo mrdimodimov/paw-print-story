@@ -1,4 +1,4 @@
-import PawIcon from "@/components/PawIcon";
+import CtaIcon from "@/components/CtaIcon";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";

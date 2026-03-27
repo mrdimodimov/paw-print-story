@@ -1,3 +1,4 @@
+import CtaIcon from "@/components/CtaIcon";
 import PawIcon from "@/components/PawIcon";
 import BrandLogo from "@/components/BrandLogo";
 import { useEffect, useState, useRef } from "react";
