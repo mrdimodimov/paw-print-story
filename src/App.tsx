@@ -18,6 +18,7 @@ import CatMemorialTributeExample from "./pages/seo/CatMemorialTributeExample";
 import PetMemorialMessage from "./pages/seo/PetMemorialMessage";
 import WhatToWriteWhenDogDies from "./pages/seo/WhatToWriteWhenDogDies";
 import PetMemorial from "./pages/seo/PetMemorial";
+import PetMemorialQuotes from "./pages/seo/PetMemorialQuotes";
 import ExampleTribute from "./pages/ExampleTribute";
 import ExampleTributeOliver from "./pages/ExampleTributeOliver";
 import ExampleTributeMax from "./pages/ExampleTributeMax";
