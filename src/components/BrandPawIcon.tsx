@@ -1,5 +1,4 @@
 import logoIcon from "@/assets/logo-icon.png";
-import logoIconWhite from "@/assets/logo-icon-white.png";
 
 interface BrandPawIconProps {
   className?: string;
@@ -10,16 +9,21 @@ interface BrandPawIconProps {
 
 const BrandPawIcon = ({
   className,
-  size = 24,
+  size = 22,
   variant = "dark",
 }: BrandPawIconProps) => (
   <img
-    src={variant === "white" ? logoIconWhite : logoIcon}
+    src={logoIcon}
     alt=""
     width={size}
     height={size}
     className={className}
-    style={{ width: `${size}px`, height: `${size}px`, objectFit: "contain" }}
+    style={{
+      width: `${size}px`,
+      height: `${size}px`,
+      objectFit: "contain",
+      filter: variant === "white" ? "brightness(0) invert(1)" : "none",
+    }}
   />
 );
 
