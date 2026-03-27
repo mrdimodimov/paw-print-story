@@ -1,4 +1,4 @@
-import PawIcon from "@/components/PawIcon";
+import BrandLogo from "@/components/BrandLogo";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Heart } from "lucide-react";
@@ -16,15 +16,7 @@ const PrivacyPolicy = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
-          <button
-            onClick={() => navigate("/")}
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            
-            <PawIcon className="h-6 w-6 text-primary" />
-            <span className="font-display text-xl font-semibold text-foreground">
-              {BRAND.name}
-            </span>
-          </button>
+          <BrandLogo size="sm" onClick={() => navigate("/")} />
         </div>
       </header>
 

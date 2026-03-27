@@ -1,3 +1,4 @@
+import BrandLogo from "@/components/BrandLogo";
 import PawIcon from "@/components/PawIcon";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -54,15 +55,7 @@ const SeoArticleLayout = ({
       {/* Header */}
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
-          <button
-            onClick={() => navigate("/")}
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-          >
-            <PawIcon className="h-6 w-6 text-primary" />
-            <span className="font-display text-xl font-semibold text-foreground">
-              {BRAND.name}
-            </span>
-          </button>
+          <BrandLogo size="sm" onClick={() => navigate("/")} />
           <Button size="sm" onClick={() => navigate("/create")}>
             Create Your Tribute
           </Button>

@@ -1,4 +1,5 @@
 import PawIcon from "@/components/PawIcon";
+import BrandLogo from "@/components/BrandLogo";
 import { useState, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -458,12 +459,7 @@ const Questionnaire = () => {
       />
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
-          <div className="flex items-center gap-2">
-            <PawIcon className="h-6 w-6 text-primary" />
-            <span className="font-display text-xl font-semibold text-foreground">
-              {BRAND.name}
-            </span>
-          </div>
+          <BrandLogo size="sm" />
           <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
             <ArrowLeft className="mr-1 h-4 w-4" /> Back
           </Button>

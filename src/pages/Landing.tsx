@@ -1,4 +1,5 @@
 import PawIcon from "@/components/PawIcon";
+import BrandLogo from "@/components/BrandLogo";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart, FileText, BookOpen } from "lucide-react";
@@ -30,12 +31,7 @@ const Landing = () => {
       {/* Header */}
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
-          <div className="flex items-center gap-2">
-            <span style={{ marginTop: "-1px" }}><PawIcon className="h-8 w-8 text-primary" size={30} /></span>
-            <span className="font-display text-xl font-medium text-foreground" style={{ letterSpacing: "0.06em" }}>
-              <span style={{ letterSpacing: "0.01em" }}>V</span>ellum<span style={{ letterSpacing: "-0.01em" }}>P</span>et
-            </span>
-          </div>
+          <BrandLogo size="md" />
           <Button size="sm" onClick={() => navigate("/create")} className="text-xs">
             Create Your Tribute
           </Button>
