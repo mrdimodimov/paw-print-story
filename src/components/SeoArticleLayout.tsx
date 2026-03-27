@@ -44,6 +44,7 @@ const ALL_ARTICLES = [
   { title: "Pet Memorial Quotes", href: "/pet-memorial-quotes", short: "Meaningful quotes to remember your pet" },
   { title: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes", short: "Comforting Rainbow Bridge quotes for pet loss" },
   { title: "How to Cope With Losing a Pet", href: "/cope-with-losing-a-pet", short: "A gentle guide to pet loss grief and healing" },
+  { title: "Pet Sympathy Messages", href: "/pet-sympathy-messages", short: "What to say when someone loses a pet" },
   { title: "Dog Obituary Example", href: "/dog-obituary-example", short: "How to write a beautiful dog obituary" },
   { title: "Cat Memorial Tribute Example", href: "/cat-memorial-tribute-example", short: "A heartfelt cat memorial tribute guide" },
   { title: "Pet Memorial Message Examples", href: "/pet-memorial-message", short: "Thoughtful pet memorial message ideas" },
