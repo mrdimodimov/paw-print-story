@@ -33,10 +33,7 @@ const ExampleTributeOliver = () => {
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <Link to="/" className="flex items-center gap-2">
-            <PawIcon className="h-6 w-6 text-primary" />
-            <span className="font-display text-xl font-semibold text-foreground">
-              {BRAND.name}
-            </span>
+            <BrandLogo size="sm" />
           </Link>
           <Button size="sm" onClick={() => navigate("/create")}>
             Create Your Tribute

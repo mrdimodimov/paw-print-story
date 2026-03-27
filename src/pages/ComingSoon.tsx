@@ -13,11 +13,8 @@ const ComingSoon = () => {
         transition={{ duration: 0.7 }}
         className="max-w-lg"
       >
-        <div className="mb-6 flex items-center justify-center gap-2">
-          <span style={{ marginTop: "-1px" }}><PawIcon className="h-8 w-8 text-primary" size={30} /></span>
-          <span className="font-display text-xl font-medium text-foreground" style={{ letterSpacing: "0.06em" }}>
-            <span style={{ letterSpacing: "0.01em" }}>V</span>ellum<span style={{ letterSpacing: "-0.01em" }}>P</span>et
-          </span>
+        <div className="mb-6 flex items-center justify-center">
+          <BrandLogo size="md" />
         </div>
 
         <h1 className="mb-4 font-display text-4xl font-bold text-foreground md:text-5xl">

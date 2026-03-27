@@ -241,8 +241,7 @@ const PublicMemorialPage = () => {
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <div className="flex cursor-pointer items-center gap-2" onClick={() => navigate("/")}>
-            <PawIcon className="h-6 w-6 text-primary" />
-            <span className="font-display text-xl font-semibold text-foreground">{BRAND.name}</span>
+            <BrandLogo size="sm" />
           </div>
         </div>
       </header>
