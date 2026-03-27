@@ -1,5 +1,5 @@
 import React from "react";
-import PawIcon from "@/components/PawIcon";
+import BrandLogo from "@/components/BrandLogo";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart, ArrowLeft } from "lucide-react";
