@@ -28,28 +28,6 @@ interface PublicTribute {
 
 /* ── helpers ────────────────────────────────────────── */
 
-function setMetaTag(name: string, content: string, property = false) {
-  const attr = property ? "property" : "name";
-  let el = document.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement | null;
-  if (!el) {
-    el = document.createElement("meta");
-    el.setAttribute(attr, name);
-    document.head.appendChild(el);
-  }
-  el.content = content;
-}
-
-function setJsonLd(data: Record<string, unknown>) {
-  let el = document.querySelector('script[data-ld="memorial"]') as HTMLScriptElement | null;
-  if (!el) {
-    el = document.createElement("script");
-    el.type = "application/ld+json";
-    el.setAttribute("data-ld", "memorial");
-    document.head.appendChild(el);
-  }
-  el.textContent = JSON.stringify(data);
-}
-
 /* ── story split helper ─────────────────────────────── */
 
 function splitStoryWithCta(story: string): { before: string; after: string } | null {
