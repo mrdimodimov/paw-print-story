@@ -24,12 +24,34 @@ const CatMemorialTributeExample = () => (
       "Luna was with us for sixteen years. She taught us that love doesn't have to be loud to be deep. The house feels different without her soft footsteps, but the warmth she brought remains.",
       "Goodbye, Luna. You were everything a cat should be, and more.",
     ]}
+    howToWriteIntro="Cats express love differently than dogs, and your tribute should reflect that. Focus on the subtle, quiet moments that defined your bond."
+    howToWriteBody={[
+      "Start with how your cat arrived — were they a kitten, a rescue, or a stray who chose your doorstep? The origin story anchors the reader emotionally.",
+      "Describe their territory. Cats are creatures of place — their favorite window, their claimed chair, the spot where they always waited for you. These details bring them to life on the page.",
+      "Write about the way they showed affection. A slow blink, a headbutt, a purr in the dark — cats have their own love language, and capturing it makes the tribute uniquely theirs.",
+      "Let the tribute be as quiet and dignified as they were. You don't need dramatic language — just presence, the same thing they gave you.",
+    ]}
     tips={[
-      "Describe your cat's personality — were they independent, affectionate, mischievous, or calm?",
-      "Mention their favorite spots around the house and the small routines they followed.",
-      "Write about the quiet moments — cats often show love in subtle ways that are worth capturing.",
-      "Include a specific memory that makes you smile when you think of them.",
-      "Keep the tone gentle and honest. A tribute doesn't need to be long — it just needs to feel true.",
+      {
+        heading: "Describe their personality",
+        body: "Were they independent and regal, or affectionate and clingy? Cats have distinct personalities — let that come through honestly.",
+      },
+      {
+        heading: "Mention their favorite spots",
+        body: "The windowsill, the top of the bookshelf, the warm spot by the radiator — these places were their world, and naming them makes the tribute feel grounded.",
+      },
+      {
+        heading: "Capture the quiet moments",
+        body: "Cats show love in subtle ways — a slow blink, a gentle headbutt, curling up nearby. These small gestures are worth writing about.",
+      },
+      {
+        heading: "Include a specific memory",
+        body: "One moment that makes you smile — a funny habit, a surprising show of affection, a time they surprised you — gives the tribute a heart.",
+      },
+      {
+        heading: "Keep it gentle and honest",
+        body: "A tribute doesn't need to be long or literary. A few true, simple paragraphs will always resonate more than polished prose.",
+      },
     ]}
   />
 );
