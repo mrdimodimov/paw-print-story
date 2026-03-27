@@ -41,6 +41,11 @@ export function render(url: string) {
               <Route path="/cope-with-losing-a-pet" element={<CopeWithLosingAPet />} />
               <Route path="/pet-sympathy-messages" element={<PetSympathyMessages />} />
               <Route path="/short-dog-memorial-quotes" element={<ShortDogMemorialQuotes />} />
+              <Route path="/dog-memorial-quotes" element={<DogMemorialQuotes />} />
+              <Route path="/cat-memorial-quotes" element={<CatMemorialQuotes />} />
+              <Route path="/pet-remembrance-quotes" element={<PetRemembranceQuotes />} />
+              <Route path="/what-to-write-when-a-cat-dies" element={<WhatToWriteWhenCatDies />} />
+              <Route path="/pet-condolence-messages" element={<PetCondolenceMessages />} />
             </Routes>
           </StaticRouter>
         </TooltipProvider>
