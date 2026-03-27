@@ -12,6 +12,7 @@ import WhatToWriteWhenDogDies from "./pages/seo/WhatToWriteWhenDogDies";
 import PetMemorial from "./pages/seo/PetMemorial";
 import PetMemorialQuotes from "./pages/seo/PetMemorialQuotes";
 import RainbowBridgeQuotes from "./pages/seo/RainbowBridgeQuotes";
+import CopeWithLosingAPet from "./pages/seo/CopeWithLosingAPet";
 
 export function render(url: string) {
   const helmetContext: { helmet?: any } = {};
