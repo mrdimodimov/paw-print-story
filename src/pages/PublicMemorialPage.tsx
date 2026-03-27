@@ -181,9 +181,9 @@ const PublicMemorialPage = () => {
 
       /* ── Dynamic SEO ── */
       const t = data as PublicTribute;
-      const breedOrType = t.breed ? `${t.breed} ${t.pet_type}` : t.pet_type;
-      const pageTitle = `${t.pet_name}${t.years_of_life ? ` (${t.years_of_life})` : ""} — A Loving ${breedOrType} Tribute | ${BRAND.name}`;
-      const metaDesc = `Read ${t.pet_name}'s heartfelt tribute and celebrate the life of a beloved ${breedOrType}. Create your own pet memorial with ${BRAND.name}.`;
+      const storyExcerpt = t.story.replace(/\n+/g, " ").slice(0, 150).trim().replace(/\s+\S*$/, "…");
+      const pageTitle = `${t.pet_name} Memorial | ${BRAND.name}`;
+      const metaDesc = storyExcerpt || `Read ${t.pet_name}'s heartfelt tribute and celebrate the life of a beloved pet. Create your own pet memorial with ${BRAND.name}.`;
       const pageUrl = `${BRAND.baseUrl}/memorial/${t.slug}`;
 
       document.title = pageTitle;
