@@ -11,6 +11,10 @@ const WhatToWriteWhenDogDies = () => (
     }}
     heading="What to Write When a Dog Dies: A Gentle Guide"
     intro="When a dog dies, the grief can catch you off guard. Dogs are woven into the fabric of everyday life — the morning routines, the evening walks, the quiet moments on the couch. Suddenly, all of that is gone. Writing something down can be a way to process that loss and hold onto the memories that matter most. You don't need to be a writer. You just need to remember."
+    contextualLinks={[
+      { text: "Dog obituary example", href: "/dog-obituary-example" },
+      { text: "Pet memorial message ideas", href: "/pet-memorial-message" },
+    ]}
     exampleTitle="A Farewell to Daisy"
     exampleBody={[
       "Daisy was a beagle with a nose that led her into every possible kind of trouble. She once dug up an entire flower bed in under ten minutes, emerging with muddy paws and a look of absolute pride. She stole sandwiches off the counter, chased squirrels she had no chance of catching, and howled — really howled — at the mail carrier every single day.",

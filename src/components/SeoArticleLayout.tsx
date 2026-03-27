@@ -1,16 +1,21 @@
 import BrandLogo from "@/components/BrandLogo";
 import CtaIcon from "@/components/CtaIcon";
 import PawIcon from "@/components/PawIcon";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import { Heart } from "lucide-react";
+import { Heart, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 
 interface SeoArticleMeta {
   title: string;
   description: string;
+}
+
+interface ContextualLink {
+  text: string;
+  href: string;
 }
 
 interface SeoArticleProps {
@@ -25,7 +30,15 @@ interface SeoArticleProps {
   outro?: string;
   datePublished?: string;
   slug?: string;
+  contextualLinks?: ContextualLink[];
 }
+
+const ALL_ARTICLES = [
+  { title: "Dog Obituary Example", href: "/dog-obituary-example", short: "How to write a beautiful dog obituary" },
+  { title: "Cat Memorial Tribute Example", href: "/cat-memorial-tribute-example", short: "A heartfelt cat memorial tribute guide" },
+  { title: "Pet Memorial Message Examples", href: "/pet-memorial-message", short: "Thoughtful pet memorial message ideas" },
+  { title: "What to Write When a Dog Dies", href: "/what-to-write-when-a-dog-dies", short: "A gentle guide for writing a dog memorial" },
+];
 
 const SeoArticleLayout = ({
   meta,
@@ -39,10 +52,13 @@ const SeoArticleLayout = ({
   outro = "If putting your feelings into words feels overwhelming, VellumPet can help. Answer a few simple questions about your pet, and we'll craft a beautiful, heartfelt tribute for you.",
   datePublished = "2025-01-15",
   slug = "",
+  contextualLinks = [],
 }: SeoArticleProps) => {
   const navigate = useNavigate();
 
   const canonicalUrl = `https://paw-print-story.lovable.app${slug || (typeof window !== "undefined" ? window.location.pathname : "")}`;
+
+  const relatedArticles = ALL_ARTICLES.filter((a) => a.href !== slug).slice(0, 3);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -77,9 +93,12 @@ const SeoArticleLayout = ({
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <BrandLogo size="sm" onClick={() => navigate("/")} />
-          <Button size="sm" onClick={() => navigate("/create")}>
+          <Link
+            to="/create"
+            className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-4 py-2 text-sm font-medium text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+          >
             Create Your Tribute
-          </Button>
+          </Link>
         </div>
       </header>
 
@@ -99,6 +118,22 @@ const SeoArticleLayout = ({
               {intro}
             </p>
           </motion.div>
+
+          {/* Contextual links after intro */}
+          {contextualLinks.length > 0 && (
+            <div className="mb-12 flex flex-wrap gap-3">
+              {contextualLinks.map((link, i) => (
+                <Link
+                  key={i}
+                  to={link.href}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-accent/40"
+                >
+                  <PawIcon className="h-3.5 w-3.5 shrink-0" />
+                  {link.text}
+                </Link>
+              ))}
+            </div>
+          )}
 
           {/* Example Tribute Card */}
           <motion.section
@@ -147,7 +182,7 @@ const SeoArticleLayout = ({
             </ul>
           </motion.section>
 
-          {/* CTA */}
+          {/* CTA — crawlable <a> tag */}
           <motion.section
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -159,14 +194,45 @@ const SeoArticleLayout = ({
               {outroHeading}
             </h2>
             <p className="mb-6 text-muted-foreground">{outro}</p>
-            <Button
-              size="lg"
-              className="px-8 py-5 text-base shadow-glow"
-              onClick={() => navigate("/create")}
+            <Link
+              to="/create"
+              className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-8 py-4 text-base font-medium text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
             >
-              <CtaIcon className="mr-2 shrink-0" size={22} />
+              <CtaIcon className="mr-1 shrink-0" size={22} />
               Create a Tribute for Your Pet
-            </Button>
+            </Link>
+          </motion.section>
+
+          {/* Related Articles */}
+          <motion.section
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="mb-14"
+          >
+            <h2 className="mb-6 text-2xl font-bold text-foreground">
+              Related Articles
+            </h2>
+            <div className="space-y-4">
+              {relatedArticles.map((article) => (
+                <Link
+                  key={article.href}
+                  to={article.href}
+                  className="group flex items-center justify-between rounded-xl border border-border bg-card p-5 shadow-card transition-all duration-200 hover:border-primary/30 hover:shadow-md"
+                >
+                  <div>
+                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                      {article.title}
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {article.short}
+                    </p>
+                  </div>
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                </Link>
+              ))}
+            </div>
           </motion.section>
         </div>
       </article>
