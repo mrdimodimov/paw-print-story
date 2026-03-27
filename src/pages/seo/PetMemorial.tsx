@@ -265,10 +265,14 @@ const PetMemorial = () => {
           </h2>
           <div className="space-y-4 text-foreground/90 leading-relaxed">
             <p>
-              The loss of a pet can feel surprisingly devastating. They're part of
+            The loss of a pet can feel surprisingly devastating. They're part of
               our daily routines, our emotional anchors, and often our closest
               companions. It's completely normal to grieve deeply — and to feel
-              that others might not fully understand the weight of that loss.
+              that others might not fully understand the weight of that loss. Our guide on{" "}
+              <Link to="/cope-with-losing-a-pet" className="text-primary underline underline-offset-2 hover:text-primary/80">
+                how to cope with losing a pet
+              </Link>{" "}
+              offers gentle, practical support.
             </p>
             <p>
               One of the most helpful things you can do is acknowledge the
