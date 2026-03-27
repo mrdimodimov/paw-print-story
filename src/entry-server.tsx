@@ -1,0 +1,44 @@
+import { renderToString } from "react-dom/server";
+import { StaticRouter } from "react-router-dom/server";
+import { HelmetProvider } from "react-helmet-async";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Routes, Route } from "react-router-dom";
+
+import DogObituaryExample from "./pages/seo/DogObituaryExample";
+import CatMemorialTributeExample from "./pages/seo/CatMemorialTributeExample";
+import PetMemorialMessage from "./pages/seo/PetMemorialMessage";
+import WhatToWriteWhenDogDies from "./pages/seo/WhatToWriteWhenDogDies";
+
+export function render(url: string) {
+  const helmetContext: { helmet?: any } = {};
+  const queryClient = new QueryClient();
+
+  const html = renderToString(
+    <HelmetProvider context={helmetContext}>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <StaticRouter location={url}>
+            <Routes>
+              <Route path="/dog-obituary-example" element={<DogObituaryExample />} />
+              <Route path="/cat-memorial-tribute-example" element={<CatMemorialTributeExample />} />
+              <Route path="/pet-memorial-message" element={<PetMemorialMessage />} />
+              <Route path="/what-to-write-when-a-dog-dies" element={<WhatToWriteWhenDogDies />} />
+            </Routes>
+          </StaticRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
+  );
+
+  const { helmet } = helmetContext;
+
+  return {
+    html,
+    head: [
+      helmet?.title?.toString() ?? "",
+      helmet?.meta?.toString() ?? "",
+      helmet?.link?.toString() ?? "",
+    ].join("\n"),
+  };
+}
