@@ -82,7 +82,10 @@ const PetMemorialQuotes = () => {
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
             These pet memorial quotes are here to help — whether you're writing a
             tribute, sending a sympathy card, or simply looking for words that
-            match what you're feeling. Some are short enough for a caption. Others
+            match what you're feeling. If you're looking to create a lasting{" "}
+            <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              pet memorial page
+            </Link>, these words can be a meaningful starting point. Some are short enough for a caption. Others
             carry the weight of a longer goodbye. All of them honour the bond
             between a person and their pet.
           </p>
@@ -305,8 +308,8 @@ const PetMemorialQuotes = () => {
           </h2>
           <div className="space-y-3">
             {[
-              { title: "Dog Obituary Example", desc: "How to write a beautiful dog obituary", href: "/dog-obituary-example" },
-              { title: "Cat Memorial Tribute Example", desc: "A heartfelt cat memorial tribute guide", href: "/cat-memorial-tribute-example" },
+              { title: "How to Cope With Losing a Pet", desc: "A gentle guide to grief and healing", href: "/cope-with-losing-a-pet" },
+              { title: "Short Dog Memorial Quotes", desc: "Simple words to remember your dog", href: "/short-dog-memorial-quotes" },
               { title: "Pet Memorial Message Examples", desc: "Thoughtful pet memorial message ideas", href: "/pet-memorial-message" },
             ].map((link) => (
               <Link

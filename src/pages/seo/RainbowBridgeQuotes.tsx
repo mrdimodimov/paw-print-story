@@ -82,8 +82,10 @@ const RainbowBridgeQuotes = () => {
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
             These rainbow bridge quotes are gathered here to help you find words
             when your own feel impossible. Whether you're looking for something
-            to write in a card, share online, or simply hold in your heart, we
-            hope they bring you a moment of peace.
+            to write in a card, share online, or include in a{" "}
+            <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              pet memorial page
+            </Link>, we hope they bring you a moment of peace.
           </p>
           <Link
             to="/create"
@@ -312,9 +314,9 @@ const RainbowBridgeQuotes = () => {
           </h2>
           <div className="space-y-3">
             {[
+              { title: "How to Cope With Losing a Pet", desc: "A gentle guide to grief and healing", href: "/cope-with-losing-a-pet" },
+              { title: "Pet Sympathy Messages", desc: "What to say when someone loses a pet", href: "/pet-sympathy-messages" },
               { title: "Pet Memorial Quotes", desc: "Meaningful quotes to remember your pet", href: "/pet-memorial-quotes" },
-              { title: "Pet Memorial Message Examples", desc: "Thoughtful pet memorial message ideas", href: "/pet-memorial-message" },
-              { title: "What to Write When a Dog Dies", desc: "A gentle guide for writing a dog memorial", href: "/what-to-write-when-a-dog-dies" },
             ].map((link) => (
               <Link
                 key={link.href}

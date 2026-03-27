@@ -265,10 +265,14 @@ const PetMemorial = () => {
           </h2>
           <div className="space-y-4 text-foreground/90 leading-relaxed">
             <p>
-              The loss of a pet can feel surprisingly devastating. They're part of
+            The loss of a pet can feel surprisingly devastating. They're part of
               our daily routines, our emotional anchors, and often our closest
               companions. It's completely normal to grieve deeply — and to feel
-              that others might not fully understand the weight of that loss.
+              that others might not fully understand the weight of that loss. Our guide on{" "}
+              <Link to="/cope-with-losing-a-pet" className="text-primary underline underline-offset-2 hover:text-primary/80">
+                how to cope with losing a pet
+              </Link>{" "}
+              offers gentle, practical support.
             </p>
             <p>
               One of the most helpful things you can do is acknowledge the
@@ -285,7 +289,14 @@ const PetMemorial = () => {
             </p>
             <p>
               If you're struggling, consider talking to someone who understands pet
-              loss. There are grief support groups, hotlines, and counselors who
+              loss. You might also find comfort in{" "}
+              <Link to="/rainbow-bridge-quotes" className="text-primary underline underline-offset-2 hover:text-primary/80">
+                Rainbow Bridge quotes
+              </Link>{" "}
+              or{" "}
+              <Link to="/pet-memorial-quotes" className="text-primary underline underline-offset-2 hover:text-primary/80">
+                pet memorial quotes
+              </Link>. There are grief support groups, hotlines, and counselors who
               specialize in exactly this kind of loss. You're not alone, and what
               you're feeling is valid.
             </p>
@@ -314,14 +325,14 @@ const PetMemorial = () => {
                 href: "/cat-memorial-tribute-example",
               },
               {
-                title: "Pet Memorial Message Examples",
-                desc: "Thoughtful pet memorial message ideas",
-                href: "/pet-memorial-message",
+                title: "Pet Sympathy Messages",
+                desc: "What to say when someone loses a pet",
+                href: "/pet-sympathy-messages",
               },
               {
-                title: "What to Write When a Dog Dies",
-                desc: "A gentle guide for writing a dog memorial",
-                href: "/what-to-write-when-a-dog-dies",
+                title: "Short Dog Memorial Quotes",
+                desc: "Simple words to remember your dog",
+                href: "/short-dog-memorial-quotes",
               },
             ].map((link) => (
               <Link

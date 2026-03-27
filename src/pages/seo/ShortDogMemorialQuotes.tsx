@@ -65,7 +65,15 @@ const ShortDogMemorialQuotes = () => {
             Sometimes the shortest words carry the deepest meaning. When you've lost a dog, you don't always need a long tribute or a poem — sometimes just a few honest words are enough to say everything you're feeling.
           </p>
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
-            These short dog memorial quotes are here for those moments — when you need something brief for a card, a caption, an engraving, or simply to hold close. Simple dog memorial quotes that say what your heart already knows.
+            These short dog memorial quotes are here for those moments — when you need something brief for a card, a caption, an engraving, or simply to hold close. If you're looking for a more lasting way to remember your dog, you can{" "}
+            <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              create a pet memorial page
+            </Link>{" "}
+            in just a few minutes. For support with the grief itself, our guide on{" "}
+            <Link to="/cope-with-losing-a-pet" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              coping with pet loss
+            </Link>{" "}
+            may help.
           </p>
         </motion.section>
 
@@ -237,9 +245,9 @@ const ShortDogMemorialQuotes = () => {
           <h2 className="mb-5 text-2xl font-bold text-foreground">Related Articles</h2>
           <div className="space-y-3">
             {[
+              { title: "How to Cope With Losing a Pet", desc: "A gentle guide to grief and healing", href: "/cope-with-losing-a-pet" },
+              { title: "Pet Sympathy Messages", desc: "What to say when someone loses a pet", href: "/pet-sympathy-messages" },
               { title: "Pet Memorial Quotes", desc: "Meaningful quotes for dogs, cats, and all pets", href: "/pet-memorial-quotes" },
-              { title: "Rainbow Bridge Quotes", desc: "Comforting words for pet loss", href: "/rainbow-bridge-quotes" },
-              { title: "Dog Obituary Example", desc: "How to write a beautiful dog obituary", href: "/dog-obituary-example" },
             ].map((link) => (
               <Link key={link.href} to={link.href} className="group flex items-center justify-between rounded-xl border border-border bg-card p-4 shadow-card transition-all duration-200 hover:border-primary/30 hover:shadow-md">
                 <div>

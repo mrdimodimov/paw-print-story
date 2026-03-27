@@ -74,7 +74,11 @@ const CopeWithLosingAPet = () => {
           <p className="mb-4 text-lg leading-relaxed text-muted-foreground">
             Learning how to cope with losing a pet isn't about "getting over it."
             It's about finding ways to carry the love forward while giving
-            yourself permission to grieve. This guide is here to help — not with
+            yourself permission to grieve. Whether you're looking to{" "}
+            <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              create a pet memorial page
+            </Link>{" "}
+            or simply need support, this guide is here to help — not with
             quick fixes, but with honest, gentle support.
           </p>
         </motion.section>
@@ -381,9 +385,9 @@ const CopeWithLosingAPet = () => {
           </h2>
           <div className="space-y-3">
             {[
-              { title: "Pet Memorial Quotes", desc: "Meaningful quotes to remember your pet", href: "/pet-memorial-quotes" },
+              { title: "Pet Sympathy Messages", desc: "What to say when someone loses a pet", href: "/pet-sympathy-messages" },
               { title: "Rainbow Bridge Quotes", desc: "Comforting words for pet loss", href: "/rainbow-bridge-quotes" },
-              { title: "Dog Obituary Example", desc: "How to write a beautiful dog obituary", href: "/dog-obituary-example" },
+              { title: "Short Dog Memorial Quotes", desc: "Simple words to remember your dog", href: "/short-dog-memorial-quotes" },
             ].map((link) => (
               <Link
                 key={link.href}

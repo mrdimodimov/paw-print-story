@@ -65,7 +65,13 @@ const PetSympathyMessages = () => {
             When someone you care about loses a pet, it can be hard to know what to say. You want to offer comfort, but the words feel inadequate — too small for something that clearly matters so deeply. The truth is, most people don't need the perfect message. They just need to know you care.
           </p>
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
-            These pet sympathy messages are here to help. Whether you're writing a card, sending a text, or posting online, you'll find words that acknowledge the loss without minimising it — because pets aren't "just" pets. They're family.
+            These pet sympathy messages are here to help. Whether you're writing a card, sending a text, or helping someone{" "}
+            <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              create a pet memorial
+            </Link>, you'll find words that acknowledge the loss without minimising it — because pets aren't "just" pets. They're family. If you're also looking for guidance on{" "}
+            <Link to="/cope-with-losing-a-pet" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              how to cope with losing a pet
+            </Link>, we have a gentle guide for that too.
           </p>
         </motion.section>
 
@@ -247,9 +253,9 @@ const PetSympathyMessages = () => {
           <h2 className="mb-5 text-2xl font-bold text-foreground">Related Articles</h2>
           <div className="space-y-3">
             {[
-              { title: "Pet Memorial Quotes", desc: "Meaningful quotes to remember your pet", href: "/pet-memorial-quotes" },
-              { title: "Rainbow Bridge Quotes", desc: "Comforting words for pet loss", href: "/rainbow-bridge-quotes" },
-              { title: "How to Cope With Losing a Pet", desc: "A gentle guide to grief and healing", href: "/cope-with-losing-a-pet" },
+              { title: "Short Dog Memorial Quotes", desc: "Simple words to remember your dog", href: "/short-dog-memorial-quotes" },
+              { title: "Dog Obituary Example", desc: "How to write a beautiful dog obituary", href: "/dog-obituary-example" },
+              { title: "Cat Memorial Tribute Example", desc: "A heartfelt cat memorial tribute guide", href: "/cat-memorial-tribute-example" },
             ].map((link) => (
               <Link key={link.href} to={link.href} className="group flex items-center justify-between rounded-xl border border-border bg-card p-4 shadow-card transition-all duration-200 hover:border-primary/30 hover:shadow-md">
                 <div>
