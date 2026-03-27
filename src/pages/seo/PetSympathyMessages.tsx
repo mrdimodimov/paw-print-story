@@ -65,7 +65,13 @@ const PetSympathyMessages = () => {
             When someone you care about loses a pet, it can be hard to know what to say. You want to offer comfort, but the words feel inadequate — too small for something that clearly matters so deeply. The truth is, most people don't need the perfect message. They just need to know you care.
           </p>
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
-            These pet sympathy messages are here to help. Whether you're writing a card, sending a text, or posting online, you'll find words that acknowledge the loss without minimising it — because pets aren't "just" pets. They're family.
+            These pet sympathy messages are here to help. Whether you're writing a card, sending a text, or helping someone{" "}
+            <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              create a pet memorial
+            </Link>, you'll find words that acknowledge the loss without minimising it — because pets aren't "just" pets. They're family. If you're also looking for guidance on{" "}
+            <Link to="/cope-with-losing-a-pet" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              how to cope with losing a pet
+            </Link>, we have a gentle guide for that too.
           </p>
         </motion.section>
 
