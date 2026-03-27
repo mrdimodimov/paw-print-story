@@ -1,4 +1,4 @@
-import PawIcon from "@/components/PawIcon";
+import BrandLogo from "@/components/BrandLogo";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
