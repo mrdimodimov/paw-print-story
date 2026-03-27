@@ -139,10 +139,9 @@ export default function MemoriesGallery() {
               const c = reactionCounts[t.id];
               const total = c ? c.candle + c.paw + c.heart : 0;
               return (
-                <motion.div
+                <Link
                   key={t.id}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  to={getTributeUrl(t)}
                   className="flex flex-col rounded-xl border border-border bg-card p-5 shadow-soft transition-shadow hover:shadow-card"
                 >
                   <div className="mb-2 flex items-center gap-2">
@@ -162,10 +161,10 @@ export default function MemoriesGallery() {
                       {c.heart > 0 && `${c.heart} heart${c.heart !== 1 ? "s" : ""}`}
                     </p>
                   )}
-                  <Button variant="outline" size="sm" className="self-start" onClick={() => navigate(getTributeUrl(t))}>
-                    Read {t.pet_name}'s Story
-                  </Button>
-                </motion.div>
+                  <span className="self-start text-sm text-primary">
+                    Read {t.pet_name}'s Story →
+                  </span>
+                </Link>
               );
             })}
           </div>

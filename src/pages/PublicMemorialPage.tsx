@@ -176,12 +176,42 @@ const PublicMemorialPage = () => {
   if (!tribute) return null;
 
   const pageUrl = `${BRAND.baseUrl}/memorial/${tribute.slug}`;
+  const storyExcerpt = tribute.story.replace(/\n+/g, " ").slice(0, 150).trim().replace(/\s+\S*$/, "…");
+  const pageTitle = `${tribute.pet_name} Memorial | ${BRAND.name}`;
+  const metaDesc = storyExcerpt || `Read ${tribute.pet_name}'s heartfelt tribute and celebrate the life of a beloved pet.`;
   const isLegacy = tribute.tier_id === "legacy";
   const isPack = tribute.tier_id === "pack";
   const breedOrType = tribute.breed ? `${tribute.breed} ${tribute.pet_type}` : tribute.pet_type;
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: `In Loving Memory of ${tribute.pet_name}`,
+    description: metaDesc,
+    url: pageUrl,
+    image: tribute.photo_urls[0] || undefined,
+    datePublished: tribute.created_at,
+    author: { "@type": "Organization", name: BRAND.name, url: BRAND.baseUrl },
+    publisher: { "@type": "Organization", name: BRAND.name, url: BRAND.baseUrl },
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={metaDesc} />
+        <link rel="canonical" href={pageUrl} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={metaDesc} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={pageUrl} />
+        {tribute.photo_urls[0] && <meta property="og:image" content={tribute.photo_urls[0]} />}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={metaDesc} />
+        {tribute.photo_urls[0] && <meta name="twitter:image" content={tribute.photo_urls[0]} />}
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      </Helmet>
       {/* Header */}
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
