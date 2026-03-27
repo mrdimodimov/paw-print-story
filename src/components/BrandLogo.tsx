@@ -1,4 +1,4 @@
-import logoFull from "@/assets/logo-full.png";
+import logoIcon from "@/assets/logo-icon.png";
 
 interface BrandLogoProps {
   size?: "sm" | "md" | "lg";
@@ -7,9 +7,9 @@ interface BrandLogoProps {
 }
 
 const sizeMap = {
-  sm: { height: 40 },
-  md: { height: 52 },
-  lg: { height: 64 },
+  sm: { icon: 36, fontSize: "1.25rem", gap: 10 },
+  md: { icon: 44, fontSize: "1.5rem", gap: 12 },
+  lg: { icon: 56, fontSize: "1.875rem", gap: 14 },
 };
 
 const BrandLogo = ({
@@ -17,15 +17,24 @@ const BrandLogo = ({
   className = "",
   onClick,
 }: BrandLogoProps) => {
-  const { height } = sizeMap[size];
+  const { icon, fontSize, gap } = sizeMap[size];
 
-  const img = (
-    <img
-      src={logoFull}
-      alt="VellumPet"
-      style={{ height: `${height}px`, width: "auto" }}
-      className="block"
-    />
+  const content = (
+    <div className="flex items-center" style={{ gap: `${gap}px` }}>
+      <img
+        src={logoIcon}
+        alt=""
+        style={{ height: `${icon}px`, width: "auto" }}
+        className="block"
+      />
+      <span
+        className="font-display font-bold leading-none"
+        style={{ fontSize }}
+      >
+        <span style={{ color: "#2C1A14" }}>Vellum</span>
+        <span style={{ color: "#B07A3F" }}>Pet</span>
+      </span>
+    </div>
   );
 
   if (onClick) {
@@ -35,14 +44,14 @@ const BrandLogo = ({
         className={`flex items-center cursor-pointer ${className}`}
         onClick={onClick}
       >
-        {img}
+        {content}
       </button>
     );
   }
 
   return (
     <div className={`flex items-center ${className}`}>
-      {img}
+      {content}
     </div>
   );
 };
