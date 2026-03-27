@@ -1,3 +1,4 @@
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 import BrandLogo from "@/components/BrandLogo";
 import CtaIcon from "@/components/CtaIcon";
 import PawIcon from "@/components/PawIcon";
