@@ -9,7 +9,7 @@ import { Heart, ArrowRight, BookOpen, Share2, Clock } from "lucide-react";
 import { BRAND } from "@/lib/brand";
 
 const EXAMPLE_TRIBUTE = {
-  imageUrl: "https://ppfrtdbjsagytuhweywd.supabase.co/storage/v1/object/public/tribute-photos/examples/oliver.jpg",
+  imageUrl: "/images/oliver-tribute.jpg",
   petName: "Oliver",
   years: "2010–2024",
   memoryTitle: "The One Who Chose Us",
