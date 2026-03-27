@@ -10,6 +10,7 @@ import CatMemorialTributeExample from "./pages/seo/CatMemorialTributeExample";
 import PetMemorialMessage from "./pages/seo/PetMemorialMessage";
 import WhatToWriteWhenDogDies from "./pages/seo/WhatToWriteWhenDogDies";
 import PetMemorial from "./pages/seo/PetMemorial";
+import PetMemorialQuotes from "./pages/seo/PetMemorialQuotes";
 
 export function render(url: string) {
   const helmetContext: { helmet?: any } = {};
