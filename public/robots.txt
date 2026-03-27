@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://paw-print-story.lovable.app/sitemap.xml
+Sitemap: https://ppfrtdbjsagytuhweywd.supabase.co/functions/v1/sitemap
