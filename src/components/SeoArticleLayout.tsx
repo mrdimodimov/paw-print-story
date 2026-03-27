@@ -43,7 +43,7 @@ const SeoArticleLayout = ({
       <Helmet>
         <title>{meta.title}</title>
         <meta name="description" content={meta.description} />
-        <link rel="canonical" href={`https://paw-print-story.lovable.app${window?.location?.pathname ?? ""}`} />
+        <link rel="canonical" href={`https://paw-print-story.lovable.app${typeof window !== "undefined" ? window.location.pathname : ""}`} />
       </Helmet>
       {/* Header */}
       <header className="border-b border-border/50">
