@@ -1,4 +1,4 @@
-import PawIcon from "@/components/PawIcon";
+import BrandLogo from "@/components/BrandLogo";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Heart } from "lucide-react";
