@@ -303,52 +303,63 @@ const PetMemorial = () => {
           </div>
         </motion.section>
 
-        {/* ─── 7. Helpful Resources ─── */}
+        {/* ─── Hub: Explore by Topic ─── */}
         <motion.section {...section()} className="mb-16">
           <h2 className="mb-5 text-2xl font-bold text-foreground">
-            Helpful Resources
+            Explore Our Pet Memorial Guides
           </h2>
-          <p className="mb-6 text-muted-foreground">
-            Explore our guides on writing tributes and memorial messages for your
-            pet.
+          <p className="mb-8 text-muted-foreground">
+            Whether you're looking for the right words, comfort during grief, or practical advice on writing a tribute, we have dedicated guides for every stage.
           </p>
-          <div className="space-y-3">
+          <div className="space-y-6">
             {[
               {
+                title: "Pet Memorial Quotes",
+                intro: "Curated quotes for dogs, cats, and all beloved pets — perfect for tribute pages, sympathy cards, and social media.",
+                href: "/pet-memorial-quotes",
+              },
+              {
+                title: "How to Cope With Losing a Pet",
+                intro: "A gentle, practical guide to pet loss grief — why it hurts, what to expect, and healthy ways to move forward.",
+                href: "/cope-with-losing-a-pet",
+              },
+              {
                 title: "Dog Obituary Example",
-                desc: "How to write a beautiful dog obituary",
+                intro: "A full example of a dog obituary with step-by-step writing advice. See what a heartfelt tribute looks like.",
                 href: "/dog-obituary-example",
               },
               {
                 title: "Cat Memorial Tribute Example",
-                desc: "A heartfelt cat memorial tribute guide",
+                intro: "A complete cat memorial tribute with tips for capturing your cat's quiet, independent personality.",
                 href: "/cat-memorial-tribute-example",
               },
               {
                 title: "Pet Sympathy Messages",
-                desc: "What to say when someone loses a pet",
+                intro: "What to say when someone you care about loses a pet — thoughtful messages for cards, texts, and conversations.",
                 href: "/pet-sympathy-messages",
               },
               {
-                title: "Short Dog Memorial Quotes",
-                desc: "Simple words to remember your dog",
-                href: "/short-dog-memorial-quotes",
+                title: "Rainbow Bridge Quotes",
+                intro: "Comforting words drawn from the Rainbow Bridge tradition — for those who find solace in the hope of reunion.",
+                href: "/rainbow-bridge-quotes",
               },
-            ].map((link) => (
+            ].map((hub) => (
               <Link
-                key={link.href}
-                to={link.href}
-                className="group flex items-center justify-between rounded-xl border border-border bg-card p-4 shadow-card transition-all duration-200 hover:border-primary/30 hover:shadow-md"
+                key={hub.href}
+                to={hub.href}
+                className="group block rounded-xl border border-border bg-card p-5 shadow-card transition-all duration-200 hover:border-primary/30 hover:shadow-md"
               >
-                <div>
-                  <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
-                    {link.title}
-                  </h3>
-                  <p className="mt-0.5 text-xs text-muted-foreground">
-                    {link.desc}
-                  </p>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                      {hub.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                      {hub.intro}
+                    </p>
+                  </div>
+                  <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
                 </div>
-                <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
               </Link>
             ))}
           </div>

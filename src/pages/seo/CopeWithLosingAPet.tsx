@@ -354,6 +354,63 @@ const CopeWithLosingAPet = () => {
           </div>
         </motion.section>
 
+        {/* ─── Hub: Related Guides ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-5 text-2xl font-bold text-foreground">
+            More Guides for Pet Loss
+          </h2>
+          <p className="mb-8 text-muted-foreground">
+            Grief looks different for everyone. These guides offer comfort, words, and practical support for every stage of pet loss.
+          </p>
+          <div className="space-y-6">
+            {[
+              {
+                title: "Pet Memorial Quotes",
+                intro: "Meaningful quotes for dogs, cats, and all pets — words to capture the bond and keep close during grief.",
+                href: "/pet-memorial-quotes",
+              },
+              {
+                title: "Rainbow Bridge Quotes",
+                intro: "Comforting words rooted in the Rainbow Bridge tradition — for those who find peace in the hope of reunion.",
+                href: "/rainbow-bridge-quotes",
+              },
+              {
+                title: "Pet Sympathy Messages",
+                intro: "What to say when someone you care about is going through pet loss — messages for cards, texts, and conversations.",
+                href: "/pet-sympathy-messages",
+              },
+              {
+                title: "What to Write When a Dog Dies",
+                intro: "A gentle, practical guide for writing a tribute or memorial when you've lost a dog.",
+                href: "/what-to-write-when-a-dog-dies",
+              },
+              {
+                title: "What to Write When a Cat Dies",
+                intro: "How to capture your cat's quiet, independent personality in a memorial that feels honest and true.",
+                href: "/what-to-write-when-a-cat-dies",
+              },
+            ].map((hub) => (
+              <Link
+                key={hub.href}
+                to={hub.href}
+                className="group block rounded-xl border border-border bg-card p-5 shadow-card transition-all duration-200 hover:border-primary/30 hover:shadow-md"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                      {hub.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                      {hub.intro}
+                    </p>
+                  </div>
+                  <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </motion.section>
+
         {/* ─── CTA ─── */}
         <motion.section
           {...section()}

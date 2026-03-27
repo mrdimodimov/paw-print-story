@@ -277,6 +277,63 @@ const PetMemorialQuotes = () => {
           </div>
         </motion.section>
 
+        {/* ─── Hub: Explore Quotes by Topic ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-5 text-2xl font-bold text-foreground">
+            Explore Memorial Quotes by Topic
+          </h2>
+          <p className="mb-8 text-muted-foreground">
+            Looking for something more specific? We've created dedicated guides for different types of pet memorial quotes — each with curated collections and writing advice.
+          </p>
+          <div className="space-y-6">
+            {[
+              {
+                title: "Dog Memorial Quotes",
+                intro: "Dogs give us a loyalty that reshapes our lives. These quotes capture the walks, the greetings, and the quiet companionship that only a dog owner understands.",
+                href: "/dog-memorial-quotes",
+              },
+              {
+                title: "Cat Memorial Quotes",
+                intro: "Cats love on their own terms — a slow blink, a chosen lap, a purr in the dark. These quotes honour the quiet, independent bond between a person and their cat.",
+                href: "/cat-memorial-quotes",
+              },
+              {
+                title: "Short Dog Memorial Quotes",
+                intro: "Sometimes a few words say everything. Ultra-short quotes perfect for engravings, captions, sympathy cards, and moments when less is more.",
+                href: "/short-dog-memorial-quotes",
+              },
+              {
+                title: "Rainbow Bridge Quotes",
+                intro: "The Rainbow Bridge offers comfort through the hope of reunion. These quotes draw on that tradition — gentle words for the hardest goodbyes.",
+                href: "/rainbow-bridge-quotes",
+              },
+              {
+                title: "Pet Remembrance Quotes",
+                intro: "For dogs, cats, rabbits, birds, and every animal who shared your life. Universal words of remembrance that honour any beloved pet.",
+                href: "/pet-remembrance-quotes",
+              },
+            ].map((hub) => (
+              <Link
+                key={hub.href}
+                to={hub.href}
+                className="group block rounded-xl border border-border bg-card p-5 shadow-card transition-all duration-200 hover:border-primary/30 hover:shadow-md"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                      {hub.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                      {hub.intro}
+                    </p>
+                  </div>
+                  <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </motion.section>
+
         {/* ─── CTA Section ─── */}
         <motion.section
           {...section()}
