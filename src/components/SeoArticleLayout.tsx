@@ -319,6 +319,14 @@ const SeoArticleLayout = ({
               <CtaIcon className="mr-1 shrink-0" size={22} />
               Create a Tribute for Your Pet
             </Link>
+            <div className="mt-5 space-y-1">
+              <p className="text-xs italic text-muted-foreground/60">
+                "I didn't expect something this simple to feel so meaningful."
+              </p>
+              <p className="text-xs italic text-muted-foreground/60">
+                "Now I have something I can come back to and remember them."
+              </p>
+            </div>
           </motion.section>
 
           {/* Related Articles */}
