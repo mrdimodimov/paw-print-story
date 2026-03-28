@@ -178,7 +178,7 @@ const SeoArticleLayout = ({
             </p>
 
             {/* Inline emotional CTA */}
-            <div className="mb-12 text-center">
+            <div className="mb-6 text-center">
               <p className="mb-3 text-base italic text-foreground/70">Your pet deserves to be remembered.</p>
               <Link
                 to="/create"
@@ -188,6 +188,11 @@ const SeoArticleLayout = ({
                 Honor your pet's memory in minutes <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
+
+            {/* Trust signal */}
+            <p className="mb-12 text-center text-sm text-muted-foreground/70">
+              Created by pet parents, for pet parents.
+            </p>
           </motion.div>
 
           {/* Contextual links */}
