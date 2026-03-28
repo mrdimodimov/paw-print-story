@@ -270,6 +270,9 @@ const SeoArticleLayout = ({
               <CtaIcon className="mr-1 shrink-0" size={18} />
               Start Your Tribute
             </Link>
+            <p className="mt-4 text-xs italic text-muted-foreground/60">
+              "It made it so much easier to put everything I felt into words."
+            </p>
           </motion.div>
 
           {/* H2: Tips */}
