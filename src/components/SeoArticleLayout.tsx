@@ -178,7 +178,7 @@ const SeoArticleLayout = ({
             </p>
 
             {/* Inline emotional CTA */}
-            <div className="mb-12 text-center">
+            <div className="mb-6 text-center">
               <p className="mb-3 text-base italic text-foreground/70">Your pet deserves to be remembered.</p>
               <Link
                 to="/create"
@@ -188,6 +188,11 @@ const SeoArticleLayout = ({
                 Honor your pet's memory in minutes <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
+
+            {/* Trust signal */}
+            <p className="mb-12 text-center text-sm text-muted-foreground/70">
+              Created by pet parents, for pet parents.
+            </p>
           </motion.div>
 
           {/* Contextual links */}
@@ -265,6 +270,9 @@ const SeoArticleLayout = ({
               <CtaIcon className="mr-1 shrink-0" size={18} />
               Start Your Tribute
             </Link>
+            <p className="mt-4 text-xs italic text-muted-foreground/60">
+              "It made it so much easier to put everything I felt into words."
+            </p>
           </motion.div>
 
           {/* H2: Tips */}
@@ -311,6 +319,14 @@ const SeoArticleLayout = ({
               <CtaIcon className="mr-1 shrink-0" size={22} />
               Create a Tribute for Your Pet
             </Link>
+            <div className="mt-5 space-y-1">
+              <p className="text-xs italic text-muted-foreground/60">
+                "I didn't expect something this simple to feel so meaningful."
+              </p>
+              <p className="text-xs italic text-muted-foreground/60">
+                "Now I have something I can come back to and remember them."
+              </p>
+            </div>
           </motion.section>
 
           {/* Related Articles */}
