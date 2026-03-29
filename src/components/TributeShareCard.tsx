@@ -208,15 +208,18 @@ function renderPhoto(
     <div style={wrapperStyle}>
       <div style={glowRingStyle} />
       <div style={shadowStyle} />
-      <img
-        src={photos[0]}
-        alt={petName}
-        crossOrigin="anonymous"
+      <div
+        aria-label={petName}
         style={{
           width: size,
           height: size,
+          aspectRatio: "1 / 1",
           borderRadius: "50%",
-          objectFit: "cover",
+          overflow: "hidden",
+          backgroundImage: `url(${photos[0]})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
           border: `4px solid ${accentColor.replace(/[\d.]+\)$/, "0.5)")}`,
           boxShadow: `0 0 30px ${glowColor}`,
           position: "relative",
