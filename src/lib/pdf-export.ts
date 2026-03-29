@@ -127,8 +127,8 @@ export async function downloadTributePDF(
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
-  const margin = 28;
-  const maxWidth = pageWidth - margin * 2;
+  const margin = 32;
+  const maxWidth = Math.min(pageWidth - margin * 2, 148); // ~148mm ≈ 420pt readable width
 
   const images = await loadImages(photoUrls);
   const safeName = sanitizeForPDF(petName);
