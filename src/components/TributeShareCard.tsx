@@ -280,7 +280,7 @@ const TributeShareCard = ({
     const canvas = await html2canvas(el, {
       scale: 1,
       useCORS: true,
-      backgroundColor: null,
+      backgroundColor: "#ffffff",
       width: CARD_W,
       height: CARD_H,
     });
