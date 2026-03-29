@@ -131,6 +131,9 @@ export async function downloadTributePDF(
   const maxWidth = pageWidth - margin * 2;
 
   const images = await loadImages(photoUrls);
+  const safeName = sanitizeForPDF(petName);
+  const safeYears = years ? sanitizeForPDF(years) : "";
+  const headerLabel = safeYears ? `${safeName} · ${safeYears}` : safeName;
 
   // --- Helper: draw warm background on current page ---
   const drawPageBackground = () => {
@@ -138,60 +141,115 @@ export async function downloadTributePDF(
     doc.rect(0, 0, pageWidth, pageHeight, "F");
   };
 
+  // --- Helper: draw story page header ---
+  const drawStoryPageHeader = () => {
+    doc.setFont("times", "italic");
+    doc.setFontSize(8.5);
+    doc.setTextColor(158, 148, 135);
+    doc.text(headerLabel, pageWidth / 2, 22, { align: "center" });
+    // Subtle divider below header
+    doc.setDrawColor(195, 185, 170);
+    doc.setLineWidth(0.2);
+    doc.line(margin + 20, 26, pageWidth - margin - 20, 26);
+  };
+
+  // --- Helper: draw footer on a page ---
+  const drawFooter = (pageNum: number, total: number) => {
+    const ph = doc.internal.pageSize.getHeight();
+    doc.setDrawColor(180, 168, 148);
+    doc.setLineWidth(0.25);
+    doc.line(margin, ph - 22, pageWidth - margin, ph - 22);
+
+    doc.setFont("times", "italic");
+    doc.setFontSize(7);
+    doc.setTextColor(158, 148, 135);
+    doc.text("Written with love using VellumPet", pageWidth / 2, ph - 16, { align: "center" });
+
+    if (tier === "story") {
+      doc.text("vellumpet.com", pageWidth / 2, ph - 12, { align: "center" });
+    }
+  };
+
+  // ============================================================
+  // PAGE 1: COVER PAGE
+  // ============================================================
   drawPageBackground();
 
-  let yPos = 40;
+  // --- Double decorative border ---
+  doc.setDrawColor(168, 155, 135);
+  doc.setLineWidth(0.7);
+  doc.rect(12, 12, pageWidth - 24, pageHeight - 24);
+  doc.setLineWidth(0.2);
+  doc.rect(15, 15, pageWidth - 30, pageHeight - 30);
 
-  // --- Photos (centered row above title, proportionally scaled) ---
-  if (images.length === 1) {
-    const maxBox = 42;
-    const { w, h } = fitImage(images[0].width, images[0].height, maxBox, maxBox);
-    const xOffset = (pageWidth - w) / 2;
-    doc.addImage(images[0].dataUrl, "JPEG", xOffset, yPos, w, h);
-    yPos += h + 14;
-  } else if (images.length >= 2) {
-    const maxBox = 36;
-    const shown = images.slice(0, 3);
-    const totalWidth = shown.length * maxBox + (shown.length - 1) * 6;
-    let x = (pageWidth - totalWidth) / 2;
-    for (const img of shown) {
-      const { w, h } = fitImage(img.width, img.height, maxBox, maxBox);
-      const yOffset = yPos + (maxBox - h) / 2;
-      doc.addImage(img.dataUrl, "JPEG", x + (maxBox - w) / 2, yOffset, w, h);
-      x += maxBox + 6;
-    }
-    yPos += maxBox + 14;
+  // Vertically center content: image + name + years + quote
+  const hasPhoto = images.length >= 1;
+  const photoSize = 70;
+  const coverContentHeight =
+    (hasPhoto ? photoSize + 16 : 0) + 14 + (safeYears ? 10 : 0) + 30;
+  let coverY = Math.max(50, (pageHeight - coverContentHeight) / 2 - 10);
+
+  // --- "In Loving Memory" pre-title ---
+  doc.setFont("times", "italic");
+  doc.setFontSize(11);
+  doc.setTextColor(148, 135, 118);
+  doc.text("In Loving Memory", pageWidth / 2, coverY, { align: "center" });
+  coverY += 16;
+
+  // --- Large centered pet photo ---
+  if (hasPhoto) {
+    const { w, h } = fitImage(images[0].width, images[0].height, photoSize, photoSize);
+    const imgX = (pageWidth - w) / 2;
+    doc.addImage(images[0].dataUrl, "JPEG", imgX, coverY, w, h);
+    coverY += h + 16;
   }
 
-  // --- Title: Pet name (centered, large) ---
+  // --- Pet name (large serif) ---
   doc.setFont("times", "bold");
-  doc.setFontSize(32);
+  doc.setFontSize(36);
   doc.setTextColor(61, 48, 40);
-  doc.text(sanitizeForPDF(petName), pageWidth / 2, yPos, { align: "center" });
-  yPos += 11;
+  doc.text(safeName, pageWidth / 2, coverY, { align: "center" });
+  coverY += 14;
 
   // --- Years ---
-  if (years) {
+  if (safeYears) {
     doc.setFont("times", "italic");
-    doc.setFontSize(12);
+    doc.setFontSize(13);
     doc.setTextColor(120, 105, 88);
-    doc.text(sanitizeForPDF(years), pageWidth / 2, yPos, { align: "center" });
-    yPos += 9;
+    doc.text(safeYears, pageWidth / 2, coverY, { align: "center" });
+    coverY += 10;
   }
 
-  // --- Subline ---
-  doc.setFont("times", "italic");
-  doc.setFontSize(9);
-  doc.setTextColor(148, 135, 118);
-  doc.text("A life remembered in the quiet moments that meant everything.", pageWidth / 2, yPos, { align: "center" });
-  yPos += 8;
-
-  // --- Divider under header ---
-  const divInset = 30;
+  // --- Ornamental divider ---
+  coverY += 6;
+  const divInset = 50;
   doc.setDrawColor(180, 168, 148);
   doc.setLineWidth(0.35);
-  doc.line(margin + divInset, yPos + 2, pageWidth - margin - divInset, yPos + 2);
-  yPos += 16;
+  doc.line(divInset, coverY, pageWidth - divInset, coverY);
+  coverY += 14;
+
+  // --- Quote ---
+  doc.setFont("times", "italic");
+  doc.setFontSize(10);
+  doc.setTextColor(135, 122, 105);
+  doc.text(
+    "A life remembered in the quiet moments that meant everything.",
+    pageWidth / 2,
+    coverY,
+    { align: "center" }
+  );
+
+  // Cover page footer
+  drawFooter(1, 1);
+
+  // ============================================================
+  // PAGE 2+: STORY PAGES
+  // ============================================================
+  doc.addPage();
+  drawPageBackground();
+  drawStoryPageHeader();
+
+  let yPos = 36;
 
   // --- Story body: paragraph-aware rendering ---
   doc.setFont("times", "normal");
@@ -200,8 +258,8 @@ export async function downloadTributePDF(
 
   const sanitizedStory = sanitizeForPDF(story);
   const paragraphs = ensureParagraphs(sanitizedStory);
-  const lineHeight = 7.6; // ~1.75x at 11.5pt
-  const paragraphGap = 8;
+  const lineHeight = 8.0; // ~1.7x at 11.5pt for improved readability
+  const paragraphGap = 9;
   const footerZone = pageHeight - 32;
 
   for (const para of paragraphs) {
@@ -212,7 +270,8 @@ export async function downloadTributePDF(
       if (yPos > footerZone) {
         doc.addPage();
         drawPageBackground();
-        yPos = 34;
+        drawStoryPageHeader();
+        yPos = 36;
         doc.setFont("times", "normal");
         doc.setFontSize(11.5);
         doc.setTextColor(74, 63, 53);
@@ -223,25 +282,11 @@ export async function downloadTributePDF(
     yPos += paragraphGap;
   }
 
-  // --- Footer on every page ---
+  // --- Apply footer to all pages ---
   const totalPages = doc.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
-    const ph = doc.internal.pageSize.getHeight();
-
-    // Divider above footer
-    doc.setDrawColor(180, 168, 148);
-    doc.setLineWidth(0.25);
-    doc.line(margin, ph - 22, pageWidth - margin, ph - 22);
-
-    // Branding
-    doc.setFontSize(7);
-    doc.setTextColor(158, 148, 135);
-    doc.text("Written with love using VellumPet", pageWidth / 2, ph - 16, { align: "center" });
-
-    if (tier === "story") {
-      doc.text("vellumpet.com", pageWidth / 2, ph - 12, { align: "center" });
-    }
+    drawFooter(i, totalPages);
   }
 
   const filename = `${sanitizeFilename(petName)}-tribute-vellumpet.pdf`;
