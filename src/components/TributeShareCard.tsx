@@ -154,7 +154,7 @@ function renderPhoto(
 
   const wrapperStyle: React.CSSProperties = {
     position: "relative",
-    zIndex: 1,
+    zIndex: 2,
     width: glowSize,
     height: glowSize,
     display: "flex",

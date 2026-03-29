@@ -210,7 +210,7 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
           </div>
 
           {/* Photo — dominant focal point */}
-          <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "center", marginBottom: 32 }}>
+          <div style={{ position: "relative", zIndex: 2, display: "flex", justifyContent: "center", marginBottom: 32 }}>
             {bgPhoto ? (
               <div
                 aria-label={petName}
