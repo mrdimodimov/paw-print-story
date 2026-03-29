@@ -421,7 +421,7 @@ export async function downloadMemorialPDF(
     // Draw rounded border on top of image
     doc.setDrawColor(210, 200, 185);
     doc.setLineWidth(0.6);
-    doc.roundedRect(imgX, y, w, h, r, r, "S");
+    doc.roundedRect(imgX, y, w, h, photoRadius, photoRadius, "S");
 
     y += h + 28;
   }
