@@ -111,8 +111,7 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "space-between",
-            padding: "80px 50px 60px",
+            padding: "100px 50px 70px",
             fontFamily: "'Playfair Display', serif",
             position: "relative",
             overflow: "hidden",
@@ -131,7 +130,7 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
                   width: "100%",
                   height: "100%",
                   objectFit: "cover",
-                  opacity: 0.15,
+                  opacity: 0.12,
                   filter: "blur(6px)",
                 }}
               />
@@ -139,14 +138,14 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
                 style={{
                   position: "absolute",
                   inset: 0,
-                  background: "linear-gradient(180deg, hsla(220,20%,14%,0.85) 0%, hsla(225,18%,22%,0.8) 40%, hsla(30,15%,18%,0.9) 100%)",
+                  background: "linear-gradient(180deg, hsla(220,20%,14%,0.8) 0%, hsla(225,18%,22%,0.75) 40%, hsla(30,15%,18%,0.85) 100%)",
                 }}
               />
             </>
           )}
 
           {/* Top: Name + Years */}
-          <div style={{ textAlign: "center", position: "relative", zIndex: 1 }}>
+          <div style={{ textAlign: "center", position: "relative", zIndex: 1, marginBottom: 20 }}>
             <div
               style={{
                 fontSize: 36,
@@ -173,60 +172,67 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
             )}
           </div>
 
-          {/* Center: Quote */}
+          {/* Photo — dominant focal point */}
+          <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "center", marginBottom: 32 }}>
+            {bgPhoto ? (
+              <div
+                aria-label={petName}
+                style={{
+                  width: 220,
+                  height: 220,
+                  aspectRatio: "1 / 1",
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  backgroundImage: `url(${bgPhoto})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  border: "3px solid hsla(40,50%,65%,0.4)",
+                  boxShadow: "0 0 60px rgba(255, 200, 120, 0.25)",
+                  opacity: 1,
+                  filter: "none",
+                }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: 220,
+                  height: 220,
+                  borderRadius: "50%",
+                  background: "hsla(40,50%,65%,0.15)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0 0 60px rgba(255, 200, 120, 0.25)",
+                }}
+              >
+                <PawIcon size={80} color="hsla(40,50%,65%,0.5)" />
+              </div>
+            )}
+          </div>
+
+          {/* Divider */}
+          <div
+            style={{
+              width: 40,
+              height: 1,
+              background: "hsla(40,50%,65%,0.3)",
+              marginBottom: 24,
+              position: "relative",
+              zIndex: 1,
+            }}
+          />
+
+          {/* Quote */}
           <div
             style={{
               textAlign: "center",
               position: "relative",
               zIndex: 1,
               maxWidth: 420,
+              marginBottom: "auto",
             }}
           >
-            {/* Photo circle */}
-            <div style={{ marginBottom: 28, display: "flex", justifyContent: "center" }}>
-              {bgPhoto ? (
-                <div
-                  aria-label={petName}
-                  style={{
-                    width: 100,
-                    height: 100,
-                    aspectRatio: "1 / 1",
-                    borderRadius: "50%",
-                    overflow: "hidden",
-                    backgroundImage: `url(${bgPhoto})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    border: "2px solid hsla(40,50%,65%,0.4)",
-                  }}
-                />
-              ) : (
-                <div
-                  style={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: "50%",
-                    background: "hsla(40,50%,65%,0.15)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <PawIcon size={40} color="hsla(40,50%,65%,0.5)" />
-                </div>
-              )}
-            </div>
-
-            {/* Divider */}
-            <div
-              style={{
-                width: 40,
-                height: 1,
-                background: "hsla(40,50%,65%,0.3)",
-                margin: "0 auto 24px",
-              }}
-            />
-
             <div
               style={{
                 fontSize: 22,
@@ -241,7 +247,7 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
           </div>
 
           {/* Bottom: Closing line + branding */}
-          <div style={{ textAlign: "center", position: "relative", zIndex: 1 }}>
+          <div style={{ textAlign: "center", position: "relative", zIndex: 1, marginTop: 32 }}>
             <div
               style={{
                 fontSize: 14,
