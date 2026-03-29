@@ -403,79 +403,59 @@ export async function downloadMemorialPDF(
   doc.setFillColor(245, 241, 235);
   doc.rect(0, 0, pageWidth, pageHeight, "F");
 
-  // --- Elegant thin border with generous inset ---
-  const borderInset = 18;
-  doc.setDrawColor(195, 185, 170);
-  doc.setLineWidth(0.5);
-  doc.rect(borderInset, borderInset, pageWidth - borderInset * 2, pageHeight - borderInset * 2);
+  // No border — keep clean and understated
 
-  // --- Layout: vertically center all content ---
-  const photoSize = 82; // large rounded square
+  // --- Layout ---
+  const photoSize = 88;
   const hasPhoto = images.length >= 1;
-  const photoRadius = 6;
-
-  // Calculate total content height for vertical centering
-  const nameSize = 34;
+  const nameSize = 36;
   const yearsSize = 13;
   const quoteSize = 11;
+  const quoteMaxWidth = pageWidth - 70;
+
+  // Calculate content height for vertical centering
   const contentHeight =
-    (hasPhoto ? photoSize + 28 : 0) + // photo + gap
-    nameSize * 0.35 + 12 + // name height + gap
-    (safeYears ? yearsSize * 0.35 + 8 : 0) + // years + gap
-    6 + // divider + gaps
-    quoteSize * 0.35 * 3; // quote (up to 2 lines)
+    (hasPhoto ? photoSize + 24 : 0) +
+    nameSize * 0.35 + 16 +
+    (safeYears ? yearsSize * 0.35 + 14 : 0) +
+    quoteSize * 0.35 * 3;
 
-  let y = Math.max(40, (pageHeight - contentHeight) / 2 - 15);
+  let y = Math.max(45, (pageHeight - contentHeight) / 2 - 10);
 
-  // --- Large centered photo (rounded square) ---
+  // --- Photo (slightly larger, natural placement) ---
   if (hasPhoto) {
     const { w, h } = fitImage(images[0].width, images[0].height, photoSize, photoSize);
     const imgX = (pageWidth - w) / 2;
-
-    // Draw rounded rectangle clip for the image
     doc.addImage(images[0].dataUrl, "JPEG", imgX, y, w, h);
-
-    // Draw rounded border on top of image
-    doc.setDrawColor(210, 200, 185);
-    doc.setLineWidth(0.6);
-    doc.roundedRect(imgX, y, w, h, photoRadius, photoRadius, "S");
-
-    y += h + 28;
+    y += h + 24;
   }
 
-  // --- Pet name (large serif, centered) ---
+  // --- Pet name ---
   doc.setFont("times", "bold");
   doc.setFontSize(nameSize);
-  doc.setTextColor(51, 40, 33);
+  doc.setTextColor(42, 32, 25);
   doc.text(safeName, pageWidth / 2, y, { align: "center" });
-  y += 14;
+  y += 16;
 
-  // --- Years (lighter, smaller) ---
+  // --- Years ---
   if (safeYears) {
     doc.setFont("times", "italic");
     doc.setFontSize(yearsSize);
-    doc.setTextColor(140, 125, 108);
+    doc.setTextColor(130, 115, 98);
     doc.text(safeYears, pageWidth / 2, y, { align: "center" });
-    y += 14;
+    y += 18;
+  } else {
+    y += 8;
   }
 
-  // --- Subtle ornamental divider ---
-  const divWidth = 50;
-  doc.setDrawColor(195, 185, 170);
-  doc.setLineWidth(0.3);
-  doc.line(pageWidth / 2 - divWidth / 2, y, pageWidth / 2 + divWidth / 2, y);
-  y += 20;
-
-  // --- Short emotional quote (max 2 lines, italic) ---
+  // --- Short emotional excerpt (max 2 lines) ---
   const quote = extractBestExcerpt(story, 160);
-  const quoteMaxWidth = pageWidth - 70;
   doc.setFont("times", "italic");
   doc.setFontSize(quoteSize);
   doc.setTextColor(100, 88, 72);
   const quoteLines = doc.splitTextToSize(quote, quoteMaxWidth);
-  // Limit to 2 lines max
   const displayLines = quoteLines.slice(0, 2);
-  const quoteLineHeight = 7;
+  const quoteLineHeight = 7.5;
   for (let i = 0; i < displayLines.length; i++) {
     doc.text(displayLines[i], pageWidth / 2, y + i * quoteLineHeight, { align: "center" });
   }
