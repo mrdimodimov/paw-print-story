@@ -39,13 +39,18 @@ const HeroShareCard = ({ petName, years, quote, photoUrl, onShare }: HeroShareCa
       >
         {/* Pet photo */}
         {photoUrl ? (
-          <div className="mx-auto mb-5 h-24 w-24 overflow-hidden rounded-full border-[3px] border-accent shadow-soft">
-            <img
-              src={photoUrl}
-              alt={`${petName} memorial`}
-              className="h-full w-full object-cover"
-            />
-          </div>
+          <div
+            aria-label={`${petName} memorial`}
+            className="mx-auto mb-5 h-24 w-24 rounded-full border-[3px] border-accent shadow-soft"
+            style={{
+              aspectRatio: "1 / 1",
+              overflow: "hidden",
+              backgroundImage: `url(${photoUrl})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
         ) : (
           <div className="mx-auto mb-5 flex h-24 w-24 items-center justify-center rounded-full bg-accent/30">
             <PawIcon className="h-10 w-10 text-primary/60" />

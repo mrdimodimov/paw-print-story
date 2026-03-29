@@ -185,15 +185,18 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
             {/* Photo circle */}
             <div style={{ marginBottom: 28, display: "flex", justifyContent: "center" }}>
               {bgPhoto ? (
-                <img
-                  src={bgPhoto}
-                  alt={petName}
-                  crossOrigin="anonymous"
+                <div
+                  aria-label={petName}
                   style={{
                     width: 100,
                     height: 100,
+                    aspectRatio: "1 / 1",
                     borderRadius: "50%",
-                    objectFit: "cover",
+                    overflow: "hidden",
+                    backgroundImage: `url(${bgPhoto})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
                     border: "2px solid hsla(40,50%,65%,0.4)",
                   }}
                 />
