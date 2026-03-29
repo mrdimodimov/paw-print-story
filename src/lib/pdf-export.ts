@@ -243,28 +243,64 @@ export async function downloadTributePDF(
 
   const sanitizedStory = sanitizeForPDF(story);
   const paragraphs = ensureParagraphs(sanitizedStory);
-  const lineHeight = 8.0; // ~1.7x at 11.5pt for improved readability
+  const lineHeight = 8.0;
   const paragraphGap = 9;
   const footerZone = pageHeight - 32;
 
+  // Pre-calculate all lines to detect orphan pages
+  const allSections: string[][] = [];
   for (const para of paragraphs) {
     const trimmed = para.trim();
     if (!trimmed) continue;
-    const lines = doc.splitTextToSize(trimmed, maxWidth);
-    for (const line of lines) {
-      if (yPos > footerZone) {
-        doc.addPage();
-        drawPageBackground();
-        drawStoryPageHeader();
-        yPos = 36;
-        doc.setFont("times", "normal");
-        doc.setFontSize(11.5);
-        doc.setTextColor(74, 63, 53);
-      }
-      doc.text(line, margin, yPos);
-      yPos += lineHeight;
+    const lines = doc.splitTextToSize(trimmed, maxWidth) as string[];
+    allSections.push(lines);
+  }
+
+  // Flatten to count total lines and detect orphan endings
+  const allLines: { text: string; gapAfter: boolean }[] = [];
+  for (let s = 0; s < allSections.length; s++) {
+    for (let l = 0; l < allSections[s].length; l++) {
+      allLines.push({
+        text: allSections[s][l],
+        gapAfter: l === allSections[s].length - 1 && s < allSections.length - 1,
+      });
     }
-    yPos += paragraphGap;
+  }
+
+  // Simulate page breaks to find orphan last page
+  let simY = 36;
+  let lastPageBreakIdx = 0;
+  let linesOnLastPage = 0;
+  for (let i = 0; i < allLines.length; i++) {
+    if (simY > footerZone) {
+      lastPageBreakIdx = i;
+      simY = 36;
+    }
+    simY += lineHeight;
+    if (allLines[i].gapAfter) simY += paragraphGap;
+  }
+  linesOnLastPage = allLines.length - lastPageBreakIdx;
+
+  // If orphan page (<=4 lines), use a tighter footerZone to push more onto last page
+  const effectiveFooterZone =
+    linesOnLastPage > 0 && linesOnLastPage <= 4 && lastPageBreakIdx > 0
+      ? footerZone + linesOnLastPage * lineHeight + paragraphGap
+      : footerZone;
+
+  // Render lines
+  for (let i = 0; i < allLines.length; i++) {
+    if (yPos > effectiveFooterZone) {
+      doc.addPage();
+      drawPageBackground();
+      drawStoryPageHeader();
+      yPos = 36;
+      doc.setFont("times", "normal");
+      doc.setFontSize(11.5);
+      doc.setTextColor(74, 63, 53);
+    }
+    doc.text(allLines[i].text, margin, yPos);
+    yPos += lineHeight;
+    if (allLines[i].gapAfter) yPos += paragraphGap;
   }
 
   // --- Apply footer to all pages ---
