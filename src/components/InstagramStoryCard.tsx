@@ -227,7 +227,8 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
                   border: "3px solid hsla(40,50%,65%,0.4)",
                   boxShadow: "0 0 60px rgba(255, 200, 120, 0.25)",
                   opacity: 1,
-                  filter: "none",
+                  filter: "contrast(1.05)",
+                  mixBlendMode: "normal" as const,
                 }}
               />
             ) : (
