@@ -416,20 +416,7 @@ export async function downloadMemorialPDF(
     const imgX = (pageWidth - w) / 2;
 
     // Draw rounded rectangle clip for the image
-    doc.saveGraphicsState();
-    // Rounded rect path as clip
-    const rx = imgX;
-    const ry = y;
-    const rw = w;
-    const rh = h;
-    const r = photoRadius;
-    // Manual rounded rect path
-    doc.beginFormObject(rx, ry, rw, rh);
-    doc.endFormObject("__dummy");
-    // jsPDF doesn't support clip natively, so draw image then overlay mask
-    // Instead, just add image and draw rounded border on top
     doc.addImage(images[0].dataUrl, "JPEG", imgX, y, w, h);
-    doc.restoreGraphicsState();
 
     // Draw rounded border on top of image
     doc.setDrawColor(210, 200, 185);
