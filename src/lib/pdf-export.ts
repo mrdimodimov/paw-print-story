@@ -379,103 +379,108 @@ export async function downloadMemorialPDF(
   const pageHeight = doc.internal.pageSize.getHeight();
 
   const images = await loadImages(photoUrls);
+  const safeName = sanitizeForPDF(petName);
+  const safeYears = years ? sanitizeForPDF(years) : "";
 
   // --- Warm paper background ---
-  doc.setFillColor(240, 235, 228);
+  doc.setFillColor(245, 241, 235);
   doc.rect(0, 0, pageWidth, pageHeight, "F");
 
-  // --- Double decorative border ---
-  doc.setDrawColor(168, 155, 135);
-  doc.setLineWidth(0.8);
-  doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
-  doc.setLineWidth(0.25);
-  doc.rect(13, 13, pageWidth - 26, pageHeight - 26);
+  // --- Elegant thin border with generous inset ---
+  const borderInset = 18;
+  doc.setDrawColor(195, 185, 170);
+  doc.setLineWidth(0.5);
+  doc.rect(borderInset, borderInset, pageWidth - borderInset * 2, pageHeight - borderInset * 2);
 
-  // --- Logo watermark ---
-  await drawLogoWatermark(doc);
+  // --- Layout: vertically center all content ---
+  const photoSize = 82; // large rounded square
+  const hasPhoto = images.length >= 1;
+  const photoRadius = 6;
 
-  // --- "In Loving Memory" pre-title ---
-  doc.setFont("times", "italic");
-  doc.setFontSize(11);
-  doc.setTextColor(148, 135, 118);
-  doc.text("In Loving Memory", pageWidth / 2, 36, { align: "center" });
+  // Calculate total content height for vertical centering
+  const nameSize = 34;
+  const yearsSize = 13;
+  const quoteSize = 11;
+  const contentHeight =
+    (hasPhoto ? photoSize + 28 : 0) + // photo + gap
+    nameSize * 0.35 + 12 + // name height + gap
+    (safeYears ? yearsSize * 0.35 + 8 : 0) + // years + gap
+    6 + // divider + gaps
+    quoteSize * 0.35 * 3; // quote (up to 2 lines)
 
-  // --- Pet name (large, centered) ---
-  doc.setFont("times", "bold");
-  doc.setFontSize(36);
-  doc.setTextColor(61, 48, 40);
-  const safeName = sanitizeForPDF(petName);
-  doc.text(safeName, pageWidth / 2, 54, { align: "center" });
+  let y = Math.max(40, (pageHeight - contentHeight) / 2 - 15);
 
-  let yPos = 62;
-
-  // --- Years ---
-  if (years) {
-    doc.setFont("times", "italic");
-    doc.setFontSize(13);
-    doc.setTextColor(120, 105, 88);
-    doc.text(sanitizeForPDF(years), pageWidth / 2, yPos, { align: "center" });
-    yPos += 8;
-  }
-
-  // --- Ornamental divider ---
-  const divInset = 50;
-  doc.setDrawColor(180, 168, 148);
-  doc.setLineWidth(0.35);
-  doc.line(divInset, yPos + 4, pageWidth - divInset, yPos + 4);
-  yPos += 16;
-
-  // --- Featured photo (large, centered) ---
-  if (images.length >= 1) {
-    const maxW = 80;
-    const maxH = 80;
-    const { w, h } = fitImage(images[0].width, images[0].height, maxW, maxH);
+  // --- Large centered photo (rounded square) ---
+  if (hasPhoto) {
+    const { w, h } = fitImage(images[0].width, images[0].height, photoSize, photoSize);
     const imgX = (pageWidth - w) / 2;
-    doc.addImage(images[0].dataUrl, "JPEG", imgX, yPos, w, h);
-    yPos += h + 14;
-  } else {
-    yPos += 6;
+
+    // Draw rounded rectangle clip for the image
+    doc.saveGraphicsState();
+    // Rounded rect path as clip
+    const rx = imgX;
+    const ry = y;
+    const rw = w;
+    const rh = h;
+    const r = photoRadius;
+    // Manual rounded rect path
+    doc.beginFormObject(rx, ry, rw, rh);
+    doc.endFormObject("__dummy");
+    // jsPDF doesn't support clip natively, so draw image then overlay mask
+    // Instead, just add image and draw rounded border on top
+    doc.addImage(images[0].dataUrl, "JPEG", imgX, y, w, h);
+    doc.restoreGraphicsState();
+
+    // Draw rounded border on top of image
+    doc.setDrawColor(210, 200, 185);
+    doc.setLineWidth(0.6);
+    doc.roundedRect(imgX, y, w, h, r, r, "S");
+
+    y += h + 28;
   }
 
-  // --- Emotional excerpt (centered, larger serif) ---
-  const excerpt = extractBestExcerpt(story, 300);
-  const excerptMaxWidth = pageWidth - 60; // generous side margins
-  doc.setFont("times", "italic");
-  doc.setFontSize(13);
-  doc.setTextColor(74, 63, 53);
-  const lines = doc.splitTextToSize(excerpt, excerptMaxWidth);
-  const lineHeight = 8.5;
-  // Center the text block vertically in remaining space
-  const textBlockHeight = lines.length * lineHeight;
-  const availableSpace = (pageHeight - 40) - yPos; // 40 = footer zone
-  const textStartY = yPos + Math.max(0, (availableSpace - textBlockHeight) / 3);
+  // --- Pet name (large serif, centered) ---
+  doc.setFont("times", "bold");
+  doc.setFontSize(nameSize);
+  doc.setTextColor(51, 40, 33);
+  doc.text(safeName, pageWidth / 2, y, { align: "center" });
+  y += 14;
 
-  for (const line of lines) {
-    doc.text(line, pageWidth / 2, textStartY + lines.indexOf(line) * lineHeight, { align: "center" });
+  // --- Years (lighter, smaller) ---
+  if (safeYears) {
+    doc.setFont("times", "italic");
+    doc.setFontSize(yearsSize);
+    doc.setTextColor(140, 125, 108);
+    doc.text(safeYears, pageWidth / 2, y, { align: "center" });
+    y += 14;
   }
 
-  // --- Subline at bottom ---
+  // --- Subtle ornamental divider ---
+  const divWidth = 50;
+  doc.setDrawColor(195, 185, 170);
+  doc.setLineWidth(0.3);
+  doc.line(pageWidth / 2 - divWidth / 2, y, pageWidth / 2 + divWidth / 2, y);
+  y += 20;
+
+  // --- Short emotional quote (max 2 lines, italic) ---
+  const quote = extractBestExcerpt(story, 160);
+  const quoteMaxWidth = pageWidth - 70;
   doc.setFont("times", "italic");
-  doc.setFontSize(8.5);
-  doc.setTextColor(148, 135, 118);
-  doc.text(
-    "A life remembered in the quiet moments that meant everything.",
-    pageWidth / 2,
-    pageHeight - 32,
-    { align: "center" }
-  );
+  doc.setFontSize(quoteSize);
+  doc.setTextColor(100, 88, 72);
+  const quoteLines = doc.splitTextToSize(quote, quoteMaxWidth);
+  // Limit to 2 lines max
+  const displayLines = quoteLines.slice(0, 2);
+  const quoteLineHeight = 7;
+  for (let i = 0; i < displayLines.length; i++) {
+    doc.text(displayLines[i], pageWidth / 2, y + i * quoteLineHeight, { align: "center" });
+  }
 
-  // --- Footer ---
-  doc.setDrawColor(180, 168, 148);
-  doc.setLineWidth(0.25);
-  doc.line(divInset, pageHeight - 26, pageWidth - divInset, pageHeight - 26);
-
+  // --- Minimal footer ---
+  doc.setFont("times", "normal");
   doc.setFontSize(7);
-  doc.setTextColor(158, 148, 135);
-  doc.text("Written with love using VellumPet", pageWidth / 2, pageHeight - 20, { align: "center" });
-  if (tier === "story") {
-    doc.text("vellumpet.com", pageWidth / 2, pageHeight - 16, { align: "center" });
-  }
+  doc.setTextColor(175, 165, 150);
+  doc.text("vellumpet.com", pageWidth / 2, pageHeight - 24, { align: "center" });
 
   const filename = `${sanitizeFilename(petName)}-memorial-vellumpet.pdf`;
   doc.save(filename);
