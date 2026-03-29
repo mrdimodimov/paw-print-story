@@ -399,11 +399,24 @@ export async function downloadMemorialPDF(
   const safeName = sanitizeForPDF(petName);
   const safeYears = years ? sanitizeForPDF(years) : "";
 
-  // --- Warm paper background ---
-  doc.setFillColor(245, 241, 235);
+  // --- Pure white outer background ---
+  doc.setFillColor(255, 255, 255);
   doc.rect(0, 0, pageWidth, pageHeight, "F");
 
-  // No border — keep clean and understated
+  // --- Soft inner frame container ---
+  const frameMarginX = 22;
+  const frameMarginY = 20;
+  const frameW = pageWidth - frameMarginX * 2;
+  const frameH = pageHeight - frameMarginY * 2;
+
+  // Slightly off-white inner background
+  doc.setFillColor(250, 250, 248);
+  doc.rect(frameMarginX, frameMarginY, frameW, frameH, "F");
+
+  // Very subtle border
+  doc.setDrawColor(215, 210, 200);
+  doc.setLineWidth(0.35);
+  doc.rect(frameMarginX, frameMarginY, frameW, frameH);
 
   // --- Layout ---
   const photoSize = 88;
