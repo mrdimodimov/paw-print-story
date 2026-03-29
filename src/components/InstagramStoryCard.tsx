@@ -70,7 +70,7 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
       const canvas = await html2canvas(cardRef.current, {
         scale: 2,
         useCORS: true,
-        backgroundColor: null,
+        backgroundColor: "#111827",
       });
       const link = document.createElement("a");
       link.download = `${petName}-story.png`;

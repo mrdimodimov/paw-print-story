@@ -224,6 +224,8 @@ function renderPhoto(
           boxShadow: `0 0 30px ${glowColor}`,
           position: "relative",
           zIndex: 1,
+          opacity: 1,
+          filter: "none",
         }}
       />
     </div>
@@ -280,7 +282,7 @@ const TributeShareCard = ({
     const canvas = await html2canvas(el, {
       scale: 1,
       useCORS: true,
-      backgroundColor: null,
+      backgroundColor: "#ffffff",
       width: CARD_W,
       height: CARD_H,
     });
