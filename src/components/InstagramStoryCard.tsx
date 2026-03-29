@@ -96,7 +96,7 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
       const prevTransform = el.style.transform;
       el.style.transform = "none";
       const canvas = await html2canvas(el, {
-        scale: 2,
+        scale: 3,
         useCORS: true,
         backgroundColor: "#111827",
         width: 540,
@@ -210,7 +210,7 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
           </div>
 
           {/* Photo — dominant focal point */}
-          <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "center", marginBottom: 32 }}>
+          <div style={{ position: "relative", zIndex: 2, display: "flex", justifyContent: "center", marginBottom: 32 }}>
             {bgPhoto ? (
               <div
                 aria-label={petName}
@@ -227,7 +227,8 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
                   border: "3px solid hsla(40,50%,65%,0.4)",
                   boxShadow: "0 0 60px rgba(255, 200, 120, 0.25)",
                   opacity: 1,
-                  filter: "none",
+                  filter: "contrast(1.05)",
+                  mixBlendMode: "normal" as const,
                 }}
               />
             ) : (

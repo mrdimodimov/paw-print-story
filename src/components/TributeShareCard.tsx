@@ -154,7 +154,7 @@ function renderPhoto(
 
   const wrapperStyle: React.CSSProperties = {
     position: "relative",
-    zIndex: 1,
+    zIndex: 2,
     width: glowSize,
     height: glowSize,
     display: "flex",
@@ -223,9 +223,10 @@ function renderPhoto(
           border: `4px solid ${accentColor.replace(/[\d.]+\)$/, "0.5)")}`,
           boxShadow: `0 0 30px ${glowColor}`,
           position: "relative",
-          zIndex: 1,
+          zIndex: 2,
           opacity: 1,
-          filter: "none",
+          filter: "contrast(1.05)",
+          mixBlendMode: "normal" as const,
         }}
       />
     </div>
@@ -280,7 +281,7 @@ const TributeShareCard = ({
     const prevTransform = el.style.transform;
     el.style.transform = "none";
     const canvas = await html2canvas(el, {
-      scale: 1,
+      scale: 2,
       useCORS: true,
       backgroundColor: "#ffffff",
       width: CARD_W,
