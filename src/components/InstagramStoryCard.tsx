@@ -1,8 +1,8 @@
 import PawIcon from "@/components/PawIcon";
-import { useRef, useState, forwardRef, useImperativeHandle } from "react";
+import { useRef, useState } from "react";
 import { BRAND } from "@/lib/brand";
 import html2canvas from "html2canvas";
-import { Download, Copy } from "lucide-react";
+import { Download, Copy, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -36,7 +36,6 @@ function extractStoryQuote(text: string): string {
 
 function extractClosingLine(text: string, petName: string): string {
   const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
-  // Try to find a short emotional closing from the last paragraph
   const lastFew = sentences.slice(-3);
   for (const s of lastFew.reverse()) {
     const trimmed = s.trim();
@@ -44,6 +43,29 @@ function extractClosingLine(text: string, petName: string): string {
     if (words <= 10 && EMOTIONAL_WORDS.test(trimmed)) return trimmed;
   }
   return `I miss you, ${petName}.`;
+}
+
+// ── CTA lines (rotated per render) ────────────────────────────────────
+const CTA_LINES = [
+  "Create a tribute for your pet",
+  "Turn their memory into a story",
+  "Honor their memory → vellumpet.com",
+];
+
+function pickCta(): string {
+  return CTA_LINES[Math.floor(Math.random() * CTA_LINES.length)];
+}
+
+// ── Auto caption generator ────────────────────────────────────────────
+const CAPTION_TEMPLATES = [
+  (name: string) => `I didn't expect this to feel this real.\nI made this for ${name} 🐾`,
+  (name: string) => `Some goodbyes take a long time to say.\nThis one's for ${name} 🐾`,
+  (name: string) => `I wanted to remember ${name} the right way 🐾`,
+];
+
+function generateCaption(petName: string): string {
+  const template = CAPTION_TEMPLATES[Math.floor(Math.random() * CAPTION_TEMPLATES.length)];
+  return `${template(petName)}\n\nvellumpet.com\n\n#petmemorial #inlovingmemory #petloss #${petName.toLowerCase().replace(/\s+/g, "")}`;
 }
 
 interface InstagramStoryCardProps {
@@ -56,24 +78,33 @@ interface InstagramStoryCardProps {
 const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramStoryCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
+  const [caption] = useState(() => generateCaption(petName));
 
   const quote = extractStoryQuote(excerpt);
   const closingLine = extractClosingLine(excerpt, petName);
   const bgPhoto = photoUrls[0] || null;
+  const [ctaLine] = useState(pickCta);
 
-  const caption = `${closingLine} 🐾\n\n#petmemorial #inlovingmemory #petloss #${petName.toLowerCase().replace(/\s+/g, "")} @vellumpetapp`;
+  // Share-ready filename
+  const fileName = `${petName.toLowerCase().replace(/\s+/g, "-")}-memory-story.png`;
 
   const handleDownload = async () => {
     if (!cardRef.current) return;
     setExporting(true);
     try {
-      const canvas = await html2canvas(cardRef.current, {
+      const el = cardRef.current;
+      const prevTransform = el.style.transform;
+      el.style.transform = "none";
+      const canvas = await html2canvas(el, {
         scale: 2,
         useCORS: true,
         backgroundColor: "#111827",
+        width: 540,
+        height: 960,
       });
+      el.style.transform = prevTransform;
       const link = document.createElement("a");
-      link.download = `${petName}-story.png`;
+      link.download = fileName;
       link.href = canvas.toDataURL("image/png");
       link.click();
       toast.success("Story image downloaded!");
@@ -85,15 +116,21 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
   };
 
   const handleShareToStory = async () => {
-    await navigator.clipboard.writeText(caption);
-    toast.success("Caption copied to clipboard!");
+    try {
+      await navigator.clipboard.writeText(caption);
+      toast.success("Caption copied to clipboard!");
+    } catch { /* ignore */ }
     await handleDownload();
     toast.info("Open Instagram → Story → select the downloaded image, then paste the caption.");
   };
 
   const handleCopyCaption = async () => {
-    await navigator.clipboard.writeText(caption);
-    toast.success("Caption copied!");
+    try {
+      await navigator.clipboard.writeText(caption);
+      toast.success("Caption copied!");
+    } catch {
+      toast.error("Could not copy caption.");
+    }
   };
 
   return (
@@ -246,22 +283,37 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
             </div>
           </div>
 
-          {/* Bottom: Closing line + branding */}
+          {/* Bottom: Closing line + CTA + branding */}
           <div style={{ textAlign: "center", position: "relative", zIndex: 1, marginTop: 32 }}>
             <div
               style={{
                 fontSize: 14,
                 color: "hsla(40,30%,80%,0.6)",
                 fontFamily: "'Source Sans 3', sans-serif",
-                marginBottom: 20,
+                marginBottom: 16,
               }}
             >
               {closingLine}
             </div>
+
+            {/* Emotional CTA */}
+            <div
+              style={{
+                fontSize: 11,
+                color: "hsla(40,30%,80%,0.45)",
+                fontFamily: "'Source Sans 3', sans-serif",
+                marginBottom: 14,
+                letterSpacing: "0.03em",
+              }}
+            >
+              {ctaLine}
+            </div>
+
+            {/* Branding footer */}
             <div
               style={{
                 fontSize: 10,
-                color: "hsla(210,20%,70%,0.4)",
+                color: "hsla(210,20%,70%,0.35)",
                 fontFamily: "'Source Sans 3', sans-serif",
                 display: "flex",
                 flexDirection: "column",
@@ -269,8 +321,7 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
                 gap: 2,
               }}
             >
-              <span>🐾 {BRAND.name}</span>
-              <span style={{ fontSize: 9 }}>vellumpet.com</span>
+              <span>🐾 vellumpet.com</span>
             </div>
           </div>
         </div>
@@ -279,15 +330,23 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
       {/* Actions */}
       <div className="flex flex-col items-center gap-2">
         <Button size="sm" onClick={handleShareToStory} disabled={exporting}>
-          <Download className="mr-1.5 h-4 w-4" /> Share to Instagram Story
+          <Instagram className="mr-1.5 h-4 w-4" /> Share to Instagram Story
         </Button>
-        <Button variant="outline" size="sm" onClick={handleCopyCaption}>
-          <Copy className="mr-1.5 h-3.5 w-3.5" /> Copy Caption
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={handleDownload} disabled={exporting}>
+            <Download className="mr-1.5 h-3.5 w-3.5" /> Download
+          </Button>
+          <Button variant="outline" size="sm" onClick={handleCopyCaption}>
+            <Copy className="mr-1.5 h-3.5 w-3.5" /> Copy Caption
+          </Button>
+        </div>
       </div>
 
       {/* Caption preview */}
       <div className="mx-auto max-w-xs rounded-lg border border-border bg-muted/30 p-3">
+        <p className="mb-1.5 text-center text-[10px] font-medium uppercase tracking-wider text-muted-foreground/60">
+          Suggested caption
+        </p>
         <p className="whitespace-pre-wrap text-center text-xs leading-relaxed text-muted-foreground">{caption}</p>
       </div>
     </div>
