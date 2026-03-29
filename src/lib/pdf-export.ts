@@ -127,8 +127,8 @@ export async function downloadTributePDF(
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
-  const margin = 28;
-  const maxWidth = pageWidth - margin * 2;
+  const margin = 32;
+  const maxWidth = Math.min(pageWidth - margin * 2, 148); // ~148mm ≈ 420pt readable width
 
   const images = await loadImages(photoUrls);
   const safeName = sanitizeForPDF(petName);
@@ -230,73 +230,95 @@ export async function downloadTributePDF(
   drawPageBackground();
   drawStoryPageHeader();
 
-  let yPos = 36;
+  const storyTopMargin = 38;
+  const textX = (pageWidth - maxWidth) / 2; // center the text block
+  let yPos = storyTopMargin;
 
   // --- Story body: paragraph-aware rendering ---
   doc.setFont("times", "normal");
-  doc.setFontSize(11.5);
-  doc.setTextColor(74, 63, 53);
+  doc.setFontSize(11);
+  doc.setTextColor(64, 54, 44);
 
   const sanitizedStory = sanitizeForPDF(story);
   const paragraphs = ensureParagraphs(sanitizedStory);
-  const lineHeight = 8.0;
-  const paragraphGap = 9;
-  const footerZone = pageHeight - 32;
+  const lineHeight = 7.2; // ~1.65 line-height at 11pt
+  const paragraphGap = 10;
+  const footerZone = pageHeight - 34; // safe bottom margin
 
-  // Pre-calculate all lines to detect orphan pages
-  const allSections: string[][] = [];
+  // Pre-calculate paragraph blocks (keep paragraphs together when possible)
+  const paraBlocks: { lines: string[]; height: number }[] = [];
   for (const para of paragraphs) {
     const trimmed = para.trim();
     if (!trimmed) continue;
     const lines = doc.splitTextToSize(trimmed, maxWidth) as string[];
-    allSections.push(lines);
+    const height = lines.length * lineHeight;
+    paraBlocks.push({ lines, height });
   }
 
-  // Flatten to count total lines and detect orphan endings
-  const allLines: { text: string; gapAfter: boolean }[] = [];
-  for (let s = 0; s < allSections.length; s++) {
-    for (let l = 0; l < allSections[s].length; l++) {
-      allLines.push({
-        text: allSections[s][l],
-        gapAfter: l === allSections[s].length - 1 && s < allSections.length - 1,
-      });
+  // Calculate total content to detect orphan ending
+  const totalContentHeight = paraBlocks.reduce(
+    (sum, b) => sum + b.height + paragraphGap, 0
+  ) - paragraphGap;
+  const availablePerPage = footerZone - storyTopMargin;
+
+  // Simulate to find orphan last page
+  let simY = 0;
+  let lastBreakContent = 0;
+  for (let p = 0; p < paraBlocks.length; p++) {
+    const blockH = paraBlocks[p].height + (p < paraBlocks.length - 1 ? paragraphGap : 0);
+    if (simY + paraBlocks[p].height > availablePerPage) {
+      lastBreakContent = simY;
+      simY = 0;
     }
+    simY += blockH;
   }
+  const lastPageContent = simY;
 
-  // Simulate page breaks to find orphan last page
-  let simY = 36;
-  let lastPageBreakIdx = 0;
-  let linesOnLastPage = 0;
-  for (let i = 0; i < allLines.length; i++) {
-    if (simY > footerZone) {
-      lastPageBreakIdx = i;
-      simY = 36;
-    }
-    simY += lineHeight;
-    if (allLines[i].gapAfter) simY += paragraphGap;
-  }
-  linesOnLastPage = allLines.length - lastPageBreakIdx;
-
-  // If orphan page (<=4 lines), use a tighter footerZone to push more onto last page
+  // If orphan ending (very short last page), relax previous pages slightly
   const effectiveFooterZone =
-    linesOnLastPage > 0 && linesOnLastPage <= 4 && lastPageBreakIdx > 0
-      ? footerZone + linesOnLastPage * lineHeight + paragraphGap
+    lastPageContent > 0 && lastPageContent <= 4 * lineHeight && lastBreakContent > 0
+      ? footerZone + lastPageContent + paragraphGap
       : footerZone;
 
-  // Render lines
-  for (let i = 0; i < allLines.length; i++) {
-    if (yPos > effectiveFooterZone) {
+  // Render paragraphs as blocks (avoid splitting mid-paragraph when possible)
+  for (let p = 0; p < paraBlocks.length; p++) {
+    const block = paraBlocks[p];
+
+    // If this paragraph won't fit and it's not too long, push to next page
+    if (
+      yPos > storyTopMargin &&
+      yPos + block.height > effectiveFooterZone &&
+      block.height <= availablePerPage
+    ) {
       doc.addPage();
       drawPageBackground();
       drawStoryPageHeader();
-      yPos = 36;
+      yPos = storyTopMargin;
       doc.setFont("times", "normal");
-      doc.setFontSize(11.5);
-      doc.setTextColor(74, 63, 53);
+      doc.setFontSize(11);
+      doc.setTextColor(64, 54, 44);
     }
-    doc.text(allLines[i].text, margin, yPos);
-    yPos += lineHeight;
-    if (allLines[i].gapAfter) yPos += paragraphGap;
+
+    // Render lines of this paragraph
+    for (let l = 0; l < block.lines.length; l++) {
+      // If a single long paragraph overflows, break mid-paragraph
+      if (yPos > effectiveFooterZone) {
+        doc.addPage();
+        drawPageBackground();
+        drawStoryPageHeader();
+        yPos = storyTopMargin;
+        doc.setFont("times", "normal");
+        doc.setFontSize(11);
+        doc.setTextColor(64, 54, 44);
+      }
+      doc.text(block.lines[l], textX, yPos);
+      yPos += lineHeight;
+    }
+
+    // Add paragraph gap
+    if (p < paraBlocks.length - 1) {
+      yPos += paragraphGap;
+    }
   }
 
   // --- Apply footer to all pages ---
