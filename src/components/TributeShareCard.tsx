@@ -224,6 +224,8 @@ function renderPhoto(
           boxShadow: `0 0 30px ${glowColor}`,
           position: "relative",
           zIndex: 1,
+          opacity: 1,
+          filter: "none",
         }}
       />
     </div>
