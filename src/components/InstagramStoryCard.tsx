@@ -96,7 +96,7 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
       const prevTransform = el.style.transform;
       el.style.transform = "none";
       const canvas = await html2canvas(el, {
-        scale: 2,
+        scale: 3,
         useCORS: true,
         backgroundColor: "#111827",
         width: 540,
