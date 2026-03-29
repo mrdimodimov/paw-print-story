@@ -223,9 +223,10 @@ function renderPhoto(
           border: `4px solid ${accentColor.replace(/[\d.]+\)$/, "0.5)")}`,
           boxShadow: `0 0 30px ${glowColor}`,
           position: "relative",
-          zIndex: 1,
+          zIndex: 2,
           opacity: 1,
-          filter: "none",
+          filter: "contrast(1.05)",
+          mixBlendMode: "normal" as const,
         }}
       />
     </div>
