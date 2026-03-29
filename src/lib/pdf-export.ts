@@ -145,12 +145,8 @@ export async function downloadTributePDF(
   const drawStoryPageHeader = () => {
     doc.setFont("times", "italic");
     doc.setFontSize(8.5);
-    doc.setTextColor(158, 148, 135);
+    doc.setTextColor(168, 158, 145);
     doc.text(headerLabel, pageWidth / 2, 22, { align: "center" });
-    // Subtle divider below header
-    doc.setDrawColor(195, 185, 170);
-    doc.setLineWidth(0.2);
-    doc.line(margin + 20, 26, pageWidth - margin - 20, 26);
   };
 
   // --- Helper: draw footer on a page ---
