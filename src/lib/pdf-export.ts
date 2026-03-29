@@ -175,60 +175,45 @@ export async function downloadTributePDF(
   // ============================================================
   drawPageBackground();
 
-  // --- Double decorative border ---
-  doc.setDrawColor(168, 155, 135);
-  doc.setLineWidth(0.7);
-  doc.rect(12, 12, pageWidth - 24, pageHeight - 24);
-  doc.setLineWidth(0.2);
+  // --- Single thin border ---
+  doc.setDrawColor(195, 185, 170);
+  doc.setLineWidth(0.5);
   doc.rect(15, 15, pageWidth - 30, pageHeight - 30);
 
-  // Vertically center content: image + name + years + quote
+  // Vertically center content
   const hasPhoto = images.length >= 1;
   const photoSize = 70;
   const coverContentHeight =
-    (hasPhoto ? photoSize + 16 : 0) + 14 + (safeYears ? 10 : 0) + 30;
+    (hasPhoto ? photoSize + 16 : 0) + 18 + (safeYears ? 12 : 0) + 30;
   let coverY = Math.max(50, (pageHeight - coverContentHeight) / 2 - 10);
 
-  // --- "In Loving Memory" pre-title ---
-  doc.setFont("times", "italic");
-  doc.setFontSize(11);
-  doc.setTextColor(148, 135, 118);
-  doc.text("In Loving Memory", pageWidth / 2, coverY, { align: "center" });
+  // --- Pet name (dominant, large serif) ---
+  doc.setFont("times", "bold");
+  doc.setFontSize(40);
+  doc.setTextColor(38, 28, 20);
+  doc.text(safeName, pageWidth / 2, coverY, { align: "center" });
   coverY += 16;
+
+  // --- Years ---
+  if (safeYears) {
+    doc.setFont("times", "italic");
+    doc.setFontSize(14);
+    doc.setTextColor(100, 85, 68);
+    doc.text(safeYears, pageWidth / 2, coverY, { align: "center" });
+    coverY += 18;
+  } else {
+    coverY += 8;
+  }
 
   // --- Large centered pet photo ---
   if (hasPhoto) {
     const { w, h } = fitImage(images[0].width, images[0].height, photoSize, photoSize);
     const imgX = (pageWidth - w) / 2;
     doc.addImage(images[0].dataUrl, "JPEG", imgX, coverY, w, h);
-    coverY += h + 16;
+    coverY += h + 24;
   }
 
-  // --- Pet name (large serif) ---
-  doc.setFont("times", "bold");
-  doc.setFontSize(36);
-  doc.setTextColor(61, 48, 40);
-  doc.text(safeName, pageWidth / 2, coverY, { align: "center" });
-  coverY += 14;
-
-  // --- Years ---
-  if (safeYears) {
-    doc.setFont("times", "italic");
-    doc.setFontSize(13);
-    doc.setTextColor(120, 105, 88);
-    doc.text(safeYears, pageWidth / 2, coverY, { align: "center" });
-    coverY += 10;
-  }
-
-  // --- Ornamental divider ---
-  coverY += 6;
-  const divInset = 50;
-  doc.setDrawColor(180, 168, 148);
-  doc.setLineWidth(0.35);
-  doc.line(divInset, coverY, pageWidth - divInset, coverY);
-  coverY += 14;
-
-  // --- Quote ---
+  // --- Quote (subtle) ---
   doc.setFont("times", "italic");
   doc.setFontSize(10);
   doc.setTextColor(135, 122, 105);
