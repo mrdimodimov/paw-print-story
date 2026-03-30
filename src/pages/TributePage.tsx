@@ -1273,7 +1273,33 @@ const TributePage = () => {
             </div>
           )}
         </motion.div>
+
+        {/* Tester feedback fallback button */}
+        {isTester && feedbackDismissed && !showFeedback && (
+          <div className="fixed bottom-4 left-4 z-40">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => { setShowFeedback(true); setFeedbackDismissed(false); }}
+              className="gap-1.5 text-xs"
+            >
+              <MessageCircle className="h-3.5 w-3.5" />
+              Leave feedback
+            </Button>
+          </div>
+        )}
       </div>
+
+      {/* Tester feedback modal */}
+      {showFeedback && (
+        <TesterFeedbackModal
+          tributeId={tributeDbId}
+          testerToken={testerToken}
+          photosUploaded={photoUrls.length}
+          tributeStartTime={tributeStartTime.current}
+          onClose={() => { setShowFeedback(false); setFeedbackDismissed(true); }}
+        />
+      )}
     </div>
   );
 };
