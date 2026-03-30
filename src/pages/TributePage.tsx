@@ -320,7 +320,7 @@ const TributePage = () => {
 
     // 3. Otherwise, generate from form data
     if (!formData) {
-      navigate("/");
+      navigate(`/create${location.search}`);
       return;
     }
     setPetName(formData.pet_name);
