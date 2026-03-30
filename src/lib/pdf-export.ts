@@ -127,78 +127,68 @@ export async function downloadTributePDF(
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
-  const margin = 32;
-  const maxWidth = Math.min(pageWidth - margin * 2, 148); // ~148mm ≈ 420pt readable width
+  const margin = 38; // generous inner margins for breathing room
+  const maxWidth = Math.min(pageWidth - margin * 2, 140);
 
   const images = await loadImages(photoUrls);
   const safeName = sanitizeForPDF(petName);
   const safeYears = years ? sanitizeForPDF(years) : "";
   const headerLabel = safeYears ? `${safeName} · ${safeYears}` : safeName;
 
-  // --- Helper: draw warm background on current page ---
+  // --- Helper: soft warm background (no borders, no frames) ---
   const drawPageBackground = () => {
-    doc.setFillColor(240, 235, 228);
+    doc.setFillColor(252, 250, 246); // very light warm tone
     doc.rect(0, 0, pageWidth, pageHeight, "F");
   };
 
-  // --- Helper: draw story page header ---
+  // --- Helper: subtle story page header ---
   const drawStoryPageHeader = () => {
     doc.setFont("times", "italic");
-    doc.setFontSize(8.5);
-    doc.setTextColor(168, 158, 145);
-    doc.text(headerLabel, pageWidth / 2, 22, { align: "center" });
+    doc.setFontSize(8);
+    doc.setTextColor(178, 168, 155);
+    doc.text(headerLabel, pageWidth / 2, 24, { align: "center" });
   };
 
-  // --- Helper: draw footer on a page ---
+  // --- Helper: minimal footer ---
   const drawFooter = (pageNum: number, total: number) => {
     const ph = doc.internal.pageSize.getHeight();
-    doc.setDrawColor(180, 168, 148);
-    doc.setLineWidth(0.25);
-    doc.line(margin, ph - 22, pageWidth - margin, ph - 22);
-
     doc.setFont("times", "italic");
     doc.setFontSize(7);
-    doc.setTextColor(158, 148, 135);
+    doc.setTextColor(168, 158, 145);
     doc.text("Written with love using VellumPet", pageWidth / 2, ph - 16, { align: "center" });
-
     if (tier === "story") {
       doc.text("vellumpet.com", pageWidth / 2, ph - 12, { align: "center" });
     }
   };
 
   // ============================================================
-  // PAGE 1: COVER PAGE
+  // PAGE 1: COVER PAGE (clean, spacious, no border)
   // ============================================================
   drawPageBackground();
-
-  // --- Single thin border ---
-  doc.setDrawColor(195, 185, 170);
-  doc.setLineWidth(0.5);
-  doc.rect(15, 15, pageWidth - 30, pageHeight - 30);
 
   // Vertically center content
   const hasPhoto = images.length >= 1;
   const photoSize = 70;
   const coverContentHeight =
     (hasPhoto ? photoSize + 16 : 0) + 18 + (safeYears ? 12 : 0) + 30;
-  let coverY = Math.max(50, (pageHeight - coverContentHeight) / 2 - 10);
+  let coverY = Math.max(55, (pageHeight - coverContentHeight) / 2 - 10);
 
-  // --- Pet name (dominant, large serif) ---
+  // --- Pet name (dominant, large serif, strong contrast) ---
   doc.setFont("times", "bold");
-  doc.setFontSize(40);
-  doc.setTextColor(38, 28, 20);
+  doc.setFontSize(42);
+  doc.setTextColor(32, 24, 18);
   doc.text(safeName, pageWidth / 2, coverY, { align: "center" });
-  coverY += 16;
+  coverY += 18;
 
   // --- Years ---
   if (safeYears) {
     doc.setFont("times", "italic");
     doc.setFontSize(14);
-    doc.setTextColor(100, 85, 68);
+    doc.setTextColor(110, 95, 78);
     doc.text(safeYears, pageWidth / 2, coverY, { align: "center" });
-    coverY += 18;
+    coverY += 20;
   } else {
-    coverY += 8;
+    coverY += 10;
   }
 
   // --- Large centered pet photo ---
@@ -206,13 +196,13 @@ export async function downloadTributePDF(
     const { w, h } = fitImage(images[0].width, images[0].height, photoSize, photoSize);
     const imgX = (pageWidth - w) / 2;
     doc.addImage(images[0].dataUrl, "JPEG", imgX, coverY, w, h);
-    coverY += h + 24;
+    coverY += h + 28;
   }
 
-  // --- Quote (subtle) ---
+  // --- Quote (subtle, soft) ---
   doc.setFont("times", "italic");
   doc.setFontSize(10);
-  doc.setTextColor(135, 122, 105);
+  doc.setTextColor(148, 135, 118);
   doc.text(
     "A life remembered in the quiet moments that meant everything.",
     pageWidth / 2,
@@ -220,32 +210,31 @@ export async function downloadTributePDF(
     { align: "center" }
   );
 
-  // Cover page footer
   drawFooter(1, 1);
 
   // ============================================================
-  // PAGE 2+: STORY PAGES
+  // PAGE 2+: STORY PAGES (immersive, no borders)
   // ============================================================
   doc.addPage();
   drawPageBackground();
   drawStoryPageHeader();
 
-  const storyTopMargin = 38;
-  const textX = (pageWidth - maxWidth) / 2; // center the text block
+  const storyTopMargin = 42;
+  const textX = (pageWidth - maxWidth) / 2;
   let yPos = storyTopMargin;
 
-  // --- Story body: paragraph-aware rendering ---
+  // --- Story body ---
   doc.setFont("times", "normal");
   doc.setFontSize(11);
-  doc.setTextColor(64, 54, 44);
+  doc.setTextColor(52, 44, 36);
 
   const sanitizedStory = sanitizeForPDF(story);
   const paragraphs = ensureParagraphs(sanitizedStory);
-  const lineHeight = 7.2; // ~1.65 line-height at 11pt
-  const paragraphGap = 10;
-  const footerZone = pageHeight - 34; // safe bottom margin
+  const lineHeight = 7.4; // ~1.7 line-height at 11pt
+  const paragraphGap = 11;
+  const footerZone = pageHeight - 36;
 
-  // Pre-calculate paragraph blocks (keep paragraphs together when possible)
+  // Pre-calculate paragraph blocks
   const paraBlocks: { lines: string[]; height: number }[] = [];
   for (const para of paragraphs) {
     const trimmed = para.trim();
@@ -255,10 +244,6 @@ export async function downloadTributePDF(
     paraBlocks.push({ lines, height });
   }
 
-  // Calculate total content to detect orphan ending
-  const totalContentHeight = paraBlocks.reduce(
-    (sum, b) => sum + b.height + paragraphGap, 0
-  ) - paragraphGap;
   const availablePerPage = footerZone - storyTopMargin;
 
   // Simulate to find orphan last page
@@ -274,17 +259,15 @@ export async function downloadTributePDF(
   }
   const lastPageContent = simY;
 
-  // If orphan ending (very short last page), relax previous pages slightly
   const effectiveFooterZone =
     lastPageContent > 0 && lastPageContent <= 4 * lineHeight && lastBreakContent > 0
       ? footerZone + lastPageContent + paragraphGap
       : footerZone;
 
-  // Render paragraphs as blocks (avoid splitting mid-paragraph when possible)
+  // Render paragraphs
   for (let p = 0; p < paraBlocks.length; p++) {
     const block = paraBlocks[p];
 
-    // If this paragraph won't fit and it's not too long, push to next page
     if (
       yPos > storyTopMargin &&
       yPos + block.height > effectiveFooterZone &&
@@ -296,12 +279,10 @@ export async function downloadTributePDF(
       yPos = storyTopMargin;
       doc.setFont("times", "normal");
       doc.setFontSize(11);
-      doc.setTextColor(64, 54, 44);
+      doc.setTextColor(52, 44, 36);
     }
 
-    // Render lines of this paragraph
     for (let l = 0; l < block.lines.length; l++) {
-      // If a single long paragraph overflows, break mid-paragraph
       if (yPos > effectiveFooterZone) {
         doc.addPage();
         drawPageBackground();
@@ -309,13 +290,12 @@ export async function downloadTributePDF(
         yPos = storyTopMargin;
         doc.setFont("times", "normal");
         doc.setFontSize(11);
-        doc.setTextColor(64, 54, 44);
+        doc.setTextColor(52, 44, 36);
       }
       doc.text(block.lines[l], textX, yPos);
       yPos += lineHeight;
     }
 
-    // Add paragraph gap
     if (p < paraBlocks.length - 1) {
       yPos += paragraphGap;
     }
