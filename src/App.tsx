@@ -40,7 +40,7 @@ import ScrollToTop from "./components/ScrollToTop";
 const queryClient = new QueryClient();
 
 // TEMPORARY: Set to false to disable coming soon mode and launch the full site
-const COMING_SOON_ENABLED = true;
+const COMING_SOON_ENABLED = false;
 const PREVIEW_KEY = "founder";
 
 const PreviewGate = ({ children }: { children: React.ReactNode }) => {
