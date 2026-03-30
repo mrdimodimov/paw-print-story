@@ -42,6 +42,7 @@ import { downloadTributePDF, downloadMemorialPDF, ensureParagraphs } from "@/lib
 import { TEST_PRESETS } from "@/lib/test-presets";
 import type { TributeFormData, GeneratedTribute, TierConfig } from "@/lib/types";
 import { useTesterAccess } from "@/hooks/use-tester-access";
+import TesterFeedbackModal from "@/components/TesterFeedbackModal";
 
 const TributePage = () => {
   const navigate = useNavigate();
@@ -97,6 +98,9 @@ const TributePage = () => {
   const [yearsOfLife, setYearsOfLife] = useState(formData?.years_of_life || "");
   const [petType, setPetType] = useState(formData?.pet_type || "dog");
   const [breed, setBreed] = useState(formData?.breed);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedbackDismissed, setFeedbackDismissed] = useState(false);
+  const tributeStartTime = useRef(Date.now());
 
   const maxRegens = currentTier.id === "story" ? 2 : currentTier.id === "pack" ? 3 : Infinity;
 
@@ -327,6 +331,14 @@ const TributePage = () => {
     runGeneration(formData, tier);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Auto-show feedback modal for testers after tribute completes
+  useEffect(() => {
+    if (isTester && tribute && !generating && !feedbackDismissed) {
+      const timer = setTimeout(() => setShowFeedback(true), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [isTester, tribute, generating, feedbackDismissed]);
 
   const handleRegenerate = () => {
     if (!formDataRef.current) return;
@@ -1261,7 +1273,33 @@ const TributePage = () => {
             </div>
           )}
         </motion.div>
+
+        {/* Tester feedback fallback button */}
+        {isTester && feedbackDismissed && !showFeedback && (
+          <div className="fixed bottom-4 left-4 z-40">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => { setShowFeedback(true); setFeedbackDismissed(false); }}
+              className="gap-1.5 text-xs"
+            >
+              <MessageCircle className="h-3.5 w-3.5" />
+              Leave feedback
+            </Button>
+          </div>
+        )}
       </div>
+
+      {/* Tester feedback modal */}
+      {showFeedback && (
+        <TesterFeedbackModal
+          tributeId={tributeDbId}
+          testerToken={testerToken}
+          photosUploaded={photoUrls.length}
+          tributeStartTime={tributeStartTime.current}
+          onClose={() => { setShowFeedback(false); setFeedbackDismissed(true); }}
+        />
+      )}
     </div>
   );
 };

@@ -101,6 +101,45 @@ export type Database = {
         }
         Relationships: []
       }
+      feedback: {
+        Row: {
+          confusion_text: string | null
+          created_at: string
+          id: string
+          missing_text: string | null
+          photos_uploaded: number | null
+          positive_text: string | null
+          rating: string | null
+          tester_token: string | null
+          time_to_complete_seconds: number | null
+          tribute_id: string | null
+        }
+        Insert: {
+          confusion_text?: string | null
+          created_at?: string
+          id?: string
+          missing_text?: string | null
+          photos_uploaded?: number | null
+          positive_text?: string | null
+          rating?: string | null
+          tester_token?: string | null
+          time_to_complete_seconds?: number | null
+          tribute_id?: string | null
+        }
+        Update: {
+          confusion_text?: string | null
+          created_at?: string
+          id?: string
+          missing_text?: string | null
+          photos_uploaded?: number | null
+          positive_text?: string | null
+          rating?: string | null
+          tester_token?: string | null
+          time_to_complete_seconds?: number | null
+          tribute_id?: string | null
+        }
+        Relationships: []
+      }
       generation_jobs: {
         Row: {
           created_at: string
