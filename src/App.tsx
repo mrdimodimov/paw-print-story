@@ -123,7 +123,6 @@ const App = () => (
             <Route path="/terms" element={<TermsOfService />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </PreviewGate>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
