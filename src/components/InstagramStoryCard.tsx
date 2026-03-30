@@ -222,7 +222,7 @@ const InstagramStoryCard = ({ petName, years, excerpt, photoUrls }: InstagramSto
                   overflow: "hidden",
                   backgroundImage: `url(${bgPhoto})`,
                   backgroundSize: "cover",
-                  backgroundPosition: "center",
+                  backgroundPosition: "center 35%",
                   backgroundRepeat: "no-repeat",
                   border: "3px solid hsla(40,50%,65%,0.4)",
                   boxShadow: "0 0 60px rgba(255, 200, 120, 0.25)",
