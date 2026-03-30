@@ -218,7 +218,7 @@ function renderPhoto(
           overflow: "hidden",
           backgroundImage: `url(${photos[0]})`,
           backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundPosition: "center 35%",
           backgroundRepeat: "no-repeat",
           border: `4px solid ${accentColor.replace(/[\d.]+\)$/, "0.5)")}`,
           boxShadow: `0 0 30px ${glowColor}`,
