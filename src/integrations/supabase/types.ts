@@ -227,6 +227,30 @@ export type Database = {
         }
         Relationships: []
       }
+      tester_access: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          source: string | null
+          token: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          source?: string | null
+          token: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          source?: string | null
+          token?: string
+        }
+        Relationships: []
+      }
       tribute_email_sequence: {
         Row: {
           created_at: string
