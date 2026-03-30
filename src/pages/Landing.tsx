@@ -28,6 +28,7 @@ const Landing = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <h1 style={{ color: "red", textAlign: "center", fontSize: "32px", marginTop: "20px", zIndex: 9999, position: "relative" }}>NEW VERSION LIVE</h1>
       {/* Header */}
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
