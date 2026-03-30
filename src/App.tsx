@@ -45,23 +45,23 @@ const PREVIEW_KEY = "founder";
 
 const PreviewGate = ({ children }: { children: React.ReactNode }) => {
   const [searchParams] = useSearchParams();
-  const [unlocked, setUnlocked] = useState(false);
   const { isTestMode, isFounderMode, toggleTestMode, disableFounderMode } = useTestMode();
 
+  // Compute unlock synchronously to prevent ComingSoon flash
+  const [unlocked, setUnlocked] = useState(() => {
+    const hasPreview = searchParams.get("preview") === PREVIEW_KEY;
+    const hasTesterParam = !!searchParams.get("tester");
+    const isTester = localStorage.getItem("is_tester") === "true";
+    const hasTesterToken = !!localStorage.getItem("tester_token");
+    const isFounder = localStorage.getItem("founderMode") === "true";
+    const previewSession = sessionStorage.getItem("preview_unlocked") === "true";
+    return hasPreview || hasTesterParam || isTester || hasTesterToken || isFounder || previewSession;
+  });
+
+  // Persist flags only
   useEffect(() => {
-    // Unlock via URL param or persisted founder/session state
     if (searchParams.get("preview") === PREVIEW_KEY) {
       sessionStorage.setItem("preview_unlocked", "true");
-      setUnlocked(true);
-    } else if (searchParams.get("tester")) {
-      // Tester links bypass coming soon gate
-      setUnlocked(true);
-    } else if (localStorage.getItem("founderMode") === "true") {
-      setUnlocked(true);
-    } else if (localStorage.getItem("tester_token")) {
-      // Previously validated tester
-      setUnlocked(true);
-    } else if (sessionStorage.getItem("preview_unlocked") === "true") {
       setUnlocked(true);
     }
   }, [searchParams]);
