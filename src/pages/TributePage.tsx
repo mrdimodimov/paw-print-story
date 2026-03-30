@@ -41,6 +41,7 @@ import { isInCooldown, markSent, isEmailEnabled, logEmailAttempt } from "@/lib/e
 import { downloadTributePDF, downloadMemorialPDF, ensureParagraphs } from "@/lib/pdf-export";
 import { TEST_PRESETS } from "@/lib/test-presets";
 import type { TributeFormData, GeneratedTribute, TierConfig } from "@/lib/types";
+import { useTesterAccess } from "@/hooks/use-tester-access";
 
 const TributePage = () => {
   const navigate = useNavigate();
