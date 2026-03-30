@@ -8,6 +8,9 @@ interface TestModeBadgeProps {
 }
 
 export function TestModeBadge({ isTestMode, isFounderMode, onToggleOff, onDisableFounder }: TestModeBadgeProps) {
+  const isDev = import.meta.env.DEV;
+  const isFounderLocal = localStorage.getItem("founderMode") === "true";
+  if (!isDev && !isFounderLocal) return null;
   if (!isTestMode && !isFounderMode) return null;
 
   return (
