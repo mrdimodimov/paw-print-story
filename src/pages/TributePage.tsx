@@ -332,6 +332,14 @@ const TributePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Auto-show feedback modal for testers after tribute completes
+  useEffect(() => {
+    if (isTester && tribute && !generating && !feedbackDismissed) {
+      const timer = setTimeout(() => setShowFeedback(true), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [isTester, tribute, generating, feedbackDismissed]);
+
   const handleRegenerate = () => {
     if (!formDataRef.current) return;
     if (regenCount >= maxRegens && maxRegens !== Infinity) {
