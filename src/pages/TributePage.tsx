@@ -499,6 +499,15 @@ const TributePage = () => {
         </div>
       )}
 
+      {/* Tester Access Banner */}
+      {isTester && !isTestMode && (
+        <div className="border-b border-primary/20 bg-accent/50 px-4 py-2 text-center">
+          <p className="text-xs text-muted-foreground">
+            Early access: This tribute has been unlocked for testing 💛
+          </p>
+        </div>
+      )}
+
       {/* Test Mode Panel */}
       {isTestMode && (
         <div className="fixed bottom-4 right-4 z-50 w-72 rounded-lg border border-dashed border-yellow-500/50 bg-card p-3 shadow-lg">
