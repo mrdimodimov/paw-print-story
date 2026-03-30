@@ -42,6 +42,7 @@ import { downloadTributePDF, downloadMemorialPDF, ensureParagraphs } from "@/lib
 import { TEST_PRESETS } from "@/lib/test-presets";
 import type { TributeFormData, GeneratedTribute, TierConfig } from "@/lib/types";
 import { useTesterAccess } from "@/hooks/use-tester-access";
+import TesterFeedbackModal from "@/components/TesterFeedbackModal";
 
 const TributePage = () => {
   const navigate = useNavigate();
