@@ -53,7 +53,13 @@ const PreviewGate = ({ children }: { children: React.ReactNode }) => {
     if (searchParams.get("preview") === PREVIEW_KEY) {
       sessionStorage.setItem("preview_unlocked", "true");
       setUnlocked(true);
+    } else if (searchParams.get("tester")) {
+      // Tester links bypass coming soon gate
+      setUnlocked(true);
     } else if (localStorage.getItem("founderMode") === "true") {
+      setUnlocked(true);
+    } else if (localStorage.getItem("tester_token")) {
+      // Previously validated tester
       setUnlocked(true);
     } else if (sessionStorage.getItem("preview_unlocked") === "true") {
       setUnlocked(true);
