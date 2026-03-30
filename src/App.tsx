@@ -40,7 +40,7 @@ import ScrollToTop from "./components/ScrollToTop";
 const queryClient = new QueryClient();
 
 // TEMPORARY: Set to false to disable coming soon mode and launch the full site
-const COMING_SOON_ENABLED = true;
+const COMING_SOON_ENABLED = false;
 const PREVIEW_KEY = "founder";
 
 const PreviewGate = ({ children }: { children: React.ReactNode }) => {
@@ -90,7 +90,6 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ScrollToTop />
-        <PreviewGate>
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/create" element={<Questionnaire />} />
@@ -124,7 +123,6 @@ const App = () => (
             <Route path="/terms" element={<TermsOfService />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </PreviewGate>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
