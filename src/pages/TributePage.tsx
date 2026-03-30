@@ -41,6 +41,7 @@ import { isInCooldown, markSent, isEmailEnabled, logEmailAttempt } from "@/lib/e
 import { downloadTributePDF, downloadMemorialPDF, ensureParagraphs } from "@/lib/pdf-export";
 import { TEST_PRESETS } from "@/lib/test-presets";
 import type { TributeFormData, GeneratedTribute, TierConfig } from "@/lib/types";
+import { useTesterAccess } from "@/hooks/use-tester-access";
 
 const TributePage = () => {
   const navigate = useNavigate();
@@ -83,10 +84,11 @@ const TributePage = () => {
 
   // In test/founder mode, default to unlocked (toggleable via panel)
   const isFounderMode = localStorage.getItem("founderMode") === "true";
+  const { isTester, testerToken } = useTesterAccess();
   const forceLocked = searchParams.get("locked") === "true";
   const effectiveUnlocked = forceLocked
     ? false
-    : (isTestMode || isFounderMode) ? testUnlocked : unlocked;
+    : isTester ? true : (isTestMode || isFounderMode) ? testUnlocked : unlocked;
   const [tributeDbId, setTributeDbId] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
@@ -368,6 +370,12 @@ const TributePage = () => {
   };
 
   const handleCheckout = async () => {
+    if (isTester) {
+      // Tester bypass — mark as unlocked without Stripe
+      setUnlocked(true);
+      toast.success("Tester access: tribute unlocked! 💛");
+      return;
+    }
     if (isTestMode) {
       toast.info("Checkout disabled in test mode");
       return;
@@ -488,6 +496,15 @@ const TributePage = () => {
             <Eye className="h-3.5 w-3.5" />
             Test Mode: {testUnlocked ? "Full Preview Enabled" : "Paywall Simulated"}
           </div>
+        </div>
+      )}
+
+      {/* Tester Access Banner */}
+      {isTester && !isTestMode && (
+        <div className="border-b border-primary/20 bg-accent/50 px-4 py-2 text-center">
+          <p className="text-xs text-muted-foreground">
+            Early access: This tribute has been unlocked for testing 💛
+          </p>
         </div>
       )}
 
