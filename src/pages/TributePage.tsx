@@ -370,6 +370,12 @@ const TributePage = () => {
   };
 
   const handleCheckout = async () => {
+    if (isTester) {
+      // Tester bypass — mark as unlocked without Stripe
+      setUnlocked(true);
+      toast.success("Tester access: tribute unlocked! 💛");
+      return;
+    }
     if (isTestMode) {
       toast.info("Checkout disabled in test mode");
       return;
