@@ -174,9 +174,13 @@ const TributePage = () => {
         }
         if (result.slug) {
           setTributeSlug(result.slug);
-          navigate(`/tribute/s/${result.slug}?tier=${tierConfig.id}`, { replace: true });
+          const testerFwd = sessionStorage.getItem("tester_source");
+          const testerSuffix = testerFwd ? `&tester=${testerFwd}` : "";
+          navigate(`/tribute/s/${result.slug}?tier=${tierConfig.id}${testerSuffix}`, { replace: true });
         } else if (result.tributeId) {
-          navigate(`/tribute/${result.tributeId}?tier=${tierConfig.id}`, { replace: true });
+          const testerFwd = sessionStorage.getItem("tester_source");
+          const testerSuffix = testerFwd ? `&tester=${testerFwd}` : "";
+          navigate(`/tribute/${result.tributeId}?tier=${tierConfig.id}${testerSuffix}`, { replace: true });
         }
       },
       onError: (error) => {
