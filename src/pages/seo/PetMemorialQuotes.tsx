@@ -167,8 +167,11 @@ const PetMemorialQuotes = () => {
             Short Pet Memorial Quotes
           </h2>
           <p className="mb-6 text-muted-foreground">
-            Sometimes a few words say everything. These short pet remembrance
-            quotes are perfect for engraving, framing, or simply holding close.
+            Sometimes a few words say everything. These short{" "}
+            <Link to="/pet-remembrance-quotes" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              pet remembrance quotes
+            </Link>{" "}
+            are perfect for engraving, framing, or simply holding close.
           </p>
           <div className="space-y-4">
             <QuoteBlock text="You were my favourite hello and my hardest goodbye." />
