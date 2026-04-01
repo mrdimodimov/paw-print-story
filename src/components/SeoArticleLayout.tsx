@@ -27,6 +27,16 @@ interface BreadcrumbItem {
   href: string;
 }
 
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface InternalLink {
+  label: string;
+  href: string;
+}
+
 interface SeoArticleProps {
   meta: SeoArticleMeta;
   heading: string;
@@ -43,6 +53,9 @@ interface SeoArticleProps {
   slug?: string;
   contextualLinks?: ContextualLink[];
   breadcrumbs?: BreadcrumbItem[];
+  definition?: string;
+  faqs?: FaqItem[];
+  internalLinks?: InternalLink[];
 }
 
 const ALL_ARTICLES = [
@@ -84,6 +97,9 @@ const SeoArticleLayout = ({
   slug = "",
   contextualLinks = [],
   breadcrumbs,
+  definition,
+  faqs,
+  internalLinks,
 }: SeoArticleProps) => {
   const navigate = useNavigate();
 
@@ -123,6 +139,19 @@ const SeoArticleLayout = ({
     })),
   };
 
+  const faqLd = faqs && faqs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  } : null;
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
@@ -131,6 +160,7 @@ const SeoArticleLayout = ({
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
+        {faqLd && <script type="application/ld+json">{JSON.stringify(faqLd)}</script>}
       </Helmet>
 
       {/* Header */}
@@ -176,6 +206,14 @@ const SeoArticleLayout = ({
             <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
               {intro}
             </p>
+
+            {/* Definition block */}
+            {definition && (
+              <section className="mb-10">
+                <h2 className="mb-3 text-2xl font-bold text-foreground">Definition</h2>
+                <p className="text-muted-foreground leading-relaxed">{definition}</p>
+              </section>
+            )}
 
             {/* Inline emotional CTA */}
             <div className="mb-6 text-center">
@@ -382,6 +420,57 @@ const SeoArticleLayout = ({
               View all pet memorials <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </motion.section>
+
+          {/* FAQ Section */}
+          {faqs && faqs.length > 0 && (
+            <motion.section
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="mb-14"
+            >
+              <h2 className="mb-6 text-2xl font-bold text-foreground">
+                Frequently Asked Questions
+              </h2>
+              <div className="space-y-6">
+                {faqs.map((faq, i) => (
+                  <div key={i}>
+                    <h3 className="font-semibold text-foreground">{faq.question}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{faq.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.section>
+          )}
+
+          {/* Internal Links */}
+          {internalLinks && internalLinks.length > 0 && (
+            <motion.section
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="mb-14"
+            >
+              <h3 className="mb-4 text-xl font-bold text-foreground">
+                Explore More Guides
+              </h3>
+              <ul className="space-y-2">
+                {internalLinks.map((link, i) => (
+                  <li key={i}>
+                    <Link
+                      to={link.href}
+                      className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors"
+                    >
+                      <PawIcon className="h-3.5 w-3.5 shrink-0" />
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </motion.section>
+          )}
         </div>
       </article>
 
