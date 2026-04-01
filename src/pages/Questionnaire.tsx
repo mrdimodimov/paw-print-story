@@ -190,7 +190,8 @@ const Questionnaire = () => {
     const filledForm = form.pet_name.trim()
       ? form
       : { ...form, ...TEST_PRESETS.find((p) => p.id === "medium")!.data } as TributeFormData;
-    navigate(`/tribute?tier=${tier}&test=true`, {
+    const testerSkip = sessionStorage.getItem("tester_source");
+    navigate(`/tribute?tier=${tier}&test=true${testerSkip ? `&tester=${testerSkip}` : ""}`, {
       state: { formData: filledForm, isPublic: false, isTestMode: true },
     });
   };
