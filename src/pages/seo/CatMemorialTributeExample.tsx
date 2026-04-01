@@ -57,6 +57,20 @@ const CatMemorialTributeExample = () => (
         body: "A tribute doesn't need to be long or literary. A few true, simple paragraphs will always resonate more than polished prose.",
       },
     ]}
+    definition="A cat memorial tribute is a written piece that honours a cat's life, personality, and the quiet bond they shared with their owner. It captures the moments that made them irreplaceable."
+    faqs={[
+      { question: "What is a cat memorial tribute?", answer: "A cat memorial tribute is a short written piece that celebrates a cat's life — their personality, habits, and the bond they shared with their owner." },
+      { question: "How do I write a cat memorial tribute?", answer: "Start with how they came into your life, describe their personality and daily habits, and share what they meant to you. Keep it honest and natural." },
+      { question: "What should I include in a cat tribute?", answer: "Include their name, their quirks, favourite spots, how they showed affection, and what you miss most. Even small details make a tribute feel real." },
+      { question: "Can I get help writing a cat memorial?", answer: "Yes. VellumPet lets you answer a few simple questions about your cat and generates a heartfelt, personalised tribute in minutes." },
+    ]}
+    internalLinks={[
+      { label: "Create a pet memorial page", href: "/pet-memorial" },
+      { label: "What to write when a cat dies", href: "/what-to-write-when-a-cat-dies" },
+      { label: "Cat memorial quotes", href: "/cat-memorial-quotes" },
+      { label: "Pet memorial message examples", href: "/pet-memorial-message" },
+    ]}
+    outro="If writing feels overwhelming, VellumPet can help. Share a few memories and we'll create a tribute that honours your cat's life beautifully. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
   />
 );
 

@@ -58,7 +58,20 @@ const CatMemorialQuotes = () => (
       },
     ]}
     outroHeading="Create a Beautiful Memorial for Your Cat"
-    outro="A quote captures a feeling, but your cat's full story deserves more. With VellumPet, share a few memories and we'll craft a heartfelt tribute page you can keep forever."
+    outro="A quote captures a feeling, but your cat's full story deserves more. With VellumPet, share a few memories and we'll craft a heartfelt tribute page you can keep forever. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
+    definition="Cat memorial quotes are gentle, meaningful phrases used to honour a cat who has passed away. They reflect the quiet, independent bond between a cat and the person who loved them."
+    faqs={[
+      { question: "What are cat memorial quotes?", answer: "Cat memorial quotes are short phrases that capture the unique bond between a person and their cat. They're used in tributes, sympathy cards, and online memorials." },
+      { question: "How do I choose a quote for my cat?", answer: "Pick something that reflects your cat's personality — whether they were independent, affectionate, playful, or quietly devoted." },
+      { question: "Can I use a cat memorial quote on social media?", answer: "Yes. Short cat memorial quotes work beautifully as Instagram captions or story overlays alongside a photo of your cat." },
+      { question: "How can I create an online memorial for my cat?", answer: "VellumPet lets you create a beautiful memorial page in under two minutes. Share a few memories and we'll craft a heartfelt tribute." },
+    ]}
+    internalLinks={[
+      { label: "Create a pet memorial page", href: "/pet-memorial" },
+      { label: "Cat memorial tribute example", href: "/cat-memorial-tribute-example" },
+      { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+      { label: "What to write when a cat dies", href: "/what-to-write-when-a-cat-dies" },
+    ]}
   />
 );
 

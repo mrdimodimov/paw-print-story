@@ -26,6 +26,14 @@ const section = (delay = 0) => ({
   viewport: { once: true },
 });
 
+const PET_MEMORIAL_FAQS = [
+  { question: "What is a pet memorial page?", answer: "A pet memorial page is an online tribute that tells your pet's story — their personality, habits, and the bond you shared. It's a permanent, shareable way to honour their memory." },
+  { question: "How do I create a pet memorial online?", answer: "With VellumPet, you answer a few simple questions about your pet and we generate a beautiful, personalised tribute page in under two minutes." },
+  { question: "Do I need to be a writer to create a memorial?", answer: "No. VellumPet does the writing for you. Just share a few memories and we'll craft a heartfelt tribute that captures your pet's life." },
+  { question: "Can I share a pet memorial page with others?", answer: "Yes. Every memorial page has a unique link you can share with family, friends, or on social media." },
+  { question: "Is a pet memorial page permanent?", answer: "Yes. Once created, your pet's memorial page is available online as a lasting tribute you can return to anytime." },
+];
+
 const PetMemorial = () => {
   const navigate = useNavigate();
 
@@ -43,6 +51,16 @@ const PetMemorial = () => {
     url: "https://paw-print-story.lovable.app/pet-memorial",
   };
 
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: PET_MEMORIAL_FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
@@ -53,6 +71,7 @@ const PetMemorial = () => {
         />
         <link rel="canonical" href="https://paw-print-story.lovable.app/pet-memorial" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
       </Helmet>
 
       <SeoBreadcrumbs items={[
@@ -378,6 +397,44 @@ const PetMemorial = () => {
             Takes less than 2 minutes · No writing required
           </p>
         </motion.section>
+
+        {/* ─── FAQ ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-6 text-2xl font-bold text-foreground">Frequently Asked Questions</h2>
+          <div className="space-y-6">
+            {PET_MEMORIAL_FAQS.map((faq, i) => (
+              <div key={i}>
+                <h3 className="font-semibold text-foreground">{faq.question}</h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ─── Internal Links ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h3 className="mb-4 text-xl font-bold text-foreground">Explore More Guides</h3>
+          <ul className="space-y-2">
+            {[
+              { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+              { label: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
+              { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+              { label: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
+            ].map((link, i) => (
+              <li key={i}>
+                <Link to={link.href} className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors">
+                  <PawIcon className="h-3.5 w-3.5 shrink-0" />
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </motion.section>
+
+        {/* ─── Brand Line ─── */}
+        <p className="mb-16 text-sm text-muted-foreground text-center">
+          VellumPet helps pet owners create beautiful online memorial pages to honor their pets.
+        </p>
       </article>
 
       {/* Footer */}

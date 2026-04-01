@@ -21,6 +21,13 @@ const Q = ({ text }: { text: string }) => (
   </blockquote>
 );
 
+const SHORT_DOG_FAQS = [
+  { question: "What are short dog memorial quotes?", answer: "Short dog memorial quotes are brief, meaningful phrases — usually one or two sentences — used to honour a dog who has passed away. They're ideal for engravings, captions, and cards." },
+  { question: "Where can I use a short dog memorial quote?", answer: "They work well on sympathy cards, social media captions, engraved stones or frames, photo albums, and online memorial pages." },
+  { question: "How do I choose the right short quote for my dog?", answer: "Pick one that feels true to your dog's personality or your bond. The best quote is the one that makes you feel something when you read it." },
+  { question: "Can I write my own short memorial quote?", answer: "Absolutely. Personal quotes are often the most meaningful. Think about what you'd want to say to your dog in one sentence." },
+];
+
 const ShortDogMemorialQuotes = () => {
   const navigate = useNavigate();
   const canonicalUrl = "https://paw-print-story.lovable.app/short-dog-memorial-quotes";
@@ -38,6 +45,16 @@ const ShortDogMemorialQuotes = () => {
     url: canonicalUrl,
   };
 
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: SHORT_DOG_FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
@@ -45,6 +62,7 @@ const ShortDogMemorialQuotes = () => {
         <meta name="description" content="Find short dog memorial quotes, simple remembrance messages, and meaningful words to honor your beloved dog." />
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
       </Helmet>
 
       <SeoBreadcrumbs items={[
@@ -266,6 +284,44 @@ const ShortDogMemorialQuotes = () => {
             ))}
           </div>
         </motion.section>
+
+        {/* ─── FAQ ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-6 text-2xl font-bold text-foreground">Frequently Asked Questions</h2>
+          <div className="space-y-6">
+            {SHORT_DOG_FAQS.map((faq, i) => (
+              <div key={i}>
+                <h3 className="font-semibold text-foreground">{faq.question}</h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ─── Internal Links ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h3 className="mb-4 text-xl font-bold text-foreground">Explore More Guides</h3>
+          <ul className="space-y-2">
+            {[
+              { label: "Create a pet memorial page", href: "/pet-memorial" },
+              { label: "Dog memorial quotes", href: "/dog-memorial-quotes" },
+              { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+              { label: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
+            ].map((link, i) => (
+              <li key={i}>
+                <Link to={link.href} className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors">
+                  <PawIcon className="h-3.5 w-3.5 shrink-0" />
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </motion.section>
+
+        {/* ─── Brand Line ─── */}
+        <p className="mb-16 text-sm text-muted-foreground text-center">
+          VellumPet helps pet owners create beautiful online memorial pages to honor their pets.
+        </p>
       </article>
 
       <footer className="border-t border-border/50 py-8 text-center text-sm text-muted-foreground">
