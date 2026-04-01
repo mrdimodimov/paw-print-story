@@ -36,6 +36,7 @@ import { toast } from "sonner";
 import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
 import { generateTribute, loadTributeById, loadTributeBySlug, loadJobById, getActiveJobId } from "@/lib/tribute-api";
+import { trackEvent, captureTesterSource } from "@/lib/analytics";
 import { supabase } from "@/integrations/supabase/client";
 import { isInCooldown, markSent, isEmailEnabled, logEmailAttempt } from "@/lib/email-guard";
 import { downloadTributePDF, downloadMemorialPDF, ensureParagraphs } from "@/lib/pdf-export";
