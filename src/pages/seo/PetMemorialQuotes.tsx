@@ -407,7 +407,11 @@ const PetMemorialQuotes = () => {
           </h2>
           <p className="mb-6 text-muted-foreground">
             You don't need to be a writer. Share a few memories, and we'll
-            create a tribute you can keep forever.
+            create a tribute you can keep forever — a full{" "}
+            <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              pet memorial page
+            </Link>{" "}
+            that goes far beyond a single quote.
           </p>
           <Link
             to="/create"
