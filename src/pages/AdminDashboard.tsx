@@ -10,8 +10,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Search, X, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowLeft, Search, X, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Tribute {
   id: string;
@@ -53,23 +54,28 @@ export default function AdminDashboard() {
   const [adminKey, setAdminKey] = useState(() => localStorage.getItem("admin_key") || "");
   const [authenticated, setAuthenticated] = useState(false);
 
-  const fetchData = async (key: string) => {
+  const fetchData = async () => {
     setLoading(true);
     setError(null);
     try {
-      const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-analytics`;
-      const resp = await fetch(url, {
-        headers: {
-          "Content-Type": "application/json",
-          "x-admin-key": key,
-        },
-      });
-      const data = await resp.json();
-      if (!resp.ok) throw new Error(data.error || "Failed to fetch");
-      setTributes(data.tributes || []);
-      setEvents(data.events || []);
-      setAuthenticated(true);
-      localStorage.setItem("admin_key", key);
+      const [tributeRes, eventRes] = await Promise.all([
+        supabase
+          .from("tributes")
+          .select("id, pet_name, pet_type, breed, tier_name, tester_source, created_at, is_paid, slug, tribute_story, photo_urls, form_data, owner_name, years_of_life, title")
+          .order("created_at", { ascending: false })
+          .limit(500),
+        supabase
+          .from("analytics_events")
+          .select("id, event_name, tester_source, tribute_id, metadata, created_at")
+          .order("created_at", { ascending: false })
+          .limit(2000),
+      ]);
+
+      if (tributeRes.error) throw new Error(tributeRes.error.message);
+      if (eventRes.error) throw new Error(eventRes.error.message);
+
+      setTributes((tributeRes.data as Tribute[]) || []);
+      setEvents((eventRes.data as AnalyticsEvent[]) || []);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -77,10 +83,27 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleLogin = () => {
+    if (adminKey === ADMIN_KEY) {
+      setAuthenticated(true);
+      localStorage.setItem("admin_key", adminKey);
+    } else {
+      setError("Invalid admin key");
+    }
+  };
+
   useEffect(() => {
-    if (adminKey) fetchData(adminKey);
-    else setLoading(false);
+    const stored = localStorage.getItem("admin_key");
+    if (stored === ADMIN_KEY) {
+      setAuthenticated(true);
+    } else {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    if (authenticated) fetchData();
+  }, [authenticated]);
 
   // Compute overview stats grouped by tester_source
   const overview = useMemo(() => {
@@ -112,7 +135,7 @@ export default function AdminDashboard() {
       const entry = getOrCreate(src);
       if (ev.event_name === "tribute_started") entry.started++;
       if (ev.event_name === "step_completed") {
-        const step = ev.metadata?.step || "unknown";
+        const step = (ev.metadata as any)?.step || "unknown";
         entry.stepsCompleted.set(step, (entry.stepsCompleted.get(step) || 0) + 1);
       }
       if (ev.event_name === "tribute_completed") entry.completed++;
@@ -150,9 +173,9 @@ export default function AdminDashboard() {
             placeholder="Enter admin key"
             value={adminKey}
             onChange={(e) => setAdminKey(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && fetchData(adminKey)}
+            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
           />
-          <Button className="w-full" onClick={() => fetchData(adminKey)} disabled={loading}>
+          <Button className="w-full" onClick={handleLogin} disabled={loading}>
             {loading ? "Loading…" : "Access Dashboard"}
           </Button>
           {error && <p className="text-sm text-destructive">{error}</p>}
@@ -194,7 +217,6 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {/* Photos */}
           {t.photo_urls.length > 0 && (
             <div>
               <h3 className="mb-2 text-sm font-medium text-foreground">Photos</h3>
@@ -206,7 +228,6 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* Story */}
           <div>
             <h3 className="mb-2 text-sm font-medium text-foreground">Generated Story</h3>
             <div className="rounded-lg border border-border bg-card p-4 text-sm leading-relaxed text-foreground whitespace-pre-wrap">
@@ -214,7 +235,6 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {/* Form data */}
           {t.form_data && (
             <div>
               <h3 className="mb-2 text-sm font-medium text-foreground">Form Inputs</h3>
@@ -224,7 +244,6 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* Events for this tribute */}
           {tributeEvents.length > 0 && (
             <div>
               <h3 className="mb-2 text-sm font-medium text-foreground">Events ({tributeEvents.length})</h3>
@@ -256,6 +275,13 @@ export default function AdminDashboard() {
           <ArrowLeft className="mr-1 h-4 w-4" /> Home
         </Button>
       </div>
+
+      {error && (
+        <div className="mb-4 rounded-lg border border-destructive/50 bg-destructive/10 p-3">
+          <p className="text-sm text-destructive">Unable to load analytics data: {error}</p>
+          <Button variant="outline" size="sm" className="mt-2" onClick={fetchData}>Retry</Button>
+        </div>
+      )}
 
       {/* Overview Cards */}
       <div className="mb-8">
