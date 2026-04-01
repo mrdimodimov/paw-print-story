@@ -392,6 +392,50 @@ const PetMemorialQuotes = () => {
             ))}
           </div>
         </motion.section>
+
+        {/* ─── FAQ ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-6 text-2xl font-bold text-foreground">Frequently Asked Questions</h2>
+          <div className="space-y-6">
+            {[
+              { q: "What are pet memorial quotes?", a: "Pet memorial quotes are short, meaningful phrases used to honour a pet who has passed away. They can be included in tributes, sympathy cards, social media posts, or memorial keepsakes." },
+              { q: "How do I choose the right memorial quote for my pet?", a: "Pick a quote that reflects your pet's personality or your bond. If they were playful, choose something warm. If they were a quiet companion, something gentle may feel right." },
+              { q: "Can I use these quotes on a memorial page?", a: "Yes. These quotes work beautifully on an online pet memorial page, paired with photos and a personal tribute to your pet." },
+              { q: "Are there specific quotes for dogs and cats?", a: "Yes. This page includes dedicated sections for dog memorial quotes and cat memorial quotes, each reflecting the unique bond those pets create." },
+              { q: "How can I create a pet memorial online?", a: "With VellumPet, you can create a beautiful memorial page in under two minutes. Share a few memories and we'll craft a heartfelt tribute for you." },
+            ].map((faq, i) => (
+              <div key={i}>
+                <h3 className="font-semibold text-foreground">{faq.q}</h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ─── Internal Links ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h3 className="mb-4 text-xl font-bold text-foreground">Explore More Guides</h3>
+          <ul className="space-y-2">
+            {[
+              { label: "Create a pet memorial page", href: "/pet-memorial" },
+              { label: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
+              { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+              { label: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
+            ].map((link, i) => (
+              <li key={i}>
+                <Link to={link.href} className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors">
+                  <PawIcon className="h-3.5 w-3.5 shrink-0" />
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </motion.section>
+
+        {/* ─── Brand Line ─── */}
+        <p className="mb-16 text-sm text-muted-foreground text-center">
+          VellumPet helps pet owners create beautiful online memorial pages to honor their pets.
+        </p>
       </article>
 
       {/* Footer */}
