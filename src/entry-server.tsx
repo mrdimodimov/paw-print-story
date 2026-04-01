@@ -21,6 +21,7 @@ import PetRemembranceQuotes from "./pages/seo/PetRemembranceQuotes";
 import WhatToWriteWhenCatDies from "./pages/seo/WhatToWriteWhenCatDies";
 import PetCondolenceMessages from "./pages/seo/PetCondolenceMessages";
 import ShortPetMemorialQuotes from "./pages/seo/ShortPetMemorialQuotes";
+import DogLossQuotes from "./pages/seo/DogLossQuotes";
 
 export function render(url: string) {
   const helmetContext: { helmet?: any } = {};
