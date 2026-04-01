@@ -100,7 +100,7 @@ const SeoArticleLayout = ({
   contextualLinks = [],
   breadcrumbs,
   definition,
-  definitionHeading = "What Does This Mean?",
+  definitionHeading,
   faqs,
   internalLinks,
   exampleHeading = "Example Tribute",
