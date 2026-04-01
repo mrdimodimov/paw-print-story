@@ -59,20 +59,20 @@ const WhatToWriteWhenCatDies = () => (
     ]}
     outroHeading="You Don't Have to Write It Alone"
     outro="If the words aren't coming, that's completely normal. VellumPet helps you turn a few simple memories into a beautiful cat memorial — just answer a few gentle questions and we'll craft a tribute that honours their life. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
-    definitionHeading="What Is a Cat Memorial?"
-    definition="A cat memorial is a written tribute that captures a cat's personality, habits, and the quiet bond they shared with their owner. It preserves the memories that made them irreplaceable."
+    definitionHeading="What Should You Write When a Cat Dies?"
+    definition="What to write when a cat dies refers to messages, tributes, or notes written to honor and remember a cat after it passes away."
     faqs={[
-      { question: "What should I write when my cat dies?", answer: "Start with how they arrived, describe their personality and habits, and share what you miss most. Keep it honest and gentle." },
-      { question: "How long should a cat memorial be?", answer: "Any length works. Even a few heartfelt sentences can be meaningful. Write until it feels complete." },
-      { question: "Is it normal to grieve a cat deeply?", answer: "Yes. Cats form deep bonds with their owners, and the grief is completely valid." },
-      { question: "What should I include in a cat memorial?", answer: "Their name, personality, favourite spots, how they showed love, and what you miss. Small details make it feel real." },
-      { question: "Can VellumPet help me write a cat tribute?", answer: "Yes. Answer a few questions about your cat and VellumPet generates a personalised memorial for you." },
+      { question: "What should I write when my cat dies?", answer: "Start with their name, a favourite memory, and what they meant to you. Honest, simple words are the most meaningful." },
+      { question: "How do you write a cat tribute?", answer: "Describe how they arrived, their personality, daily habits, and what you miss most. Let it be quiet and genuine." },
+      { question: "What are examples of cat memorial messages?", answer: "Messages like 'You were the quietest presence in the room, and the one I miss the most' capture a cat's gentle bond." },
+      { question: "How do you express grief for a cat?", answer: "Write honestly about what you feel — the silence, the empty spots, the routines that no longer have a purpose." },
+      { question: "Can I create a memorial page for my cat?", answer: "Yes. VellumPet lets you create a personalised memorial page in under two minutes." },
     ]}
     internalLinks={[
       { label: "Create a pet memorial page", href: "/pet-memorial" },
-      { label: "Cat memorial tribute example", href: "/cat-memorial-tribute-example" },
       { label: "Cat memorial quotes", href: "/cat-memorial-quotes" },
-      { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+      { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+      { label: "Pet memorial message examples", href: "/pet-memorial-message" },
     ]}
   />
 );
