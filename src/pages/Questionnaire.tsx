@@ -77,6 +77,12 @@ const Questionnaire = () => {
   const tierConfig = TIERS.find((t) => t.id === tier) || TIERS[0];
   const [step, setStep] = useState(-1); // -1 = intro screen
   const [form, setForm] = useState<TributeFormData>(defaultForm);
+
+  // Capture tester source on mount and track tribute_started
+  useState(() => {
+    captureTesterSource();
+    trackEvent("tribute_started");
+  });
   const [isPublic, setIsPublic] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [email, setEmail] = useState("");
