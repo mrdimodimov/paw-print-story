@@ -24,6 +24,14 @@ const QuoteBlock = ({ text, author }: { text: string; author?: string }) => (
   </blockquote>
 );
 
+const RAINBOW_BRIDGE_FAQS = [
+  { question: "What is the Rainbow Bridge?", answer: "The Rainbow Bridge is a concept from a poem describing a peaceful meadow where pets wait after passing, restored to health and happiness, until they are reunited with their owners." },
+  { question: "Where do Rainbow Bridge quotes come from?", answer: "Most Rainbow Bridge quotes are inspired by the original poem, often attributed to an anonymous author. Many pet owners and writers have created their own variations over time." },
+  { question: "How can I use a Rainbow Bridge quote?", answer: "You can include them in sympathy cards, online memorial pages, social media tributes, engraved keepsakes, or simply read them for personal comfort." },
+  { question: "Are Rainbow Bridge quotes appropriate for children?", answer: "Yes. The Rainbow Bridge concept is gentle and hopeful, making it especially comforting for children experiencing pet loss for the first time." },
+  { question: "Can I add a Rainbow Bridge quote to a pet memorial page?", answer: "Absolutely. A quote can set the tone for your pet's online memorial and pair beautifully with photos and a personal tribute." },
+];
+
 const RainbowBridgeQuotes = () => {
   const navigate = useNavigate();
 
@@ -43,6 +51,16 @@ const RainbowBridgeQuotes = () => {
     url: canonicalUrl,
   };
 
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: RAINBOW_BRIDGE_FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
@@ -53,6 +71,7 @@ const RainbowBridgeQuotes = () => {
         />
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
       </Helmet>
 
       <SeoBreadcrumbs items={[
@@ -341,6 +360,50 @@ const RainbowBridgeQuotes = () => {
             ))}
           </div>
         </motion.section>
+
+        {/* ─── FAQ ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-6 text-2xl font-bold text-foreground">Frequently Asked Questions</h2>
+          <div className="space-y-6">
+            {[
+              { q: "What is the Rainbow Bridge?", a: "The Rainbow Bridge is a concept from a poem describing a peaceful meadow where pets wait after passing, restored to health and happiness, until they are reunited with their owners." },
+              { q: "Where do Rainbow Bridge quotes come from?", a: "Most Rainbow Bridge quotes are inspired by the original poem, often attributed to an anonymous author. Many pet owners and writers have created their own variations over time." },
+              { q: "How can I use a Rainbow Bridge quote?", a: "You can include them in sympathy cards, online memorial pages, social media tributes, engraved keepsakes, or simply read them for personal comfort." },
+              { q: "Are Rainbow Bridge quotes appropriate for children?", a: "Yes. The Rainbow Bridge concept is gentle and hopeful, making it especially comforting for children experiencing pet loss for the first time." },
+              { q: "Can I add a Rainbow Bridge quote to a pet memorial page?", a: "Absolutely. A quote can set the tone for your pet's online memorial and pair beautifully with photos and a personal tribute." },
+            ].map((faq, i) => (
+              <div key={i}>
+                <h3 className="font-semibold text-foreground">{faq.q}</h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ─── Internal Links ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h3 className="mb-4 text-xl font-bold text-foreground">Explore More Guides</h3>
+          <ul className="space-y-2">
+            {[
+              { label: "Create a pet memorial page", href: "/pet-memorial" },
+              { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+              { label: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
+              { label: "What to write when a cat dies", href: "/what-to-write-when-a-cat-dies" },
+            ].map((link, i) => (
+              <li key={i}>
+                <Link to={link.href} className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors">
+                  <PawIcon className="h-3.5 w-3.5 shrink-0" />
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </motion.section>
+
+        {/* ─── Brand Line ─── */}
+        <p className="mb-16 text-sm text-muted-foreground text-center">
+          VellumPet helps pet owners create beautiful online memorial pages to honor their pets.
+        </p>
       </article>
 
       {/* Footer */}

@@ -15,6 +15,14 @@ const section = (delay = 0) => ({
   viewport: { once: true },
 });
 
+const COPE_FAQS = [
+  { question: "Is it normal to grieve a pet?", answer: "Yes. Research shows that pet loss grief can be as intense as losing a human loved one. Your bond was real, and your feelings are completely valid." },
+  { question: "How long does pet grief last?", answer: "There's no set timeline. Grief is different for everyone. Some people feel better in weeks, others take months. There's no 'right' pace." },
+  { question: "Should I get another pet after losing one?", answer: "Only when you feel genuinely ready. A new pet is never a replacement — it's a new relationship. Wait until the idea brings excitement, not guilt." },
+  { question: "How can I help a child cope with losing a pet?", answer: "Be honest using age-appropriate language, let them express feelings, and involve them in remembering — like choosing a photo or sharing a favourite memory." },
+  { question: "Does creating a memorial help with grief?", answer: "Many people find it deeply therapeutic. Writing about your pet — or having VellumPet help you — gives grief a place to go and creates something lasting you can return to." },
+];
+
 const CopeWithLosingAPet = () => {
   const navigate = useNavigate();
 
@@ -34,6 +42,16 @@ const CopeWithLosingAPet = () => {
     url: canonicalUrl,
   };
 
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: COPE_FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
@@ -44,6 +62,7 @@ const CopeWithLosingAPet = () => {
         />
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
       </Helmet>
 
       <SeoBreadcrumbs items={[
@@ -468,6 +487,50 @@ const CopeWithLosingAPet = () => {
             ))}
           </div>
         </motion.section>
+
+        {/* ─── FAQ ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-6 text-2xl font-bold text-foreground">Frequently Asked Questions</h2>
+          <div className="space-y-6">
+            {[
+              { q: "Is it normal to grieve a pet?", a: "Yes. Research shows that pet loss grief can be as intense as losing a human loved one. Your bond was real, and your feelings are completely valid." },
+              { q: "How long does pet grief last?", a: "There's no set timeline. Grief is different for everyone. Some people feel better in weeks, others take months. There's no 'right' pace." },
+              { q: "Should I get another pet after losing one?", a: "Only when you feel genuinely ready. A new pet is never a replacement — it's a new relationship. Wait until the idea brings excitement, not guilt." },
+              { q: "How can I help a child cope with losing a pet?", a: "Be honest using age-appropriate language, let them express feelings, and involve them in remembering — like choosing a photo or sharing a favourite memory." },
+              { q: "Does creating a memorial help with grief?", a: "Many people find it deeply therapeutic. Writing about your pet — or having VellumPet help you — gives grief a place to go and creates something lasting you can return to." },
+            ].map((faq, i) => (
+              <div key={i}>
+                <h3 className="font-semibold text-foreground">{faq.q}</h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ─── Internal Links ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h3 className="mb-4 text-xl font-bold text-foreground">Explore More Guides</h3>
+          <ul className="space-y-2">
+            {[
+              { label: "Create a pet memorial page", href: "/pet-memorial" },
+              { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+              { label: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
+              { label: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
+            ].map((link, i) => (
+              <li key={i}>
+                <Link to={link.href} className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors">
+                  <PawIcon className="h-3.5 w-3.5 shrink-0" />
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </motion.section>
+
+        {/* ─── Brand Line ─── */}
+        <p className="mb-16 text-sm text-muted-foreground text-center">
+          VellumPet helps pet owners create beautiful online memorial pages to honor their pets.
+        </p>
       </article>
 
       {/* Footer */}
