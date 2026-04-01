@@ -21,6 +21,14 @@ const MessageBlock = ({ text }: { text: string }) => (
   </blockquote>
 );
 
+const PET_SYMPATHY_FAQS = [
+  { question: "What do you say when someone loses a pet?", answer: "Acknowledge the loss directly and keep it simple. Something like 'I'm so sorry — they were loved and that matters' is more meaningful than trying to find the perfect words." },
+  { question: "Should I mention the pet by name?", answer: "Yes, if you know it. Using the pet's name shows you recognise them as an individual, not just 'a pet.' It makes the message feel personal." },
+  { question: "Is it okay to send a sympathy card for a pet?", answer: "Absolutely. A handwritten card is one of the most thoughtful gestures you can make. It shows you take their grief seriously." },
+  { question: "What should I avoid saying?", answer: "Avoid phrases like 'it was just a pet' or 'you can get another one.' These dismiss real grief. Focus on acknowledging the loss and offering support." },
+  { question: "Can I help create a memorial for someone else's pet?", answer: "Yes. Offering to help create an online memorial page is a meaningful gesture. VellumPet makes it easy to build a tribute in minutes." },
+];
+
 const PetSympathyMessages = () => {
   const navigate = useNavigate();
   const canonicalUrl = "https://paw-print-story.lovable.app/pet-sympathy-messages";
@@ -38,6 +46,16 @@ const PetSympathyMessages = () => {
     url: canonicalUrl,
   };
 
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: PET_SYMPATHY_FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
@@ -45,6 +63,7 @@ const PetSympathyMessages = () => {
         <meta name="description" content="Find thoughtful pet sympathy messages, condolence examples, and what to say when someone loses a dog or cat." />
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
       </Helmet>
 
       <SeoBreadcrumbs items={[

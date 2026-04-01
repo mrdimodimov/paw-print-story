@@ -15,6 +15,14 @@ const section = (delay = 0) => ({
   viewport: { once: true },
 });
 
+const COPE_FAQS = [
+  { question: "Is it normal to grieve a pet?", answer: "Yes. Research shows that pet loss grief can be as intense as losing a human loved one. Your bond was real, and your feelings are completely valid." },
+  { question: "How long does pet grief last?", answer: "There's no set timeline. Grief is different for everyone. Some people feel better in weeks, others take months. There's no 'right' pace." },
+  { question: "Should I get another pet after losing one?", answer: "Only when you feel genuinely ready. A new pet is never a replacement — it's a new relationship. Wait until the idea brings excitement, not guilt." },
+  { question: "How can I help a child cope with losing a pet?", answer: "Be honest using age-appropriate language, let them express feelings, and involve them in remembering — like choosing a photo or sharing a favourite memory." },
+  { question: "Does creating a memorial help with grief?", answer: "Many people find it deeply therapeutic. Writing about your pet — or having VellumPet help you — gives grief a place to go and creates something lasting you can return to." },
+];
+
 const CopeWithLosingAPet = () => {
   const navigate = useNavigate();
 
@@ -34,6 +42,16 @@ const CopeWithLosingAPet = () => {
     url: canonicalUrl,
   };
 
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: COPE_FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
@@ -44,6 +62,7 @@ const CopeWithLosingAPet = () => {
         />
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
       </Helmet>
 
       <SeoBreadcrumbs items={[

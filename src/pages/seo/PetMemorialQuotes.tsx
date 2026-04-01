@@ -24,6 +24,14 @@ const QuoteBlock = ({ text, author }: { text: string; author?: string }) => (
   </blockquote>
 );
 
+const PET_MEMORIAL_QUOTES_FAQS = [
+  { question: "What are pet memorial quotes?", answer: "Pet memorial quotes are short, meaningful phrases used to honour a pet who has passed away. They can be included in tributes, sympathy cards, social media posts, or memorial keepsakes." },
+  { question: "How do I choose the right memorial quote for my pet?", answer: "Pick a quote that reflects your pet's personality or your bond. If they were playful, choose something warm. If they were a quiet companion, something gentle may feel right." },
+  { question: "Can I use these quotes on a memorial page?", answer: "Yes. These quotes work beautifully on an online pet memorial page, paired with photos and a personal tribute to your pet." },
+  { question: "Are there specific quotes for dogs and cats?", answer: "Yes. This page includes dedicated sections for dog memorial quotes and cat memorial quotes, each reflecting the unique bond those pets create." },
+  { question: "How can I create a pet memorial online?", answer: "With VellumPet, you can create a beautiful memorial page in under two minutes. Share a few memories and we'll craft a heartfelt tribute for you." },
+];
+
 const PetMemorialQuotes = () => {
   const navigate = useNavigate();
 
@@ -43,6 +51,16 @@ const PetMemorialQuotes = () => {
     url: canonicalUrl,
   };
 
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: PET_MEMORIAL_QUOTES_FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
@@ -53,6 +71,7 @@ const PetMemorialQuotes = () => {
         />
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
       </Helmet>
 
       <SeoBreadcrumbs items={[
