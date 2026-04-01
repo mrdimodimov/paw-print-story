@@ -427,8 +427,8 @@ const RainbowBridgeQuotes = () => {
             {[
               { label: "Create a pet memorial page", href: "/pet-memorial" },
               { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
-              { label: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
-              { label: "What to write when a cat dies", href: "/what-to-write-when-a-cat-dies" },
+              { label: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
+              { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
             ].map((link, i) => (
               <li key={i}>
                 <Link to={link.href} className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors">
