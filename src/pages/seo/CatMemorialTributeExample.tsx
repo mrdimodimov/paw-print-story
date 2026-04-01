@@ -72,5 +72,6 @@ const CatMemorialTributeExample = () => (
     ]}
     outro="If writing feels overwhelming, VellumPet can help. Share a few memories and we'll create a tribute that honours your cat's life beautifully. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
   />
+);
 
 export default CatMemorialTributeExample;
