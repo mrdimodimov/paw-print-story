@@ -41,7 +41,7 @@ interface AnalyticsEvent {
   created_at: string;
 }
 
-const ADMIN_KEY = "vellum_admin_2026";
+const ADMIN_KEY = "vellum123";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
