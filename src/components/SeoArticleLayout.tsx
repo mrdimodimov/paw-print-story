@@ -27,6 +27,16 @@ interface BreadcrumbItem {
   href: string;
 }
 
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface InternalLink {
+  label: string;
+  href: string;
+}
+
 interface SeoArticleProps {
   meta: SeoArticleMeta;
   heading: string;
@@ -43,6 +53,9 @@ interface SeoArticleProps {
   slug?: string;
   contextualLinks?: ContextualLink[];
   breadcrumbs?: BreadcrumbItem[];
+  definition?: string;
+  faqs?: FaqItem[];
+  internalLinks?: InternalLink[];
 }
 
 const ALL_ARTICLES = [
