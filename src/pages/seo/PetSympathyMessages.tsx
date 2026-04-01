@@ -22,11 +22,11 @@ const MessageBlock = ({ text }: { text: string }) => (
 );
 
 const PET_SYMPATHY_FAQS = [
-  { question: "What do you say when someone loses a pet?", answer: "Acknowledge their loss, express sympathy, and let them know you're thinking of them. Simple, sincere words are often the most meaningful." },
-  { question: "What are good pet sympathy messages?", answer: "Good pet sympathy messages are short, heartfelt, and personal. They focus on the bond between the pet and the owner and offer comfort." },
-  { question: "Should I send a message when a pet dies?", answer: "Yes. Sending a message shows support and lets the person know you care. Even a short message can mean a lot during grief." },
-  { question: "What should you avoid saying when a pet dies?", answer: "Avoid minimizing the loss or comparing it to other situations. Focus on empathy and acknowledging their feelings." },
-  { question: "Can I create a memorial page for someone else's pet?", answer: "Yes. Creating a memorial page is a thoughtful way to honor their pet and provide a lasting tribute." },
+  { question: "What do you say when someone loses a pet?", answer: "Offer simple, sincere words of comfort and acknowledge their loss. Use the pet's name if you know it." },
+  { question: "What are good pet sympathy messages?", answer: "Short, heartfelt messages that express care and understanding. Focus on the bond between the pet and the owner." },
+  { question: "Should I send a message when a pet dies?", answer: "Yes, even a short message can provide comfort and let the person know you care." },
+  { question: "What should you avoid saying?", answer: "Avoid minimizing the loss or comparing it to other situations. Focus on empathy and acknowledgement." },
+  { question: "Can I create a memorial page for someone else's pet?", answer: "Yes, it can be a meaningful tribute that brings together photos, stories, and memories in one place." },
 ];
 
 const PetSympathyMessages = () => {
@@ -86,7 +86,7 @@ const PetSympathyMessages = () => {
             Pet Sympathy Messages: What to Say When Someone Loses a Pet
           </h1>
           <p className="mb-4 text-lg leading-relaxed text-muted-foreground">
-            When someone you care about loses a pet, it can be hard to know what to say. You want to offer comfort, but the words feel inadequate — too small for something that clearly matters so deeply. The truth is, most people don't need the perfect message. They just need to know you care.
+            Losing a pet is deeply painful, and finding the right words can be difficult. These pet sympathy messages can help you express comfort, care, and support when someone you know is grieving the loss of a beloved companion.
           </p>
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
             These pet sympathy messages are here to help. Whether you're writing a card, sending a text, or helping someone{" "}
@@ -128,10 +128,7 @@ const PetSympathyMessages = () => {
             What Are Pet Sympathy Messages?
           </h2>
           <p className="text-foreground/90 leading-relaxed">
-            Pet sympathy messages are words of comfort shared with someone who has lost a pet. They help express compassion, support, and understanding during a difficult time. Whether written in a card, sent as a text, or included alongside{" "}
-            <Link to="/pet-memorial-quotes" className="text-primary underline underline-offset-2 hover:text-primary/80">
-              pet memorial quotes
-            </Link>, these messages let someone know their grief is seen and valid.
+            Pet sympathy messages are words of comfort shared with someone who has lost a pet. They help express compassion, support, and understanding during a difficult time.
           </p>
         </motion.section>
 
@@ -357,7 +354,7 @@ const PetSympathyMessages = () => {
         {/* CTA */}
         <motion.section {...section()} className="mb-16 rounded-xl border border-border bg-accent/30 p-8 text-center md:p-10">
           <h2 className="mb-3 text-2xl font-bold text-foreground">Create a Beautiful Memorial for a Loved One's Pet</h2>
-          <p className="mb-6 text-muted-foreground">If you're looking for a more lasting way to honor a pet, you can create a memorial page that brings together messages, memories, and photos in one place.</p>
+          <p className="mb-6 text-muted-foreground">Creating a memorial page can be a meaningful way to honor a pet's life. VellumPet helps pet owners create beautiful online memorial pages.</p>
           <Link to="/create" className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-8 py-4 text-base font-medium text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-card">
             <CtaIcon className="shrink-0" size={22} />
             Create Their Memorial
@@ -391,11 +388,11 @@ const PetSympathyMessages = () => {
           <h2 className="mb-6 text-2xl font-bold text-foreground">Frequently Asked Questions</h2>
           <div className="space-y-6">
             {[
-              { q: "What do you say when someone loses a pet?", a: "Acknowledge their loss, express sympathy, and let them know you're thinking of them. Simple, sincere words are often the most meaningful." },
-              { q: "What are good pet sympathy messages?", a: "Good pet sympathy messages are short, heartfelt, and personal. They focus on the bond between the pet and the owner and offer comfort." },
-              { q: "Should I send a message when a pet dies?", a: "Yes. Sending a message shows support and lets the person know you care. Even a short message can mean a lot during grief." },
-              { q: "What should you avoid saying when a pet dies?", a: "Avoid minimizing the loss or comparing it to other situations. Focus on empathy and acknowledging their feelings." },
-              { q: "Can I create a memorial page for someone else's pet?", a: "Yes. Creating a memorial page is a thoughtful way to honor their pet and provide a lasting tribute." },
+              { q: "What do you say when someone loses a pet?", a: "Offer simple, sincere words of comfort and acknowledge their loss. Use the pet's name if you know it." },
+              { q: "What are good pet sympathy messages?", a: "Short, heartfelt messages that express care and understanding. Focus on the bond between the pet and the owner." },
+              { q: "Should I send a message when a pet dies?", a: "Yes, even a short message can provide comfort and let the person know you care." },
+              { q: "What should you avoid saying?", a: "Avoid minimizing the loss or comparing it to other situations. Focus on empathy and acknowledgement." },
+              { q: "Can I create a memorial page for someone else's pet?", a: "Yes, it can be a meaningful tribute that brings together photos, stories, and memories in one place." },
             ].map((faq, i) => (
               <div key={i}>
                 <h3 className="font-semibold text-foreground">{faq.q}</h3>
