@@ -11,12 +11,12 @@ const DogMemorialQuotes = () => (
         "Find meaningful dog memorial quotes, short remembrance messages, and heartfelt words to honor your beloved dog's life.",
     }}
     heading="Dog Memorial Quotes: Heartfelt Words to Remember Your Dog"
-    intro="Dogs give us a love that is constant, uncomplicated, and deeply woven into our daily lives. When they're gone, the silence they leave behind can feel unbearable. These dog memorial quotes are here for those moments — when you need words to capture what your dog meant to you, whether for a tribute page, a sympathy card, an engraving, or simply to hold in your heart."
+    intro="Dogs give us a love that is constant, uncomplicated, and deeply woven into our daily lives. When they're gone, the silence they leave behind can feel unbearable. These dog memorial quotes are here for those moments — when you need words to capture what your dog meant to you, whether for a tribute page, a pet sympathy message, an engraving, or simply to hold in your heart."
     contextualLinks={[
-      { text: "Short dog memorial quotes", href: "/short-dog-memorial-quotes" },
-      { text: "Dog obituary example", href: "/dog-obituary-example" },
+      { text: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+      { text: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
       { text: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
-      { text: "Create a pet memorial page", href: "/pet-memorial" },
+      { text: "Short dog memorial quotes", href: "/short-dog-memorial-quotes" },
       { text: "Create a tribute", href: "/create" },
     ]}
     exampleTitle="In Memory of Buddy"
@@ -60,18 +60,18 @@ const DogMemorialQuotes = () => (
     outroHeading="Turn Your Memories Into a Lasting Tribute"
     outro="A quote captures a feeling — but your dog's story deserves more. With VellumPet, you can turn a few simple memories into a beautiful, heartfelt memorial page in under two minutes. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
     definitionHeading="What Are Dog Memorial Quotes?"
-    definition="Dog memorial quotes are short, meaningful phrases that honour a dog who has passed away. They can be used in tributes, sympathy cards, social media posts, or engraved keepsakes."
+    definition="Dog memorial quotes are short messages used to remember and honor a dog who has passed away. They express love, loyalty, and the bond shared between a dog and its owner."
     faqs={[
-      { question: "What are dog memorial quotes?", answer: "Short phrases that capture the bond between a person and their dog, used in tributes, cards, or online memorials." },
-      { question: "Where can I use a dog memorial quote?", answer: "On a memorial page, in a sympathy card, as a social media caption, on an engraved keepsake, or in a photo album." },
-      { question: "How do I pick the right quote for my dog?", answer: "Choose one that reflects your dog's personality. A playful dog suits a lighthearted quote; a loyal companion deserves something deeper." },
-      { question: "Can I write my own dog memorial quote?", answer: "Absolutely. Personal quotes are often the most meaningful. Think about what you'd say to your dog one more time." },
-      { question: "What makes a good dog memorial quote?", answer: "Specificity. Mentioning your dog's name, a habit, or a feeling makes a quote far more powerful than a generic sentiment." },
+      { question: "What are dog memorial quotes?", answer: "Short, meaningful phrases used to honour a dog's memory in tributes, cards, social media posts, or engraved keepsakes." },
+      { question: "What can I write for my dog that passed away?", answer: "Write something honest — their name, a favourite memory, and what they meant to you. Even a few sentences can be deeply meaningful." },
+      { question: "Can I use dog memorial quotes for Instagram?", answer: "Yes. Short quotes work perfectly as captions or story overlays alongside a photo of your dog." },
+      { question: "How do I honor my dog's memory?", answer: "Use a quote in a card or keepsake, or create a full memorial page with photos and stories to celebrate their life." },
+      { question: "Should I create a full memorial page?", answer: "Yes. A memorial page lets you share your dog's story, photos, and personality in one lasting place." },
     ]}
     internalLinks={[
       { label: "Create a pet memorial page", href: "/pet-memorial" },
-      { label: "Dog obituary example", href: "/dog-obituary-example" },
-      { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+      { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+      { label: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
       { label: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
     ]}
   />
