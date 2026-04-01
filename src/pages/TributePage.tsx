@@ -353,10 +353,10 @@ const TributePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Delay timer: allow 15s of reading before feedback is eligible
+  // Delay timer: allow 35s of reading before feedback is eligible
   useEffect(() => {
     if (!isTester || !tribute || generating || feedbackDismissed) return;
-    const timer = setTimeout(() => setCanShowFeedback(true), 15000);
+    const timer = setTimeout(() => setCanShowFeedback(true), 35000);
     return () => clearTimeout(timer);
   }, [isTester, tribute, generating, feedbackDismissed]);
 
@@ -374,23 +374,36 @@ const TributePage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isTester, tribute, generating, feedbackDismissed]);
 
-  // Show feedback when both conditions met, or mobile fallback after 20s
+  // Show feedback when both conditions met + user is idle, or mobile fallback after 45s
   useEffect(() => {
     if (feedbackDismissed || showFeedback) return;
-    if (canShowFeedback && hasScrolledEnough) {
-      setShowFeedback(true);
-      sessionStorage.setItem("feedback_shown", "true");
-      return;
-    }
-    // Mobile fallback: if eligible by time but no scroll after 20s total
-    if (!canShowFeedback || !isTester || !tribute) return;
-    const fallback = setTimeout(() => {
-      if (!showFeedback && !feedbackDismissed) {
+    if (!isTester || !tribute) return;
+
+    let lastScrollTime = Date.now();
+    const onScroll = () => { lastScrollTime = Date.now(); };
+    window.addEventListener("scroll", onScroll);
+
+    const idleCheck = setInterval(() => {
+      const isIdle = Date.now() - lastScrollTime > 4000;
+      if (isIdle && canShowFeedback && hasScrolledEnough) {
         setShowFeedback(true);
         sessionStorage.setItem("feedback_shown", "true");
       }
-    }, 5000); // 5s after the 15s delay = 20s total
-    return () => clearTimeout(fallback);
+    }, 2000);
+
+    // Mobile fallback: 10s after 35s delay = 45s total
+    const fallback = setTimeout(() => {
+      if (!showFeedback && !feedbackDismissed && canShowFeedback) {
+        setShowFeedback(true);
+        sessionStorage.setItem("feedback_shown", "true");
+      }
+    }, 10000);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      clearInterval(idleCheck);
+      clearTimeout(fallback);
+    };
   }, [canShowFeedback, hasScrolledEnough, feedbackDismissed, showFeedback, isTester, tribute]);
 
   const handleRegenerate = () => {
