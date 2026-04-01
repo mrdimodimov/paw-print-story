@@ -97,6 +97,9 @@ const SeoArticleLayout = ({
   slug = "",
   contextualLinks = [],
   breadcrumbs,
+  definition,
+  faqs,
+  internalLinks,
 }: SeoArticleProps) => {
   const navigate = useNavigate();
 
