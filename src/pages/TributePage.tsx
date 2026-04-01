@@ -112,7 +112,11 @@ const TributePage = () => {
   const [petType, setPetType] = useState(formData?.pet_type || "dog");
   const [breed, setBreed] = useState(formData?.breed);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [feedbackDismissed, setFeedbackDismissed] = useState(false);
+  const [feedbackDismissed, setFeedbackDismissed] = useState(
+    () => sessionStorage.getItem("feedback_shown") === "true"
+  );
+  const [canShowFeedback, setCanShowFeedback] = useState(false);
+  const [hasScrolledEnough, setHasScrolledEnough] = useState(false);
   const tributeStartTime = useRef(Date.now());
 
   const maxRegens = currentTier.id === "story" ? 2 : currentTier.id === "pack" ? 3 : Infinity;
@@ -349,13 +353,45 @@ const TributePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Auto-show feedback modal for testers after tribute completes
+  // Delay timer: allow 15s of reading before feedback is eligible
   useEffect(() => {
-    if (isTester && tribute && !generating && !feedbackDismissed) {
-      const timer = setTimeout(() => setShowFeedback(true), 2000);
-      return () => clearTimeout(timer);
-    }
+    if (!isTester || !tribute || generating || feedbackDismissed) return;
+    const timer = setTimeout(() => setCanShowFeedback(true), 15000);
+    return () => clearTimeout(timer);
   }, [isTester, tribute, generating, feedbackDismissed]);
+
+  // Scroll detection: user has read at least 50% of page
+  useEffect(() => {
+    if (!isTester || !tribute || generating || feedbackDismissed) return;
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const pageHeight = document.body.scrollHeight;
+      if (pageHeight > 0 && scrollPosition / pageHeight > 0.5) {
+        setHasScrolledEnough(true);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isTester, tribute, generating, feedbackDismissed]);
+
+  // Show feedback when both conditions met, or mobile fallback after 20s
+  useEffect(() => {
+    if (feedbackDismissed || showFeedback) return;
+    if (canShowFeedback && hasScrolledEnough) {
+      setShowFeedback(true);
+      sessionStorage.setItem("feedback_shown", "true");
+      return;
+    }
+    // Mobile fallback: if eligible by time but no scroll after 20s total
+    if (!canShowFeedback || !isTester || !tribute) return;
+    const fallback = setTimeout(() => {
+      if (!showFeedback && !feedbackDismissed) {
+        setShowFeedback(true);
+        sessionStorage.setItem("feedback_shown", "true");
+      }
+    }, 5000); // 5s after the 15s delay = 20s total
+    return () => clearTimeout(fallback);
+  }, [canShowFeedback, hasScrolledEnough, feedbackDismissed, showFeedback, isTester, tribute]);
 
   const handleRegenerate = () => {
     if (!formDataRef.current) return;
@@ -1325,7 +1361,7 @@ const TributePage = () => {
           testerToken={testerToken}
           photosUploaded={photoUrls.length}
           tributeStartTime={tributeStartTime.current}
-          onClose={() => { setShowFeedback(false); setFeedbackDismissed(true); }}
+          onClose={() => { setShowFeedback(false); setFeedbackDismissed(true); sessionStorage.setItem("feedback_shown", "true"); }}
         />
       )}
     </div>
