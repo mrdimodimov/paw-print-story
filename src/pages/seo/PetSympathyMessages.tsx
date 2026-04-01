@@ -128,10 +128,7 @@ const PetSympathyMessages = () => {
             What Are Pet Sympathy Messages?
           </h2>
           <p className="text-foreground/90 leading-relaxed">
-            Pet sympathy messages are words of comfort shared with someone who has lost a pet. They help express compassion, support, and understanding during a difficult time. Whether written in a card, sent as a text, or included alongside{" "}
-            <Link to="/pet-memorial-quotes" className="text-primary underline underline-offset-2 hover:text-primary/80">
-              pet memorial quotes
-            </Link>, these messages let someone know their grief is seen and valid.
+            Pet sympathy messages are words of comfort shared with someone who has lost a pet. They help express compassion, support, and understanding during a difficult time.
           </p>
         </motion.section>
 
