@@ -2,6 +2,7 @@ import type { TributeFormData, TierConfig, GeneratedTribute } from "./types";
 import { buildPromptVariables } from "./types";
 import { supabase } from "@/integrations/supabase/client";
 import { generateMemorialSlug, generateMemorialSlugWithSuffix } from "./slugify";
+import { getTesterSource } from "./analytics";
 
 interface StreamCallbacks {
   onDelta: (text: string) => void;
