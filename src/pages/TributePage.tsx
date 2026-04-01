@@ -46,6 +46,7 @@ import { useTesterAccess } from "@/hooks/use-tester-access";
 import TesterFeedbackModal from "@/components/TesterFeedbackModal";
 
 const TributePage = () => {
+  captureTesterSource();
   const navigate = useNavigate();
   const location = useLocation();
   const { id: tributeIdParam, slug: slugParam } = useParams<{ id: string; slug: string }>();
