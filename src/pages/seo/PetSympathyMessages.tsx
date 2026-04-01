@@ -81,7 +81,7 @@ const PetSympathyMessages = () => {
 
       <article className="mx-auto max-w-[700px] px-5 py-16 md:py-20">
         {/* H1 */}
-        <motion.section {...section()} className="mb-16">
+        <motion.section {...section()} className="mb-10">
           <h1 className="mb-5 text-3xl font-bold leading-[1.15] text-foreground md:text-4xl lg:text-[2.75rem]">
             Pet Sympathy Messages: What to Say When Someone Loses a Pet
           </h1>
@@ -92,10 +92,46 @@ const PetSympathyMessages = () => {
             These pet sympathy messages are here to help. Whether you're writing a card, sending a text, or helping someone{" "}
             <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
               create a pet memorial
-            </Link>, you'll find words that acknowledge the loss without minimising it — because pets aren't "just" pets. They're family. If you're also looking for guidance on{" "}
+            </Link>, you'll find words that acknowledge the loss without minimising it — because pets aren't "just" pets. They're family. You may also find comfort in our collection of{" "}
+            <Link to="/rainbow-bridge-quotes" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              Rainbow Bridge quotes
+            </Link>{" "}
+            or our guide on{" "}
             <Link to="/cope-with-losing-a-pet" className="text-primary underline underline-offset-2 hover:text-primary/80">
               how to cope with losing a pet
-            </Link>, we have a gentle guide for that too.
+            </Link>.
+          </p>
+
+          {/* Contextual Links */}
+          <nav className="mb-8 flex flex-wrap gap-2" aria-label="Related topics">
+            {[
+              { text: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+              { text: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
+              { text: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
+              { text: "Create a pet memorial page", href: "/pet-memorial" },
+              { text: "Create a tribute", href: "/create" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className="rounded-full border border-border bg-card px-3.5 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
+              >
+                {link.text}
+              </Link>
+            ))}
+          </nav>
+        </motion.section>
+
+        {/* ─── H2: Definition ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-3 text-2xl font-bold text-foreground">
+            What Are Pet Sympathy Messages?
+          </h2>
+          <p className="text-foreground/90 leading-relaxed">
+            Pet sympathy messages are words of comfort shared with someone who has lost a pet. They help express compassion, support, and understanding during a difficult time. Whether written in a card, sent as a text, or included alongside{" "}
+            <Link to="/pet-memorial-quotes" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              pet memorial quotes
+            </Link>, these messages let someone know their grief is seen and valid.
           </p>
         </motion.section>
 
