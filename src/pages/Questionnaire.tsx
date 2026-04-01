@@ -461,9 +461,11 @@ const Questionnaire = () => {
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <BrandLogo size="sm" />
-          <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
-            <ArrowLeft className="mr-1 h-4 w-4" /> Back
-          </Button>
+          {!isTester && (
+            <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
+              <ArrowLeft className="mr-1 h-4 w-4" /> Back
+            </Button>
+          )}
         </div>
       </header>
 
