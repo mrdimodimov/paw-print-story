@@ -222,7 +222,7 @@ const SeoArticleLayout = ({
             {/* Definition block */}
             {definition && (
               <section className="mb-10">
-                <h2 className="mb-3 text-2xl font-bold text-foreground">Definition</h2>
+                <h2 className="mb-3 text-2xl font-bold text-foreground">{definitionHeading}</h2>
                 <p className="text-muted-foreground leading-relaxed">{definition}</p>
               </section>
             )}
