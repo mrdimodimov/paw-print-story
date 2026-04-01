@@ -87,14 +87,22 @@ const TributePage = () => {
 
   // In test/founder mode, default to unlocked (toggleable via panel)
   const isFounderMode = localStorage.getItem("founderMode") === "true";
-  const { isTester, testerToken } = useTesterAccess();
+  const { isTester: isTesterFromHook, testerToken } = useTesterAccess();
+
+  // Direct URL param detection — always reliable on first render
+  const testerFromUrl = searchParams.get("tester");
+  if (testerFromUrl) {
+    sessionStorage.setItem("tester_source", testerFromUrl);
+  }
+  const testerFromStorage = sessionStorage.getItem("tester_source");
+  const isTester = !!testerFromUrl || !!testerFromStorage || isTesterFromHook;
+
   const forceLocked = searchParams.get("locked") === "true";
-  const testerSource = sessionStorage.getItem("tester_source");
   const effectiveUnlocked = forceLocked
     ? false
     : isTester ? true : (isTestMode || isFounderMode) ? testUnlocked : unlocked;
 
-  console.log("TESTER MODE:", { testerSource, isTester, effectiveUnlocked, forceLocked, unlocked });
+  console.log("TEST CHECK:", { testerFromUrl, testerFromStorage, isTester, effectiveUnlocked, forceLocked, unlocked });
   const [tributeDbId, setTributeDbId] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
