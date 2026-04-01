@@ -33,6 +33,7 @@ const routes = [
   "/pet-memorial-captions",
   "/instagram-pet-memorial-captions",
   "/sudden-pet-death-quotes",
+  "/pet-anniversary-quotes",
 ];
 
 for (const route of routes) {
