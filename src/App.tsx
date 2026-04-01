@@ -28,6 +28,7 @@ import CatMemorialQuotes from "./pages/seo/CatMemorialQuotes";
 import PetRemembranceQuotes from "./pages/seo/PetRemembranceQuotes";
 import WhatToWriteWhenCatDies from "./pages/seo/WhatToWriteWhenCatDies";
 import PetCondolenceMessages from "./pages/seo/PetCondolenceMessages";
+import ShortPetMemorialQuotes from "./pages/seo/ShortPetMemorialQuotes";
 import ExampleTribute from "./pages/ExampleTribute";
 import ExampleTributeOliver from "./pages/ExampleTributeOliver";
 import ExampleTributeMax from "./pages/ExampleTributeMax";
@@ -115,6 +116,7 @@ const App = () => (
             <Route path="/pet-remembrance-quotes" element={<PetRemembranceQuotes />} />
             <Route path="/what-to-write-when-a-cat-dies" element={<WhatToWriteWhenCatDies />} />
             <Route path="/pet-condolence-messages" element={<PetCondolenceMessages />} />
+            <Route path="/short-pet-memorial-quotes" element={<ShortPetMemorialQuotes />} />
             <Route path="/example-tribute" element={<ExampleTribute />} />
             <Route path="/example-tribute/oliver" element={<ExampleTributeOliver />} />
             <Route path="/example-tribute/max" element={<ExampleTributeMax />} />
