@@ -599,7 +599,7 @@ const Questionnaire = () => {
           </Button>
           {step < STEPS.length - 1 ? (
             <Button
-              onClick={() => setStep((s) => s + 1)}
+              onClick={() => { trackEvent("step_completed", { metadata: { step: STEPS[step] } }); setStep((s) => s + 1); }}
               disabled={!canProceed()}
             >
               Next <ArrowRight className="ml-1 h-4 w-4" />
