@@ -391,11 +391,11 @@ const PetSympathyMessages = () => {
           <h2 className="mb-6 text-2xl font-bold text-foreground">Frequently Asked Questions</h2>
           <div className="space-y-6">
             {[
-              { q: "What do you say when someone loses a pet?", a: "Acknowledge the loss directly and keep it simple. Something like 'I'm so sorry — they were loved and that matters' is more meaningful than trying to find the perfect words." },
-              { q: "Should I mention the pet by name?", a: "Yes, if you know it. Using the pet's name shows you recognise them as an individual, not just 'a pet.' It makes the message feel personal." },
-              { q: "Is it okay to send a sympathy card for a pet?", a: "Absolutely. A handwritten card is one of the most thoughtful gestures you can make. It shows you take their grief seriously." },
-              { q: "What should I avoid saying?", a: "Avoid phrases like 'it was just a pet' or 'you can get another one.' These dismiss real grief. Focus on acknowledging the loss and offering support." },
-              { q: "Can I help create a memorial for someone else's pet?", a: "Yes. Offering to help create an online memorial page is a meaningful gesture. VellumPet makes it easy to build a tribute in minutes." },
+              { q: "What do you say when someone loses a pet?", a: "Acknowledge their loss, express sympathy, and let them know you're thinking of them. Simple, sincere words are often the most meaningful." },
+              { q: "What are good pet sympathy messages?", a: "Good pet sympathy messages are short, heartfelt, and personal. They focus on the bond between the pet and the owner and offer comfort." },
+              { q: "Should I send a message when a pet dies?", a: "Yes. Sending a message shows support and lets the person know you care. Even a short message can mean a lot during grief." },
+              { q: "What should you avoid saying when a pet dies?", a: "Avoid minimizing the loss or comparing it to other situations. Focus on empathy and acknowledging their feelings." },
+              { q: "Can I create a memorial page for someone else's pet?", a: "Yes. Creating a memorial page is a thoughtful way to honor their pet and provide a lasting tribute." },
             ].map((faq, i) => (
               <div key={i}>
                 <h3 className="font-semibold text-foreground">{faq.q}</h3>
