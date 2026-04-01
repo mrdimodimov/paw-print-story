@@ -84,9 +84,10 @@ export default function AdminDashboard() {
   };
 
   const handleLogin = () => {
-    if (adminKey === ADMIN_KEY) {
+    const trimmed = adminKey.trim();
+    if (trimmed === ADMIN_KEY) {
       setAuthenticated(true);
-      localStorage.setItem("admin_key", adminKey);
+      localStorage.setItem("admin_key", trimmed);
     } else {
       setError("Invalid admin key");
     }
