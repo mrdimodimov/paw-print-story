@@ -14,8 +14,8 @@ const PetCondolenceMessages = () => (
     intro="When someone you care about loses a pet, it's hard to know what to say. The loss is real and deep — but our culture doesn't always give pet grief the space it deserves. That silence can make your words even more meaningful. A simple, honest pet condolence message tells someone: I see your pain, and it matters. You don't need to be eloquent. You just need to be sincere."
     contextualLinks={[
       { text: "Pet sympathy messages", href: "/pet-sympathy-messages" },
-      { text: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
-      { text: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
+      { text: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+      { text: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
       { text: "Create a pet memorial page", href: "/pet-memorial" },
       { text: "Create a tribute", href: "/create" },
     ]}
@@ -60,19 +60,19 @@ const PetCondolenceMessages = () => (
     outroHeading="Create a Memorial as a Gift"
     outro="If you want to do something truly meaningful for someone who has lost a pet, consider creating a memorial tribute on their behalf. VellumPet turns a few shared memories into a beautiful, lasting page they can keep forever. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
     definitionHeading="What Are Pet Condolence Messages?"
-    definition="Pet condolence messages are longer, more personal expressions of sympathy sent to someone who has lost a pet. They go beyond a quick text to acknowledge the depth of the loss."
+    definition="Pet condolence messages are supportive words shared with someone who has lost a pet. They help express sympathy, understanding, and emotional support."
     faqs={[
-      { question: "What is a pet condolence message?", answer: "A thoughtful, personal note sent to someone who has lost a pet. It acknowledges the loss and offers comfort." },
-      { question: "How is a condolence message different from a sympathy message?", answer: "Condolence messages are longer and more personal, often including specific memories or deeper support." },
-      { question: "What should I include in a pet condolence message?", answer: "The pet's name, acknowledgement of grief, a specific memory if you have one, and an offer of support." },
-      { question: "Is it appropriate to send a condolence card for a pet?", answer: "Absolutely. A handwritten card shows you take the loss seriously and care about the person's grief." },
-      { question: "When should I send a pet condolence message?", answer: "As soon as you hear the news. A follow-up message two to three weeks later is also deeply appreciated." },
+      { question: "What do you say when someone loses a pet?", answer: "Acknowledge their loss, use the pet's name, and let them know you're thinking of them. Simple, sincere words mean the most." },
+      { question: "What are good pet condolence messages?", answer: "Good condolence messages are personal, empathetic, and direct. They focus on the bond and offer comfort without minimizing the grief." },
+      { question: "Should I send a message when a pet dies?", answer: "Yes. Even a short message shows you care and lets the person know their grief is seen and valid." },
+      { question: "What should you avoid saying?", answer: "Avoid phrases like 'it was just a pet' or 'you can get another one.' Focus on empathy and acknowledging their feelings." },
+      { question: "Can I create a memorial for someone else's pet?", answer: "Yes. Creating a memorial page is a thoughtful way to honor their pet and provide a lasting tribute." },
     ]}
     internalLinks={[
       { label: "Create a pet memorial page", href: "/pet-memorial" },
       { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
       { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
-      { label: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
+      { label: "Dog obituary example", href: "/dog-obituary-example" },
     ]}
   />
 );
