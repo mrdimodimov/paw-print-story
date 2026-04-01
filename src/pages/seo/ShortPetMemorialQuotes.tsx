@@ -5,9 +5,9 @@ const ShortPetMemorialQuotes = () => (
     slug="/short-pet-memorial-quotes"
     datePublished="2026-04-01"
     breadcrumbs={[
-      { label: "Home", href: "/" },
-      { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
-      { label: "Short Pet Memorial Quotes" },
+      { name: "Home", href: "/" },
+      { name: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
+      { name: "Short Pet Memorial Quotes", href: "/short-pet-memorial-quotes" },
     ]}
     meta={{
       title: "Short Pet Memorial Quotes — Brief & Meaningful Tributes",
