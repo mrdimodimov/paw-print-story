@@ -51,6 +51,7 @@ export function render(url: string) {
               <Route path="/pet-condolence-messages" element={<PetCondolenceMessages />} />
               <Route path="/short-pet-memorial-quotes" element={<ShortPetMemorialQuotes />} />
               <Route path="/dog-loss-quotes" element={<DogLossQuotes />} />
+              <Route path="/cat-loss-quotes" element={<CatLossQuotes />} />
             </Routes>
           </StaticRouter>
         </TooltipProvider>
