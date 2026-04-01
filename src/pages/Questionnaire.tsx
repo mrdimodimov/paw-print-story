@@ -178,7 +178,9 @@ const Questionnaire = () => {
   const handleGenerate = () => {
     trackEvent("step_completed", { metadata: { step: STEPS[step] } });
     trackEvent("tribute_completed", { metadata: { photos: form.photo_urls.length, tier } });
-    navigate(`/tribute?tier=${tier}${isTestMode ? "&test=true" : ""}`, {
+    const testerSource = sessionStorage.getItem("tester_source");
+    const testerParam = testerSource ? `&tester=${testerSource}` : "";
+    navigate(`/tribute?tier=${tier}${isTestMode ? "&test=true" : ""}${testerParam}`, {
       state: { formData: form, isPublic: isTestMode ? false : isPublic, email: email.trim() || undefined, isTestMode },
     });
   };
