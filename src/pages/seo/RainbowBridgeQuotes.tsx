@@ -25,11 +25,11 @@ const QuoteBlock = ({ text, author }: { text: string; author?: string }) => (
 );
 
 const RAINBOW_BRIDGE_FAQS = [
-  { question: "What is the Rainbow Bridge?", answer: "The Rainbow Bridge is a concept from a poem describing a peaceful meadow where pets wait after passing, restored to health and happiness, until they are reunited with their owners." },
-  { question: "Where do Rainbow Bridge quotes come from?", answer: "Most Rainbow Bridge quotes are inspired by the original poem, often attributed to an anonymous author. Many pet owners and writers have created their own variations over time." },
-  { question: "How can I use a Rainbow Bridge quote?", answer: "You can include them in sympathy cards, online memorial pages, social media tributes, engraved keepsakes, or simply read them for personal comfort." },
-  { question: "Are Rainbow Bridge quotes appropriate for children?", answer: "Yes. The Rainbow Bridge concept is gentle and hopeful, making it especially comforting for children experiencing pet loss for the first time." },
-  { question: "Can I add a Rainbow Bridge quote to a pet memorial page?", answer: "Absolutely. A quote can set the tone for your pet's online memorial and pair beautifully with photos and a personal tribute." },
+  { question: "What is the Rainbow Bridge for pets?", answer: "The Rainbow Bridge is a concept that describes a peaceful place where pets go after they pass away, where they are happy and wait to be reunited with their owners." },
+  { question: "What are Rainbow Bridge quotes used for?", answer: "Rainbow Bridge quotes are used to comfort people after losing a pet and to express hope, love, and remembrance." },
+  { question: "Can I use Rainbow Bridge quotes in a tribute?", answer: "Yes, many people include Rainbow Bridge quotes in memorial pages, sympathy messages, or social media posts to honor their pet." },
+  { question: "Are Rainbow Bridge quotes only for dogs?", answer: "No, Rainbow Bridge quotes can be used for any pet, including cats and other animals." },
+  { question: "How do I create a full memorial for my pet?", answer: "You can create a pet memorial page that includes quotes, photos, and stories to celebrate your pet's life and preserve their memory." },
 ];
 
 const RainbowBridgeQuotes = () => {
