@@ -17,6 +17,7 @@ import { DevTestingPanel } from "@/components/DevTestingPanel";
 import ImageCropModal from "@/components/ImageCropModal";
 import { useTestMode } from "@/hooks/use-test-mode";
 import { TEST_PRESETS } from "@/lib/test-presets";
+import { captureTesterSource, trackEvent } from "@/lib/analytics";
 import type { TributeFormData, TributeStyle } from "@/lib/types";
 
 const PERSONALITY_OPTIONS = [
@@ -76,6 +77,12 @@ const Questionnaire = () => {
   const tierConfig = TIERS.find((t) => t.id === tier) || TIERS[0];
   const [step, setStep] = useState(-1); // -1 = intro screen
   const [form, setForm] = useState<TributeFormData>(defaultForm);
+
+  // Capture tester source on mount and track tribute_started
+  useState(() => {
+    captureTesterSource();
+    trackEvent("tribute_started");
+  });
   const [isPublic, setIsPublic] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [email, setEmail] = useState("");
@@ -169,6 +176,8 @@ const Questionnaire = () => {
   })();
 
   const handleGenerate = () => {
+    trackEvent("step_completed", { metadata: { step: STEPS[step] } });
+    trackEvent("tribute_completed", { metadata: { photos: form.photo_urls.length, tier } });
     navigate(`/tribute?tier=${tier}${isTestMode ? "&test=true" : ""}`, {
       state: { formData: form, isPublic: isTestMode ? false : isPublic, email: email.trim() || undefined, isTestMode },
     });
@@ -592,7 +601,7 @@ const Questionnaire = () => {
           </Button>
           {step < STEPS.length - 1 ? (
             <Button
-              onClick={() => setStep((s) => s + 1)}
+              onClick={() => { trackEvent("step_completed", { metadata: { step: STEPS[step] } }); setStep((s) => s + 1); }}
               disabled={!canProceed()}
             >
               Next <ArrowRight className="ml-1 h-4 w-4" />

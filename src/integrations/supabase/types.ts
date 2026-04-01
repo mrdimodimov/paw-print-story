@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          created_at: string
+          event_name: string
+          id: string
+          metadata: Json | null
+          tester_source: string | null
+          tribute_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_name: string
+          id?: string
+          metadata?: Json | null
+          tester_source?: string | null
+          tribute_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_name?: string
+          id?: string
+          metadata?: Json | null
+          tester_source?: string | null
+          tribute_id?: string | null
+        }
+        Relationships: []
+      }
       email_send_log: {
         Row: {
           created_at: string
@@ -440,6 +467,7 @@ export type Database = {
           slug: string | null
           social_post: string | null
           stripe_session_id: string | null
+          tester_source: string | null
           tier_name: string
           title: string | null
           tribute_story: string
@@ -461,6 +489,7 @@ export type Database = {
           slug?: string | null
           social_post?: string | null
           stripe_session_id?: string | null
+          tester_source?: string | null
           tier_name: string
           title?: string | null
           tribute_story: string
@@ -482,6 +511,7 @@ export type Database = {
           slug?: string | null
           social_post?: string | null
           stripe_session_id?: string | null
+          tester_source?: string | null
           tier_name?: string
           title?: string | null
           tribute_story?: string
