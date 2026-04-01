@@ -58,12 +58,14 @@ const PetRemembranceQuotes = () => (
     ]}
     outroHeading="Create a Lasting Memorial for Your Pet"
     outro="A remembrance quote is a beautiful starting point — but your pet's full story deserves to be told. VellumPet helps you turn a few memories into a heartfelt tribute page in under two minutes. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
+    definitionHeading="What Are Pet Remembrance Quotes?"
     definition="Pet remembrance quotes are meaningful words used to honour any pet who has passed away — dogs, cats, rabbits, birds, and beyond. They help express love and keep memories alive."
     faqs={[
-      { question: "What are pet remembrance quotes?", answer: "Pet remembrance quotes are short, meaningful phrases used to honour a pet's memory. They work for any type of pet and can be used in tributes, cards, or keepsakes." },
-      { question: "How are remembrance quotes different from memorial quotes?", answer: "They're very similar. Remembrance quotes tend to focus on keeping memories alive, while memorial quotes may focus more on grief and tribute." },
-      { question: "Can I use these for any type of pet?", answer: "Yes. Pet remembrance quotes are universal and can honour dogs, cats, rabbits, birds, horses, and any animal companion." },
+      { question: "What are pet remembrance quotes?", answer: "Short, meaningful phrases used to honour a pet's memory. They work for any type of pet in tributes, cards, or keepsakes." },
+      { question: "How are remembrance quotes different from memorial quotes?", answer: "Very similar. Remembrance quotes focus on keeping memories alive; memorial quotes may focus more on grief and tribute." },
+      { question: "Can I use these for any type of pet?", answer: "Yes. They are universal and can honour dogs, cats, rabbits, birds, horses, and any animal companion." },
       { question: "Where should I use a pet remembrance quote?", answer: "On a memorial page, in a photo album, on an engraved keepsake, in a sympathy card, or as a social media caption." },
+      { question: "Can I write my own pet remembrance quote?", answer: "Absolutely. Personal quotes are often the most meaningful. Think about what you'd say to your pet if you could speak to them one more time." },
     ]}
     internalLinks={[
       { label: "Create a pet memorial page", href: "/pet-memorial" },

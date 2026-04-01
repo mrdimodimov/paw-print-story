@@ -59,12 +59,14 @@ const CatMemorialQuotes = () => (
     ]}
     outroHeading="Create a Beautiful Memorial for Your Cat"
     outro="A quote captures a feeling, but your cat's full story deserves more. With VellumPet, share a few memories and we'll craft a heartfelt tribute page you can keep forever. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
+    definitionHeading="What Are Cat Memorial Quotes?"
     definition="Cat memorial quotes are gentle, meaningful phrases used to honour a cat who has passed away. They reflect the quiet, independent bond between a cat and the person who loved them."
     faqs={[
-      { question: "What are cat memorial quotes?", answer: "Cat memorial quotes are short phrases that capture the unique bond between a person and their cat. They're used in tributes, sympathy cards, and online memorials." },
-      { question: "How do I choose a quote for my cat?", answer: "Pick something that reflects your cat's personality — whether they were independent, affectionate, playful, or quietly devoted." },
-      { question: "Can I use a cat memorial quote on social media?", answer: "Yes. Short cat memorial quotes work beautifully as Instagram captions or story overlays alongside a photo of your cat." },
-      { question: "How can I create an online memorial for my cat?", answer: "VellumPet lets you create a beautiful memorial page in under two minutes. Share a few memories and we'll craft a heartfelt tribute." },
+      { question: "What are cat memorial quotes?", answer: "Short, meaningful phrases that honour a cat's memory. They're used in tributes, sympathy cards, and online memorials." },
+      { question: "How do I choose a quote for my cat?", answer: "Pick something that reflects your cat's personality — independent, affectionate, playful, or quietly devoted." },
+      { question: "Can I use a cat memorial quote on social media?", answer: "Yes. They work well as Instagram captions or story overlays alongside a photo of your cat." },
+      { question: "What's the difference between cat and pet memorial quotes?", answer: "Cat memorial quotes focus on feline traits like independence, slow blinks, and quiet companionship that define the cat-owner bond." },
+      { question: "Can VellumPet help me create a cat memorial?", answer: "Yes. Share a few memories and VellumPet creates a personalised tribute page in under two minutes." },
     ]}
     internalLinks={[
       { label: "Create a pet memorial page", href: "/pet-memorial" },
