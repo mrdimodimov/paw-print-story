@@ -100,13 +100,15 @@ const SeoArticleLayout = ({
   contextualLinks = [],
   breadcrumbs,
   definition,
+  definitionHeading = "What Does This Mean?",
   faqs,
   internalLinks,
+  exampleHeading = "Example Tribute",
 }: SeoArticleProps) => {
   const navigate = useNavigate();
 
-  const canonicalUrl = `https://paw-print-story.lovable.app${slug || (typeof window !== "undefined" ? window.location.pathname : "")}`;
-  const siteBase = "https://paw-print-story.lovable.app";
+  const siteBase = import.meta.env.VITE_SITE_URL || "https://vellumpet.com";
+  const canonicalUrl = `${siteBase}${slug}`;
 
   const relatedArticles = ALL_ARTICLES.filter((a) => a.href !== slug).slice(0, 3);
 
