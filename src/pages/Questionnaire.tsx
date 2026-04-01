@@ -17,6 +17,7 @@ import { DevTestingPanel } from "@/components/DevTestingPanel";
 import ImageCropModal from "@/components/ImageCropModal";
 import { useTestMode } from "@/hooks/use-test-mode";
 import { TEST_PRESETS } from "@/lib/test-presets";
+import { captureTesterSource, trackEvent } from "@/lib/analytics";
 import type { TributeFormData, TributeStyle } from "@/lib/types";
 
 const PERSONALITY_OPTIONS = [
