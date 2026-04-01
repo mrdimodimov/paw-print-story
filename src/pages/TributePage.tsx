@@ -507,6 +507,12 @@ const TributePage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Tester debug indicator */}
+      {isTester && (
+        <div className="fixed right-3 top-3 z-[9999] rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-lg">
+          TEST MODE
+        </div>
+      )}
       {/* Test Mode Banner */}
       {isTestMode && (
         <div className="border-b border-yellow-500/30 bg-yellow-50 px-4 py-2 text-center dark:bg-yellow-950/20">
