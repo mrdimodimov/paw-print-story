@@ -71,6 +71,7 @@ const PetMemorial = () => {
         />
         <link rel="canonical" href="https://paw-print-story.lovable.app/pet-memorial" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
       </Helmet>
 
       <SeoBreadcrumbs items={[
