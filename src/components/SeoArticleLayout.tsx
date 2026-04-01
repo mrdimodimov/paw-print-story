@@ -43,6 +43,7 @@ interface SeoArticleProps {
   intro: string;
   exampleTitle: string;
   exampleBody: string[];
+  exampleHeading?: string;
   howToWriteIntro?: string;
   howToWriteBody?: string[];
   tips: StructuredTip[];
@@ -54,6 +55,7 @@ interface SeoArticleProps {
   contextualLinks?: ContextualLink[];
   breadcrumbs?: BreadcrumbItem[];
   definition?: string;
+  definitionHeading?: string;
   faqs?: FaqItem[];
   internalLinks?: InternalLink[];
 }
