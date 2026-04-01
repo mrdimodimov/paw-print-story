@@ -89,9 +89,12 @@ const TributePage = () => {
   const isFounderMode = localStorage.getItem("founderMode") === "true";
   const { isTester, testerToken } = useTesterAccess();
   const forceLocked = searchParams.get("locked") === "true";
+  const testerSource = sessionStorage.getItem("tester_source");
   const effectiveUnlocked = forceLocked
     ? false
     : isTester ? true : (isTestMode || isFounderMode) ? testUnlocked : unlocked;
+
+  console.log("TESTER MODE:", { testerSource, isTester, effectiveUnlocked, forceLocked, unlocked });
   const [tributeDbId, setTributeDbId] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
