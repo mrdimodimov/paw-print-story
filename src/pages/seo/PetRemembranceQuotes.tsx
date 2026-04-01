@@ -15,7 +15,7 @@ const PetRemembranceQuotes = () => (
     contextualLinks={[
       { text: "Pet memorial quotes", href: "/pet-memorial-quotes" },
       { text: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
-      { text: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
+      { text: "Pet sympathy messages", href: "/pet-sympathy-messages" },
       { text: "Create a pet memorial page", href: "/pet-memorial" },
       { text: "Create a tribute", href: "/create" },
     ]}
