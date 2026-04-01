@@ -388,11 +388,11 @@ const PetSympathyMessages = () => {
           <h2 className="mb-6 text-2xl font-bold text-foreground">Frequently Asked Questions</h2>
           <div className="space-y-6">
             {[
-              { q: "What do you say when someone loses a pet?", a: "Acknowledge their loss, express sympathy, and let them know you're thinking of them. Simple, sincere words are often the most meaningful." },
-              { q: "What are good pet sympathy messages?", a: "Good pet sympathy messages are short, heartfelt, and personal. They focus on the bond between the pet and the owner and offer comfort." },
-              { q: "Should I send a message when a pet dies?", a: "Yes. Sending a message shows support and lets the person know you care. Even a short message can mean a lot during grief." },
-              { q: "What should you avoid saying when a pet dies?", a: "Avoid minimizing the loss or comparing it to other situations. Focus on empathy and acknowledging their feelings." },
-              { q: "Can I create a memorial page for someone else's pet?", a: "Yes. Creating a memorial page is a thoughtful way to honor their pet and provide a lasting tribute." },
+              { q: "What do you say when someone loses a pet?", a: "Offer simple, sincere words of comfort and acknowledge their loss. Use the pet's name if you know it." },
+              { q: "What are good pet sympathy messages?", a: "Short, heartfelt messages that express care and understanding. Focus on the bond between the pet and the owner." },
+              { q: "Should I send a message when a pet dies?", a: "Yes, even a short message can provide comfort and let the person know you care." },
+              { q: "What should you avoid saying?", a: "Avoid minimizing the loss or comparing it to other situations. Focus on empathy and acknowledgement." },
+              { q: "Can I create a memorial page for someone else's pet?", a: "Yes, it can be a meaningful tribute that brings together photos, stories, and memories in one place." },
             ].map((faq, i) => (
               <div key={i}>
                 <h3 className="font-semibold text-foreground">{faq.q}</h3>
