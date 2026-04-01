@@ -94,7 +94,7 @@ const RainbowBridgeQuotes = () => {
 
       <article className="mx-auto max-w-[700px] px-5 py-16 md:py-20">
         {/* ─── H1: Hero ─── */}
-        <motion.section {...section()} className="mb-16">
+        <motion.section {...section()} className="mb-10">
           <h1 className="mb-5 text-3xl font-bold leading-[1.15] text-foreground md:text-4xl lg:text-[2.75rem]">
             Rainbow Bridge Quotes: Comforting Words for Pet Loss
           </h1>
@@ -107,11 +107,34 @@ const RainbowBridgeQuotes = () => {
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
             These rainbow bridge quotes are gathered here to help you find words
             when your own feel impossible. Whether you're looking for something
-            to write in a card, share online, or include in a{" "}
+            to write in a card, share alongside{" "}
+            <Link to="/pet-sympathy-messages" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              pet sympathy messages
+            </Link>, or include in a{" "}
             <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
               pet memorial page
             </Link>, we hope they bring you a moment of peace.
           </p>
+
+          {/* Contextual Links */}
+          <nav className="mb-8 flex flex-wrap gap-2" aria-label="Related topics">
+            {[
+              { text: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+              { text: "Dog memorial quotes", href: "/dog-memorial-quotes" },
+              { text: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+              { text: "Create a pet memorial page", href: "/pet-memorial" },
+              { text: "Create a tribute", href: "/create" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className="rounded-full border border-border bg-card px-3.5 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
+              >
+                {link.text}
+              </Link>
+            ))}
+          </nav>
+
           <Link
             to="/create"
             className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-7 py-3.5 text-base font-medium text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
@@ -121,6 +144,23 @@ const RainbowBridgeQuotes = () => {
           </Link>
           <p className="mt-3 text-sm text-muted-foreground">
             Takes less than 2 minutes · No writing required
+          </p>
+        </motion.section>
+
+        {/* ─── H2: Definition ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-3 text-2xl font-bold text-foreground">
+            What Are Rainbow Bridge Quotes?
+          </h2>
+          <p className="text-foreground/90 leading-relaxed">
+            Rainbow Bridge quotes are comforting messages about the idea that pets who have passed away wait for their owners in a peaceful place called the Rainbow Bridge. These quotes help express grief, hope, and the belief of being reunited one day. They're often shared in{" "}
+            <Link to="/pet-memorial-quotes" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              pet memorial quotes
+            </Link>{" "}
+            collections and alongside{" "}
+            <Link to="/dog-memorial-quotes" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              dog memorial quotes
+            </Link>.
           </p>
         </motion.section>
 
