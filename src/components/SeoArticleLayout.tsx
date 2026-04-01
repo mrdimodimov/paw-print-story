@@ -100,7 +100,7 @@ const SeoArticleLayout = ({
   contextualLinks = [],
   breadcrumbs,
   definition,
-  definitionHeading = "What Does This Mean?",
+  definitionHeading,
   faqs,
   internalLinks,
   exampleHeading = "Example Tribute",
@@ -109,6 +109,12 @@ const SeoArticleLayout = ({
 
   const siteBase = import.meta.env.VITE_SITE_URL || "https://vellumpet.com";
   const canonicalUrl = `${siteBase}${slug}`;
+
+  if (!slug) {
+    console.warn("SeoArticleLayout: missing slug");
+  }
+
+  const effectiveDefinitionHeading = definitionHeading || `What Is ${heading}?`;
 
   const relatedArticles = ALL_ARTICLES.filter((a) => a.href !== slug).slice(0, 3);
 
@@ -167,9 +173,11 @@ const SeoArticleLayout = ({
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="article" />
         <meta property="og:site_name" content="VellumPet" />
-        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={meta.title} />
         <meta name="twitter:description" content={meta.description} />
+        <meta property="og:image" content={`${siteBase}/og-default.jpg`} />
+        <meta name="twitter:image" content={`${siteBase}/og-default.jpg`} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
         {faqLd && <script type="application/ld+json">{JSON.stringify(faqLd)}</script>}
@@ -222,7 +230,7 @@ const SeoArticleLayout = ({
             {/* Definition block */}
             {definition && (
               <section className="mb-10">
-                <h2 className="mb-3 text-2xl font-bold text-foreground">{definitionHeading}</h2>
+                <h2 className="mb-3 text-2xl font-bold text-foreground">{effectiveDefinitionHeading}</h2>
                 <p className="text-muted-foreground leading-relaxed">{definition}</p>
               </section>
             )}
