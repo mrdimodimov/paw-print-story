@@ -207,6 +207,14 @@ const SeoArticleLayout = ({
               {intro}
             </p>
 
+            {/* Definition block */}
+            {definition && (
+              <section className="mb-10">
+                <h2 className="mb-3 text-2xl font-bold text-foreground">Definition</h2>
+                <p className="text-muted-foreground leading-relaxed">{definition}</p>
+              </section>
+            )}
+
             {/* Inline emotional CTA */}
             <div className="mb-6 text-center">
               <p className="mb-3 text-base italic text-foreground/70">Your pet deserves to be remembered.</p>
