@@ -34,6 +34,7 @@ import CatLossQuotes from "./pages/seo/CatLossQuotes";
 import PetMemorialCaptions from "./pages/seo/PetMemorialCaptions";
 import InstagramPetMemorialCaptions from "./pages/seo/InstagramPetMemorialCaptions";
 import SuddenPetDeathQuotes from "./pages/seo/SuddenPetDeathQuotes";
+import PetAnniversaryQuotes from "./pages/seo/PetAnniversaryQuotes";
 import ExampleTribute from "./pages/ExampleTribute";
 import ExampleTributeOliver from "./pages/ExampleTributeOliver";
 import ExampleTributeMax from "./pages/ExampleTributeMax";
