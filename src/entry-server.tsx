@@ -27,6 +27,7 @@ import PetMemorialCaptions from "./pages/seo/PetMemorialCaptions";
 import InstagramPetMemorialCaptions from "./pages/seo/InstagramPetMemorialCaptions";
 import SuddenPetDeathQuotes from "./pages/seo/SuddenPetDeathQuotes";
 import PetAnniversaryQuotes from "./pages/seo/PetAnniversaryQuotes";
+import RestInPeaceDogQuotes from "./pages/seo/RestInPeaceDogQuotes";
 
 export function render(url: string) {
   const helmetContext: { helmet?: any } = {};
