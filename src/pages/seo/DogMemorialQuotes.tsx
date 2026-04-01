@@ -58,7 +58,20 @@ const DogMemorialQuotes = () => (
       },
     ]}
     outroHeading="Turn Your Memories Into a Lasting Tribute"
-    outro="A quote captures a feeling — but your dog's story deserves more. With VellumPet, you can turn a few simple memories into a beautiful, heartfelt memorial page in under two minutes."
+    outro="A quote captures a feeling — but your dog's story deserves more. With VellumPet, you can turn a few simple memories into a beautiful, heartfelt memorial page in under two minutes. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
+    definition="Dog memorial quotes are short, meaningful phrases that honour a dog who has passed away. They can be used in tributes, sympathy cards, social media posts, or engraved keepsakes."
+    faqs={[
+      { question: "What are dog memorial quotes?", answer: "Dog memorial quotes are short phrases or sentences that capture the bond between a person and their dog. They're used to honour a dog's memory in tributes, cards, or online memorials." },
+      { question: "Where can I use a dog memorial quote?", answer: "You can use them on a memorial page, in a sympathy card, as a social media caption, on an engraved keepsake, or in a photo album." },
+      { question: "How do I pick the right quote for my dog?", answer: "Choose one that reflects your dog's personality or your relationship. A playful dog might suit a warm, lighthearted quote, while a loyal companion deserves something deeper." },
+      { question: "Can I write my own dog memorial quote?", answer: "Absolutely. Personal quotes are often the most meaningful. Think about what you'd say to your dog if you could speak to them one more time." },
+    ]}
+    internalLinks={[
+      { label: "Create a pet memorial page", href: "/pet-memorial" },
+      { label: "Dog obituary example", href: "/dog-obituary-example" },
+      { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+      { label: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
+    ]}
   />
 );
 

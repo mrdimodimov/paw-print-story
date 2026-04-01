@@ -58,7 +58,20 @@ const PetCondolenceMessages = () => (
       },
     ]}
     outroHeading="Create a Memorial as a Gift"
-    outro="If you want to do something truly meaningful for someone who has lost a pet, consider creating a memorial tribute on their behalf. VellumPet turns a few shared memories into a beautiful, lasting page they can keep forever."
+    outro="If you want to do something truly meaningful for someone who has lost a pet, consider creating a memorial tribute on their behalf. VellumPet turns a few shared memories into a beautiful, lasting page they can keep forever. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
+    definition="Pet condolence messages are longer, more personal expressions of sympathy sent to someone who has lost a pet. They go beyond a quick text to acknowledge the depth of the loss."
+    faqs={[
+      { question: "What is a pet condolence message?", answer: "A pet condolence message is a thoughtful, personal note sent to someone who has lost a pet. It acknowledges the loss and offers comfort and support." },
+      { question: "How is a condolence message different from a sympathy message?", answer: "Condolence messages tend to be longer and more personal than sympathy messages. They often include specific memories or deeper expressions of support." },
+      { question: "What should I include in a pet condolence message?", answer: "Mention the pet by name, acknowledge the grief, share a specific memory if you have one, and offer support. Keep it genuine and direct." },
+      { question: "Is it appropriate to send a condolence card for a pet?", answer: "Absolutely. A handwritten card shows you take the loss seriously and care about the person's grief." },
+    ]}
+    internalLinks={[
+      { label: "Create a pet memorial page", href: "/pet-memorial" },
+      { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+      { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+      { label: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
+    ]}
   />
 );
 

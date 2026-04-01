@@ -57,7 +57,20 @@ const PetMemorialMessage = () => (
       },
     ]}
     outroHeading="Let Us Help You Find the Words"
-    outro="Writing a pet memorial message can be emotional. VellumPet helps you turn your memories into a beautiful, personalized tribute — just answer a few gentle questions and we'll do the rest."
+    outro="Writing a pet memorial message can be emotional. VellumPet helps you turn your memories into a beautiful, personalized tribute — just answer a few gentle questions and we'll do the rest. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
+    definition="A pet memorial message is a written expression of love and remembrance for a pet who has passed away. It can be included in a card, tribute page, social media post, or keepsake."
+    faqs={[
+      { question: "What is a pet memorial message?", answer: "A pet memorial message is a short written tribute or note that honours a pet's memory. It can be personal or shared with others who knew the pet." },
+      { question: "What should I write in a pet memorial message?", answer: "Include the pet's name, a favourite memory, what they meant to you, and a simple farewell. Keep it honest and heartfelt." },
+      { question: "How long should a pet memorial message be?", answer: "It can be as short as one sentence or as long as a few paragraphs. There's no right length — write what feels true." },
+      { question: "Can I use a pet memorial message on social media?", answer: "Yes. Short, heartfelt messages work well as captions alongside a photo of your pet." },
+    ]}
+    internalLinks={[
+      { label: "Create a pet memorial page", href: "/pet-memorial" },
+      { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+      { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+      { label: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
+    ]}
   />
 );
 
