@@ -56,12 +56,14 @@ const DogObituaryExample = () => (
         body: "You don't need grand words. A sincere goodbye or a thank you is often the most powerful ending.",
       },
     ]}
+    definitionHeading="What Is a Dog Obituary?"
     definition="A dog obituary is a written tribute that celebrates a dog's life, personality, and the bond they shared with their family. It typically includes their name, character traits, favourite moments, and a heartfelt farewell."
     faqs={[
-      { question: "What is a dog obituary?", answer: "A dog obituary is a short written tribute that honours a dog's life. It captures their personality, habits, and the impact they had on their family." },
-      { question: "How long should a dog obituary be?", answer: "There's no set length. Some are a few sentences, others a few paragraphs. Write until it feels complete and true to your dog." },
-      { question: "What should I include in a dog obituary?", answer: "Include their name, personality traits, favourite activities, memorable moments, and what they meant to you. End with a farewell or thank you." },
-      { question: "Can VellumPet help me write a dog obituary?", answer: "Yes. Share a few memories about your dog and VellumPet will craft a beautiful, personalised tribute for you in minutes." },
+      { question: "What is a dog obituary?", answer: "A short written tribute that honours a dog's life, capturing their personality, habits, and impact on their family." },
+      { question: "How long should a dog obituary be?", answer: "Any length works. Some are a few sentences, others a few paragraphs. Write until it feels complete." },
+      { question: "What should I include in a dog obituary?", answer: "Their name, personality traits, favourite activities, memorable moments, and what they meant to you. End with a farewell." },
+      { question: "Is a dog obituary the same as a dog memorial?", answer: "Very similar. An obituary tends to be a structured announcement, while a memorial is a broader tribute. Both honour your dog's life." },
+      { question: "Can VellumPet help me write a dog obituary?", answer: "Yes. Share a few memories and VellumPet crafts a personalised tribute in minutes." },
     ]}
     internalLinks={[
       { label: "Create a pet memorial page", href: "/pet-memorial" },

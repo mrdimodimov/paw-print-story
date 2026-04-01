@@ -59,13 +59,14 @@ const WhatToWriteWhenDogDies = () => (
     ]}
     outroHeading="It's Okay to Ask for Help"
     outro="If the words aren't coming, that's completely normal. VellumPet was built for moments like this. Share a few memories about your dog, and we'll turn them into a tribute that honors their life beautifully. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
+    definitionHeading="What Is a Dog Memorial?"
     definition="A dog memorial is a written tribute that captures your dog's personality, habits, and the bond you shared. It can be as simple as a few heartfelt sentences or a longer narrative that tells their story."
     faqs={[
-      { question: "What should I write when my dog dies?", answer: "Start with your favourite memory — the day you met, a daily routine, or something that made them unique. Write honestly, as if you're telling a friend about your dog." },
-      { question: "How long should a dog memorial be?", answer: "There's no required length. Some of the most meaningful tributes are just a few sentences. Write until it feels complete." },
-      { question: "Can I use a tool to help me write a dog tribute?", answer: "Yes. VellumPet lets you answer a few simple questions about your dog and generates a heartfelt, personalised tribute for you." },
-      { question: "What do you say in a dog obituary?", answer: "Include their name, personality traits, favourite activities, and what they meant to you. Focus on the moments that made them special." },
-      { question: "Is it normal to grieve a dog deeply?", answer: "Absolutely. Research shows pet loss grief can be as intense as losing a human loved one. Your feelings are completely valid." },
+      { question: "What should I write when my dog dies?", answer: "Start with your favourite memory — the day you met, a daily routine, or something unique. Write as if telling a friend about your dog." },
+      { question: "How long should a dog memorial be?", answer: "Any length works. Some of the most meaningful tributes are just a few sentences." },
+      { question: "Can I use a tool to help me write a dog tribute?", answer: "Yes. VellumPet generates a personalised tribute from a few simple answers about your dog." },
+      { question: "What do you say in a dog obituary?", answer: "Their name, personality, favourite activities, and what they meant to you. Focus on what made them special." },
+      { question: "Is it normal to grieve a dog deeply?", answer: "Absolutely. Pet loss grief can be as intense as losing a human loved one. Your feelings are valid." },
     ]}
     internalLinks={[
       { label: "Create a pet memorial page", href: "/pet-memorial" },

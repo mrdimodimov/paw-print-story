@@ -59,12 +59,14 @@ const WhatToWriteWhenCatDies = () => (
     ]}
     outroHeading="You Don't Have to Write It Alone"
     outro="If the words aren't coming, that's completely normal. VellumPet helps you turn a few simple memories into a beautiful cat memorial — just answer a few gentle questions and we'll craft a tribute that honours their life. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
+    definitionHeading="What Is a Cat Memorial?"
     definition="A cat memorial is a written tribute that captures a cat's personality, habits, and the quiet bond they shared with their owner. It preserves the memories that made them irreplaceable."
     faqs={[
-      { question: "What should I write when my cat dies?", answer: "Start with how they came into your life, describe their personality and favourite habits, and share what you miss most. Keep it honest and gentle." },
-      { question: "How long should a cat memorial be?", answer: "There's no required length. Even a few heartfelt sentences can be a meaningful tribute. Write until it feels right." },
-      { question: "Is it normal to grieve a cat deeply?", answer: "Yes. Cats form deep bonds with their owners, and the grief of losing one is completely valid. Your feelings reflect the love you shared." },
-      { question: "Can VellumPet help me write a cat tribute?", answer: "Yes. Answer a few simple questions about your cat and VellumPet will generate a personalised, heartfelt memorial for you." },
+      { question: "What should I write when my cat dies?", answer: "Start with how they arrived, describe their personality and habits, and share what you miss most. Keep it honest and gentle." },
+      { question: "How long should a cat memorial be?", answer: "Any length works. Even a few heartfelt sentences can be meaningful. Write until it feels complete." },
+      { question: "Is it normal to grieve a cat deeply?", answer: "Yes. Cats form deep bonds with their owners, and the grief is completely valid." },
+      { question: "What should I include in a cat memorial?", answer: "Their name, personality, favourite spots, how they showed love, and what you miss. Small details make it feel real." },
+      { question: "Can VellumPet help me write a cat tribute?", answer: "Yes. Answer a few questions about your cat and VellumPet generates a personalised memorial for you." },
     ]}
     internalLinks={[
       { label: "Create a pet memorial page", href: "/pet-memorial" },
