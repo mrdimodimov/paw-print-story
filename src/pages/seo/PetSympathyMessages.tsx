@@ -22,11 +22,11 @@ const MessageBlock = ({ text }: { text: string }) => (
 );
 
 const PET_SYMPATHY_FAQS = [
-  { question: "What do you say when someone loses a pet?", answer: "Acknowledge the loss directly and keep it simple. Something like 'I'm so sorry — they were loved and that matters' is more meaningful than trying to find the perfect words." },
-  { question: "Should I mention the pet by name?", answer: "Yes, if you know it. Using the pet's name shows you recognise them as an individual, not just 'a pet.' It makes the message feel personal." },
-  { question: "Is it okay to send a sympathy card for a pet?", answer: "Absolutely. A handwritten card is one of the most thoughtful gestures you can make. It shows you take their grief seriously." },
-  { question: "What should I avoid saying?", answer: "Avoid phrases like 'it was just a pet' or 'you can get another one.' These dismiss real grief. Focus on acknowledging the loss and offering support." },
-  { question: "Can I help create a memorial for someone else's pet?", answer: "Yes. Offering to help create an online memorial page is a meaningful gesture. VellumPet makes it easy to build a tribute in minutes." },
+  { question: "What do you say when someone loses a pet?", answer: "Acknowledge their loss, express sympathy, and let them know you're thinking of them. Simple, sincere words are often the most meaningful." },
+  { question: "What are good pet sympathy messages?", answer: "Good pet sympathy messages are short, heartfelt, and personal. They focus on the bond between the pet and the owner and offer comfort." },
+  { question: "Should I send a message when a pet dies?", answer: "Yes. Sending a message shows support and lets the person know you care. Even a short message can mean a lot during grief." },
+  { question: "What should you avoid saying when a pet dies?", answer: "Avoid minimizing the loss or comparing it to other situations. Focus on empathy and acknowledging their feelings." },
+  { question: "Can I create a memorial page for someone else's pet?", answer: "Yes. Creating a memorial page is a thoughtful way to honor their pet and provide a lasting tribute." },
 ];
 
 const PetSympathyMessages = () => {
