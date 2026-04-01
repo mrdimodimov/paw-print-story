@@ -26,6 +26,14 @@ const section = (delay = 0) => ({
   viewport: { once: true },
 });
 
+const PET_MEMORIAL_FAQS = [
+  { question: "What is a pet memorial page?", answer: "A pet memorial page is an online tribute that tells your pet's story — their personality, habits, and the bond you shared. It's a permanent, shareable way to honour their memory." },
+  { question: "How do I create a pet memorial online?", answer: "With VellumPet, you answer a few simple questions about your pet and we generate a beautiful, personalised tribute page in under two minutes." },
+  { question: "Do I need to be a writer to create a memorial?", answer: "No. VellumPet does the writing for you. Just share a few memories and we'll craft a heartfelt tribute that captures your pet's life." },
+  { question: "Can I share a pet memorial page with others?", answer: "Yes. Every memorial page has a unique link you can share with family, friends, or on social media." },
+  { question: "Is a pet memorial page permanent?", answer: "Yes. Once created, your pet's memorial page is available online as a lasting tribute you can return to anytime." },
+];
+
 const PetMemorial = () => {
   const navigate = useNavigate();
 
@@ -41,6 +49,16 @@ const PetMemorial = () => {
     dateModified: "2025-03-01",
     mainEntityOfPage: "https://paw-print-story.lovable.app/pet-memorial",
     url: "https://paw-print-story.lovable.app/pet-memorial",
+  };
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: PET_MEMORIAL_FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
   };
 
   return (
