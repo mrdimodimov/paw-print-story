@@ -69,7 +69,7 @@ const PetMemorialCaptions = () => (
     internalLinks={[
       { label: "Create a Pet Memorial", href: "/pet-memorial" },
       { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
-      { label: "Short Pet Memorial Quotes", href: "/short-pet-memorial-quotes" },
+      { label: "Instagram Pet Memorial Captions", href: "/instagram-pet-memorial-captions" },
     ]}
   />
 );
