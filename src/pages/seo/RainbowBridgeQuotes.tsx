@@ -357,8 +357,7 @@ const RainbowBridgeQuotes = () => {
             Create a Beautiful Memorial for Your Pet
           </h2>
           <p className="mb-6 text-muted-foreground">
-            You don't need to be a writer. Share a few memories, and we'll
-            create a tribute you can keep forever.
+            If these quotes resonate with you, you may want to create something more personal. A full memorial allows you to share your pet's story, photos, and memories in one place.
           </p>
           <Link
             to="/create"
