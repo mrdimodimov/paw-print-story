@@ -354,7 +354,7 @@ const PetSympathyMessages = () => {
         {/* CTA */}
         <motion.section {...section()} className="mb-16 rounded-xl border border-border bg-accent/30 p-8 text-center md:p-10">
           <h2 className="mb-3 text-2xl font-bold text-foreground">Create a Beautiful Memorial for a Loved One's Pet</h2>
-          <p className="mb-6 text-muted-foreground">If you're looking for a more lasting way to honor a pet, you can create a memorial page that brings together messages, memories, and photos in one place.</p>
+          <p className="mb-6 text-muted-foreground">Creating a memorial page can be a meaningful way to honor a pet's life. VellumPet helps pet owners create beautiful online memorial pages.</p>
           <Link to="/create" className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-8 py-4 text-base font-medium text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-card">
             <CtaIcon className="shrink-0" size={22} />
             Create Their Memorial
