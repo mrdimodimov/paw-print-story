@@ -13,10 +13,10 @@ const CatMemorialQuotes = () => (
     heading="Cat Memorial Quotes: Gentle Words to Remember Your Cat"
     intro="Cats love quietly — a slow blink across the room, a gentle headbutt, the weight of them settling into your lap at the end of a long day. When a cat dies, the loss is felt in those small, private moments that no one else saw. These cat memorial quotes are here for that grief — soft, honest words to help you remember the companion who chose you."
     contextualLinks={[
-      { text: "Cat memorial tribute example", href: "/cat-memorial-tribute-example" },
-      { text: "What to write when a cat dies", href: "/what-to-write-when-a-cat-dies" },
       { text: "Pet memorial quotes", href: "/pet-memorial-quotes" },
-      { text: "Create a pet memorial page", href: "/pet-memorial" },
+      { text: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+      { text: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
+      { text: "What to write when a cat dies", href: "/what-to-write-when-a-cat-dies" },
       { text: "Create a tribute", href: "/create" },
     ]}
     exampleTitle="In Memory of Miso"
@@ -60,19 +60,19 @@ const CatMemorialQuotes = () => (
     outroHeading="Create a Beautiful Memorial for Your Cat"
     outro="A quote captures a feeling, but your cat's full story deserves more. With VellumPet, share a few memories and we'll craft a heartfelt tribute page you can keep forever. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
     definitionHeading="What Are Cat Memorial Quotes?"
-    definition="Cat memorial quotes are gentle, meaningful phrases used to honour a cat who has passed away. They reflect the quiet, independent bond between a cat and the person who loved them."
+    definition="Cat memorial quotes are short messages used to remember and honor a cat who has passed away. They often reflect the quiet, unique bond between a cat and its owner."
     faqs={[
-      { question: "What are cat memorial quotes?", answer: "Short, meaningful phrases that honour a cat's memory. They're used in tributes, sympathy cards, and online memorials." },
-      { question: "How do I choose a quote for my cat?", answer: "Pick something that reflects your cat's personality — independent, affectionate, playful, or quietly devoted." },
-      { question: "Can I use a cat memorial quote on social media?", answer: "Yes. They work well as Instagram captions or story overlays alongside a photo of your cat." },
-      { question: "What's the difference between cat and pet memorial quotes?", answer: "Cat memorial quotes focus on feline traits like independence, slow blinks, and quiet companionship that define the cat-owner bond." },
-      { question: "Can VellumPet help me create a cat memorial?", answer: "Yes. Share a few memories and VellumPet creates a personalised tribute page in under two minutes." },
+      { question: "What are cat memorial quotes?", answer: "Short, meaningful phrases that honour a cat's memory in tributes, cards, social media, or keepsakes." },
+      { question: "What should I write when my cat dies?", answer: "Write something honest — their name, a favourite habit, and what they meant to you. Even a few sentences can be deeply meaningful." },
+      { question: "Can I use cat memorial quotes for social media?", answer: "Yes. Short quotes work well as Instagram captions or story overlays alongside a photo of your cat." },
+      { question: "How do I remember my cat after loss?", answer: "Use a quote in a card or keepsake, or create a full memorial page with photos and stories to celebrate their life." },
+      { question: "Can I create a memorial page for my cat?", answer: "Yes. VellumPet lets you create a personalised memorial page in under two minutes." },
     ]}
     internalLinks={[
       { label: "Create a pet memorial page", href: "/pet-memorial" },
-      { label: "Cat memorial tribute example", href: "/cat-memorial-tribute-example" },
       { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
-      { label: "What to write when a cat dies", href: "/what-to-write-when-a-cat-dies" },
+      { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+      { label: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
     ]}
   />
 );
