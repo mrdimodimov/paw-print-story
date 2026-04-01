@@ -25,11 +25,11 @@ const QuoteBlock = ({ text, author }: { text: string; author?: string }) => (
 );
 
 const PET_MEMORIAL_QUOTES_FAQS = [
-  { question: "What are pet memorial quotes?", answer: "Pet memorial quotes are short, meaningful phrases used to honour a pet who has passed away. They can be included in tributes, sympathy cards, social media posts, or memorial keepsakes." },
-  { question: "How do I choose the right memorial quote for my pet?", answer: "Pick a quote that reflects your pet's personality or your bond. If they were playful, choose something warm. If they were a quiet companion, something gentle may feel right." },
-  { question: "Can I use these quotes on a memorial page?", answer: "Yes. These quotes work beautifully on an online pet memorial page, paired with photos and a personal tribute to your pet." },
-  { question: "Are there specific quotes for dogs and cats?", answer: "Yes. This page includes dedicated sections for dog memorial quotes and cat memorial quotes, each reflecting the unique bond those pets create." },
-  { question: "How can I create a pet memorial online?", answer: "With VellumPet, you can create a beautiful memorial page in under two minutes. Share a few memories and we'll craft a heartfelt tribute for you." },
+  { question: "What are pet memorial quotes?", answer: "Pet memorial quotes are short messages or phrases used to remember and honor a pet who has passed away. They help express love, grief, and the lasting bond between a pet and their owner." },
+  { question: "What should I write for a pet memorial?", answer: "Write something honest — their name, a favourite memory, and what they meant to you. A few heartfelt sentences are more powerful than anything polished." },
+  { question: "Can I use pet memorial quotes for social media?", answer: "Yes. Short quotes work well as Instagram captions, story overlays, or Facebook posts alongside a photo of your pet." },
+  { question: "How do I choose the right pet memorial quote?", answer: "Pick a quote that reflects your pet's personality or the feeling they gave you. The right quote should feel like it was written about them." },
+  { question: "Can I create a full memorial page instead of just using quotes?", answer: "Yes. VellumPet lets you create a personalised memorial page in under two minutes — just share a few memories and we'll craft a beautiful tribute." },
 ];
 
 const PetMemorialQuotes = () => {
@@ -93,7 +93,7 @@ const PetMemorialQuotes = () => {
 
       <article className="mx-auto max-w-[700px] px-5 py-16 md:py-20">
         {/* ─── H1: Hero ─── */}
-        <motion.section {...section()} className="mb-16">
+        <motion.section {...section()} className="mb-10">
           <h1 className="mb-5 text-3xl font-bold leading-[1.15] text-foreground md:text-4xl lg:text-[2.75rem]">
             Pet Memorial Quotes: Meaningful Words to Remember Your Pet
           </h1>
@@ -105,7 +105,10 @@ const PetMemorialQuotes = () => {
           </p>
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
             These pet memorial quotes are here to help — whether you're writing a
-            tribute, sending a sympathy card, or simply looking for words that
+            tribute, sending a{" "}
+            <Link to="/pet-sympathy-messages" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              pet sympathy message
+            </Link>, or simply looking for words that
             match what you're feeling. If you're looking to create a lasting{" "}
             <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
               pet memorial page
@@ -113,6 +116,26 @@ const PetMemorialQuotes = () => {
             carry the weight of a longer goodbye. All of them honour the bond
             between a person and their pet.
           </p>
+
+          {/* Contextual Links */}
+          <nav className="mb-8 flex flex-wrap gap-2" aria-label="Related topics">
+            {[
+              { text: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
+              { text: "Dog memorial quotes", href: "/dog-memorial-quotes" },
+              { text: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+              { text: "Create a pet memorial page", href: "/pet-memorial" },
+              { text: "Create a tribute", href: "/create" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className="rounded-full border border-border bg-card px-3.5 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
+              >
+                {link.text}
+              </Link>
+            ))}
+          </nav>
+
           <Link
             to="/create"
             className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-7 py-3.5 text-base font-medium text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
@@ -125,14 +148,30 @@ const PetMemorialQuotes = () => {
           </p>
         </motion.section>
 
+        {/* ─── H2: Definition ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-3 text-2xl font-bold text-foreground">
+            What Are Pet Memorial Quotes?
+          </h2>
+          <p className="text-foreground/90 leading-relaxed">
+            Pet memorial quotes are short messages or phrases used to remember and honor a pet who has passed away. They help express love, grief, and the lasting bond between a pet and their owner. Whether used on a{" "}
+            <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              memorial page
+            </Link>, in a sympathy card, or as a social media caption, they give voice to feelings that are hard to put into words.
+          </p>
+        </motion.section>
+
         {/* ─── H2: Short Pet Memorial Quotes ─── */}
         <motion.section {...section()} className="mb-16">
           <h2 className="mb-5 text-2xl font-bold text-foreground">
             Short Pet Memorial Quotes
           </h2>
           <p className="mb-6 text-muted-foreground">
-            Sometimes a few words say everything. These short pet remembrance
-            quotes are perfect for engraving, framing, or simply holding close.
+            Sometimes a few words say everything. These short{" "}
+            <Link to="/pet-remembrance-quotes" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              pet remembrance quotes
+            </Link>{" "}
+            are perfect for engraving, framing, or simply holding close.
           </p>
           <div className="space-y-4">
             <QuoteBlock text="You were my favourite hello and my hardest goodbye." />
@@ -368,7 +407,11 @@ const PetMemorialQuotes = () => {
           </h2>
           <p className="mb-6 text-muted-foreground">
             You don't need to be a writer. Share a few memories, and we'll
-            create a tribute you can keep forever.
+            create a tribute you can keep forever — a full{" "}
+            <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              pet memorial page
+            </Link>{" "}
+            that goes far beyond a single quote.
           </p>
           <Link
             to="/create"
@@ -417,11 +460,11 @@ const PetMemorialQuotes = () => {
           <h2 className="mb-6 text-2xl font-bold text-foreground">Frequently Asked Questions</h2>
           <div className="space-y-6">
             {[
-              { q: "What are pet memorial quotes?", a: "Pet memorial quotes are short, meaningful phrases used to honour a pet who has passed away. They can be included in tributes, sympathy cards, social media posts, or memorial keepsakes." },
-              { q: "How do I choose the right memorial quote for my pet?", a: "Pick a quote that reflects your pet's personality or your bond. If they were playful, choose something warm. If they were a quiet companion, something gentle may feel right." },
-              { q: "Can I use these quotes on a memorial page?", a: "Yes. These quotes work beautifully on an online pet memorial page, paired with photos and a personal tribute to your pet." },
-              { q: "Are there specific quotes for dogs and cats?", a: "Yes. This page includes dedicated sections for dog memorial quotes and cat memorial quotes, each reflecting the unique bond those pets create." },
-              { q: "How can I create a pet memorial online?", a: "With VellumPet, you can create a beautiful memorial page in under two minutes. Share a few memories and we'll craft a heartfelt tribute for you." },
+              { q: "What are pet memorial quotes?", a: "Pet memorial quotes are short messages or phrases used to remember and honor a pet who has passed away. They help express love, grief, and the lasting bond between a pet and their owner." },
+              { q: "What should I write for a pet memorial?", a: "Write something honest — their name, a favourite memory, and what they meant to you. A few heartfelt sentences are more powerful than anything polished." },
+              { q: "Can I use pet memorial quotes for social media?", a: "Yes. Short quotes work well as Instagram captions, story overlays, or Facebook posts alongside a photo of your pet." },
+              { q: "How do I choose the right pet memorial quote?", a: "Pick a quote that reflects your pet's personality or the feeling they gave you. The right quote should feel like it was written about them." },
+              { q: "Can I create a full memorial page instead of just using quotes?", a: "Yes. VellumPet lets you create a personalised memorial page in under two minutes — just share a few memories and we'll craft a beautiful tribute." },
             ].map((faq, i) => (
               <div key={i}>
                 <h3 className="font-semibold text-foreground">{faq.q}</h3>
@@ -437,9 +480,9 @@ const PetMemorialQuotes = () => {
           <ul className="space-y-2">
             {[
               { label: "Create a pet memorial page", href: "/pet-memorial" },
-              { label: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
-              { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+              { label: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
               { label: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
+              { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
             ].map((link, i) => (
               <li key={i}>
                 <Link to={link.href} className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors">
