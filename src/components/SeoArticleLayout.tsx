@@ -139,7 +139,7 @@ const SeoArticleLayout = ({
       "@type": "ListItem",
       position: i + 1,
       name: c.name,
-      item: `${siteBase}${c.href}`,
+      item: c.href.startsWith("http") ? c.href : `${siteBase}${c.href}`,
     })),
   };
 
