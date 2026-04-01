@@ -11,28 +11,37 @@ const PetRemembranceQuotes = () => (
         "Find pet remembrance quotes for dogs, cats, and all beloved animals. Comforting words for memorial pages, cards, and keepsakes.",
     }}
     heading="Pet Remembrance Quotes: Meaningful Words to Honor Your Pet"
-    intro="Some bonds don't fade just because they've ended. Whether you lost a dog, a cat, a rabbit, a bird, or any animal who shared your life, the grief is real — and so is the need to remember them well. These pet remembrance quotes are gathered here for you: words to write in a card, add to a memorial page, engrave on a keepsake, or simply read when the missing feels too heavy."
+    intro="Losing a pet is one of the most difficult experiences for any pet owner. These pet remembrance quotes can help you express your feelings, honor your pet's life, and keep their memory alive. Whether you lost a dog, a cat, a rabbit, a bird, or any animal who shared your life, the grief is real — and so is the need to remember them well."
     contextualLinks={[
       { text: "Pet memorial quotes", href: "/pet-memorial-quotes" },
       { text: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
       { text: "Pet sympathy messages", href: "/pet-sympathy-messages" },
-      { text: "Create a pet memorial page", href: "/pet-memorial" },
       { text: "Create a tribute", href: "/create" },
     ]}
-    exampleTitle="Remembering Pepper"
+    exampleTitle="Short Pet Remembrance Quotes"
     exampleBody={[
-      "Pepper was a black-and-white rabbit with one ear that stood straight up and another that flopped permanently to the side. He arrived in a cardboard carrier, thumped his disapproval at the kitchen floor for twenty minutes, then settled into the corner of the living room and decided it was acceptable.",
-      "He had routines. Every morning he'd binky across the carpet in a burst of joy that lasted exactly fifteen seconds before returning to his hay pile as though nothing had happened. He loved bananas with an intensity that bordered on obsession and had a particular way of nudging your hand with his nose when he wanted to be stroked.",
-      "Pepper wasn't a dog or a cat. He didn't greet you at the door or curl up on your lap. But he had a presence — quiet, gentle, deeply calming. Sitting beside him while he ate his hay was one of the most peaceful parts of any day.",
-      "He was with us for nine years. The corner of the living room feels emptier now, but the calm he brought to our home remains.",
-      "Thank you, Pepper. You were small, soft, and entirely yourself — and that was more than enough.",
+      "\"Forever in our hearts.\"",
+      "\"You were more than a pet — you were family.\"",
+      "\"Gone from our sight, but never from our hearts.\"",
+      "\"Your paw prints will stay with us forever.\"",
+      "\"Loved always, forgotten never.\"",
+      "\"The hardest part of loving a pet is saying goodbye.\"",
+      "\"You gave us years of love, and we will carry that forever.\"",
+      "\"No longer by our side, but always in our hearts.\"",
+      "\"You may be gone, but your love remains with us every day.\"",
+      "\"A piece of our heart went with you.\"",
+      "\"Until we meet again at the Rainbow Bridge.\"",
+      "\"Run free where the pain is gone.\"",
+      "\"You are waiting somewhere over the Rainbow Bridge.\"",
+      "\"One day we will be together again.\"",
     ]}
-    howToWriteIntro="A remembrance quote doesn't need to be long or literary. It just needs to be honest. Here's how to write something that truly captures your pet."
+    howToWriteIntro="If you want to go beyond quotes, here are simple ways to write your own remembrance message — or use these quotes in a sympathy card, social media caption, tribute post, or pet memorial page."
     howToWriteBody={[
-      "Think about the daily moments — not the grand gestures, but the small things that made your pet part of your routine. The sound of them eating, the place they always sat, the way they looked at you.",
-      "Consider what you miss most. Often the most powerful remembrance quotes come from the simplest observations: the empty spot, the silence where there used to be sound, the habit that no longer has a purpose.",
-      "Don't compare your pet to anyone else's. What made them special to you is what makes the quote meaningful.",
-      "Write as though you're speaking to them. 'I miss you' is sometimes the most perfect remembrance quote of all.",
+      "Talk about your pet's personality — what made them unique, funny, or comforting.",
+      "Share a favorite memory. Often the most powerful remembrance quotes come from the simplest observations: the empty spot, the silence where there used to be sound.",
+      "Express what they meant to you. Don't compare your pet to anyone else's — what made them special to you is what makes the message meaningful.",
+      "Keep it simple and honest. 'I miss you' is sometimes the most perfect remembrance quote of all.",
+      "Example: \"You brought so much joy into our lives. We will miss you every single day.\"",
     ]}
     tips={[
       {
@@ -57,15 +66,15 @@ const PetRemembranceQuotes = () => (
       },
     ]}
     outroHeading="Create a Lasting Memorial for Your Pet"
-    outro="A remembrance quote is a beautiful starting point — but your pet's full story deserves to be told. VellumPet helps you turn a few memories into a heartfelt tribute page in under two minutes. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
+    outro="If you want to preserve your pet's memory beyond a single quote, creating a full memorial page can be a meaningful step. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
     definitionHeading="What Are Pet Remembrance Quotes?"
-    definition="Pet remembrance quotes are words used to reflect on and remember a pet after they have passed away. They focus on memory, love, and lasting impact."
+    definition="Pet remembrance quotes are messages used to honor and remember a pet after they have passed away. They help express love, grief, and the lasting impact a pet leaves behind."
     faqs={[
-      { question: "What are pet remembrance quotes?", answer: "Short, meaningful phrases used to honour a pet's memory. They work for any type of pet in tributes, cards, or keepsakes." },
-      { question: "What is the difference between memorial and remembrance quotes?", answer: "Very similar. Remembrance quotes focus on keeping memories alive; memorial quotes may focus more on grief and tribute." },
-      { question: "Can I use these quotes in a tribute?", answer: "Yes. They work beautifully on memorial pages, in photo albums, on keepsakes, or as social media captions." },
-      { question: "What are short remembrance quotes?", answer: "Brief phrases like 'Forever in my heart' or 'You made every day better' that capture a feeling in just a few words." },
-      { question: "How do I remember my pet?", answer: "Write a quote, create a memorial page, or share photos and stories. Any honest expression of love keeps their memory alive." },
+      { question: "What are pet remembrance quotes?", answer: "Pet remembrance quotes are messages used to honor and remember a pet who has passed away. They help express love and keep memories alive." },
+      { question: "What is the difference between memorial and remembrance quotes?", answer: "Memorial quotes often focus on honoring a pet's life, while remembrance quotes emphasize keeping their memory alive after they are gone." },
+      { question: "Can I use pet remembrance quotes on social media?", answer: "Yes, many people use pet remembrance quotes as captions or posts to share memories and express their feelings." },
+      { question: "How do I write a message when my pet dies?", answer: "Write from the heart. Share memories, describe your pet's personality, and express what they meant to you." },
+      { question: "Can I create a full memorial page for my pet?", answer: "Yes, a memorial page allows you to share photos, stories, and memories in one place." },
     ]}
     internalLinks={[
       { label: "Create a pet memorial page", href: "/pet-memorial" },
