@@ -411,9 +411,9 @@ const PetSympathyMessages = () => {
           <ul className="space-y-2">
             {[
               { label: "Create a pet memorial page", href: "/pet-memorial" },
-              { label: "Pet condolence messages", href: "/pet-condolence-messages" },
               { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
-              { label: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
+              { label: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
+              { label: "Dog obituary example", href: "/dog-obituary-example" },
             ].map((link, i) => (
               <li key={i}>
                 <Link to={link.href} className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors">
