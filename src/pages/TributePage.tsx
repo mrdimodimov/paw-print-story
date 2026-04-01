@@ -89,9 +89,12 @@ const TributePage = () => {
   const isFounderMode = localStorage.getItem("founderMode") === "true";
   const { isTester, testerToken } = useTesterAccess();
   const forceLocked = searchParams.get("locked") === "true";
+  const testerSource = sessionStorage.getItem("tester_source");
   const effectiveUnlocked = forceLocked
     ? false
     : isTester ? true : (isTestMode || isFounderMode) ? testUnlocked : unlocked;
+
+  console.log("TESTER MODE:", { testerSource, isTester, effectiveUnlocked, forceLocked, unlocked });
   const [tributeDbId, setTributeDbId] = useState<string | undefined>();
   const [currentTier, setCurrentTier] = useState<TierConfig>(tier);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
@@ -504,6 +507,12 @@ const TributePage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Tester debug indicator */}
+      {isTester && (
+        <div className="fixed right-3 top-3 z-[9999] rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-lg">
+          TEST MODE
+        </div>
+      )}
       {/* Test Mode Banner */}
       {isTestMode && (
         <div className="border-b border-yellow-500/30 bg-yellow-50 px-4 py-2 text-center dark:bg-yellow-950/20">
