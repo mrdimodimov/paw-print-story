@@ -43,6 +43,7 @@ interface SeoArticleProps {
   intro: string;
   exampleTitle: string;
   exampleBody: string[];
+  exampleHeading?: string;
   howToWriteIntro?: string;
   howToWriteBody?: string[];
   tips: StructuredTip[];
@@ -54,6 +55,7 @@ interface SeoArticleProps {
   contextualLinks?: ContextualLink[];
   breadcrumbs?: BreadcrumbItem[];
   definition?: string;
+  definitionHeading?: string;
   faqs?: FaqItem[];
   internalLinks?: InternalLink[];
 }
@@ -98,13 +100,15 @@ const SeoArticleLayout = ({
   contextualLinks = [],
   breadcrumbs,
   definition,
+  definitionHeading = "What Does This Mean?",
   faqs,
   internalLinks,
+  exampleHeading = "Example Tribute",
 }: SeoArticleProps) => {
   const navigate = useNavigate();
 
-  const canonicalUrl = `https://paw-print-story.lovable.app${slug || (typeof window !== "undefined" ? window.location.pathname : "")}`;
-  const siteBase = "https://paw-print-story.lovable.app";
+  const siteBase = import.meta.env.VITE_SITE_URL || "https://vellumpet.com";
+  const canonicalUrl = `${siteBase}${slug}`;
 
   const relatedArticles = ALL_ARTICLES.filter((a) => a.href !== slug).slice(0, 3);
 
@@ -135,7 +139,7 @@ const SeoArticleLayout = ({
       "@type": "ListItem",
       position: i + 1,
       name: c.name,
-      item: `${siteBase}${c.href}`,
+      item: c.href.startsWith("http") ? c.href : `${siteBase}${c.href}`,
     })),
   };
 
@@ -158,6 +162,14 @@ const SeoArticleLayout = ({
         <title>{meta.title}</title>
         <meta name="description" content={meta.description} />
         <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:title" content={meta.title} />
+        <meta property="og:description" content={meta.description} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="VellumPet" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={meta.title} />
+        <meta name="twitter:description" content={meta.description} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
         {faqLd && <script type="application/ld+json">{JSON.stringify(faqLd)}</script>}
@@ -210,7 +222,7 @@ const SeoArticleLayout = ({
             {/* Definition block */}
             {definition && (
               <section className="mb-10">
-                <h2 className="mb-3 text-2xl font-bold text-foreground">Definition</h2>
+                <h2 className="mb-3 text-2xl font-bold text-foreground">{definitionHeading}</h2>
                 <p className="text-muted-foreground leading-relaxed">{definition}</p>
               </section>
             )}
@@ -257,7 +269,7 @@ const SeoArticleLayout = ({
             className="mb-14"
           >
             <h2 className="mb-5 text-2xl font-bold text-foreground">
-              Example Tribute
+              {exampleHeading}
             </h2>
             <div className="rounded-xl border border-border bg-card p-8 shadow-card md:p-10">
               <h3 className="mb-5 text-center font-display text-xl font-semibold text-foreground">
