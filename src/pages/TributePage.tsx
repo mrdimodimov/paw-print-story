@@ -1361,7 +1361,7 @@ const TributePage = () => {
           testerToken={testerToken}
           photosUploaded={photoUrls.length}
           tributeStartTime={tributeStartTime.current}
-          onClose={() => { setShowFeedback(false); setFeedbackDismissed(true); }}
+          onClose={() => { setShowFeedback(false); setFeedbackDismissed(true); sessionStorage.setItem("feedback_shown", "true"); }}
         />
       )}
     </div>
