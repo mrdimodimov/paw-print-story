@@ -25,11 +25,11 @@ const QuoteBlock = ({ text, author }: { text: string; author?: string }) => (
 );
 
 const PET_MEMORIAL_QUOTES_FAQS = [
-  { question: "What are pet memorial quotes?", answer: "Pet memorial quotes are short, meaningful phrases used to honour a pet who has passed away. They can be included in tributes, sympathy cards, social media posts, or memorial keepsakes." },
-  { question: "How do I choose the right memorial quote for my pet?", answer: "Pick a quote that reflects your pet's personality or your bond. If they were playful, choose something warm. If they were a quiet companion, something gentle may feel right." },
-  { question: "Can I use these quotes on a memorial page?", answer: "Yes. These quotes work beautifully on an online pet memorial page, paired with photos and a personal tribute to your pet." },
-  { question: "Are there specific quotes for dogs and cats?", answer: "Yes. This page includes dedicated sections for dog memorial quotes and cat memorial quotes, each reflecting the unique bond those pets create." },
-  { question: "How can I create a pet memorial online?", answer: "With VellumPet, you can create a beautiful memorial page in under two minutes. Share a few memories and we'll craft a heartfelt tribute for you." },
+  { question: "What are pet memorial quotes?", answer: "Pet memorial quotes are short messages or phrases used to remember and honor a pet who has passed away. They help express love, grief, and the lasting bond between a pet and their owner." },
+  { question: "What should I write for a pet memorial?", answer: "Write something honest — their name, a favourite memory, and what they meant to you. A few heartfelt sentences are more powerful than anything polished." },
+  { question: "Can I use pet memorial quotes for social media?", answer: "Yes. Short quotes work well as Instagram captions, story overlays, or Facebook posts alongside a photo of your pet." },
+  { question: "How do I choose the right pet memorial quote?", answer: "Pick a quote that reflects your pet's personality or the feeling they gave you. The right quote should feel like it was written about them." },
+  { question: "Can I create a full memorial page instead of just using quotes?", answer: "Yes. VellumPet lets you create a personalised memorial page in under two minutes — just share a few memories and we'll craft a beautiful tribute." },
 ];
 
 const PetMemorialQuotes = () => {
