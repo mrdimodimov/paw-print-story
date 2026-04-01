@@ -269,7 +269,7 @@ const SeoArticleLayout = ({
             className="mb-14"
           >
             <h2 className="mb-5 text-2xl font-bold text-foreground">
-              Example Tribute
+              {exampleHeading}
             </h2>
             <div className="rounded-xl border border-border bg-card p-8 shadow-card md:p-10">
               <h3 className="mb-5 text-center font-display text-xl font-semibold text-foreground">
