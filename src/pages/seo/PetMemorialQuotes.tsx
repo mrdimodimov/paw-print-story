@@ -93,7 +93,7 @@ const PetMemorialQuotes = () => {
 
       <article className="mx-auto max-w-[700px] px-5 py-16 md:py-20">
         {/* ─── H1: Hero ─── */}
-        <motion.section {...section()} className="mb-16">
+        <motion.section {...section()} className="mb-10">
           <h1 className="mb-5 text-3xl font-bold leading-[1.15] text-foreground md:text-4xl lg:text-[2.75rem]">
             Pet Memorial Quotes: Meaningful Words to Remember Your Pet
           </h1>
@@ -105,7 +105,10 @@ const PetMemorialQuotes = () => {
           </p>
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
             These pet memorial quotes are here to help — whether you're writing a
-            tribute, sending a sympathy card, or simply looking for words that
+            tribute, sending a{" "}
+            <Link to="/pet-sympathy-messages" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              pet sympathy message
+            </Link>, or simply looking for words that
             match what you're feeling. If you're looking to create a lasting{" "}
             <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
               pet memorial page
@@ -113,6 +116,26 @@ const PetMemorialQuotes = () => {
             carry the weight of a longer goodbye. All of them honour the bond
             between a person and their pet.
           </p>
+
+          {/* Contextual Links */}
+          <nav className="mb-8 flex flex-wrap gap-2" aria-label="Related topics">
+            {[
+              { text: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
+              { text: "Dog memorial quotes", href: "/dog-memorial-quotes" },
+              { text: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+              { text: "Create a pet memorial page", href: "/pet-memorial" },
+              { text: "Create a tribute", href: "/create" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className="rounded-full border border-border bg-card px-3.5 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
+              >
+                {link.text}
+              </Link>
+            ))}
+          </nav>
+
           <Link
             to="/create"
             className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-7 py-3.5 text-base font-medium text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
@@ -122,6 +145,19 @@ const PetMemorialQuotes = () => {
           </Link>
           <p className="mt-3 text-sm text-muted-foreground">
             Takes less than 2 minutes · No writing required
+          </p>
+        </motion.section>
+
+        {/* ─── H2: Definition ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-3 text-2xl font-bold text-foreground">
+            What Are Pet Memorial Quotes?
+          </h2>
+          <p className="text-foreground/90 leading-relaxed">
+            Pet memorial quotes are short messages or phrases used to remember and honor a pet who has passed away. They help express love, grief, and the lasting bond between a pet and their owner. Whether used on a{" "}
+            <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
+              memorial page
+            </Link>, in a sympathy card, or as a social media caption, they give voice to feelings that are hard to put into words.
           </p>
         </motion.section>
 
