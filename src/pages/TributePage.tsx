@@ -383,6 +383,7 @@ const TributePage = () => {
   };
 
   const handleCheckout = async () => {
+    trackEvent("payment_clicked", { tributeId: tributeDbId, metadata: { tier: currentTier.id } });
     if (isTester) {
       // Tester bypass — mark as unlocked without Stripe
       setUnlocked(true);
