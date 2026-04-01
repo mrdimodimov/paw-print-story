@@ -29,6 +29,7 @@ import PetRemembranceQuotes from "./pages/seo/PetRemembranceQuotes";
 import WhatToWriteWhenCatDies from "./pages/seo/WhatToWriteWhenCatDies";
 import PetCondolenceMessages from "./pages/seo/PetCondolenceMessages";
 import ShortPetMemorialQuotes from "./pages/seo/ShortPetMemorialQuotes";
+import DogLossQuotes from "./pages/seo/DogLossQuotes";
 import ExampleTribute from "./pages/ExampleTribute";
 import ExampleTributeOliver from "./pages/ExampleTributeOliver";
 import ExampleTributeMax from "./pages/ExampleTributeMax";
