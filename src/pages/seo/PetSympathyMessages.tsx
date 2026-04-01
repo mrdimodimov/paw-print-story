@@ -86,7 +86,7 @@ const PetSympathyMessages = () => {
             Pet Sympathy Messages: What to Say When Someone Loses a Pet
           </h1>
           <p className="mb-4 text-lg leading-relaxed text-muted-foreground">
-            When someone you care about loses a pet, it can be hard to know what to say. You want to offer comfort, but the words feel inadequate — too small for something that clearly matters so deeply. The truth is, most people don't need the perfect message. They just need to know you care.
+            Losing a pet is deeply painful, and finding the right words can be difficult. These pet sympathy messages can help you express comfort, care, and support when someone you know is grieving the loss of a beloved companion.
           </p>
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
             These pet sympathy messages are here to help. Whether you're writing a card, sending a text, or helping someone{" "}
