@@ -110,6 +110,12 @@ const SeoArticleLayout = ({
   const siteBase = import.meta.env.VITE_SITE_URL || "https://vellumpet.com";
   const canonicalUrl = `${siteBase}${slug}`;
 
+  if (!slug) {
+    console.warn("SeoArticleLayout: missing slug");
+  }
+
+  const effectiveDefinitionHeading = definitionHeading || `What Is ${heading}?`;
+
   const relatedArticles = ALL_ARTICLES.filter((a) => a.href !== slug).slice(0, 3);
 
   // Build breadcrumb trail: Home → [parent] → current page
