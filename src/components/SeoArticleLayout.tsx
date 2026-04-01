@@ -420,6 +420,57 @@ const SeoArticleLayout = ({
               View all pet memorials <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </motion.section>
+
+          {/* FAQ Section */}
+          {faqs && faqs.length > 0 && (
+            <motion.section
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="mb-14"
+            >
+              <h2 className="mb-6 text-2xl font-bold text-foreground">
+                Frequently Asked Questions
+              </h2>
+              <div className="space-y-6">
+                {faqs.map((faq, i) => (
+                  <div key={i}>
+                    <h3 className="font-semibold text-foreground">{faq.question}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{faq.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.section>
+          )}
+
+          {/* Internal Links */}
+          {internalLinks && internalLinks.length > 0 && (
+            <motion.section
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="mb-14"
+            >
+              <h3 className="mb-4 text-xl font-bold text-foreground">
+                Explore More Guides
+              </h3>
+              <ul className="space-y-2">
+                {internalLinks.map((link, i) => (
+                  <li key={i}>
+                    <Link
+                      to={link.href}
+                      className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors"
+                    >
+                      <PawIcon className="h-3.5 w-3.5 shrink-0" />
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </motion.section>
+          )}
         </div>
       </article>
 
