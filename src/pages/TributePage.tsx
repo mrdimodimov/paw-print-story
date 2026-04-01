@@ -112,7 +112,11 @@ const TributePage = () => {
   const [petType, setPetType] = useState(formData?.pet_type || "dog");
   const [breed, setBreed] = useState(formData?.breed);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [feedbackDismissed, setFeedbackDismissed] = useState(false);
+  const [feedbackDismissed, setFeedbackDismissed] = useState(
+    () => sessionStorage.getItem("feedback_shown") === "true"
+  );
+  const [canShowFeedback, setCanShowFeedback] = useState(false);
+  const [hasScrolledEnough, setHasScrolledEnough] = useState(false);
   const tributeStartTime = useRef(Date.now());
 
   const maxRegens = currentTier.id === "story" ? 2 : currentTier.id === "pack" ? 3 : Infinity;
