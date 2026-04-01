@@ -21,6 +21,13 @@ const Q = ({ text }: { text: string }) => (
   </blockquote>
 );
 
+const SHORT_DOG_FAQS = [
+  { question: "What are short dog memorial quotes?", answer: "Short dog memorial quotes are brief, meaningful phrases — usually one or two sentences — used to honour a dog who has passed away. They're ideal for engravings, captions, and cards." },
+  { question: "Where can I use a short dog memorial quote?", answer: "They work well on sympathy cards, social media captions, engraved stones or frames, photo albums, and online memorial pages." },
+  { question: "How do I choose the right short quote for my dog?", answer: "Pick one that feels true to your dog's personality or your bond. The best quote is the one that makes you feel something when you read it." },
+  { question: "Can I write my own short memorial quote?", answer: "Absolutely. Personal quotes are often the most meaningful. Think about what you'd want to say to your dog in one sentence." },
+];
+
 const ShortDogMemorialQuotes = () => {
   const navigate = useNavigate();
   const canonicalUrl = "https://paw-print-story.lovable.app/short-dog-memorial-quotes";
@@ -38,6 +45,16 @@ const ShortDogMemorialQuotes = () => {
     url: canonicalUrl,
   };
 
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: SHORT_DOG_FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
@@ -45,6 +62,7 @@ const ShortDogMemorialQuotes = () => {
         <meta name="description" content="Find short dog memorial quotes, simple remembrance messages, and meaningful words to honor your beloved dog." />
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
       </Helmet>
 
       <SeoBreadcrumbs items={[
