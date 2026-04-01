@@ -26,12 +26,12 @@ export function useTesterAccess() {
   console.log("[tester-access] source:", initialToken, "isTester:", initialTester);
 
   useEffect(() => {
-    // Pick token from URL param first, then localStorage
     const urlToken = searchParams.get("tester");
     const token = urlToken || localStorage.getItem(TOKEN_KEY);
 
     if (urlToken) {
       localStorage.setItem(TOKEN_KEY, urlToken);
+      sessionStorage.setItem("tester_source", urlToken);
       setTesterToken(urlToken);
     }
 
