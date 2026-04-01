@@ -14,8 +14,8 @@ const WhatToWriteWhenCatDies = () => (
     intro="When a cat dies, the loss can catch you off guard. Cats are quiet companions — they don't demand attention the way dogs do, but they fill your home with a presence that's impossible to replace. The empty windowsill, the silence where purring used to be, the weight that's no longer on your lap at the end of the day. Writing something about your cat can be a way to process that loss and hold onto the moments that mattered most."
     contextualLinks={[
       { text: "Cat memorial quotes", href: "/cat-memorial-quotes" },
-      { text: "Cat memorial tribute example", href: "/cat-memorial-tribute-example" },
-      { text: "Pet memorial message ideas", href: "/pet-memorial-message" },
+      { text: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+      { text: "Pet memorial quotes", href: "/pet-memorial-quotes" },
       { text: "Create a pet memorial page", href: "/pet-memorial" },
       { text: "Create a tribute", href: "/create" },
     ]}
