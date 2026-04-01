@@ -61,6 +61,7 @@ export function render(url: string) {
               <Route path="/instagram-pet-memorial-captions" element={<InstagramPetMemorialCaptions />} />
               <Route path="/sudden-pet-death-quotes" element={<SuddenPetDeathQuotes />} />
               <Route path="/pet-anniversary-quotes" element={<PetAnniversaryQuotes />} />
+              <Route path="/rest-in-peace-dog-quotes" element={<RestInPeaceDogQuotes />} />
             </Routes>
           </StaticRouter>
         </TooltipProvider>
