@@ -10,8 +10,8 @@ const PetMemorialQuotesDaisy = () => (
       { name: "Memorial Quotes for Daisy", href: "/pet-memorial-quotes-daisy" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Daisy — Honor Your Bright Daisy",
-      description: "40+ pet memorial quotes for a pet named Daisy. Warm, personalized messages to honor your cheerful, sunny companion.",
+      title: "Pet Memorial Quotes for Daisy (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Daisy. Warm, personalized messages to honor your cheerful, sunny companion.",
     }}
     heading="Pet Memorial Quotes for Daisy"
     intro="Daisy — bright, cheerful, and full of life, just like the flower she was named after. Daisy had a way of making every day feel sunnier, every moment feel lighter, and every problem feel smaller. Losing Daisy means losing the warmth that made your home feel alive — the happy greetings, the playful energy, the gentle presence that bloomed in every corner of your life. These quotes honor the Daisy who made your world more beautiful."
