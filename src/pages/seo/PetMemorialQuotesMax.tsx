@@ -10,8 +10,8 @@ const PetMemorialQuotesMax = () => (
       { name: "Memorial Quotes for Max", href: "/pet-memorial-quotes-max" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Max — Honor Your Greatest Friend",
-      description: "40+ pet memorial quotes for a pet named Max. Emotional, personalized messages to honor your loyal, loving Max.",
+      title: "Pet Memorial Quotes for Max (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Max. Emotional, personalized messages to honor your loyal, loving Max.",
     }}
     heading="Pet Memorial Quotes for Max"
     intro="Max — a name that means the greatest, and he truly was. From his unwavering loyalty to his joyful greetings at the door, Max was the kind of companion who made you feel like the most important person in the world. Losing Max leaves a gap that nothing else can fill — the empty spot on the bed, the quiet walks, the missing warmth beside you. These quotes honor the Max who gave you everything."
@@ -68,6 +68,7 @@ const PetMemorialQuotesMax = () => (
       { heading: "Remembering Max", body: "Max was more than a name — it was a reflection of who he was. The greatest companion, the most loyal friend, the one who was always there. Whether he was greeting you at the door, resting his head on your lap, or walking beside you, Max filled your life with a steady, powerful love that doesn't fade." },
       { heading: "How to Honor Max's Memory", body: "Create a memorial page for Max on VellumPet to preserve his photos, stories, and the moments that mattered most. You can also share a personalized quote on social media, engrave a message on a keepsake, or write a tribute that captures everything Max meant to you." },
       { heading: "Personal Touches", body: "Add a favorite memory — Max's best trick, his favorite spot, or the way he looked at you — to make your tribute uniquely his." },
+      { heading: "What to Write for Max", body: "Celebrate Max's greatness. Examples: 'Max, you were the greatest friend I ever had.' 'No one was as loyal as you, Max — not even close.' 'Max, you gave me everything and asked for nothing in return.'" },
     ]}
     tipsIntro="Ways to honor Max and keep his memory alive."
     outroHeading="Honor Max's Memory"

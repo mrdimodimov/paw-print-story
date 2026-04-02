@@ -10,8 +10,8 @@ const PetAnniversaryQuotes = () => (
       { name: "Pet Anniversary Quotes", href: "/pet-anniversary-quotes" },
     ]}
     meta={{
-      title: "Pet Anniversary Quotes — Honor Your Pet's Memory Each Year",
-      description: "40+ pet anniversary quotes to remember your pet on the anniversary of their passing. Heartfelt messages for social media, memorials, and cards.",
+      title: "Pet Anniversary Quotes (50+ Yearly Remembrance Messages)",
+      description: "50+ pet anniversary quotes to remember your pet on the anniversary of their passing. Heartfelt messages for social media, memorials, and cards.",
     }}
     heading="Pet Anniversary Quotes"
     intro="The anniversary of a pet's passing is a day that never gets easier. Whether it's been one year or ten, the love doesn't fade — and neither does the missing. These pet anniversary quotes help you honor their memory, reflect on the love you shared, and let others know you still remember."

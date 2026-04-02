@@ -10,8 +10,8 @@ const GoldenRetrieverMemorialQuotes = () => (
       { name: "Golden Retriever Memorial Quotes", href: "/golden-retriever-memorial-quotes" },
     ]}
     meta={{
-      title: "Golden Retriever Memorial Quotes — Quotes for Your Golden",
-      description: "Golden Retriever memorial quotes to honor your gentle, loving Golden. 40+ heartfelt and emotional messages for tributes and social media.",
+      title: "Golden Retriever Memorial Quotes (50+ Quotes for Your Golden)",
+      description: "50+ Golden Retriever memorial quotes to honor your gentle, loving Golden. Heartfelt and emotional messages for tributes and social media.",
     }}
     heading="Golden Retriever Memorial Quotes"
     intro="Golden Retrievers fill our lives with warmth, patience, and unwavering devotion. With their soft golden coats and even softer hearts, they have a way of making everyone feel loved. Losing a Golden means losing a source of comfort and joy that touched every part of your life. These Golden Retriever memorial quotes help you express the depth of love you shared."
@@ -69,6 +69,7 @@ const GoldenRetrieverMemorialQuotes = () => (
       { heading: "When to Use These Quotes", body: "Perfect for memorial cards, photo tributes, social media posts, engraved keepsakes, or online memorial pages." },
       { heading: "Making It Personal", body: "Include your Golden's name and a favorite memory — their love of swimming, their gentle greetings, or their patience — to create a truly meaningful tribute." },
       { heading: "Creating a Memorial Page", body: "Sharing a quote with a photo brings comfort. Build a lasting memorial page for your Golden Retriever on VellumPet." },
+      { heading: "What to Write for Your Golden Retriever", body: "Celebrate their warmth and gentle spirit. Examples: 'You made everything golden just by being there.' 'Your love was the purest thing I've ever known.' 'You never judged, never held back — you just loved.'" },
     ]}
     tipsIntro="Ideas for using Golden Retriever memorial quotes to honor your companion."
     outroHeading="Honor Your Golden Retriever"

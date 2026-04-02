@@ -10,8 +10,8 @@ const PetMemorialQuotesCharlie = () => (
       { name: "Memorial Quotes for Charlie", href: "/pet-memorial-quotes-charlie" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Charlie — Honor Your Faithful Charlie",
-      description: "40+ pet memorial quotes for a pet named Charlie. Heartfelt, personalized messages to remember your cheerful, loyal companion.",
+      title: "Pet Memorial Quotes for Charlie (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Charlie. Heartfelt, personalized messages to remember your cheerful, loyal companion.",
     }}
     heading="Pet Memorial Quotes for Charlie"
     intro="Charlie — a name that carries warmth, familiarity, and so much love. Charlie was the friend who was always happy to see you, always ready for an adventure, and always there when you needed comfort. Losing Charlie means losing the cheerful heartbeat of your home — the wagging tail, the eager eyes, the companion who made everything feel like it was going to be okay. These quotes honor the Charlie who made every moment better."
@@ -68,6 +68,7 @@ const PetMemorialQuotesCharlie = () => (
       { heading: "Remembering Charlie", body: "Charlie was the kind of companion who made you feel like everything was going to be okay. His cheerful energy, his faithful presence at your side, and his ability to turn any moment into something special — these are the memories that define who Charlie was. Whether it was a morning walk or a quiet evening, Charlie made it better." },
       { heading: "How to Honor Charlie's Memory", body: "Create a memorial page for Charlie on VellumPet to gather photos, stories, and quotes in one lasting place. You can also share a favorite quote with Charlie's photo on social media, engrave a message on a keepsake, or write a personal tribute that captures Charlie's spirit." },
       { heading: "Personal Touches", body: "Mention Charlie's habits or personality — his favorite toy, his greeting at the door, or his love of walks — to make your tribute uniquely Charlie's." },
+      { heading: "What to Write for Charlie", body: "Capture Charlie's cheerful spirit. Examples: 'Charlie, you made every day brighter just by being in it.' 'You were always happy, Charlie — and you made me happy too.' 'Charlie, your tail never stopped wagging and my heart never stopped loving you.'" },
     ]}
     tipsIntro="Ways to honor Charlie and celebrate his cheerful spirit."
     outroHeading="Honor Charlie's Memory"

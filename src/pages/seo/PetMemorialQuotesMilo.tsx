@@ -10,8 +10,8 @@ const PetMemorialQuotesMilo = () => (
       { name: "Memorial Quotes for Milo", href: "/pet-memorial-quotes-milo" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Milo — Honor Your Adventurous Milo",
-      description: "40+ pet memorial quotes for a pet named Milo. Heartfelt, personalized messages to honor your curious, adventurous companion.",
+      title: "Pet Memorial Quotes for Milo (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Milo. Heartfelt, personalized messages to honor your curious, adventurous companion.",
     }}
     heading="Pet Memorial Quotes for Milo"
     intro="Milo — curious, playful, and full of adventure. From the moment Milo arrived, he turned every day into an exploration and every walk into a journey. His boundless energy, his mischievous charm, and his warm, loyal heart made him the kind of companion you never forget. Losing Milo leaves a quiet where there used to be excitement, a stillness where there used to be play. These quotes honor the Milo who made every moment an adventure worth taking."
@@ -68,6 +68,7 @@ const PetMemorialQuotesMilo = () => (
       { heading: "Remembering Milo", body: "Milo was the kind of companion who made life feel like an adventure. His curiosity, his playful energy, and his mischievous charm turned every ordinary day into something special. Whether he was exploring the backyard, getting into things he shouldn't, or curling up beside you after a long day, Milo had a way of filling your life with joy and wonder." },
       { heading: "How to Honor Milo's Memory", body: "Create a memorial page for Milo on VellumPet to preserve photos, stories, and the adventures you shared. You can also share a quote with Milo's photo on social media, create a scrapbook of your favorite memories, or write a personal tribute that captures Milo's adventurous spirit." },
       { heading: "Capturing His Spirit", body: "Reference Milo's adventurous or playful nature — his favorite hiding spots, his love of exploring, or his mischievous streak — for an authentic, personal tribute." },
+      { heading: "What to Write for Milo", body: "Capture Milo's adventurous spirit. Examples: 'Milo, every day with you was an adventure I'd take again.' 'You explored the world with wonder and came home with love, Milo.' 'Milo, the house is too quiet without your energy.'" },
     ]}
     tipsIntro="Ways to honor Milo and keep his adventurous spirit alive."
     outroHeading="Honor Milo's Memory"

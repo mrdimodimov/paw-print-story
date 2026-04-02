@@ -10,8 +10,8 @@ const PetMemorialQuotesBailey = () => (
       { name: "Memorial Quotes for Bailey", href: "/pet-memorial-quotes-bailey" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Bailey — Remember Your Warm Bailey",
-      description: "40+ pet memorial quotes for a pet named Bailey. Heartfelt messages to honor your warm, friendly, loving companion.",
+      title: "Pet Memorial Quotes for Bailey (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Bailey. Heartfelt messages to honor your warm, friendly, loving companion.",
     }}
     heading="Pet Memorial Quotes for Bailey"
     intro="Bailey — warm, friendly, and always ready with a wagging tail and a happy heart. Bailey was the kind of companion who made everyone feel welcome, who loved without hesitation, and whose energy could light up any room. Losing Bailey means losing the warmth that made your house a home — the enthusiastic greetings, the joyful play, the unconditional love that never faded. These quotes honor the Bailey who made everyone feel special."
@@ -68,6 +68,7 @@ const PetMemorialQuotesBailey = () => (
       { heading: "Remembering Bailey", body: "Bailey was the warm, welcoming presence that made your home feel alive. Whether greeting guests with boundless enthusiasm, cuddling up on a rainy day, or making everyone at the park smile, Bailey had a gift for spreading joy. The memories of Bailey's happy energy and loving spirit are treasures that will warm your heart forever." },
       { heading: "How to Honor Bailey's Memory", body: "Create a memorial page for Bailey on VellumPet to gather photos, stories, and the joyful moments that made Bailey special. You can also share a favorite quote on social media with Bailey's photo, create a memory book, or write a personal tribute that captures Bailey's warm, friendly nature." },
       { heading: "Adding Warmth", body: "Mention Bailey's friendly or energetic nature — their greeting style, their love of people, or their joyful presence — for a tribute that feels authentically Bailey." },
+      { heading: "What to Write for Bailey", body: "Celebrate Bailey's warmth. Examples: 'Bailey, you made everyone feel welcome and loved.' 'Your joy was contagious, Bailey — and I miss it every day.' 'Bailey, you were the warm heart of this home.'" },
     ]}
     tipsIntro="Ways to honor Bailey and keep their warm spirit alive."
     outroHeading="Honor Bailey's Memory"

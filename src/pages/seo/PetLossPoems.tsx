@@ -10,8 +10,8 @@ const PetLossPoems = () => (
       { name: "Pet Loss Poems", href: "/pet-loss-poems" },
     ]}
     meta={{
-      title: "Pet Loss Poems — Beautiful Words to Honor Your Pet",
-      description: "40+ pet loss poems to help express grief and celebrate your pet's life. Heartfelt verses for memorials, tributes, and cards.",
+      title: "Pet Loss Poems (50+ Beautiful Verses to Honor Your Pet)",
+      description: "50+ pet loss poems to help express grief and celebrate your pet's life. Heartfelt verses for memorials, tributes, and cards.",
     }}
     heading="Pet Loss Poems"
     intro="Sometimes prose isn't enough. When grief runs deep and words feel inadequate, poetry offers a way to express what your heart can't quite say in sentences. These pet loss poems offer comfort, beauty, and a way to honor your pet's memory through the power of verse."

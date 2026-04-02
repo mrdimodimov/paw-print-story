@@ -10,8 +10,8 @@ const PetMemorialCaptions = () => (
       { name: "Pet Memorial Captions", href: "/pet-memorial-captions" },
     ]}
     meta={{
-      title: "Pet Memorial Captions — Short Messages to Honor Your Pet",
-      description: "40+ pet memorial captions for Instagram, Facebook, and social media. Short, heartfelt messages to remember and honor your pet.",
+      title: "Pet Memorial Captions (50+ Short Social Media Messages)",
+      description: "50+ pet memorial captions for Instagram, Facebook, and social media. Short, heartfelt messages to remember and honor your pet.",
     }}
     heading="Pet Memorial Captions"
     intro="When you want to share a photo of your pet and say something meaningful, the right caption makes all the difference. Whether it's for Instagram, Facebook, or a printed photo book, these pet memorial captions help you honor your pet's memory with words that are easy to copy, share, and feel."

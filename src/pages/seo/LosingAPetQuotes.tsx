@@ -10,8 +10,8 @@ const LosingAPetQuotes = () => (
       { name: "Losing a Pet Quotes", href: "/losing-a-pet-quotes" },
     ]}
     meta={{
-      title: "Losing a Pet Quotes — Words for a Heartbreaking Time",
-      description: "40+ losing a pet quotes to express grief and honor your companion. Emotional messages for cards, memorials, and social media.",
+      title: "Losing a Pet Quotes (50+ Words for a Heartbreaking Time)",
+      description: "50+ losing a pet quotes to express grief and honor your companion. Emotional messages for cards, memorials, and social media.",
     }}
     heading="Losing a Pet Quotes"
     intro="Losing a pet is losing a family member. The empty food bowl, the quiet house, the missing warmth beside you — grief touches every part of your daily life. These losing a pet quotes help you find words when grief makes it hard to speak, offering comfort and a way to honor the love you shared."

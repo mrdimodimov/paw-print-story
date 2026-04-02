@@ -10,8 +10,8 @@ const RottweilerMemorialQuotes = () => (
       { name: "Rottweiler Memorial Quotes", href: "/rottweiler-memorial-quotes" },
     ]}
     meta={{
-      title: "Rottweiler Memorial Quotes — Quotes for Your Loyal Rottie",
-      description: "Rottweiler memorial quotes to honor your strong, loving Rottie. 40+ emotional messages for tributes, cards, and social media.",
+      title: "Rottweiler Memorial Quotes (50+ Quotes for Your Loyal Rottie)",
+      description: "50+ Rottweiler memorial quotes to honor your strong, loving Rottie. Emotional messages for tributes, cards, and social media.",
     }}
     heading="Rottweiler Memorial Quotes"
     intro="Rottweilers are powerful, protective, and incredibly gentle with those they love. Often misunderstood by those who don't know them, Rotties are among the most devoted and affectionate dogs a family can have. These Rottweiler memorial quotes honor the big-hearted guardian who stood by you through everything — with strength, loyalty, and a love that never wavered."
@@ -69,6 +69,7 @@ const RottweilerMemorialQuotes = () => (
       { heading: "Honoring Your Rottie", body: "Use quotes on tribute pages, social posts, framed photos, or engraved keepsakes to honor your Rottweiler's noble spirit." },
       { heading: "Highlighting Their Nature", body: "Rottweilers are gentle giants — let your tribute reflect their true personality beyond the stereotypes. Reference their lean, their loyalty, or their gentle eyes." },
       { heading: "Sharing Your Grief", body: "Posting a tribute can connect you with others who understand the bond with a Rottweiler. Build a full memorial page on VellumPet." },
+      { heading: "What to Write for Your Rottweiler", body: "Honor their gentle strength. Examples: 'You were the strongest dog I knew, but your love was the softest thing about you.' 'Under all that muscle was the biggest heart.' 'You leaned into me with everything you had — and I leaned right back.'" },
     ]}
     tipsIntro="Ways to honor your Rottweiler's memory and celebrate their true nature."
     outroHeading="Remember Your Rottweiler"

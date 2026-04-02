@@ -10,8 +10,8 @@ const PetMemorialQuotesCooper = () => (
       { name: "Memorial Quotes for Cooper", href: "/pet-memorial-quotes-cooper" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Cooper — Honor Your Loyal Cooper",
-      description: "40+ pet memorial quotes for a pet named Cooper. Warm, personalized messages to honor your steady, loyal companion.",
+      title: "Pet Memorial Quotes for Cooper (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Cooper. Warm, personalized messages to honor your steady, loyal companion.",
     }}
     heading="Pet Memorial Quotes for Cooper"
     intro="Cooper — loyal, steady, and always by your side. Cooper was the kind of companion who didn't need grand gestures to show love; he simply showed up, every single day, with a devotion that never wavered. His calm presence, his warm body leaning against yours, his quiet faithfulness — these are the things that made Cooper irreplaceable. Losing Cooper means losing the most dependable love you've ever known. These quotes honor the Cooper who was your rock."
@@ -68,6 +68,7 @@ const PetMemorialQuotesCooper = () => (
       { heading: "Remembering Cooper", body: "Cooper was your constant — the one who was always there, always loyal, always ready to be by your side. His steady presence was a comfort that you didn't fully appreciate until it was gone. Whether he was walking beside you, resting at your feet, or leaning against you on the couch, Cooper's love was quiet, powerful, and unwavering." },
       { heading: "How to Honor Cooper's Memory", body: "Create a memorial page for Cooper on VellumPet to preserve photos, stories, and the moments that defined your bond. You can also share a quote on social media with Cooper's photo, engrave a message on a keepsake, or write a tribute that captures Cooper's loyal, steady spirit." },
       { heading: "Reflecting His Character", body: "Mention Cooper's loyalty, his calm nature, or his steady presence — the way he leaned against you, his quiet companionship, or his faithful greeting at the door." },
+      { heading: "What to Write for Cooper", body: "Honor Cooper's loyal, steady nature. Examples: 'Cooper, you were my rock and my best friend.' 'You never needed grand gestures, Cooper — just being there was enough.' 'Cooper, the house feels unsteady without you in it.'" },
     ]}
     tipsIntro="Ways to honor Cooper and keep his faithful memory alive."
     outroHeading="Honor Cooper's Memory"

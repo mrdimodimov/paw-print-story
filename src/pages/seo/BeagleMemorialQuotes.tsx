@@ -10,8 +10,8 @@ const BeagleMemorialQuotes = () => (
       { name: "Beagle Memorial Quotes", href: "/beagle-memorial-quotes" },
     ]}
     meta={{
-      title: "Beagle Memorial Quotes — Quotes for Your Beloved Beagle",
-      description: "Beagle memorial quotes to honor your curious, joyful Beagle. 40+ heartfelt messages for cards, tributes, and social media.",
+      title: "Beagle Memorial Quotes (50+ Quotes for Your Beloved Beagle)",
+      description: "50+ Beagle memorial quotes to honor your curious, joyful Beagle. Heartfelt messages for cards, tributes, and social media.",
     }}
     heading="Beagle Memorial Quotes"
     intro="Beagles are curious, joyful, and endlessly loyal. Their howls, their noses to the ground, their tail-wagging greetings — every moment with a Beagle is full of life. Losing a Beagle means losing a friend who lived every moment fully, who followed every scent with wonder, and who loved you with a whole and open heart."
@@ -69,6 +69,7 @@ const BeagleMemorialQuotes = () => (
       { heading: "Sharing Beagle Quotes", body: "Post on social media or include on memorial pages to honor your Beagle's adventurous spirit. A quote paired with a trail photo makes a beautiful tribute." },
       { heading: "Capturing Their Personality", body: "Beagles are known for curiosity, howling, and joy — reference these traits to make your tribute personal and authentic." },
       { heading: "Creating a Lasting Tribute", body: "Pair a quote with your favorite photo and build a full memorial page on VellumPet to keep your Beagle's memory alive." },
+      { heading: "What to Write for Your Beagle", body: "Capture their curious, joyful spirit. Examples: 'You followed every scent like it was the greatest adventure.' 'Your howl was music, and your love was everything.' 'Curious, happy, and full of life — that was you, always.'" },
     ]}
     tipsIntro="Ways to remember your Beagle and celebrate their adventurous spirit."
     outroHeading="Honor Your Beagle"

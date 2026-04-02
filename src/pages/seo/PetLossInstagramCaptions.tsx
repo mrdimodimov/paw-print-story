@@ -10,8 +10,8 @@ const PetLossInstagramCaptions = () => (
       { name: "Pet Loss Instagram Captions", href: "/pet-loss-instagram-captions" },
     ]}
     meta={{
-      title: "Pet Loss Instagram Captions — Share Your Tribute Online",
-      description: "40+ pet loss Instagram captions for honoring your pet on social media. Emotional, short messages ready to copy and post.",
+      title: "Pet Loss Instagram Captions (50+ Tribute Post Ideas)",
+      description: "50+ pet loss Instagram captions for honoring your pet on social media. Emotional, short messages ready to copy and post.",
     }}
     heading="Pet Loss Instagram Captions"
     intro="Sharing your pet's memory on Instagram can be a meaningful way to grieve, connect with others who understand, and create a public tribute that lasts. These pet loss Instagram captions give you the right words for that tribute post — short, emotional, and ready to copy."

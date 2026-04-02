@@ -6,9 +6,8 @@ const PetCondolenceMessages = () => (
     datePublished="2025-03-27"
     breadcrumbs={[{ name: "Pet Sympathy Messages", href: "/pet-sympathy-messages" }]}
     meta={{
-      title: "Pet Condolence Messages: What to Say When Someone Loses a Pet",
-      description:
-        "Find thoughtful pet condolence messages, sympathy examples for dogs and cats, and what to write when someone loses a beloved pet.",
+      title: "Pet Condolence Messages (50+ What to Say When Someone Loses a Pet)",
+      description: "50+ thoughtful pet condolence messages, sympathy examples for dogs and cats, and what to write when someone loses a beloved pet.",
     }}
     heading="Pet Condolence Messages: What to Say When Someone Loses a Pet"
     intro="When someone you care about loses a pet, it's hard to know what to say. The loss is real and deep — but our culture doesn't always give pet grief the space it deserves. That silence can make your words even more meaningful. A simple, honest pet condolence message tells someone: I see your pain, and it matters. You don't need to be eloquent. You just need to be sincere."

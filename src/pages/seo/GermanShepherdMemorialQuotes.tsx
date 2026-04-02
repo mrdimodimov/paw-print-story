@@ -10,8 +10,8 @@ const GermanShepherdMemorialQuotes = () => (
       { name: "German Shepherd Memorial Quotes", href: "/german-shepherd-memorial-quotes" },
     ]}
     meta={{
-      title: "German Shepherd Memorial Quotes — Quotes for Your GSD",
-      description: "German Shepherd memorial quotes to honor your brave, loyal GSD. 40+ emotional and short messages for tributes, memorials, and social media.",
+      title: "German Shepherd Memorial Quotes (50+ Quotes for Your GSD)",
+      description: "50+ German Shepherd memorial quotes to honor your brave, loyal GSD. Emotional and short messages for tributes, memorials, and social media.",
     }}
     heading="German Shepherd Memorial Quotes"
     intro="German Shepherds are courageous, intelligent, and fiercely loyal. They stand by your side through everything — protectors, companions, and best friends in one magnificent dog. Losing a German Shepherd leaves a void that words can barely fill, but these quotes honor the brave guardian who gave you their whole heart."
@@ -69,6 +69,7 @@ const GermanShepherdMemorialQuotes = () => (
       { heading: "Using These Quotes", body: "Share on memorial pages, sympathy cards, or alongside a photo of your German Shepherd. They're especially meaningful for working dog tributes." },
       { heading: "Personalizing Your Message", body: "Reference a specific quality — their alertness, their gentle side, or their protective nature — to make your tribute deeply personal." },
       { heading: "Honoring Their Service", body: "German Shepherds often serve as working dogs. Acknowledge their dedication, bravery, and partnership in your tribute. Create a full memorial page on VellumPet." },
+      { heading: "What to Write for Your German Shepherd", body: "Honor their courage and devotion. Examples: 'You stood guard over my heart every single day.' 'Brave, loyal, and gentle — you were everything a dog should be.' 'You protected this family with everything you had.'" },
     ]}
     tipsIntro="Ways to honor your German Shepherd's memory and celebrate their noble spirit."
     outroHeading="Honor Your German Shepherd"

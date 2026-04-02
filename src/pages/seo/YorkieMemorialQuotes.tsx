@@ -10,8 +10,8 @@ const YorkieMemorialQuotes = () => (
       { name: "Yorkie Memorial Quotes", href: "/yorkie-memorial-quotes" },
     ]}
     meta={{
-      title: "Yorkie Memorial Quotes — Quotes for Yorkshire Terriers",
-      description: "Yorkie memorial quotes to honor your spirited Yorkshire Terrier. 40+ short and emotional messages for tributes, cards, and social media.",
+      title: "Yorkie Memorial Quotes (50+ Quotes for Yorkshire Terriers)",
+      description: "50+ Yorkie memorial quotes to honor your spirited Yorkshire Terrier. Short and emotional messages for tributes, cards, and social media.",
     }}
     heading="Yorkie Memorial Quotes"
     intro="Yorkshire Terriers are tiny in size but immense in spirit. Bold, sassy, and fiercely devoted, Yorkies form intense bonds with their owners that defy their small stature. Losing a Yorkie means losing a companion who filled every corner of your life with personality, warmth, and unwavering love. These Yorkie memorial quotes honor the feisty little dog who meant the world to you."
@@ -71,6 +71,7 @@ const YorkieMemorialQuotes = () => (
       { heading: "Using Yorkie Quotes", body: "Perfect for social media tributes, memorial pages, sympathy cards, or engraved keepsakes. Pair a quote with your favorite photo for a heartfelt tribute." },
       { heading: "Reflecting Their Spirit", body: "Yorkies are known for boldness and sass — let your quote capture that unique personality. Reference their bark, their bravery, or their love of being carried." },
       { heading: "Creating a Memorial Page", body: "A full memorial page lets you combine quotes, photos, and stories in one lasting place. Create a beautiful tribute for your Yorkie on VellumPet." },
+      { heading: "What to Write for Your Yorkie", body: "Start with what made your Yorkie unique — their sass, their bark, or their fierce loyalty. Examples: 'You were tiny but you owned every room you walked into.' 'No one could resist your attitude, and I wouldn't have changed a thing.' 'You were braver than dogs three times your size.'" },
     ]}
     tipsIntro="Ways to honor your Yorkie's memory and celebrate their unique spirit."
     outroHeading="Honor Your Yorkie"

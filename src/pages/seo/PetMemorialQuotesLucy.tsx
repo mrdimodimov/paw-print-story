@@ -10,8 +10,8 @@ const PetMemorialQuotesLucy = () => (
       { name: "Memorial Quotes for Lucy", href: "/pet-memorial-quotes-lucy" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Lucy — Remember Your Sweet Lucy",
-      description: "40+ pet memorial quotes for a pet named Lucy. Emotional messages to honor your sweet, gentle companion.",
+      title: "Pet Memorial Quotes for Lucy (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Lucy. Emotional messages to honor your sweet, gentle companion.",
     }}
     heading="Pet Memorial Quotes for Lucy"
     intro="Lucy — sweet, loving, and always there when you needed her most. Lucy had a way of making everything feel better simply by being present. Her gentle eyes, her warm body beside you, her quiet devotion — these are the things that made Lucy irreplaceable. Losing Lucy leaves a softness missing from your life that nothing can quite restore. These quotes honor the sweet Lucy who brightened every room she entered."
@@ -68,6 +68,7 @@ const PetMemorialQuotesLucy = () => (
       { heading: "Remembering Lucy", body: "Lucy was the gentle soul who made your home feel like a sanctuary. Her sweet nature, her trusting eyes, and her quiet way of being there when you needed her most — these are the memories that make Lucy unforgettable. Whether she was curled up at your feet or greeting you with a soft wag, Lucy's love was always present." },
       { heading: "How to Honor Lucy's Memory", body: "Create a memorial page for Lucy on VellumPet to preserve photos, stories, and the quiet moments that made Lucy special. You can also share a quote on social media, create a photo album, or write a personal tribute to capture Lucy's gentle spirit." },
       { heading: "Personal Details", body: "Add a memory or trait that made Lucy special to you — her favorite sleeping spot, the way she nuzzled your hand, or her love of treats — for an authentic, heartfelt tribute." },
+      { heading: "What to Write for Lucy", body: "Focus on Lucy's gentle sweetness. Examples: 'Lucy, you were the sweetest part of my life.' 'You never needed to do anything special, Lucy — just being you was enough.' 'Lucy, your quiet love was the loudest thing in my world.'" },
     ]}
     tipsIntro="Ways to honor Lucy and keep her sweet memory alive."
     outroHeading="Honor Lucy's Memory"

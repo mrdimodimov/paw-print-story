@@ -10,8 +10,8 @@ const PetMemorialQuotesLuna = () => (
       { name: "Memorial Quotes for Luna", href: "/pet-memorial-quotes-luna" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Luna — Remember Your Moonlight",
-      description: "40+ pet memorial quotes for a pet named Luna. Heartfelt messages to honor the gentle, luminous companion who lit up your life.",
+      title: "Pet Memorial Quotes for Luna (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Luna. Heartfelt messages to honor the gentle, luminous companion who lit up your life.",
     }}
     heading="Pet Memorial Quotes for Luna"
     intro="Luna — your moonlight, your quiet comfort, your gentle constant. Named after the moon, Luna had a way of glowing softly in your life, bringing calm to the chaos and light to the dark moments. Losing Luna feels like losing the moon itself — the nights are darker, the silence deeper, and the space she filled feels impossibly vast. These quotes honor the Luna who was your light."
@@ -68,6 +68,7 @@ const PetMemorialQuotesLuna = () => (
       { heading: "Remembering Luna", body: "Luna was your moonlight — a soft, steady presence that made everything feel safe. Whether she curled up on your lap during quiet evenings, greeted you with gentle eyes, or simply sat beside you in silence, Luna had a way of making the ordinary feel magical. The memories of her gentle spirit will glow forever." },
       { heading: "How to Honor Luna's Memory", body: "Create a memorial page for Luna on VellumPet to preserve photos, stories, and the quiet moments that meant everything. You can also share a quote with Luna's photo on social media, create an engraved keepsake, or write a personal letter to Luna that captures your love." },
       { heading: "Adding Meaning", body: "Reference Luna's name meaning — moon — to add poetic depth. Moonlight, glow, night sky, and gentle light all connect beautifully to Luna's memory." },
+      { heading: "What to Write for Luna", body: "Use Luna's name meaning for poetic depth. Examples: 'Luna, you were my moonlight — constant, gentle, and always there.' 'You lit up every dark night, Luna.' 'Luna, my sky is darker without you in it.'" },
     ]}
     tipsIntro="Ways to honor Luna and keep her gentle light alive."
     outroHeading="Honor Luna's Memory"
