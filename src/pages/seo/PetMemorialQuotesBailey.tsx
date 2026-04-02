@@ -10,8 +10,8 @@ const PetMemorialQuotesBailey = () => (
       { name: "Memorial Quotes for Bailey", href: "/pet-memorial-quotes-bailey" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Bailey — Remember Your Warm Bailey",
-      description: "40+ pet memorial quotes for a pet named Bailey. Heartfelt messages to honor your warm, friendly, loving companion.",
+      title: "Pet Memorial Quotes for Bailey (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Bailey. Heartfelt messages to honor your warm, friendly, loving companion.",
     }}
     heading="Pet Memorial Quotes for Bailey"
     intro="Bailey — warm, friendly, and always ready with a wagging tail and a happy heart. Bailey was the kind of companion who made everyone feel welcome, who loved without hesitation, and whose energy could light up any room. Losing Bailey means losing the warmth that made your house a home — the enthusiastic greetings, the joyful play, the unconditional love that never faded. These quotes honor the Bailey who made everyone feel special."
