@@ -10,8 +10,8 @@ const PetMemorialQuotesBella = () => (
       { name: "Memorial Quotes for Bella", href: "/pet-memorial-quotes-bella" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Bella — Honor Your Beautiful Bella",
-      description: "40+ pet memorial quotes for a pet named Bella. Heartfelt, personalized messages to honor and remember your beautiful companion.",
+      title: "Pet Memorial Quotes for Bella (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Bella. Heartfelt, personalized messages to honor and remember your beautiful companion.",
     }}
     heading="Pet Memorial Quotes for Bella"
     intro="Bella — a name that means beautiful, and no name could have been more fitting. From the moment Bella entered your life, she filled it with grace, warmth, and a love that made everything feel right. Losing Bella means losing the most beautiful part of your everyday — the gentle eyes that watched over you, the soft presence that made your home feel whole. These quotes honor the Bella who was beautiful in every way that mattered."
