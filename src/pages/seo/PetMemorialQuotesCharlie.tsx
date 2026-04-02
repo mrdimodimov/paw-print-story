@@ -10,8 +10,8 @@ const PetMemorialQuotesCharlie = () => (
       { name: "Memorial Quotes for Charlie", href: "/pet-memorial-quotes-charlie" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Charlie — Honor Your Faithful Charlie",
-      description: "40+ pet memorial quotes for a pet named Charlie. Heartfelt, personalized messages to remember your cheerful, loyal companion.",
+      title: "Pet Memorial Quotes for Charlie (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Charlie. Heartfelt, personalized messages to remember your cheerful, loyal companion.",
     }}
     heading="Pet Memorial Quotes for Charlie"
     intro="Charlie — a name that carries warmth, familiarity, and so much love. Charlie was the friend who was always happy to see you, always ready for an adventure, and always there when you needed comfort. Losing Charlie means losing the cheerful heartbeat of your home — the wagging tail, the eager eyes, the companion who made everything feel like it was going to be okay. These quotes honor the Charlie who made every moment better."
