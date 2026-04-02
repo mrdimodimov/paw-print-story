@@ -1,6 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
-const SITE = "https://paw-print-story.lovable.app";
+const SITE = "https://vellumpet.com";
 
 const STATIC_PAGES = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
@@ -23,6 +23,14 @@ const STATIC_PAGES = [
   { path: "/cat-memorial-tribute-example", changefreq: "monthly", priority: "0.7", lastmod: "2025-01-20" },
   { path: "/pet-memorial-message", changefreq: "monthly", priority: "0.7", lastmod: "2025-02-01" },
   { path: "/what-to-write-when-a-dog-dies", changefreq: "monthly", priority: "0.7", lastmod: "2025-02-10" },
+  { path: "/short-pet-memorial-quotes", changefreq: "monthly", priority: "0.7", lastmod: "2026-04-01" },
+  { path: "/dog-loss-quotes", changefreq: "monthly", priority: "0.7", lastmod: "2026-04-01" },
+  { path: "/cat-loss-quotes", changefreq: "monthly", priority: "0.7", lastmod: "2026-04-01" },
+  { path: "/pet-memorial-captions", changefreq: "monthly", priority: "0.7", lastmod: "2026-04-01" },
+  { path: "/instagram-pet-memorial-captions", changefreq: "monthly", priority: "0.7", lastmod: "2026-04-01" },
+  { path: "/sudden-pet-death-quotes", changefreq: "monthly", priority: "0.7", lastmod: "2026-04-01" },
+  { path: "/pet-anniversary-quotes", changefreq: "monthly", priority: "0.7", lastmod: "2026-04-01" },
+  { path: "/rest-in-peace-dog-quotes", changefreq: "monthly", priority: "0.7", lastmod: "2026-04-01" },
   // Legal
   { path: "/privacy", changefreq: "yearly", priority: "0.3" },
   { path: "/terms", changefreq: "yearly", priority: "0.3" },

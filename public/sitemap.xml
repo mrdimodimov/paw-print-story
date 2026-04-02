@@ -1,117 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://paw-print-story.lovable.app/</loc>
+    <loc>https://vellumpet.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/create</loc>
+    <loc>https://vellumpet.com/create</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/memories</loc>
+    <loc>https://vellumpet.com/memories</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/dog-obituary-example</loc>
+    <loc>https://vellumpet.com/pet-memorial</loc>
+    <lastmod>2025-03-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vellumpet.com/pet-memorial-quotes</loc>
+    <lastmod>2025-03-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vellumpet.com/rainbow-bridge-quotes</loc>
+    <lastmod>2025-03-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vellumpet.com/cope-with-losing-a-pet</loc>
+    <lastmod>2025-03-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vellumpet.com/pet-sympathy-messages</loc>
+    <lastmod>2025-03-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vellumpet.com/short-dog-memorial-quotes</loc>
+    <lastmod>2025-03-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vellumpet.com/dog-memorial-quotes</loc>
+    <lastmod>2025-03-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vellumpet.com/cat-memorial-quotes</loc>
+    <lastmod>2025-03-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vellumpet.com/pet-remembrance-quotes</loc>
+    <lastmod>2025-03-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vellumpet.com/what-to-write-when-a-cat-dies</loc>
+    <lastmod>2025-03-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vellumpet.com/pet-condolence-messages</loc>
+    <lastmod>2025-03-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vellumpet.com/dog-obituary-example</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/cat-memorial-tribute-example</loc>
+    <loc>https://vellumpet.com/cat-memorial-tribute-example</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/pet-memorial-message</loc>
+    <loc>https://vellumpet.com/pet-memorial-message</loc>
     <lastmod>2025-02-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/what-to-write-when-a-dog-dies</loc>
+    <loc>https://vellumpet.com/what-to-write-when-a-dog-dies</loc>
     <lastmod>2025-02-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/pet-memorial</loc>
-    <lastmod>2025-03-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://paw-print-story.lovable.app/pet-memorial-quotes</loc>
-    <lastmod>2025-03-25</lastmod>
+    <loc>https://vellumpet.com/short-pet-memorial-quotes</loc>
+    <lastmod>2026-04-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/rainbow-bridge-quotes</loc>
-    <lastmod>2025-03-27</lastmod>
+    <loc>https://vellumpet.com/dog-loss-quotes</loc>
+    <lastmod>2026-04-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/cope-with-losing-a-pet</loc>
-    <lastmod>2025-03-27</lastmod>
+    <loc>https://vellumpet.com/cat-loss-quotes</loc>
+    <lastmod>2026-04-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/pet-sympathy-messages</loc>
-    <lastmod>2025-03-27</lastmod>
+    <loc>https://vellumpet.com/pet-memorial-captions</loc>
+    <lastmod>2026-04-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/short-dog-memorial-quotes</loc>
-    <lastmod>2025-03-27</lastmod>
+    <loc>https://vellumpet.com/instagram-pet-memorial-captions</loc>
+    <lastmod>2026-04-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/dog-memorial-quotes</loc>
-    <lastmod>2025-03-27</lastmod>
+    <loc>https://vellumpet.com/sudden-pet-death-quotes</loc>
+    <lastmod>2026-04-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/cat-memorial-quotes</loc>
-    <lastmod>2025-03-27</lastmod>
+    <loc>https://vellumpet.com/pet-anniversary-quotes</loc>
+    <lastmod>2026-04-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/pet-remembrance-quotes</loc>
-    <lastmod>2025-03-27</lastmod>
+    <loc>https://vellumpet.com/rest-in-peace-dog-quotes</loc>
+    <lastmod>2026-04-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/what-to-write-when-a-cat-dies</loc>
-    <lastmod>2025-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://paw-print-story.lovable.app/pet-condolence-messages</loc>
-    <lastmod>2025-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://paw-print-story.lovable.app/privacy</loc>
+    <loc>https://vellumpet.com/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://paw-print-story.lovable.app/terms</loc>
+    <loc>https://vellumpet.com/terms</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
