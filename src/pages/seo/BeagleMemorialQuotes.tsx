@@ -86,6 +86,8 @@ const BeagleMemorialQuotes = () => (
       { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
       { label: "Dog Loss Quotes", href: "/dog-loss-quotes" },
+      { label: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes" },
+      { label: "Short Dog Memorial Quotes", href: "/short-dog-memorial-quotes" },
     ]}
   />
 );
