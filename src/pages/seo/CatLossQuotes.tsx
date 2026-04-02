@@ -31,6 +31,16 @@ const CatLossQuotes = () => (
       '"The house feels empty without you."',
       '"Thank you for every purr."',
       '"Gone but never forgotten."',
+      '"My lap feels too cold without you."',
+      '"You were the softest part of my day."',
+      '"I miss your gentle eyes."',
+      '"The windowsill looks wrong without you."',
+      '"You chose me, and I\'ll always be grateful."',
+      '"My quiet companion, forever missed."',
+      '"You purred your way into my heart."',
+      '"The silence hurts more than I expected."',
+      '"You made every corner of this house a home."',
+      '"I still expect to find you in your favorite spot."',
     ]}
     howToWriteIntro="Emotional Cat Loss Quotes"
     howToWriteBody={[
@@ -39,6 +49,19 @@ const CatLossQuotes = () => (
       '"I never knew how much silence could hurt until yours was gone."',
       '"You were small, but you filled every corner of my life."',
       '"I hope wherever you are, there\'s a sunny window."',
+      '"Your purr was the most comforting sound in the world."',
+      '"You found the warmest spots in every room, including my heart."',
+      '"I miss the weight of you on my chest while I slept."',
+      '"You were independent but chose to stay close, and that meant everything."',
+      '"The house is full of your absence."',
+      '"I still hear phantom purring at night."',
+      '"You had a way of making the hardest days softer."',
+      '"My morning coffee feels wrong without you beside me."',
+      '"You were the best thing to come home to."',
+      '"I didn\'t know a cat could leave a hole this big."',
+      '"You kneaded your way into every part of my life."',
+      '"I hope you\'re chasing sunbeams somewhere beautiful."',
+      '"You were subtle in everything except how much you loved me."',
     ]}
     tips={[
       {
@@ -52,6 +75,10 @@ const CatLossQuotes = () => (
       {
         heading: "Sharing Your Grief",
         body: "Posting a quote online or sharing it with someone who knew your cat can be a gentle step in processing your loss.",
+      },
+      {
+        heading: "What to Write for Your Cat",
+        body: "Focus on the quiet moments you shared. Examples: 'You never needed to do anything special — just being near you was enough.' 'Your purr was my favorite sound.' 'The house lost its heartbeat when you left.'",
       },
     ]}
     tipsIntro="Ways to use cat loss quotes to remember and honor your cat."

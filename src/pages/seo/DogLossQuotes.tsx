@@ -31,6 +31,16 @@ const DogLossQuotes = () => (
       '"Gone from my side, never from my heart."',
       '"I miss you every single day."',
       '"Thank you for choosing me."',
+      '"The house is too quiet without you."',
+      '"You were my daily joy."',
+      '"I keep looking for you."',
+      '"My heart broke the day yours stopped."',
+      '"You were worth every tear."',
+      '"Run free, my faithful friend."',
+      '"The walks feel empty now."',
+      '"No one greeted me like you did."',
+      '"I didn\'t just lose a dog. I lost family."',
+      '"The silence where your bark used to be is the loudest sound."',
     ]}
     howToWriteIntro="Emotional Dog Loss Quotes"
     howToWriteBody={[
@@ -39,6 +49,19 @@ const DogLossQuotes = () => (
       '"Every walk I take, I still look for you beside me."',
       '"You didn\'t just fill my home — you filled my life."',
       '"I never knew how much room you took up until you were gone."',
+      '"You were the first to greet me and the last to leave my side."',
+      '"I would give anything for one more walk together."',
+      '"The leash hangs by the door, and I can\'t bring myself to move it."',
+      '"You loved me on my worst days, and I\'ll miss that forever."',
+      '"I keep finding your fur on my clothes, and I hope I always do."',
+      '"My mornings are emptier without your paws on the kitchen floor."',
+      '"You were the best listener I ever had."',
+      '"I didn\'t know a heart could feel this full and this empty at the same time."',
+      '"You were my constant, and now everything feels uncertain."',
+      '"The world keeps going, but I keep missing you."',
+      '"You were worth all of it — even this grief."',
+      '"I still talk to you sometimes. Old habits."',
+      '"People say \'just a dog.\' They never had you."',
     ]}
     tips={[
       {
@@ -52,6 +75,10 @@ const DogLossQuotes = () => (
       {
         heading: "Sharing Grief With Others",
         body: "Sharing a quote online or with friends can be a meaningful step in processing loss. It invites others to remember your dog alongside you.",
+      },
+      {
+        heading: "What to Write for Your Dog",
+        body: "Start with a memory or feeling. Examples: 'You made coming home the best part of every day.' 'I never needed to explain myself to you — you just understood.' 'The spot where you used to sleep still feels warm.'",
       },
     ]}
     tipsIntro="Ways to use dog loss quotes to remember and honor your dog."
