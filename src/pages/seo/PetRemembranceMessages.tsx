@@ -10,11 +10,11 @@ const PetRemembranceMessages = () => (
       { name: "Pet Remembrance Messages", href: "/pet-remembrance-messages" },
     ]}
     meta={{
-      title: "Pet Remembrance Messages (50+ Heartfelt Remembrance Words)",
-      description: "50+ pet remembrance messages to honor and reflect on your pet's life. Heartfelt words for anniversaries, holidays, and tributes.",
+      title: "Pet Remembrance Messages (Examples, Quotes & Tributes)",
+      description: "50+ pet remembrance messages for anniversaries, holidays, and quiet moments. Heartfelt words to honor your pet's memory over time.",
     }}
     heading="Pet Remembrance Messages"
-    intro="Remembering a pet doesn't end after the first wave of grief. It comes back on anniversaries, holidays, random Tuesday afternoons, and quiet moments when you catch yourself looking for them. These pet remembrance messages help you honor their memory whenever the missing comes — giving you words that match the feeling."
+    intro="Remembering a pet doesn't end after the first wave of grief. It comes back on anniversaries, holidays, and quiet moments. These messages help you honor their memory whenever the missing comes. For more, browse pet memorial quotes."
     definitionHeading="What Are Pet Remembrance Messages?"
     definition="Pet remembrance messages are heartfelt words used to reflect on, honor, and celebrate a pet's memory over time — not just in the immediate aftermath of loss, but in the weeks, months, and years that follow."
     contextualLinks={[

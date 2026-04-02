@@ -64,7 +64,7 @@ const ShortPetLossMessages = () => (
       '"Their paw prints are permanent. On everything."',
     ]}
     tips={[
-      { heading: "How to Write Short Pet Loss Messages", body: "Keep it genuine and brief. Acknowledge the loss directly. Avoid clichés like 'they\'re in a better place.' Focus on the person's pain, not trying to fix it. A simple 'I\'m sorry' is enough." },
+      { heading: "What to Write When a Pet Dies", body: "Keep it genuine and brief. Acknowledge the loss directly. Avoid clichés like 'they're in a better place.' Focus on the person's pain, not trying to fix it. A simple 'I'm sorry for your loss' is often enough." },
       { heading: "When to Send", body: "Send immediately after hearing the news — a short message is better than silence. Even a few words show that you care." },
       { heading: "Keep It Simple", body: "You don't need to say much. Acknowledgment alone is comforting. Browse our pet sympathy messages for more ideas." },
       { heading: "What to Avoid", body: "Skip 'they're in a better place' or 'you can get another one.' Focus on acknowledging the person's pain and the pet's importance." },

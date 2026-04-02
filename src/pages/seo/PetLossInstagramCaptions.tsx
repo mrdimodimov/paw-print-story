@@ -64,7 +64,7 @@ const PetLossInstagramCaptions = () => (
       '"Rest in peace, my love. You earned it. 🌈🤍"',
     ]}
     tips={[
-      { heading: "How to Write Pet Loss Instagram Captions", body: "Be honest about how you feel. You don't need to write a lot — even one sentence can carry immense emotion. Start with 'You were...' or 'I miss...' and let the rest come naturally. The best captions are real, not polished." },
+      { heading: "How to Write a Pet Memorial Caption", body: "Be honest about how you feel. You don't need to write a lot — even one sentence can carry immense emotion. Start with 'You were...' or 'I miss...' and let the rest come naturally. Keep it to 1–3 lines for maximum impact." },
       { heading: "Posting Tips", body: "Choose your favorite photo. Keep the caption personal and short. It's okay to be emotional — your followers will understand and respond with support." },
       { heading: "Using Hashtags", body: "Add hashtags like #petloss #inmemory #petmemorial #rainbowbridge #foreverloved at the end of your caption to reach others who understand." },
       { heading: "Linking to a Memorial", body: "Include a link to a memorial page in your Instagram bio for a fuller tribute. A single post is powerful, but a memorial page tells the whole story." },

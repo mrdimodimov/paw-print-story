@@ -64,7 +64,7 @@ const LosingAPetQuotes = () => (
       '"If love could have saved you, you\'d still be here."',
     ]}
     tips={[
-      { heading: "How to Cope With Losing a Pet", body: "Give yourself permission to grieve fully. There's no timeline and no right way. Talk to someone who understands. Write down your feelings. Look at photos when you're ready. Consider creating a memorial page as part of your healing." },
+      { heading: "How to Use These Quotes", body: "Share on social media alongside a photo of your pet. Include in a sympathy card for someone who is grieving. Add to a memorial page or journal entry. Pair with pet memorial quotes for a fuller tribute. The right words at the right time can bring real comfort." },
       { heading: "When to Use Pet Loss Quotes", body: "Share on social media, sympathy cards, memorial pages, or personal journals. Browse our pet memorial quotes for more options." },
       { heading: "Processing Grief", body: "Writing or sharing a quote can be a meaningful step in processing the loss. It's not about moving on — it's about honoring what was." },
       { heading: "Creating a Memorial", body: "Combine quotes with photos on a memorial page for a lasting tribute. Create one on VellumPet." },

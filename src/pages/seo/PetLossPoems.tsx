@@ -54,7 +54,7 @@ const PetLossPoems = () => (
       '"I count the days since you\'ve been gone, but never count the love — because that part has no end."',
     ]}
     tips={[
-      { heading: "How to Write Pet Loss Poems", body: "Start with a feeling or a memory. Don't worry about rhyming — free verse is beautiful too. Focus on specific details: the sound of their paws, the warmth of their body, the look in their eyes. Let the words come naturally." },
+      { heading: "When to Use These Poems", body: "Include in memorial cards, tribute pages, photo albums, or social media posts. A poem paired with a photo creates a powerful tribute. Read aloud at a memorial service or keep in a personal journal." },
       { heading: "Using Pet Loss Poems", body: "Include in memorial cards, tribute pages, photo albums, social media posts, or engraved keepsakes. A poem paired with a photo creates a powerful tribute." },
       { heading: "Writing Your Own", body: "Start with a memory or feeling — even a few lines can become a meaningful poem. Check our pet memorial quotes for inspiration." },
       { heading: "Sharing With Others", body: "Poems can comfort friends and family who also loved your pet. Post on a memorial page or share in a card." },

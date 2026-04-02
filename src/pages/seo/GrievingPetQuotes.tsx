@@ -64,7 +64,7 @@ const GrievingPetQuotes = () => (
       '"I\'m learning that grief and gratitude can exist at the same time."',
     ]}
     tips={[
-      { heading: "How to Process Pet Grief", body: "Give yourself permission to feel everything — sadness, anger, guilt, and loneliness are all normal. Talk to someone who understands. Write your feelings down. Don't let anyone minimize your loss. Consider creating a memorial as part of your healing process." },
+      { heading: "How to Use These Quotes", body: "Share on social media when you need to express what you're feeling. Send to a friend who is also grieving. Add to a journal or memorial page. These quotes remind you that pet grief is real — and you're not alone in it." },
       { heading: "Validating Your Grief", body: "Pet grief is real grief. These quotes remind you that your feelings are valid and shared by many. Browse our pet sympathy messages for words to share with others who are grieving." },
       { heading: "Sharing Your Feelings", body: "Posting a quote can help process grief and connect with others who understand. You don't have to grieve alone." },
       { heading: "Finding Support", body: "Memorial pages and communities can offer comfort during the grieving process. Create a tribute on VellumPet as part of your healing." },

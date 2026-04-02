@@ -64,7 +64,7 @@ const MissingMyPetQuotes = () => (
       '"The hardest part is the end of the day. You used to be there."',
     ]}
     tips={[
-      { heading: "How to Cope When You Miss Your Pet", body: "Let yourself feel it without judgment. Look at photos when you're ready. Talk about them — say their name. Write down a memory. Visit a place you used to go together. Consider creating a memorial page where you can revisit their photos and stories anytime." },
+      { heading: "How to Use These Quotes", body: "Share on social media alongside a photo. Write in a journal when the missing feels heavy. Add to a memorial page or send to a friend who understands. These quotes are for the days when you need words for what you're feeling." },
       { heading: "It's Okay to Miss Them", body: "Missing your pet is a sign of the deep bond you shared. Don't rush through it. Browse our pet memorial quotes for more comforting words." },
       { heading: "Sharing Your Feelings", body: "Posting a quote can help process grief and connect with others who understand. You're not alone in this — pet sympathy messages can help you find the right words to share." },
       { heading: "Keeping Memories Alive", body: "A memorial page on VellumPet lets you revisit memories whenever you miss them — a permanent, beautiful place to return to." },

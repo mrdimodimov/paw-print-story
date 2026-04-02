@@ -57,7 +57,7 @@ const PetMemorialPrayers = () => (
       '"I pray for peace — for my pet\'s spirit and for my broken heart. May we be reunited one day."',
     ]}
     tips={[
-      { heading: "How to Write Pet Memorial Prayers", body: "Speak from the heart, just as you would in any prayer. Thank God for the gift of your pet. Ask for peace and comfort. Express your hope that they are safe and free. You don't need formal language — honest words are always enough." },
+      { heading: "When to Use These Prayers", body: "At memorial services, on tribute pages, in sympathy cards, or in personal prayer. A prayer paired with a photo creates a meaningful tribute. Share in a quiet moment of reflection or add to a memorial page." },
       { heading: "Using Pet Memorial Prayers", body: "Include in memorial services, tribute pages, sympathy cards, or personal reflection. A prayer paired with a photo creates a meaningful tribute." },
       { heading: "Interfaith Comfort", body: "These prayers are written to offer comfort regardless of specific religious tradition. They focus on love, gratitude, and peace. Browse our pet memorial quotes for more non-spiritual options." },
       { heading: "Combining With Other Tributes", body: "Pair a prayer with photos and quotes on a memorial page. Create a full tribute on VellumPet." },

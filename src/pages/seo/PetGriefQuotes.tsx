@@ -64,7 +64,7 @@ const PetGriefQuotes = () => (
       '"This grief has no expiration date. And that\'s okay."',
     ]}
     tips={[
-      { heading: "How to Process Pet Grief", body: "Acknowledge what you're feeling without judgment. Write it down. Talk to someone who gets it. Don't compare your grief to others'. Take it one day at a time. Consider creating a memorial page as a way to channel your love." },
+      { heading: "How to Use These Quotes", body: "Share on social media when you need to express what you're feeling. Write in a journal as part of processing grief. Add to a memorial page or sympathy card. These quotes remind you and others that pet grief is valid." },
       { heading: "Validating Your Feelings", body: "Pet grief is real grief. These quotes remind you that your pain is valid and that millions of people share it. Browse our pet sympathy messages for words to share with others." },
       { heading: "Sharing Grief", body: "Posting a quote can help others understand what you're experiencing and invite support." },
       { heading: "Seeking Support", body: "Consider creating a memorial page on VellumPet as part of your healing process — a place to honor your pet and return to when you need comfort." },

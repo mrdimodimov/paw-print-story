@@ -10,11 +10,11 @@ const LongPetMemorialMessages = () => (
       { name: "Long Pet Memorial Messages", href: "/long-pet-memorial-messages" },
     ]}
     meta={{
-      title: "Long Pet Memorial Messages (50+ Detailed Heartfelt Tributes)",
-      description: "50+ long pet memorial messages for when you need more than a few words. Detailed tributes to honor your pet's life, story, and legacy.",
+      title: "Long Pet Memorial Messages (Examples, Tributes & Quotes)",
+      description: "50+ long pet memorial messages for when you need more than a few words. Detailed tributes to honor your pet's life and legacy.",
     }}
     heading="Long Pet Memorial Messages"
-    intro="Sometimes a short quote isn't enough. When you want to tell your pet's story — who they were, how they made you feel, and what they meant to your life — a longer message lets you fully express the depth of your love. These long pet memorial messages give you a starting point for writing a tribute that captures everything."
+    intro="Sometimes a short quote isn't enough. When you want to tell your pet's full story, a longer message lets you express the depth of your love. These examples give you a starting point. For shorter options, see pet memorial quotes."
     definitionHeading="What Are Long Pet Memorial Messages?"
     definition="Long pet memorial messages are extended tributes that tell the full story of your pet's life, personality, and the bond you shared — going beyond a quote to capture the depth of your love."
     contextualLinks={[
