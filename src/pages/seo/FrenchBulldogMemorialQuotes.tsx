@@ -10,8 +10,8 @@ const FrenchBulldogMemorialQuotes = () => (
       { name: "French Bulldog Memorial Quotes", href: "/french-bulldog-memorial-quotes" },
     ]}
     meta={{
-      title: "French Bulldog Memorial Quotes — Quotes for Your Frenchie",
-      description: "French Bulldog memorial quotes to honor your playful Frenchie. 40+ short and emotional messages for cards, memorials, and social media.",
+      title: "French Bulldog Memorial Quotes (50+ Quotes for Your Frenchie)",
+      description: "50+ French Bulldog memorial quotes to honor your playful Frenchie. Short and emotional messages for cards, memorials, and social media.",
     }}
     heading="French Bulldog Memorial Quotes"
     intro="French Bulldogs may be small, but their personalities are enormous. Playful, stubborn, and impossibly charming, Frenchies become the center of your world with their funny faces and warm snuggles. Losing a French Bulldog means losing a companion who was always by your side — on the couch, in your lap, and in your heart. These quotes honor the Frenchie who meant everything."
