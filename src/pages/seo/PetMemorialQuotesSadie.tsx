@@ -42,6 +42,8 @@ const PetMemorialQuotesSadie = () => (
       '"You were soft in every way, Sadie."',
       '"Sadie, you were my gentle constant."',
       '"Quiet, loving, and perfect. That was you, Sadie."',
+      '',
+      '💙 Create a memorial page for Sadie → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Quotes for Sadie"
     howToWriteBody={[

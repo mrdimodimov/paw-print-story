@@ -42,6 +42,8 @@ const PetMemorialQuotesBailey = () => (
       '"You never met a stranger, Bailey."',
       '"Bailey, your love was the most welcoming thing in my life."',
       '"You were my happy, warm, wonderful Bailey."',
+      '',
+      '💙 Create a memorial page for Bailey → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Quotes for Bailey"
     howToWriteBody={[

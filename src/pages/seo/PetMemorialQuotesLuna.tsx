@@ -42,6 +42,8 @@ const PetMemorialQuotesLuna = () => (
       '"You were named for the moon and you shone just as bright."',
       '"Luna, you were my night sky."',
       '"Softly glowing, deeply loved. That was you, Luna."',
+      '',
+      '💙 Create a memorial page for Luna → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Quotes for Luna"
     howToWriteBody={[

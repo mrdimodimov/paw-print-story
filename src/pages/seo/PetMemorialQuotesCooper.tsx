@@ -42,6 +42,8 @@ const PetMemorialQuotesCooper = () => (
       '"Reliable, loving, and perfect. That was you, Cooper."',
       '"Cooper, you made me feel safe."',
       '"My loyal Cooper, my whole heart."',
+      '',
+      '💙 Create a memorial page for Cooper → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Quotes for Cooper"
     howToWriteBody={[

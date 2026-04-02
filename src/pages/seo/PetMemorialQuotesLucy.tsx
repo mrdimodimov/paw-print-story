@@ -42,6 +42,8 @@ const PetMemorialQuotesLucy = () => (
       '"My Lucy, my love, my everything."',
       '"You were always there for me, Lucy. Always."',
       '"Lucy, you were my happy place."',
+      '',
+      '💙 Create a memorial page for Lucy → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Quotes for Lucy"
     howToWriteBody={[

@@ -42,6 +42,8 @@ const PetMemorialQuotesCharlie = () => (
       '"You were the best part of coming home, Charlie."',
       '"My sweet Charlie, forever loved."',
       '"Charlie, you made ordinary days extraordinary."',
+      '',
+      '💙 Create a memorial page for Charlie → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Quotes for Charlie"
     howToWriteBody={[
