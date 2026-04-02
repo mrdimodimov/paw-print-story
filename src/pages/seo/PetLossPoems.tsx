@@ -10,11 +10,11 @@ const PetLossPoems = () => (
       { name: "Pet Loss Poems", href: "/pet-loss-poems" },
     ]}
     meta={{
-      title: "Pet Loss Poems (50+ Beautiful Verses to Honor Your Pet)",
-      description: "50+ pet loss poems to help express grief and celebrate your pet's life. Heartfelt verses for memorials, tributes, and cards.",
+      title: "Pet Loss Poems (Examples, Verses & Tributes)",
+      description: "50+ pet loss poems and verses to honor your pet's memory. Beautiful poetry for memorials, tributes, cards, and social media.",
     }}
     heading="Pet Loss Poems"
-    intro="Sometimes prose isn't enough. When grief runs deep and words feel inadequate, poetry offers a way to express what your heart can't quite say in sentences. These pet loss poems offer comfort, beauty, and a way to honor your pet's memory through the power of verse."
+    intro="When grief runs deep and ordinary words fall short, poetry offers a way to express what your heart feels. These pet loss poems offer comfort and beauty — use them in cards, on pet memorial quotes pages, or as part of a lasting tribute."
     definitionHeading="What Are Pet Loss Poems?"
     definition="Pet loss poems are short verses written to express grief, love, and remembrance after a pet passes away, using the beauty of poetry to capture emotions that prose can't always reach."
     contextualLinks={[
