@@ -10,8 +10,8 @@ const SuddenPetDeathQuotes = () => (
       { name: "Sudden Pet Death Quotes", href: "/sudden-pet-death-quotes" },
     ]}
     meta={{
-      title: "Sudden Pet Death Quotes — Words for an Unexpected Loss",
-      description: "40+ sudden pet death quotes to express shock and grief after losing a pet unexpectedly. Comforting messages for cards, tributes, and social media.",
+      title: "Sudden Pet Death Quotes (50+ Words for Unexpected Loss)",
+      description: "50+ sudden pet death quotes to express shock and grief after losing a pet unexpectedly. Comforting messages for cards, tributes, and social media.",
     }}
     heading="Sudden Pet Death Quotes"
     intro="When a pet dies suddenly, the grief can feel overwhelming and disorienting. There's no time to prepare, no chance to say goodbye, and the shock makes everything feel unreal. These sudden pet death quotes help express the shock, sadness, and love you're feeling when words are hardest to find."
