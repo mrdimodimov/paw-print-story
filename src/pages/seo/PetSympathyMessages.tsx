@@ -325,6 +325,16 @@ const PetSympathyMessages = () => {
                 href: "/rainbow-bridge-quotes",
               },
               {
+                title: "What to Write When a Dog Dies",
+                intro: "A gentle guide for writing a tribute or memorial when you've lost a dog.",
+                href: "/what-to-write-when-a-dog-dies",
+              },
+              {
+                title: "What to Write When a Cat Dies",
+                intro: "How to capture your cat's quiet, independent personality in a memorial that feels true.",
+                href: "/what-to-write-when-a-cat-dies",
+              },
+              {
                 title: "Create a Pet Memorial Page",
                 intro: "Turn a few memories into a beautiful, lasting tribute page — a meaningful gesture for yourself or for someone you care about.",
                 href: "/pet-memorial",
