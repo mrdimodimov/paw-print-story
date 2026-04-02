@@ -10,11 +10,11 @@ const PetGriefQuotes = () => (
       { name: "Pet Grief Quotes", href: "/pet-grief-quotes" },
     ]}
     meta={{
-      title: "Pet Grief Quotes (50+ Words That Understand Your Pain)",
-      description: "50+ pet grief quotes to validate your feelings after losing a pet. Emotional messages that acknowledge the depth of pet loss.",
+      title: "Pet Grief Quotes (Examples, Messages & Comfort)",
+      description: "50+ pet grief quotes to validate your feelings after losing a pet. Emotional messages that acknowledge the reality of pet loss.",
     }}
     heading="Pet Grief Quotes"
-    intro="Pet grief is real, and it runs deep. It's the empty leash by the door, the uneaten food, the silence where their sounds used to be. These pet grief quotes put words to the pain, offering validation and comfort when you're struggling with the loss of your companion."
+    intro="Pet grief is real, and it runs deep. The empty leash, the uneaten food, the silence — these quotes put words to the pain and validate what you're feeling. For words to share with others, see pet sympathy messages."
     definitionHeading="What Are Pet Grief Quotes?"
     definition="Pet grief quotes are messages that acknowledge the pain, emotional weight, and reality of losing a beloved pet — validating feelings that are too often dismissed by others."
     contextualLinks={[
