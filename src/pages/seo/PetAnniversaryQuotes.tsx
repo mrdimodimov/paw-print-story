@@ -42,6 +42,8 @@ const PetAnniversaryQuotes = () => (
       '"Another year, and you\'re still everywhere. 🌈"',
       '"Time moves on. My heart stays with you."',
       '"It\'s been [X] years. I still talk to you."',
+      '',
+      '💙 Create a memorial page for your pet → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Pet Anniversary Quotes"
     howToWriteBody={[

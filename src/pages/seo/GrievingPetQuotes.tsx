@@ -42,6 +42,8 @@ const GrievingPetQuotes = () => (
       '"I didn\'t know grief could feel this heavy."',
       '"They were small. The loss is not."',
       '"I\'m grieving, and I\'m not apologizing for it."',
+      '',
+      '💙 Create a memorial page for your pet → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Grieving Quotes"
     howToWriteBody={[

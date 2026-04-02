@@ -41,6 +41,8 @@ const CatLossQuotes = () => (
       '"The silence hurts more than I expected."',
       '"You made every corner of this house a home."',
       '"I still expect to find you in your favorite spot."',
+      '',
+      '💙 Create a memorial page for your cat → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Cat Loss Quotes"
     howToWriteBody={[

@@ -42,6 +42,8 @@ const MissingMyPetQuotes = () => (
       '"You were my routine. Now there\'s a gap."',
       '"I reach for you and you\'re not there."',
       '"Missing you is the heaviest feeling I know."',
+      '',
+      '💙 Create a memorial page for your pet → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Missing Quotes"
     howToWriteBody={[

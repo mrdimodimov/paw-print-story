@@ -31,6 +31,8 @@ const ShortPetMemorialQuotes = () => (
       '"You were my best friend."',
       '"Until we meet again."',
       '"Love never fades."',
+      '',
+      '💙 Create a memorial page for your pet → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Short Quotes"
     howToWriteBody={[

@@ -41,6 +41,8 @@ const RestInPeaceDogQuotes = () => (
       '"Fly high, my four-legged angel."',
       '"You left this world loved beyond measure."',
       '"Rest in peace, my heart dog."',
+      '',
+      '💙 Create a memorial page for your dog → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Rest in Peace Dog Quotes"
     howToWriteBody={[

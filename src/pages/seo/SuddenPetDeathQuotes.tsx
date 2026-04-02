@@ -42,6 +42,8 @@ const SuddenPetDeathQuotes = () => (
       '"I didn\'t know our last day was our last day."',
       '"Too sudden. Too soon. Too much."',
       '"I would have held you longer if I\'d known."',
+      '',
+      '💙 Create a memorial page for your pet → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Quotes for Unexpected Pet Loss"
     howToWriteBody={[

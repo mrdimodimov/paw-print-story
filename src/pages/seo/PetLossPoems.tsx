@@ -39,6 +39,8 @@ const PetLossPoems = () => (
       '"You slept beside me, dreamed beside me, loved beside me. Now I grieve beside your memory."',
       '"Paw prints in the dust, love carved in stone — you were never just a pet, you were my own."',
       '"The world turns on without you, but my heart has stopped to remember."',
+      '',
+      '💙 Create a memorial page for your pet → /pet-memorial',
     ]}
     howToWriteIntro="Longer Pet Loss Verses"
     howToWriteBody={[

@@ -42,6 +42,8 @@ const PetGriefQuotes = () => (
       '"You were small. This loss is not."',
       '"My grief is my love in disguise."',
       '"The world doesn\'t stop, but mine did."',
+      '',
+      '💙 Create a memorial page for your pet → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Grief Quotes"
     howToWriteBody={[

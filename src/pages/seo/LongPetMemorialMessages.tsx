@@ -39,6 +39,8 @@ const LongPetMemorialMessages = () => (
       '"You taught me what it means to love something more than yourself."',
       '"Every chapter of my life has you in it. Every single one."',
       '"I\'m writing this because I need the world to know how special you were."',
+      '',
+      '💙 Create a lasting tribute → /pet-memorial',
     ]}
     howToWriteIntro="Extended Tribute Examples"
     howToWriteBody={[

@@ -42,6 +42,8 @@ const LosingAPetQuotes = () => (
       '"I wasn\'t ready. I\'ll never be ready."',
       '"Losing you changed me."',
       '"You were worth all of it — even the grief."',
+      '',
+      '💙 Create a memorial page for your pet → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Quotes About Pet Loss"
     howToWriteBody={[

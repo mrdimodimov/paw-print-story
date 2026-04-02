@@ -42,6 +42,8 @@ const PetMemorialCaptions = () => (
       '"Rest easy, sweet one."',
       '"Gone too soon."',
       '"I\'ll love you always."',
+      '',
+      '💙 Create a lasting tribute → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Pet Memorial Captions"
     howToWriteBody={[
