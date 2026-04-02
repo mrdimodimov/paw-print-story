@@ -10,8 +10,8 @@ const YorkieMemorialQuotes = () => (
       { name: "Yorkie Memorial Quotes", href: "/yorkie-memorial-quotes" },
     ]}
     meta={{
-      title: "Yorkie Memorial Quotes — Quotes for Yorkshire Terriers",
-      description: "Yorkie memorial quotes to honor your spirited Yorkshire Terrier. 40+ short and emotional messages for tributes, cards, and social media.",
+      title: "Yorkie Memorial Quotes (50+ Quotes for Yorkshire Terriers)",
+      description: "50+ Yorkie memorial quotes to honor your spirited Yorkshire Terrier. Short and emotional messages for tributes, cards, and social media.",
     }}
     heading="Yorkie Memorial Quotes"
     intro="Yorkshire Terriers are tiny in size but immense in spirit. Bold, sassy, and fiercely devoted, Yorkies form intense bonds with their owners that defy their small stature. Losing a Yorkie means losing a companion who filled every corner of your life with personality, warmth, and unwavering love. These Yorkie memorial quotes honor the feisty little dog who meant the world to you."
