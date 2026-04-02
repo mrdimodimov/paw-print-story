@@ -10,8 +10,8 @@ const PoodleMemorialQuotes = () => (
       { name: "Poodle Memorial Quotes", href: "/poodle-memorial-quotes" },
     ]}
     meta={{
-      title: "Poodle Memorial Quotes — Quotes for Your Elegant Poodle",
-      description: "Poodle memorial quotes to remember your graceful, intelligent Poodle. 40+ heartfelt messages for tributes, cards, and social media.",
+      title: "Poodle Memorial Quotes (50+ Quotes for Your Elegant Poodle)",
+      description: "50+ Poodle memorial quotes to remember your graceful, intelligent Poodle. Heartfelt messages for tributes, cards, and social media.",
     }}
     heading="Poodle Memorial Quotes"
     intro="Poodles are elegant, intelligent, and deeply affectionate. Whether Standard, Miniature, or Toy, every Poodle carries a regal grace paired with a playful, loving spirit. Losing a Poodle means losing a companion who understood you in ways words can't capture — a dog who was as smart as they were devoted. These quotes help honor their graceful spirit."
