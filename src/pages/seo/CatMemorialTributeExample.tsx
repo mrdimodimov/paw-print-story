@@ -67,10 +67,12 @@ const CatMemorialTributeExample = () => (
       { question: "Can VellumPet help me write a cat tribute?", answer: "Yes. Answer a few questions about your cat and VellumPet generates a personalised tribute in minutes." },
     ]}
     internalLinks={[
-      { label: "Create a pet memorial page", href: "/pet-memorial" },
-      { label: "What to write when a cat dies", href: "/what-to-write-when-a-cat-dies" },
-      { label: "Cat memorial quotes", href: "/cat-memorial-quotes" },
-      { label: "Pet memorial message examples", href: "/pet-memorial-message" },
+      { label: "Create a Pet Memorial", href: "/pet-memorial" },
+      { label: "What to Write When a Cat Dies", href: "/what-to-write-when-a-cat-dies" },
+      { label: "Cat Memorial Quotes", href: "/cat-memorial-quotes" },
+      { label: "Pet Memorial Message Examples", href: "/pet-memorial-message" },
+      { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
+      { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
     ]}
     outro="If writing feels overwhelming, VellumPet can help. Share a few memories and we'll create a tribute that honours your cat's life beautifully. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
   />

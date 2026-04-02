@@ -69,10 +69,12 @@ const PetCondolenceMessages = () => (
       { question: "Can I create a memorial for someone else's pet?", answer: "Yes. Creating a memorial page is a thoughtful way to honor their pet and provide a lasting tribute." },
     ]}
     internalLinks={[
-      { label: "Create a pet memorial page", href: "/pet-memorial" },
-      { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
-      { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
-      { label: "Dog obituary example", href: "/dog-obituary-example" },
+      { label: "Create a Pet Memorial", href: "/pet-memorial" },
+      { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
+      { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
+      { label: "Dog Obituary Example", href: "/dog-obituary-example" },
+      { label: "Cope With Losing a Pet", href: "/cope-with-losing-a-pet" },
+      { label: "Short Pet Loss Messages", href: "/short-pet-loss-messages" },
     ]}
   />
 );

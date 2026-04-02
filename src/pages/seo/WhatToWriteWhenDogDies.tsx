@@ -67,9 +67,12 @@ const WhatToWriteWhenDogDies = () => (
       { question: "Should I create a memorial page?", answer: "Yes. A memorial page lets you share photos, stories, and quotes in one lasting place." },
     ]}
     internalLinks={[
-      { label: "Create a pet memorial page", href: "/pet-memorial" },
-      { label: "Dog memorial quotes", href: "/dog-memorial-quotes" },
-      { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+      { label: "Create a Pet Memorial", href: "/pet-memorial" },
+      { label: "Dog Memorial Quotes", href: "/dog-memorial-quotes" },
+      { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
+      { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
+      { label: "Dog Obituary Example", href: "/dog-obituary-example" },
+      { label: "Dog Loss Quotes", href: "/dog-loss-quotes" },
     ]}
   />
 );

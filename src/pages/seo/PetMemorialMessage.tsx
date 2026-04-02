@@ -68,10 +68,12 @@ const PetMemorialMessage = () => (
       { question: "What's the difference between a memorial message and a sympathy message?", answer: "A memorial message honours your own pet's memory. A sympathy message is written to comfort someone else who has lost a pet." },
     ]}
     internalLinks={[
-      { label: "Create a pet memorial page", href: "/pet-memorial" },
-      { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
-      { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
-      { label: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
+      { label: "Create a Pet Memorial", href: "/pet-memorial" },
+      { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
+      { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
+      { label: "Cope With Losing a Pet", href: "/cope-with-losing-a-pet" },
+      { label: "Long Pet Memorial Messages", href: "/long-pet-memorial-messages" },
+      { label: "Pet Condolence Messages", href: "/pet-condolence-messages" },
     ]}
   />
 );
