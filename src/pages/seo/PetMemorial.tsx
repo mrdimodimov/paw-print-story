@@ -445,6 +445,10 @@ const PetMemorial = () => {
               { label: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
               { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
               { label: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
+              { label: "Pet memorial message examples", href: "/pet-memorial-message" },
+              { label: "Dog memorial quotes", href: "/dog-memorial-quotes" },
+              { label: "Cat memorial quotes", href: "/cat-memorial-quotes" },
+              { label: "Pet loss poems", href: "/pet-loss-poems" },
             ].map((link, i) => (
               <li key={i}>
                 <Link to={link.href} className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors">
