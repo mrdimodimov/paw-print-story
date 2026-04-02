@@ -10,8 +10,8 @@ const RottweilerMemorialQuotes = () => (
       { name: "Rottweiler Memorial Quotes", href: "/rottweiler-memorial-quotes" },
     ]}
     meta={{
-      title: "Rottweiler Memorial Quotes — Quotes for Your Loyal Rottie",
-      description: "Rottweiler memorial quotes to honor your strong, loving Rottie. 40+ emotional messages for tributes, cards, and social media.",
+      title: "Rottweiler Memorial Quotes (50+ Quotes for Your Loyal Rottie)",
+      description: "50+ Rottweiler memorial quotes to honor your strong, loving Rottie. Emotional messages for tributes, cards, and social media.",
     }}
     heading="Rottweiler Memorial Quotes"
     intro="Rottweilers are powerful, protective, and incredibly gentle with those they love. Often misunderstood by those who don't know them, Rotties are among the most devoted and affectionate dogs a family can have. These Rottweiler memorial quotes honor the big-hearted guardian who stood by you through everything — with strength, loyalty, and a love that never wavered."
