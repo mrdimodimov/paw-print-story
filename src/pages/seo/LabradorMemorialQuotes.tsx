@@ -10,8 +10,8 @@ const LabradorMemorialQuotes = () => (
       { name: "Labrador Memorial Quotes", href: "/labrador-memorial-quotes" },
     ]}
     meta={{
-      title: "Labrador Memorial Quotes — Quotes for Your Loyal Lab",
-      description: "Labrador memorial quotes to honor your loyal, loving Lab. 40+ heartfelt messages for cards, memorials, and social media tributes.",
+      title: "Labrador Memorial Quotes (50+ Quotes for Your Loyal Lab)",
+      description: "50+ Labrador memorial quotes to honor your loyal, loving Lab. Heartfelt messages for cards, memorials, and social media tributes.",
     }}
     heading="Labrador Memorial Quotes"
     intro="Labradors bring boundless joy, loyalty, and unconditional love into our lives. Whether they were fetching a ball, swimming in the lake, or simply resting their head on your lap, Labs fill every moment with warmth. When they leave, the silence is profound. These Labrador memorial quotes help you honor the golden-hearted companion who made every day brighter."
