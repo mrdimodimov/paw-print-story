@@ -10,8 +10,8 @@ const PetMemorialQuotesMax = () => (
       { name: "Memorial Quotes for Max", href: "/pet-memorial-quotes-max" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Max — Honor Your Greatest Friend",
-      description: "40+ pet memorial quotes for a pet named Max. Emotional, personalized messages to honor your loyal, loving Max.",
+      title: "Pet Memorial Quotes for Max (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Max. Emotional, personalized messages to honor your loyal, loving Max.",
     }}
     heading="Pet Memorial Quotes for Max"
     intro="Max — a name that means the greatest, and he truly was. From his unwavering loyalty to his joyful greetings at the door, Max was the kind of companion who made you feel like the most important person in the world. Losing Max leaves a gap that nothing else can fill — the empty spot on the bed, the quiet walks, the missing warmth beside you. These quotes honor the Max who gave you everything."
