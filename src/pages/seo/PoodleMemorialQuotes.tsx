@@ -42,6 +42,8 @@ const PoodleMemorialQuotes = () => (
       '"You understood me before I spoke."',
       '"Elegance in its purest form."',
       '"You were poetry in motion."',
+      '',
+      '💙 Create a memorial page for your Poodle → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Poodle Quotes"
     howToWriteBody={[

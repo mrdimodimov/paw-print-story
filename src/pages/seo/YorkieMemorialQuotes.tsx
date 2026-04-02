@@ -42,6 +42,8 @@ const YorkieMemorialQuotes = () => (
       '"My little warrior, rest now."',
       '"You carried yourself like royalty."',
       '"The tiniest dog with the loudest love."',
+      '',
+      '💙 Create a memorial page for your Yorkie → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Yorkie Quotes"
     howToWriteBody={[

@@ -42,6 +42,8 @@ const LabradorMemorialQuotes = () => (
       '"My water-loving, ball-chasing best friend."',
       '"You made ordinary moments extraordinary."',
       '"The best welcome-home I\'ll ever get."',
+      '',
+      '💙 Create a memorial page for your Labrador → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Labrador Quotes"
     howToWriteBody={[
