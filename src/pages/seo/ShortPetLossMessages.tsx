@@ -10,11 +10,11 @@ const ShortPetLossMessages = () => (
       { name: "Short Pet Loss Messages", href: "/short-pet-loss-messages" },
     ]}
     meta={{
-      title: "Short Pet Loss Messages (50+ Simple Words of Comfort)",
+      title: "Short Pet Loss Messages (Examples, Quotes & Comfort)",
       description: "50+ short pet loss messages for cards and texts. Simple, heartfelt words to share when someone loses a beloved pet.",
     }}
     heading="Short Pet Loss Messages"
-    intro="Sometimes the simplest words carry the most weight. When someone you care about loses a pet, you don't need a long speech — just a genuine message that says 'I see your pain, and I care.' These short pet loss messages give you the right words to send in a text, card, or comment."
+    intro="When someone you care about loses a pet, you don't need a long speech — just genuine words. These short pet loss messages are easy to copy and send in a text, card, or comment. For more options, browse pet sympathy messages."
     definitionHeading="What Are Short Pet Loss Messages?"
     definition="Short pet loss messages are brief, heartfelt words shared to comfort someone who has lost a pet, designed to be easy to send in texts, cards, or social media comments."
     contextualLinks={[
