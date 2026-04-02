@@ -10,11 +10,11 @@ const ShortPetLossMessages = () => (
       { name: "Short Pet Loss Messages", href: "/short-pet-loss-messages" },
     ]}
     meta={{
-      title: "Short Pet Loss Messages (50+ Simple Words of Comfort)",
+      title: "Short Pet Loss Messages (Examples, Quotes & Comfort)",
       description: "50+ short pet loss messages for cards and texts. Simple, heartfelt words to share when someone loses a beloved pet.",
     }}
     heading="Short Pet Loss Messages"
-    intro="Sometimes the simplest words carry the most weight. When someone you care about loses a pet, you don't need a long speech — just a genuine message that says 'I see your pain, and I care.' These short pet loss messages give you the right words to send in a text, card, or comment."
+    intro="When someone you care about loses a pet, you don't need a long speech — just genuine words. These short pet loss messages are easy to copy and send in a text, card, or comment. For more options, browse pet sympathy messages."
     definitionHeading="What Are Short Pet Loss Messages?"
     definition="Short pet loss messages are brief, heartfelt words shared to comfort someone who has lost a pet, designed to be easy to send in texts, cards, or social media comments."
     contextualLinks={[
@@ -64,7 +64,7 @@ const ShortPetLossMessages = () => (
       '"Their paw prints are permanent. On everything."',
     ]}
     tips={[
-      { heading: "How to Write Short Pet Loss Messages", body: "Keep it genuine and brief. Acknowledge the loss directly. Avoid clichés like 'they\'re in a better place.' Focus on the person's pain, not trying to fix it. A simple 'I\'m sorry' is enough." },
+      { heading: "What to Write When a Pet Dies", body: "Keep it genuine and brief. Acknowledge the loss directly. Avoid clichés like 'they're in a better place.' Focus on the person's pain, not trying to fix it. A simple 'I'm sorry for your loss' is often enough." },
       { heading: "When to Send", body: "Send immediately after hearing the news — a short message is better than silence. Even a few words show that you care." },
       { heading: "Keep It Simple", body: "You don't need to say much. Acknowledgment alone is comforting. Browse our pet sympathy messages for more ideas." },
       { heading: "What to Avoid", body: "Skip 'they're in a better place' or 'you can get another one.' Focus on acknowledging the person's pain and the pet's importance." },

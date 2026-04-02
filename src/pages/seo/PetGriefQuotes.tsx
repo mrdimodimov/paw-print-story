@@ -10,11 +10,11 @@ const PetGriefQuotes = () => (
       { name: "Pet Grief Quotes", href: "/pet-grief-quotes" },
     ]}
     meta={{
-      title: "Pet Grief Quotes (50+ Words That Understand Your Pain)",
-      description: "50+ pet grief quotes to validate your feelings after losing a pet. Emotional messages that acknowledge the depth of pet loss.",
+      title: "Pet Grief Quotes (Examples, Messages & Comfort)",
+      description: "50+ pet grief quotes to validate your feelings after losing a pet. Emotional messages that acknowledge the reality of pet loss.",
     }}
     heading="Pet Grief Quotes"
-    intro="Pet grief is real, and it runs deep. It's the empty leash by the door, the uneaten food, the silence where their sounds used to be. These pet grief quotes put words to the pain, offering validation and comfort when you're struggling with the loss of your companion."
+    intro="Pet grief is real, and it runs deep. The empty leash, the uneaten food, the silence — these quotes put words to the pain and validate what you're feeling. For words to share with others, see pet sympathy messages."
     definitionHeading="What Are Pet Grief Quotes?"
     definition="Pet grief quotes are messages that acknowledge the pain, emotional weight, and reality of losing a beloved pet — validating feelings that are too often dismissed by others."
     contextualLinks={[
@@ -64,7 +64,7 @@ const PetGriefQuotes = () => (
       '"This grief has no expiration date. And that\'s okay."',
     ]}
     tips={[
-      { heading: "How to Process Pet Grief", body: "Acknowledge what you're feeling without judgment. Write it down. Talk to someone who gets it. Don't compare your grief to others'. Take it one day at a time. Consider creating a memorial page as a way to channel your love." },
+      { heading: "How to Use These Quotes", body: "Share on social media when you need to express what you're feeling. Write in a journal as part of processing grief. Add to a memorial page or sympathy card. These quotes remind you and others that pet grief is valid." },
       { heading: "Validating Your Feelings", body: "Pet grief is real grief. These quotes remind you that your pain is valid and that millions of people share it. Browse our pet sympathy messages for words to share with others." },
       { heading: "Sharing Grief", body: "Posting a quote can help others understand what you're experiencing and invite support." },
       { heading: "Seeking Support", body: "Consider creating a memorial page on VellumPet as part of your healing process — a place to honor your pet and return to when you need comfort." },

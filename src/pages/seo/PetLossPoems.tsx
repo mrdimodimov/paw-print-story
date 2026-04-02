@@ -10,11 +10,11 @@ const PetLossPoems = () => (
       { name: "Pet Loss Poems", href: "/pet-loss-poems" },
     ]}
     meta={{
-      title: "Pet Loss Poems (50+ Beautiful Verses to Honor Your Pet)",
-      description: "50+ pet loss poems to help express grief and celebrate your pet's life. Heartfelt verses for memorials, tributes, and cards.",
+      title: "Pet Loss Poems (Examples, Verses & Tributes)",
+      description: "50+ pet loss poems and verses to honor your pet's memory. Beautiful poetry for memorials, tributes, cards, and social media.",
     }}
     heading="Pet Loss Poems"
-    intro="Sometimes prose isn't enough. When grief runs deep and words feel inadequate, poetry offers a way to express what your heart can't quite say in sentences. These pet loss poems offer comfort, beauty, and a way to honor your pet's memory through the power of verse."
+    intro="When grief runs deep and ordinary words fall short, poetry offers a way to express what your heart feels. These pet loss poems offer comfort and beauty — use them in cards, on pet memorial quotes pages, or as part of a lasting tribute."
     definitionHeading="What Are Pet Loss Poems?"
     definition="Pet loss poems are short verses written to express grief, love, and remembrance after a pet passes away, using the beauty of poetry to capture emotions that prose can't always reach."
     contextualLinks={[
@@ -54,7 +54,7 @@ const PetLossPoems = () => (
       '"I count the days since you\'ve been gone, but never count the love — because that part has no end."',
     ]}
     tips={[
-      { heading: "How to Write Pet Loss Poems", body: "Start with a feeling or a memory. Don't worry about rhyming — free verse is beautiful too. Focus on specific details: the sound of their paws, the warmth of their body, the look in their eyes. Let the words come naturally." },
+      { heading: "When to Use These Poems", body: "Include in memorial cards, tribute pages, photo albums, or social media posts. A poem paired with a photo creates a powerful tribute. Read aloud at a memorial service or keep in a personal journal." },
       { heading: "Using Pet Loss Poems", body: "Include in memorial cards, tribute pages, photo albums, social media posts, or engraved keepsakes. A poem paired with a photo creates a powerful tribute." },
       { heading: "Writing Your Own", body: "Start with a memory or feeling — even a few lines can become a meaningful poem. Check our pet memorial quotes for inspiration." },
       { heading: "Sharing With Others", body: "Poems can comfort friends and family who also loved your pet. Post on a memorial page or share in a card." },

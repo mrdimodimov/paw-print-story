@@ -10,11 +10,11 @@ const GrievingPetQuotes = () => (
       { name: "Grieving Pet Quotes", href: "/grieving-pet-quotes" },
     ]}
     meta={{
-      title: "Grieving Pet Quotes (50+ Words for When You're Hurting)",
+      title: "Grieving Pet Quotes (Examples, Messages & Comfort)",
       description: "50+ grieving pet quotes to help process the loss of a beloved pet. Emotional messages that validate your grief and offer comfort.",
     }}
     heading="Grieving Pet Quotes"
-    intro="Grieving a pet is real, deep, and valid — no matter what anyone else says. The empty bed, the silent house, the missing routine — pet grief touches every part of your daily life. These grieving pet quotes acknowledge the pain you're feeling and offer words of comfort when you need them most."
+    intro="Grieving a pet is real, deep, and valid. The empty bed, the silent house, the missing routine — these quotes acknowledge the pain and offer comfort. If you need words for someone else, see our pet sympathy messages."
     definitionHeading="What Are Grieving Pet Quotes?"
     definition="Grieving pet quotes are messages that acknowledge the pain and emotional weight of losing a pet, helping validate the grieving process and remind you that your feelings are normal and shared by many."
     contextualLinks={[
@@ -64,7 +64,7 @@ const GrievingPetQuotes = () => (
       '"I\'m learning that grief and gratitude can exist at the same time."',
     ]}
     tips={[
-      { heading: "How to Process Pet Grief", body: "Give yourself permission to feel everything — sadness, anger, guilt, and loneliness are all normal. Talk to someone who understands. Write your feelings down. Don't let anyone minimize your loss. Consider creating a memorial as part of your healing process." },
+      { heading: "How to Use These Quotes", body: "Share on social media when you need to express what you're feeling. Send to a friend who is also grieving. Add to a journal or memorial page. These quotes remind you that pet grief is real — and you're not alone in it." },
       { heading: "Validating Your Grief", body: "Pet grief is real grief. These quotes remind you that your feelings are valid and shared by many. Browse our pet sympathy messages for words to share with others who are grieving." },
       { heading: "Sharing Your Feelings", body: "Posting a quote can help process grief and connect with others who understand. You don't have to grieve alone." },
       { heading: "Finding Support", body: "Memorial pages and communities can offer comfort during the grieving process. Create a tribute on VellumPet as part of your healing." },

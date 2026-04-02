@@ -10,11 +10,11 @@ const PetMemorialPrayers = () => (
       { name: "Pet Memorial Prayers", href: "/pet-memorial-prayers" },
     ]}
     meta={{
-      title: "Pet Memorial Prayers (50+ Spiritual Comfort Messages)",
-      description: "50+ pet memorial prayers to find comfort and peace after losing a beloved pet. Spiritual messages for memorials, services, and tributes.",
+      title: "Pet Memorial Prayers (Examples, Messages & Comfort)",
+      description: "50+ pet memorial prayers for comfort and peace after losing a pet. Spiritual messages for memorials, services, and tributes.",
     }}
     heading="Pet Memorial Prayers"
-    intro="For many, faith offers comfort in grief. When you lose a pet, prayer can be a way to process your pain, express gratitude for the time you shared, and trust that love continues beyond this life. These pet memorial prayers help you find peace and honor your pet's spirit."
+    intro="For many, faith offers comfort in grief. These pet memorial prayers help you find peace, express gratitude, and trust that love continues beyond this life. Pair with pet memorial quotes or pet sympathy messages for a full tribute."
     definitionHeading="What Are Pet Memorial Prayers?"
     definition="Pet memorial prayers are spiritual messages used to find comfort, express gratitude, and seek peace after the loss of a beloved pet."
     contextualLinks={[
@@ -57,7 +57,7 @@ const PetMemorialPrayers = () => (
       '"I pray for peace — for my pet\'s spirit and for my broken heart. May we be reunited one day."',
     ]}
     tips={[
-      { heading: "How to Write Pet Memorial Prayers", body: "Speak from the heart, just as you would in any prayer. Thank God for the gift of your pet. Ask for peace and comfort. Express your hope that they are safe and free. You don't need formal language — honest words are always enough." },
+      { heading: "When to Use These Prayers", body: "At memorial services, on tribute pages, in sympathy cards, or in personal prayer. A prayer paired with a photo creates a meaningful tribute. Share in a quiet moment of reflection or add to a memorial page." },
       { heading: "Using Pet Memorial Prayers", body: "Include in memorial services, tribute pages, sympathy cards, or personal reflection. A prayer paired with a photo creates a meaningful tribute." },
       { heading: "Interfaith Comfort", body: "These prayers are written to offer comfort regardless of specific religious tradition. They focus on love, gratitude, and peace. Browse our pet memorial quotes for more non-spiritual options." },
       { heading: "Combining With Other Tributes", body: "Pair a prayer with photos and quotes on a memorial page. Create a full tribute on VellumPet." },
