@@ -10,8 +10,8 @@ const BeagleMemorialQuotes = () => (
       { name: "Beagle Memorial Quotes", href: "/beagle-memorial-quotes" },
     ]}
     meta={{
-      title: "Beagle Memorial Quotes — Quotes for Your Beloved Beagle",
-      description: "Beagle memorial quotes to honor your curious, joyful Beagle. 40+ heartfelt messages for cards, tributes, and social media.",
+      title: "Beagle Memorial Quotes (50+ Quotes for Your Beloved Beagle)",
+      description: "50+ Beagle memorial quotes to honor your curious, joyful Beagle. Heartfelt messages for cards, tributes, and social media.",
     }}
     heading="Beagle Memorial Quotes"
     intro="Beagles are curious, joyful, and endlessly loyal. Their howls, their noses to the ground, their tail-wagging greetings — every moment with a Beagle is full of life. Losing a Beagle means losing a friend who lived every moment fully, who followed every scent with wonder, and who loved you with a whole and open heart."
