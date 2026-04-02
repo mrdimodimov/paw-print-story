@@ -10,17 +10,18 @@ const LabradorMemorialQuotes = () => (
       { name: "Labrador Memorial Quotes", href: "/labrador-memorial-quotes" },
     ]}
     meta={{
-      title: "Labrador Memorial Quotes — Honor Your Loyal Lab",
-      description: "Find heartfelt Labrador memorial quotes to honor your loyal Lab. Short, emotional messages for cards, memorials, and social media.",
+      title: "Labrador Memorial Quotes — Quotes for Your Loyal Lab",
+      description: "Labrador memorial quotes to honor your loyal, loving Lab. 40+ heartfelt messages for cards, memorials, and social media tributes.",
     }}
     heading="Labrador Memorial Quotes"
-    intro="Labradors bring boundless joy, loyalty, and love into our lives. When they leave, the silence is profound. These Labrador memorial quotes help you honor the golden-hearted companion who made every day brighter."
+    intro="Labradors bring boundless joy, loyalty, and unconditional love into our lives. Whether they were fetching a ball, swimming in the lake, or simply resting their head on your lap, Labs fill every moment with warmth. When they leave, the silence is profound. These Labrador memorial quotes help you honor the golden-hearted companion who made every day brighter."
     definitionHeading="What Are Labrador Memorial Quotes?"
-    definition="Labrador memorial quotes are messages written to remember and honor a Labrador Retriever who has passed away. They celebrate the breed's loyalty, energy, and unconditional love."
+    definition="Labrador memorial quotes are messages written to remember and honor a Labrador Retriever who has passed away. They celebrate the breed's legendary loyalty, gentle nature, and the unconditional love they give."
     contextualLinks={[
       { text: "Dog memorial quotes", href: "/dog-memorial-quotes" },
       { text: "Pet memorial quotes", href: "/pet-memorial-quotes" },
       { text: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+      { text: "Dog loss quotes", href: "/dog-loss-quotes" },
       { text: "Create a tribute", href: "/create" },
     ]}
     exampleHeading="Labrador Memorial Quotes"
@@ -31,6 +32,16 @@ const LabradorMemorialQuotes = () => (
       '"No tail ever wagged with more love."',
       '"The best boy until the very end."',
       '"You made every walk an adventure."',
+      '"Golden heart, golden soul."',
+      '"You loved everyone and everything, always."',
+      '"My loyal Lab, my constant companion."',
+      '"You fetched happiness every single day."',
+      '"The world\'s gentlest soul."',
+      '"You were joy with four legs."',
+      '"Always happy, always loving, always missed."',
+      '"My water-loving, ball-chasing best friend."',
+      '"You made ordinary moments extraordinary."',
+      '"The best welcome-home I\'ll ever get."',
     ]}
     howToWriteIntro="Emotional Labrador Quotes"
     howToWriteBody={[
@@ -39,27 +50,42 @@ const LabradorMemorialQuotes = () => (
       '"You never met a stranger, and you never stopped loving me."',
       '"I hope heaven has endless tennis balls for you."',
       '"Your loyalty was a gift I\'ll carry forever."',
+      '"You were the first to greet me and the last to leave my side."',
+      '"I miss the way you\'d press your whole body against me."',
+      '"Every swim, every fetch, every nap together — I\'d give anything for one more."',
+      '"You made the simplest moments the most beautiful."',
+      '"Your tail told me everything I needed to know about love."',
+      '"The lake won\'t be the same without you."',
+      '"You were patient, gentle, and loved without conditions."',
+      '"I didn\'t just lose a dog — I lost the happiest part of my day."',
+      '"You were my Lab, my love, my whole heart."',
+      '"Thank you for every slobbery kiss and every wagging tail."',
+      '"You lived to make others happy, and you succeeded every day."',
+      '"My home had a heartbeat, and it was yours."',
+      '"You showed me what loyalty really means."',
     ]}
     tips={[
+      { heading: "Why Labradors Are So Special", body: "Labradors are the most popular dog breed in the world for a reason. Their gentle temperament, eagerness to please, and natural love for people make them the quintessential family dog. Whether as a therapy dog, a hiking buddy, or a couch companion, Labs give their whole hearts — and their loss is felt by everyone who knew them." },
       { heading: "When to Use Labrador Memorial Quotes", body: "Use these quotes on sympathy cards, photo frames, social media posts, or online memorial pages to honor your Lab." },
-      { heading: "Personalizing Your Quote", body: "Add your Lab's name and a specific memory to make the message truly yours." },
-      { heading: "Sharing Your Tribute", body: "Posting a quote with a photo of your Lab can help you process grief and connect with others who understand." },
+      { heading: "Personalizing Your Quote", body: "Add your Lab's name and a specific memory — a favorite swimming spot, their ball obsession, or their greeting at the door — to make it uniquely yours." },
+      { heading: "Sharing Your Tribute", body: "Posting a quote with a photo of your Lab can help you process grief and connect with others. Build a full memorial page on VellumPet." },
     ]}
-    tipsIntro="Ways to use Labrador memorial quotes to remember your companion."
+    tipsIntro="Ways to use Labrador memorial quotes to remember your loyal companion."
     outroHeading="Honor Your Labrador's Memory"
-    outro="Create a lasting tribute for your pet with VellumPet. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
+    outro="Your Lab gave you unconditional love, endless joy, and a lifetime of happy memories. Create a lasting memorial page on VellumPet to honor the faithful companion who made everything better."
     faqs={[
-      { question: "What are Labrador memorial quotes?", answer: "They are heartfelt messages used to honor and remember a Labrador who has passed away." },
-      { question: "How do I use Labrador memorial quotes?", answer: "Use them on cards, social media, memorial stones, or tribute pages." },
-      { question: "Can I share them online?", answer: "Yes, many people share them on Instagram, Facebook, and memorial sites." },
+      { question: "What are Labrador memorial quotes?", answer: "Heartfelt messages used to honor and remember a Labrador who has passed away, celebrating their loyalty and love." },
+      { question: "How do I use Labrador memorial quotes?", answer: "Use them on cards, social media, memorial stones, tribute pages, or photo frames." },
+      { question: "Can I share them online?", answer: "Yes, many people share them on Instagram, Facebook, and memorial sites — pair with a photo." },
       { question: "Are they meaningful?", answer: "Yes — putting feelings into words helps process grief and celebrate your Lab's life." },
       { question: "Can I create a memorial page?", answer: "Yes. VellumPet lets you build a full memorial page with photos and stories for your Labrador." },
     ]}
     internalLinks={[
       { label: "Create a Pet Memorial", href: "/pet-memorial" },
+      { label: "Dog Memorial Quotes", href: "/dog-memorial-quotes" },
       { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
-      { label: "Dog Memorial Quotes", href: "/dog-memorial-quotes" },
+      { label: "Dog Loss Quotes", href: "/dog-loss-quotes" },
     ]}
   />
 );
