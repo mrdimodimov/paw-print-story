@@ -71,6 +71,7 @@ const YorkieMemorialQuotes = () => (
       { heading: "Using Yorkie Quotes", body: "Perfect for social media tributes, memorial pages, sympathy cards, or engraved keepsakes. Pair a quote with your favorite photo for a heartfelt tribute." },
       { heading: "Reflecting Their Spirit", body: "Yorkies are known for boldness and sass — let your quote capture that unique personality. Reference their bark, their bravery, or their love of being carried." },
       { heading: "Creating a Memorial Page", body: "A full memorial page lets you combine quotes, photos, and stories in one lasting place. Create a beautiful tribute for your Yorkie on VellumPet." },
+      { heading: "What to Write for Your Yorkie", body: "Start with what made your Yorkie unique — their sass, their bark, or their fierce loyalty. Examples: 'You were tiny but you owned every room you walked into.' 'No one could resist your attitude, and I wouldn't have changed a thing.' 'You were braver than dogs three times your size.'" },
     ]}
     tipsIntro="Ways to honor your Yorkie's memory and celebrate their unique spirit."
     outroHeading="Honor Your Yorkie"

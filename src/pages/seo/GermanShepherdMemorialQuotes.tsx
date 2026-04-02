@@ -69,6 +69,7 @@ const GermanShepherdMemorialQuotes = () => (
       { heading: "Using These Quotes", body: "Share on memorial pages, sympathy cards, or alongside a photo of your German Shepherd. They're especially meaningful for working dog tributes." },
       { heading: "Personalizing Your Message", body: "Reference a specific quality — their alertness, their gentle side, or their protective nature — to make your tribute deeply personal." },
       { heading: "Honoring Their Service", body: "German Shepherds often serve as working dogs. Acknowledge their dedication, bravery, and partnership in your tribute. Create a full memorial page on VellumPet." },
+      { heading: "What to Write for Your German Shepherd", body: "Honor their courage and devotion. Examples: 'You stood guard over my heart every single day.' 'Brave, loyal, and gentle — you were everything a dog should be.' 'You protected this family with everything you had.'" },
     ]}
     tipsIntro="Ways to honor your German Shepherd's memory and celebrate their noble spirit."
     outroHeading="Honor Your German Shepherd"

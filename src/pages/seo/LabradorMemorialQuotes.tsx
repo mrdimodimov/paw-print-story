@@ -69,6 +69,7 @@ const LabradorMemorialQuotes = () => (
       { heading: "When to Use Labrador Memorial Quotes", body: "Use these quotes on sympathy cards, photo frames, social media posts, or online memorial pages to honor your Lab." },
       { heading: "Personalizing Your Quote", body: "Add your Lab's name and a specific memory — a favorite swimming spot, their ball obsession, or their greeting at the door — to make it uniquely yours." },
       { heading: "Sharing Your Tribute", body: "Posting a quote with a photo of your Lab can help you process grief and connect with others. Build a full memorial page on VellumPet." },
+      { heading: "What to Write for Your Labrador", body: "Focus on your Lab's joyful, loyal nature. Examples: 'You greeted every day like it was the best day of your life.' 'Your tail never stopped wagging, and my heart never stopped loving you.' 'You taught me that happiness is a tennis ball and someone to throw it.'" },
     ]}
     tipsIntro="Ways to use Labrador memorial quotes to remember your loyal companion."
     outroHeading="Honor Your Labrador's Memory"

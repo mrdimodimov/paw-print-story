@@ -69,6 +69,7 @@ const BeagleMemorialQuotes = () => (
       { heading: "Sharing Beagle Quotes", body: "Post on social media or include on memorial pages to honor your Beagle's adventurous spirit. A quote paired with a trail photo makes a beautiful tribute." },
       { heading: "Capturing Their Personality", body: "Beagles are known for curiosity, howling, and joy — reference these traits to make your tribute personal and authentic." },
       { heading: "Creating a Lasting Tribute", body: "Pair a quote with your favorite photo and build a full memorial page on VellumPet to keep your Beagle's memory alive." },
+      { heading: "What to Write for Your Beagle", body: "Capture their curious, joyful spirit. Examples: 'You followed every scent like it was the greatest adventure.' 'Your howl was music, and your love was everything.' 'Curious, happy, and full of life — that was you, always.'" },
     ]}
     tipsIntro="Ways to remember your Beagle and celebrate their adventurous spirit."
     outroHeading="Honor Your Beagle"

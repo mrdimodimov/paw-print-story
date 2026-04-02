@@ -69,6 +69,7 @@ const GoldenRetrieverMemorialQuotes = () => (
       { heading: "When to Use These Quotes", body: "Perfect for memorial cards, photo tributes, social media posts, engraved keepsakes, or online memorial pages." },
       { heading: "Making It Personal", body: "Include your Golden's name and a favorite memory — their love of swimming, their gentle greetings, or their patience — to create a truly meaningful tribute." },
       { heading: "Creating a Memorial Page", body: "Sharing a quote with a photo brings comfort. Build a lasting memorial page for your Golden Retriever on VellumPet." },
+      { heading: "What to Write for Your Golden Retriever", body: "Celebrate their warmth and gentle spirit. Examples: 'You made everything golden just by being there.' 'Your love was the purest thing I've ever known.' 'You never judged, never held back — you just loved.'" },
     ]}
     tipsIntro="Ideas for using Golden Retriever memorial quotes to honor your companion."
     outroHeading="Honor Your Golden Retriever"

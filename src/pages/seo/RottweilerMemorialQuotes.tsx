@@ -69,6 +69,7 @@ const RottweilerMemorialQuotes = () => (
       { heading: "Honoring Your Rottie", body: "Use quotes on tribute pages, social posts, framed photos, or engraved keepsakes to honor your Rottweiler's noble spirit." },
       { heading: "Highlighting Their Nature", body: "Rottweilers are gentle giants — let your tribute reflect their true personality beyond the stereotypes. Reference their lean, their loyalty, or their gentle eyes." },
       { heading: "Sharing Your Grief", body: "Posting a tribute can connect you with others who understand the bond with a Rottweiler. Build a full memorial page on VellumPet." },
+      { heading: "What to Write for Your Rottweiler", body: "Honor their gentle strength. Examples: 'You were the strongest dog I knew, but your love was the softest thing about you.' 'Under all that muscle was the biggest heart.' 'You leaned into me with everything you had — and I leaned right back.'" },
     ]}
     tipsIntro="Ways to honor your Rottweiler's memory and celebrate their true nature."
     outroHeading="Remember Your Rottweiler"

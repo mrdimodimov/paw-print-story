@@ -69,6 +69,7 @@ const PoodleMemorialQuotes = () => (
       { heading: "Using Poodle Memorial Quotes", body: "Share these on social media, memorial pages, sympathy cards, or engraved keepsakes to honor your Poodle's elegant spirit." },
       { heading: "Celebrating Their Personality", body: "Poodles are known for intelligence and grace — reference their clever nature, their proud walk, or their intuitive understanding to make your tribute authentic." },
       { heading: "Creating a Lasting Tribute", body: "Combine a quote with photos and memories on a memorial page for a lasting tribute. Build your Poodle's memorial on VellumPet." },
+      { heading: "What to Write for Your Poodle", body: "Celebrate their intelligence and grace. Examples: 'You were the smartest dog in the room — and the most loving.' 'Elegant, clever, and endlessly devoted. That was you.' 'You understood me better than most people ever could.'" },
     ]}
     tipsIntro="Ways to honor your Poodle's memory and celebrate their graceful spirit."
     outroHeading="Remember Your Poodle"

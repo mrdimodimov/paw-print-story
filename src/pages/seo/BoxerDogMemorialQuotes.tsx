@@ -69,6 +69,7 @@ const BoxerDogMemorialQuotes = () => (
       { heading: "Sharing Boxer Quotes", body: "Post alongside a photo on social media or include on a memorial page. Boxer tributes often capture their playful nature and big personality." },
       { heading: "Capturing Their Energy", body: "Boxers are known for their playfulness and joy — let your tribute reflect their wiggling, bouncing, lovable nature." },
       { heading: "Building a Memorial", body: "A full memorial page can capture photos, stories, and quotes in one lasting place. Create a tribute for your Boxer on VellumPet." },
+      { heading: "What to Write for Your Boxer", body: "Capture their joyful energy. Examples: 'You wiggled your way into my heart and never left.' 'No one greeted me like you did — full body, full heart.' 'You were pure joy with four legs, and I miss every bounce.'" },
     ]}
     tipsIntro="Ways to remember your Boxer and celebrate their joyful spirit."
     outroHeading="Honor Your Boxer"

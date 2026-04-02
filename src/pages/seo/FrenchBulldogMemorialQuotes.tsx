@@ -69,6 +69,7 @@ const FrenchBulldogMemorialQuotes = () => (
       { heading: "Using Frenchie Memorial Quotes", body: "Share on social media, memorial pages, or sympathy cards. A quote paired with a photo of your Frenchie's expressive face makes a beautiful tribute." },
       { heading: "Adding Personality", body: "French Bulldogs are known for their quirks — reference their snoring, their zoomies, or their stubborn streak to make your tribute unique and authentic." },
       { heading: "Creating a Memorial Page", body: "A photo paired with a heartfelt quote is a powerful way to process grief. Build a full memorial page for your Frenchie on VellumPet." },
+      { heading: "What to Write for Your French Bulldog", body: "Capture their quirky charm. Examples: 'You snored louder than you barked, and I miss both.' 'You were small, stubborn, and the love of my life.' 'No one ever made me laugh the way you did.'" },
     ]}
     tipsIntro="Ideas for remembering your French Bulldog and honoring their unique charm."
     outroHeading="Honor Your Frenchie's Memory"

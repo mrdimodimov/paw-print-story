@@ -69,6 +69,7 @@ const DachshundMemorialQuotes = () => (
       { heading: "Using Dachshund Quotes", body: "Share on social media, memorial pages, sympathy cards, or engraved keepsakes to honor your Dachshund's brave and quirky spirit." },
       { heading: "Celebrating Their Quirks", body: "Dachshunds are famously stubborn and funny — reference their burrowing, their bark, or their refusal to listen for an authentic tribute." },
       { heading: "Building a Memorial", body: "Create a full memorial page on VellumPet to keep your Dachshund's memory alive with photos, stories, and quotes." },
+      { heading: "What to Write for Your Dachshund", body: "Celebrate their fearless personality. Examples: 'You were small enough to carry but brave enough to take on the world.' 'Stubborn, fearless, and full of love — that was you.' 'You burrowed into my blankets and into my heart.'" },
     ]}
     tipsIntro="Ways to honor your Dachshund's memory and celebrate their fearless spirit."
     outroHeading="Honor Your Dachshund"
