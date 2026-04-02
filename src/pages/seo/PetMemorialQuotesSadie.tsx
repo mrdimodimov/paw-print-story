@@ -10,8 +10,8 @@ const PetMemorialQuotesSadie = () => (
       { name: "Memorial Quotes for Sadie", href: "/pet-memorial-quotes-sadie" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Sadie — Honor Your Gentle Sadie",
-      description: "40+ pet memorial quotes for a pet named Sadie. Emotional, personalized messages to honor your gentle, graceful companion.",
+      title: "Pet Memorial Quotes for Sadie (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Sadie. Emotional, personalized messages to honor your gentle, graceful companion.",
     }}
     heading="Pet Memorial Quotes for Sadie"
     intro="Sadie — gentle, sweet, and full of quiet grace. Sadie was the kind of companion who didn't demand attention but naturally drew you in with her warmth and calm presence. She was the soft eyes watching over you, the gentle weight beside you at night, the patient soul who loved you through every mood and every season. Losing Sadie means losing the gentlest love you've ever known. These quotes honor the Sadie who made every quiet moment meaningful."
