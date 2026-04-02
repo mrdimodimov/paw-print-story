@@ -10,11 +10,11 @@ const GrievingPetQuotes = () => (
       { name: "Grieving Pet Quotes", href: "/grieving-pet-quotes" },
     ]}
     meta={{
-      title: "Grieving Pet Quotes (50+ Words for When You're Hurting)",
+      title: "Grieving Pet Quotes (Examples, Messages & Comfort)",
       description: "50+ grieving pet quotes to help process the loss of a beloved pet. Emotional messages that validate your grief and offer comfort.",
     }}
     heading="Grieving Pet Quotes"
-    intro="Grieving a pet is real, deep, and valid — no matter what anyone else says. The empty bed, the silent house, the missing routine — pet grief touches every part of your daily life. These grieving pet quotes acknowledge the pain you're feeling and offer words of comfort when you need them most."
+    intro="Grieving a pet is real, deep, and valid. The empty bed, the silent house, the missing routine — these quotes acknowledge the pain and offer comfort. If you need words for someone else, see our pet sympathy messages."
     definitionHeading="What Are Grieving Pet Quotes?"
     definition="Grieving pet quotes are messages that acknowledge the pain and emotional weight of losing a pet, helping validate the grieving process and remind you that your feelings are normal and shared by many."
     contextualLinks={[
