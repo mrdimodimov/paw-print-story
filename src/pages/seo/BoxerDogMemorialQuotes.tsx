@@ -10,8 +10,8 @@ const BoxerDogMemorialQuotes = () => (
       { name: "Boxer Dog Memorial Quotes", href: "/boxer-dog-memorial-quotes" },
     ]}
     meta={{
-      title: "Boxer Dog Memorial Quotes — Quotes for Your Playful Boxer",
-      description: "Boxer dog memorial quotes to honor your energetic, loving Boxer. 40+ emotional messages for tributes, cards, and social media.",
+      title: "Boxer Dog Memorial Quotes (50+ Quotes for Your Playful Boxer)",
+      description: "50+ Boxer dog memorial quotes to honor your energetic, loving Boxer. Emotional messages for tributes, cards, and social media.",
     }}
     heading="Boxer Dog Memorial Quotes"
     intro="Boxers are energetic, goofy, and fiercely loyal. They bounce through life with infectious joy and love everyone they meet. With their wiggling bodies and soulful eyes, Boxers form deep emotional bonds that make their loss feel devastating. These Boxer dog memorial quotes honor the playful spirit who made every single day brighter."
