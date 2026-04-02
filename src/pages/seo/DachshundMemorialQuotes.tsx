@@ -10,8 +10,8 @@ const DachshundMemorialQuotes = () => (
       { name: "Dachshund Memorial Quotes", href: "/dachshund-memorial-quotes" },
     ]}
     meta={{
-      title: "Dachshund Memorial Quotes — Quotes for Your Brave Dachshund",
-      description: "Dachshund memorial quotes to honor your courageous little companion. 40+ heartfelt messages for tributes, cards, and social media.",
+      title: "Dachshund Memorial Quotes (50+ Quotes for Your Brave Dachshund)",
+      description: "50+ Dachshund memorial quotes to honor your courageous little companion. Heartfelt messages for tributes, cards, and social media.",
     }}
     heading="Dachshund Memorial Quotes"
     intro="Dachshunds are brave, stubborn, and endlessly devoted. Their long bodies and short legs carry the biggest hearts in the dog world. Fiercely loyal and wonderfully quirky, Dachshunds burrow into your life and never leave — even after they're gone. These Dachshund memorial quotes honor the spirited, one-of-a-kind companion you'll always love."
