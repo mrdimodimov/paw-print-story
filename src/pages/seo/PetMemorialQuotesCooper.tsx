@@ -85,6 +85,8 @@ const PetMemorialQuotesCooper = () => (
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
       { label: "Dog Memorial Quotes", href: "/dog-memorial-quotes" },
       { label: "Rest in Peace Dog Quotes", href: "/rest-in-peace-dog-quotes" },
+      { label: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes" },
+      { label: "Pet Remembrance Quotes", href: "/pet-remembrance-quotes" },
     ]}
   />
 );

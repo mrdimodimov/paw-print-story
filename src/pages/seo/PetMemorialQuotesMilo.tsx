@@ -85,6 +85,8 @@ const PetMemorialQuotesMilo = () => (
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
       { label: "Dog Memorial Quotes", href: "/dog-memorial-quotes" },
       { label: "Dog Loss Quotes", href: "/dog-loss-quotes" },
+      { label: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes" },
+      { label: "Short Pet Memorial Quotes", href: "/short-pet-memorial-quotes" },
     ]}
   />
 );

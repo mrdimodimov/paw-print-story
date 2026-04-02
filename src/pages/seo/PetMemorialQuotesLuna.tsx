@@ -85,6 +85,8 @@ const PetMemorialQuotesLuna = () => (
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
       { label: "Cat Memorial Quotes", href: "/cat-memorial-quotes" },
       { label: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes" },
+      { label: "Pet Remembrance Quotes", href: "/pet-remembrance-quotes" },
+      { label: "Cat Loss Quotes", href: "/cat-loss-quotes" },
     ]}
   />
 );
