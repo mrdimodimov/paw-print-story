@@ -10,11 +10,11 @@ const PetMemorialPrayers = () => (
       { name: "Pet Memorial Prayers", href: "/pet-memorial-prayers" },
     ]}
     meta={{
-      title: "Pet Memorial Prayers (50+ Spiritual Comfort Messages)",
-      description: "50+ pet memorial prayers to find comfort and peace after losing a beloved pet. Spiritual messages for memorials, services, and tributes.",
+      title: "Pet Memorial Prayers (Examples, Messages & Comfort)",
+      description: "50+ pet memorial prayers for comfort and peace after losing a pet. Spiritual messages for memorials, services, and tributes.",
     }}
     heading="Pet Memorial Prayers"
-    intro="For many, faith offers comfort in grief. When you lose a pet, prayer can be a way to process your pain, express gratitude for the time you shared, and trust that love continues beyond this life. These pet memorial prayers help you find peace and honor your pet's spirit."
+    intro="For many, faith offers comfort in grief. These pet memorial prayers help you find peace, express gratitude, and trust that love continues beyond this life. Pair with pet memorial quotes or pet sympathy messages for a full tribute."
     definitionHeading="What Are Pet Memorial Prayers?"
     definition="Pet memorial prayers are spiritual messages used to find comfort, express gratitude, and seek peace after the loss of a beloved pet."
     contextualLinks={[
