@@ -10,9 +10,8 @@ const CatLossQuotes = () => (
       { name: "Cat Loss Quotes", href: "/cat-loss-quotes" },
     ]}
     meta={{
-      title: "Cat Loss Quotes — Gentle Words to Honor Your Cat",
-      description:
-        "Find cat loss quotes to express grief and celebrate your cat's life. Short, emotional messages for cards, memorials, and social media.",
+      title: "Cat Loss Quotes (50+ Gentle Words to Honor Your Cat)",
+      description: "50+ cat loss quotes to express grief and celebrate your cat's life. Short, emotional messages for cards, memorials, and social media.",
     }}
     heading="Cat Loss Quotes"
     intro="Losing a cat means losing a quiet, steady presence that made every day softer. These cat loss quotes help you express grief and honor the gentle bond you shared."

@@ -10,8 +10,8 @@ const InstagramPetMemorialCaptions = () => (
       { name: "Instagram Pet Memorial Captions", href: "/instagram-pet-memorial-captions" },
     ]}
     meta={{
-      title: "Instagram Pet Memorial Captions — Heartfelt Posts for Your Pet",
-      description: "Find Instagram pet memorial captions to honor your pet online. 40+ short, emotional captions for tribute posts, reels, and stories.",
+      title: "Instagram Pet Memorial Captions (50+ Heartfelt Post Ideas)",
+      description: "50+ Instagram pet memorial captions to honor your pet online. Short, emotional captions for tribute posts, reels, and stories.",
     }}
     heading="Instagram Pet Memorial Captions"
     intro="When you post a photo of your pet on Instagram, the caption carries the emotion. Whether it's a favorite snapshot, a last photo together, or a memory you want to preserve, the right words make your tribute feel complete. These Instagram pet memorial captions help you share your love, grief, and gratitude in a way that feels right — short enough to copy, meaningful enough to matter."

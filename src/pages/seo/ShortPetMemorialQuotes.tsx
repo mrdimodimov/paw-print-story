@@ -10,9 +10,8 @@ const ShortPetMemorialQuotes = () => (
       { name: "Short Pet Memorial Quotes", href: "/short-pet-memorial-quotes" },
     ]}
     meta={{
-      title: "Short Pet Memorial Quotes — Brief & Meaningful Tributes",
-      description:
-        "Find short pet memorial quotes to honor your pet's memory. Brief, heartfelt messages for cards, stones, social media, and memorial pages.",
+      title: "Short Pet Memorial Quotes (50+ Brief & Meaningful Tributes)",
+      description: "50+ short pet memorial quotes to honor your pet's memory. Brief, heartfelt messages for cards, stones, social media, and memorial pages.",
     }}
     heading="Short Pet Memorial Quotes"
     intro="Sometimes the simplest words carry the deepest meaning. Short pet memorial quotes let you honor your pet's memory with a brief but powerful message — perfect for engraving, sharing online, or adding to a memorial page."

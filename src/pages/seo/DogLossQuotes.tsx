@@ -10,9 +10,8 @@ const DogLossQuotes = () => (
       { name: "Dog Loss Quotes", href: "/dog-loss-quotes" },
     ]}
     meta={{
-      title: "Dog Loss Quotes — Heartfelt Words to Honor Your Dog",
-      description:
-        "Find dog loss quotes to express grief and celebrate your dog's life. Short, emotional messages for cards, memorials, and social media.",
+      title: "Dog Loss Quotes (50+ Heartfelt Words to Honor Your Dog)",
+      description: "50+ dog loss quotes to express grief and celebrate your dog's life. Short, emotional messages for cards, memorials, and social media.",
     }}
     heading="Dog Loss Quotes"
     intro="Losing a dog is losing a loyal companion who was always there. These dog loss quotes help put your grief into words and honor the bond you shared."

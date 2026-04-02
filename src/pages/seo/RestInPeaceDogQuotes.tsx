@@ -10,9 +10,8 @@ const RestInPeaceDogQuotes = () => (
       { name: "Rest in Peace Dog Quotes", href: "/rest-in-peace-dog-quotes" },
     ]}
     meta={{
-      title: "Rest in Peace Dog Quotes — Farewell Messages for Your Dog",
-      description:
-        "Find rest in peace dog quotes to say goodbye and honor your dog's memory. Short, heartfelt RIP messages for cards, memorials, and social media.",
+      title: "Rest in Peace Dog Quotes (50+ Farewell Messages for Your Dog)",
+      description: "50+ rest in peace dog quotes to say goodbye and honor your dog's memory. Short, heartfelt RIP messages for cards, memorials, and social media.",
     }}
     heading="Rest in Peace Dog Quotes"
     intro="Saying goodbye to a dog is one of the hardest things a pet owner faces. These rest in peace dog quotes help you express your farewell, gratitude, and love for a loyal companion who gave you everything."
