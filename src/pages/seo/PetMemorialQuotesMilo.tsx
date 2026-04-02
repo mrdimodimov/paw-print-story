@@ -68,6 +68,7 @@ const PetMemorialQuotesMilo = () => (
       { heading: "Remembering Milo", body: "Milo was the kind of companion who made life feel like an adventure. His curiosity, his playful energy, and his mischievous charm turned every ordinary day into something special. Whether he was exploring the backyard, getting into things he shouldn't, or curling up beside you after a long day, Milo had a way of filling your life with joy and wonder." },
       { heading: "How to Honor Milo's Memory", body: "Create a memorial page for Milo on VellumPet to preserve photos, stories, and the adventures you shared. You can also share a quote with Milo's photo on social media, create a scrapbook of your favorite memories, or write a personal tribute that captures Milo's adventurous spirit." },
       { heading: "Capturing His Spirit", body: "Reference Milo's adventurous or playful nature — his favorite hiding spots, his love of exploring, or his mischievous streak — for an authentic, personal tribute." },
+      { heading: "What to Write for Milo", body: "Capture Milo's adventurous spirit. Examples: 'Milo, every day with you was an adventure I'd take again.' 'You explored the world with wonder and came home with love, Milo.' 'Milo, the house is too quiet without your energy.'" },
     ]}
     tipsIntro="Ways to honor Milo and keep his adventurous spirit alive."
     outroHeading="Honor Milo's Memory"

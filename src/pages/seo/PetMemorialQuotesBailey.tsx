@@ -68,6 +68,7 @@ const PetMemorialQuotesBailey = () => (
       { heading: "Remembering Bailey", body: "Bailey was the warm, welcoming presence that made your home feel alive. Whether greeting guests with boundless enthusiasm, cuddling up on a rainy day, or making everyone at the park smile, Bailey had a gift for spreading joy. The memories of Bailey's happy energy and loving spirit are treasures that will warm your heart forever." },
       { heading: "How to Honor Bailey's Memory", body: "Create a memorial page for Bailey on VellumPet to gather photos, stories, and the joyful moments that made Bailey special. You can also share a favorite quote on social media with Bailey's photo, create a memory book, or write a personal tribute that captures Bailey's warm, friendly nature." },
       { heading: "Adding Warmth", body: "Mention Bailey's friendly or energetic nature — their greeting style, their love of people, or their joyful presence — for a tribute that feels authentically Bailey." },
+      { heading: "What to Write for Bailey", body: "Celebrate Bailey's warmth. Examples: 'Bailey, you made everyone feel welcome and loved.' 'Your joy was contagious, Bailey — and I miss it every day.' 'Bailey, you were the warm heart of this home.'" },
     ]}
     tipsIntro="Ways to honor Bailey and keep their warm spirit alive."
     outroHeading="Honor Bailey's Memory"

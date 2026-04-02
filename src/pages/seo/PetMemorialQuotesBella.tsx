@@ -68,6 +68,7 @@ const PetMemorialQuotesBella = () => (
       { heading: "Remembering Bella", body: "Bella was more than a name — it was a promise fulfilled. Whether she greeted you at the door with gentle excitement or curled up beside you on quiet evenings, Bella made every moment feel special. The memories you shared — morning walks, bedtime cuddles, her soft gaze — are treasures that will never fade." },
       { heading: "How to Honor Bella's Memory", body: "Create a memorial page for Bella on VellumPet where you can gather photos, stories, and quotes in one lasting place. You can also share a favorite quote with Bella's photo on social media, frame a special message, or write a personal tribute that captures who Bella was to you." },
       { heading: "Making It Personal", body: "Add a specific memory — the way Bella tilted her head, her favorite spot on the couch, or the sound of her paws — to make your tribute uniquely yours." },
+      { heading: "What to Write for Bella", body: "Start with what made Bella beautiful to you. Examples: 'Bella, you were beautiful inside and out — and I miss every part of you.' 'You made the ordinary feel extraordinary, Bella.' 'Bella, your love was quiet but it filled my whole life.'" },
     ]}
     tipsIntro="Ways to remember Bella and keep her beautiful spirit alive."
     outroHeading="Honor Bella's Memory"

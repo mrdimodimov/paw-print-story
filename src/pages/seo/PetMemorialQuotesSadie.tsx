@@ -68,6 +68,7 @@ const PetMemorialQuotesSadie = () => (
       { heading: "Remembering Sadie", body: "Sadie was the gentle soul who made your home feel peaceful. Her quiet devotion, her soft eyes, and her calm presence were gifts that you felt most deeply in the still moments. Whether she was resting beside you, watching you with loving eyes, or simply being near, Sadie had a way of making everything feel right." },
       { heading: "How to Honor Sadie's Memory", body: "Create a memorial page for Sadie on VellumPet to preserve photos, stories, and the quiet moments that made Sadie special. You can also share a quote on social media with Sadie's photo, create a keepsake, or write a personal tribute that captures Sadie's gentle, graceful spirit." },
       { heading: "Reflecting Her Nature", body: "Sadie's gentle spirit deserves a tribute that reflects her calm, loving ways — reference her soft eyes, her patience, her quiet presence, or the way she made you feel at peace." },
+      { heading: "What to Write for Sadie", body: "Focus on Sadie's gentle grace. Examples: 'Sadie, your quiet love was the most powerful force in my life.' 'You never needed to be loud, Sadie — your presence said everything.' 'Sadie, you brought peace to every room you entered.'" },
     ]}
     tipsIntro="Ways to honor Sadie and keep her gentle spirit alive."
     outroHeading="Honor Sadie's Memory"

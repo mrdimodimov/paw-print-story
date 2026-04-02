@@ -68,6 +68,7 @@ const PetMemorialQuotesDaisy = () => (
       { heading: "Remembering Daisy", body: "Daisy was your sunshine — bright, warm, and always there to make things better. Whether she was running through the yard, curled up beside you, or greeting you with her happy energy, Daisy had a way of making the world feel lighter. Her cheerful spirit was like a flower that bloomed in your life every single day." },
       { heading: "How to Honor Daisy's Memory", body: "Create a memorial page for Daisy on VellumPet to preserve photos, stories, and the moments that made Daisy special. You can also share a quote on social media with Daisy's photo, plant flowers in her memory, or write a personal tribute that captures her sunny spirit." },
       { heading: "Name Meaning", body: "Reference Daisy's flower-inspired name for a poetic touch — blooming, sunshine, petals, and garden imagery all connect beautifully to who Daisy was." },
+      { heading: "What to Write for Daisy", body: "Use flower and sunshine imagery. Examples: 'Daisy, you bloomed in my life and left it more beautiful.' 'You were my sunshine on the cloudiest days, Daisy.' 'Daisy, the garden feels empty without you in it.'" },
     ]}
     tipsIntro="Ways to honor Daisy and keep her bright spirit alive."
     outroHeading="Honor Daisy's Memory"
