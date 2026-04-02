@@ -10,8 +10,8 @@ const PetMemorialQuotesLucy = () => (
       { name: "Memorial Quotes for Lucy", href: "/pet-memorial-quotes-lucy" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Lucy — Remember Your Sweet Lucy",
-      description: "40+ pet memorial quotes for a pet named Lucy. Emotional messages to honor your sweet, gentle companion.",
+      title: "Pet Memorial Quotes for Lucy (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Lucy. Emotional messages to honor your sweet, gentle companion.",
     }}
     heading="Pet Memorial Quotes for Lucy"
     intro="Lucy — sweet, loving, and always there when you needed her most. Lucy had a way of making everything feel better simply by being present. Her gentle eyes, her warm body beside you, her quiet devotion — these are the things that made Lucy irreplaceable. Losing Lucy leaves a softness missing from your life that nothing can quite restore. These quotes honor the sweet Lucy who brightened every room she entered."
