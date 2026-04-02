@@ -10,11 +10,11 @@ const MissingMyPetQuotes = () => (
       { name: "Missing My Pet Quotes", href: "/missing-my-pet-quotes" },
     ]}
     meta={{
-      title: "Missing My Pet Quotes (50+ Messages for When Grief Hits)",
-      description: "50+ missing my pet quotes for days when grief hits hard. Emotional messages that express how much you miss your beloved companion.",
+      title: "Missing My Pet Quotes (Examples, Messages & Comfort)",
+      description: "50+ missing my pet quotes for days when grief hits hard. Emotional messages that express how much you miss your companion.",
     }}
     heading="Missing My Pet Quotes"
-    intro="Some days the missing hits harder than others. A sound, a smell, an empty spot on the bed — and suddenly the grief is fresh again. These missing my pet quotes give voice to the ache of an empty house, a silent morning, and a love that never fades. They're for the days when you just can't stop thinking about them."
+    intro="Some days the missing hits harder than others. A sound, a smell, an empty spot on the bed — and suddenly the grief is fresh again. These quotes give voice to the ache. For more comforting words, browse pet memorial quotes."
     definitionHeading="What Are Missing My Pet Quotes?"
     definition="Missing my pet quotes are emotional messages that express the ongoing feeling of loss, longing, and love after a pet passes away — for the days when the missing feels overwhelming."
     contextualLinks={[
