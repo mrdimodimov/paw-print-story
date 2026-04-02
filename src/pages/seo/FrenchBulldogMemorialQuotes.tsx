@@ -42,6 +42,8 @@ const FrenchBulldogMemorialQuotes = () => (
       '"Short snout, long love."',
       '"You snored, you snuggled, you stole my heart."',
       '"The cutest companion I\'ll ever have."',
+      '',
+      '💙 Create a memorial page for your Frenchie → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Frenchie Quotes"
     howToWriteBody={[

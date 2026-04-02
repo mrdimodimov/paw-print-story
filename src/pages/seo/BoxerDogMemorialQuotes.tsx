@@ -42,6 +42,8 @@ const BoxerDogMemorialQuotes = () => (
       '"My goofy, gorgeous guardian."',
       '"You played hard and loved harder."',
       '"The happiest dog in every room."',
+      '',
+      '💙 Create a memorial page for your Boxer → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Boxer Quotes"
     howToWriteBody={[

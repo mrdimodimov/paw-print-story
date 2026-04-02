@@ -42,6 +42,8 @@ const PetMemorialQuotesBella = () => (
       '"Bella, you made even the hard days beautiful."',
       '"No one will ever be as beautiful as you, Bella."',
       '"You were my Bella — my beautiful one."',
+      '',
+      '💙 Create a memorial page for Bella → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Quotes for Bella"
     howToWriteBody={[

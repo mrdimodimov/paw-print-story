@@ -42,6 +42,8 @@ const GoldenRetrieverMemorialQuotes = () => (
       '"My golden angel."',
       '"You made the world brighter just by being in it."',
       '"No one could resist your golden smile."',
+      '',
+      '💙 Create a memorial page for your Golden Retriever → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Golden Retriever Quotes"
     howToWriteBody={[

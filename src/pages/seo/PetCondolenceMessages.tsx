@@ -26,6 +26,8 @@ const PetCondolenceMessages = () => (
       "I know nothing I say can take away the pain, but I want you to know that your grief makes complete sense. Rosie wasn't just a pet — she was family. And losing family hurts.",
       "If you ever want to talk about her, share memories, or just sit with someone who understands, I'm here. Always.",
       "With love and thinking of you,\nEmma",
+      '',
+      '💙 Create a memorial page → /pet-memorial',
     ]}
     howToWriteIntro="Writing a condolence message for a pet loss doesn't require special skill — just empathy and a willingness to acknowledge what someone is going through."
     howToWriteBody={[

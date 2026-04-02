@@ -42,6 +42,8 @@ const PetRemembranceMessages = () => (
       '"I remember you in everything beautiful."',
       '"You\'re never really gone. Not to me."',
       '"Remembering you is my way of loving you still."',
+      '',
+      '💙 Create a memorial page for your pet → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Remembrance Messages"
     howToWriteBody={[

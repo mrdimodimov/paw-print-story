@@ -42,6 +42,8 @@ const BeagleMemorialQuotes = () => (
       '"The best nose in the business."',
       '"Gone but still running through my memories."',
       '"A heart as warm as your bark was loud."',
+      '',
+      '💙 Create a memorial page for your Beagle → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Beagle Quotes"
     howToWriteBody={[

@@ -42,6 +42,8 @@ const ShortPetLossMessages = () => (
       '"You were the best pet parent."',
       '"Wishing you peace today. 🐾"',
       '"Their memory will live on."',
+      '',
+      '💙 Create a memorial page for your pet → /pet-memorial',
     ]}
     howToWriteIntro="Heartfelt Short Messages"
     howToWriteBody={[

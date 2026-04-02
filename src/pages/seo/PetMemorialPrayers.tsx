@@ -42,6 +42,8 @@ const PetMemorialPrayers = () => (
       '"Rest in peace, sweet one. You are in God\'s hands now."',
       '"May the love we shared continue beyond this life."',
       '"Lord, help me remember the joy more than the pain."',
+      '',
+      '💙 Create a memorial page for your pet → /pet-memorial',
     ]}
     howToWriteIntro="Longer Pet Memorial Prayers"
     howToWriteBody={[

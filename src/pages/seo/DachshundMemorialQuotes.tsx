@@ -42,6 +42,8 @@ const DachshundMemorialQuotes = () => (
       '"Low to the ground, high in my heart."',
       '"The longest dog with the deepest love."',
       '"You burrowed under every blanket and into every heart."',
+      '',
+      '💙 Create a memorial page for your Dachshund → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Dachshund Quotes"
     howToWriteBody={[

@@ -42,6 +42,8 @@ const PetMemorialQuotesMax = () => (
       '"Max, you were everything I needed."',
       '"My world was better because of you, Max."',
       '"Max, forever the greatest."',
+      '',
+      '💙 Create a memorial page for Max → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Quotes for Max"
     howToWriteBody={[

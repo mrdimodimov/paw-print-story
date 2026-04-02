@@ -42,6 +42,8 @@ const PetMemorialQuotesMilo = () => (
       '"Milo, you had the biggest heart and the wildest spirit."',
       '"My adventurous Milo, my forever friend."',
       '"Milo, you made the ordinary feel extraordinary."',
+      '',
+      '💙 Create a memorial page for Milo → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Quotes for Milo"
     howToWriteBody={[

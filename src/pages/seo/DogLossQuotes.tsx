@@ -41,6 +41,8 @@ const DogLossQuotes = () => (
       '"No one greeted me like you did."',
       '"I didn\'t just lose a dog. I lost family."',
       '"The silence where your bark used to be is the loudest sound."',
+      '',
+      '💙 Create a memorial page for your dog → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Dog Loss Quotes"
     howToWriteBody={[

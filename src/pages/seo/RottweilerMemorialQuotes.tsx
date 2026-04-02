@@ -42,6 +42,8 @@ const RottweilerMemorialQuotes = () => (
       '"Big paws, bigger love."',
       '"The world saw strength — I saw pure love."',
       '"My Rottie, my rock."',
+      '',
+      '💙 Create a memorial page for your Rottweiler → /pet-memorial',
     ]}
     howToWriteIntro="Emotional Rottweiler Quotes"
     howToWriteBody={[
