@@ -10,8 +10,8 @@ const PetMemorialQuotesLuna = () => (
       { name: "Memorial Quotes for Luna", href: "/pet-memorial-quotes-luna" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Luna — Remember Your Moonlight",
-      description: "40+ pet memorial quotes for a pet named Luna. Heartfelt messages to honor the gentle, luminous companion who lit up your life.",
+      title: "Pet Memorial Quotes for Luna (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Luna. Heartfelt messages to honor the gentle, luminous companion who lit up your life.",
     }}
     heading="Pet Memorial Quotes for Luna"
     intro="Luna — your moonlight, your quiet comfort, your gentle constant. Named after the moon, Luna had a way of glowing softly in your life, bringing calm to the chaos and light to the dark moments. Losing Luna feels like losing the moon itself — the nights are darker, the silence deeper, and the space she filled feels impossibly vast. These quotes honor the Luna who was your light."
