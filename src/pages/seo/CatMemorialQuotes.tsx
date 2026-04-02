@@ -70,9 +70,12 @@ const CatMemorialQuotes = () => (
       { question: "Can I create a memorial page?", answer: "Yes. A memorial page lets you share your cat's story, photos, and personality in one lasting place." },
     ]}
     internalLinks={[
-      { label: "Create a pet memorial page", href: "/pet-memorial" },
-      { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
-      { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+      { label: "Create a Pet Memorial", href: "/pet-memorial" },
+      { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
+      { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
+      { label: "Cat Loss Quotes", href: "/cat-loss-quotes" },
+      { label: "What to Write When a Cat Dies", href: "/what-to-write-when-a-cat-dies" },
+      { label: "Cat Memorial Tribute Example", href: "/cat-memorial-tribute-example" },
     ]}
   />
 );

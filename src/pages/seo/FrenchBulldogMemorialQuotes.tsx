@@ -86,6 +86,8 @@ const FrenchBulldogMemorialQuotes = () => (
       { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
       { label: "Short Dog Memorial Quotes", href: "/short-dog-memorial-quotes" },
+      { label: "Rest in Peace Dog Quotes", href: "/rest-in-peace-dog-quotes" },
+      { label: "Dog Loss Quotes", href: "/dog-loss-quotes" },
     ]}
   />
 );

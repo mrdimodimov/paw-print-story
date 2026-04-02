@@ -71,9 +71,16 @@ const DogMemorialQuotes = () => (
       { question: "Should I create a memorial page?", answer: "Yes, it helps preserve memories with photos, stories, and quotes in one lasting place." },
     ]}
     internalLinks={[
-      { label: "Create a pet memorial page", href: "/pet-memorial" },
-      { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
-      { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
+      { label: "Create a Pet Memorial", href: "/pet-memorial" },
+      { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
+      { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
+      { label: "Dog Loss Quotes", href: "/dog-loss-quotes" },
+      { label: "Short Dog Memorial Quotes", href: "/short-dog-memorial-quotes" },
+      { label: "What to Write When a Dog Dies", href: "/what-to-write-when-a-dog-dies" },
+      { label: "Dog Obituary Example", href: "/dog-obituary-example" },
+      { label: "Rest in Peace Dog Quotes", href: "/rest-in-peace-dog-quotes" },
+      { label: "Labrador Memorial Quotes", href: "/labrador-memorial-quotes" },
+      { label: "Golden Retriever Memorial Quotes", href: "/golden-retriever-memorial-quotes" },
     ]}
   />
 );

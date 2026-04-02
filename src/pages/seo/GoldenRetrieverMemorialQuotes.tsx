@@ -86,6 +86,8 @@ const GoldenRetrieverMemorialQuotes = () => (
       { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
       { label: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes" },
+      { label: "Dog Loss Quotes", href: "/dog-loss-quotes" },
+      { label: "Dog Obituary Example", href: "/dog-obituary-example" },
     ]}
   />
 );

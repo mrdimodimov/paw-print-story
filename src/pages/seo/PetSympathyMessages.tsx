@@ -325,6 +325,16 @@ const PetSympathyMessages = () => {
                 href: "/rainbow-bridge-quotes",
               },
               {
+                title: "What to Write When a Dog Dies",
+                intro: "A gentle guide for writing a tribute or memorial when you've lost a dog.",
+                href: "/what-to-write-when-a-dog-dies",
+              },
+              {
+                title: "What to Write When a Cat Dies",
+                intro: "How to capture your cat's quiet, independent personality in a memorial that feels true.",
+                href: "/what-to-write-when-a-cat-dies",
+              },
+              {
                 title: "Create a Pet Memorial Page",
                 intro: "Turn a few memories into a beautiful, lasting tribute page — a meaningful gesture for yourself or for someone you care about.",
                 href: "/pet-memorial",
@@ -411,6 +421,9 @@ const PetSympathyMessages = () => {
               { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
               { label: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
               { label: "Dog obituary example", href: "/dog-obituary-example" },
+              { label: "Pet condolence messages", href: "/pet-condolence-messages" },
+              { label: "Short pet loss messages", href: "/short-pet-loss-messages" },
+              { label: "Pet grief quotes", href: "/pet-grief-quotes" },
             ].map((link, i) => (
               <li key={i}>
                 <Link to={link.href} className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors">

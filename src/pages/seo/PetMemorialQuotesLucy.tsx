@@ -85,6 +85,8 @@ const PetMemorialQuotesLucy = () => (
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
       { label: "Dog Memorial Quotes", href: "/dog-memorial-quotes" },
       { label: "Short Pet Memorial Quotes", href: "/short-pet-memorial-quotes" },
+      { label: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes" },
+      { label: "Pet Remembrance Quotes", href: "/pet-remembrance-quotes" },
     ]}
   />
 );

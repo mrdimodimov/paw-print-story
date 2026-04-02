@@ -66,10 +66,12 @@ const DogObituaryExample = () => (
       { question: "Can VellumPet help me write a dog obituary?", answer: "Yes. Share a few memories and VellumPet crafts a personalised tribute in minutes." },
     ]}
     internalLinks={[
-      { label: "Create a pet memorial page", href: "/pet-memorial" },
-      { label: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
-      { label: "Dog memorial quotes", href: "/dog-memorial-quotes" },
-      { label: "Pet memorial message examples", href: "/pet-memorial-message" },
+      { label: "Create a Pet Memorial", href: "/pet-memorial" },
+      { label: "What to Write When a Dog Dies", href: "/what-to-write-when-a-dog-dies" },
+      { label: "Dog Memorial Quotes", href: "/dog-memorial-quotes" },
+      { label: "Pet Memorial Message Examples", href: "/pet-memorial-message" },
+      { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
+      { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
     ]}
     outro="If writing feels too hard right now, that's okay. VellumPet helps you turn a few simple memories into a beautiful dog tribute. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
   />

@@ -375,6 +375,26 @@ const PetMemorialQuotes = () => {
                 intro: "For dogs, cats, rabbits, birds, and every animal who shared your life. Universal words of remembrance that honour any beloved pet.",
                 href: "/pet-remembrance-quotes",
               },
+              {
+                title: "Pet Grief Quotes",
+                intro: "Words that validate your pain and acknowledge the depth of pet loss — for when grief feels isolating.",
+                href: "/pet-grief-quotes",
+              },
+              {
+                title: "Pet Loss Poems",
+                intro: "Beautiful verses to express grief and celebrate your pet's life through the power of poetry.",
+                href: "/pet-loss-poems",
+              },
+              {
+                title: "Short Pet Memorial Quotes",
+                intro: "Brief, heartfelt messages for engraving, framing, or sharing on social media.",
+                href: "/short-pet-memorial-quotes",
+              },
+              {
+                title: "Pet Anniversary Quotes",
+                intro: "Words to remember your pet on the anniversary of their passing — a gentle way to honour their memory each year.",
+                href: "/pet-anniversary-quotes",
+              },
             ].map((hub) => (
               <Link
                 key={hub.href}
@@ -392,6 +412,70 @@ const PetMemorialQuotes = () => {
                   </div>
                   <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
                 </div>
+              </Link>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ─── Hub: Quotes by Pet Name ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-5 text-2xl font-bold text-foreground">
+            Memorial Quotes by Pet Name
+          </h2>
+          <p className="mb-6 text-muted-foreground">
+            Personalised quote collections for popular pet names — find words that feel like they were written about your companion.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { name: "Bella", href: "/pet-memorial-quotes-bella" },
+              { name: "Max", href: "/pet-memorial-quotes-max" },
+              { name: "Luna", href: "/pet-memorial-quotes-luna" },
+              { name: "Charlie", href: "/pet-memorial-quotes-charlie" },
+              { name: "Lucy", href: "/pet-memorial-quotes-lucy" },
+              { name: "Daisy", href: "/pet-memorial-quotes-daisy" },
+              { name: "Milo", href: "/pet-memorial-quotes-milo" },
+              { name: "Cooper", href: "/pet-memorial-quotes-cooper" },
+              { name: "Bailey", href: "/pet-memorial-quotes-bailey" },
+              { name: "Sadie", href: "/pet-memorial-quotes-sadie" },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                to={item.href}
+                className="rounded-full border border-border bg-card px-3.5 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
+              >
+                Quotes for {item.name}
+              </Link>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ─── Hub: Quotes by Dog Breed ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-5 text-2xl font-bold text-foreground">
+            Memorial Quotes by Dog Breed
+          </h2>
+          <p className="mb-6 text-muted-foreground">
+            Breed-specific quote collections that honour the unique personality of your dog.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { name: "Labrador", href: "/labrador-memorial-quotes" },
+              { name: "Golden Retriever", href: "/golden-retriever-memorial-quotes" },
+              { name: "German Shepherd", href: "/german-shepherd-memorial-quotes" },
+              { name: "French Bulldog", href: "/french-bulldog-memorial-quotes" },
+              { name: "Poodle", href: "/poodle-memorial-quotes" },
+              { name: "Beagle", href: "/beagle-memorial-quotes" },
+              { name: "Rottweiler", href: "/rottweiler-memorial-quotes" },
+              { name: "Yorkie", href: "/yorkie-memorial-quotes" },
+              { name: "Dachshund", href: "/dachshund-memorial-quotes" },
+              { name: "Boxer", href: "/boxer-dog-memorial-quotes" },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                to={item.href}
+                className="rounded-full border border-border bg-card px-3.5 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
+              >
+                {item.name}
               </Link>
             ))}
           </div>
@@ -483,6 +567,10 @@ const PetMemorialQuotes = () => {
               { label: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
               { label: "What to write when a dog dies", href: "/what-to-write-when-a-dog-dies" },
               { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+              { label: "Pet condolence messages", href: "/pet-condolence-messages" },
+              { label: "Pet loss poems", href: "/pet-loss-poems" },
+              { label: "Instagram pet memorial captions", href: "/instagram-pet-memorial-captions" },
+              { label: "Cope with losing a pet", href: "/cope-with-losing-a-pet" },
             ].map((link, i) => (
               <li key={i}>
                 <Link to={link.href} className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors">

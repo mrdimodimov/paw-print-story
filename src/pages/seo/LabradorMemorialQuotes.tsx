@@ -86,6 +86,8 @@ const LabradorMemorialQuotes = () => (
       { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
       { label: "Dog Loss Quotes", href: "/dog-loss-quotes" },
+      { label: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes" },
+      { label: "What to Write When a Dog Dies", href: "/what-to-write-when-a-dog-dies" },
     ]}
   />
 );

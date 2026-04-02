@@ -69,6 +69,9 @@ const ShortPetMemorialQuotes = () => (
       { label: "Create a Pet Memorial", href: "/pet-memorial" },
       { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
+      { label: "Short Dog Memorial Quotes", href: "/short-dog-memorial-quotes" },
+      { label: "Pet Memorial Captions", href: "/pet-memorial-captions" },
+      { label: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes" },
     ]}
   />
 );

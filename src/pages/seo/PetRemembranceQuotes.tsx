@@ -77,10 +77,12 @@ const PetRemembranceQuotes = () => (
       { question: "Can I create a full memorial page for my pet?", answer: "Yes, a memorial page allows you to share photos, stories, and memories in one place." },
     ]}
     internalLinks={[
-      { label: "Create a pet memorial page", href: "/pet-memorial" },
-      { label: "Pet memorial quotes", href: "/pet-memorial-quotes" },
-      { label: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
-      { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
+      { label: "Create a Pet Memorial", href: "/pet-memorial" },
+      { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
+      { label: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes" },
+      { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
+      { label: "Pet Anniversary Quotes", href: "/pet-anniversary-quotes" },
+      { label: "Pet Memorial Prayers", href: "/pet-memorial-prayers" },
     ]}
   />
 );

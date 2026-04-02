@@ -69,6 +69,9 @@ const DogLossQuotes = () => (
       { label: "Create a Pet Memorial", href: "/pet-memorial" },
       { label: "Dog Memorial Quotes", href: "/dog-memorial-quotes" },
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
+      { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
+      { label: "Rest in Peace Dog Quotes", href: "/rest-in-peace-dog-quotes" },
+      { label: "What to Write When a Dog Dies", href: "/what-to-write-when-a-dog-dies" },
     ]}
   />
 );

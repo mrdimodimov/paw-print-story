@@ -69,10 +69,13 @@ const WhatToWriteWhenCatDies = () => (
       { question: "Can I create a memorial page for my cat?", answer: "Yes. VellumPet lets you create a personalised memorial page in under two minutes." },
     ]}
     internalLinks={[
-      { label: "Create a pet memorial page", href: "/pet-memorial" },
-      { label: "Cat memorial quotes", href: "/cat-memorial-quotes" },
-      { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
-      { label: "Pet memorial message examples", href: "/pet-memorial-message" },
+      { label: "Create a Pet Memorial", href: "/pet-memorial" },
+      { label: "Cat Memorial Quotes", href: "/cat-memorial-quotes" },
+      { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
+      { label: "Pet Memorial Message Examples", href: "/pet-memorial-message" },
+      { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
+      { label: "Cat Memorial Tribute Example", href: "/cat-memorial-tribute-example" },
+      { label: "Cat Loss Quotes", href: "/cat-loss-quotes" },
     ]}
   />
 );

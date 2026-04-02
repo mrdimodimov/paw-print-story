@@ -86,6 +86,8 @@ const BoxerDogMemorialQuotes = () => (
       { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
       { label: "Rest in Peace Dog Quotes", href: "/rest-in-peace-dog-quotes" },
+      { label: "Dog Loss Quotes", href: "/dog-loss-quotes" },
+      { label: "What to Write When a Dog Dies", href: "/what-to-write-when-a-dog-dies" },
     ]}
   />
 );

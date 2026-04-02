@@ -343,6 +343,16 @@ const PetMemorial = () => {
                 href: "/pet-memorial-quotes",
               },
               {
+                title: "Dog Memorial Quotes",
+                intro: "Heartfelt words to honour a dog's loyalty, love, and companionship.",
+                href: "/dog-memorial-quotes",
+              },
+              {
+                title: "Cat Memorial Quotes",
+                intro: "Gentle words to remember a cat's quiet, independent love.",
+                href: "/cat-memorial-quotes",
+              },
+              {
                 title: "Dog Obituary Example",
                 intro: "A full example of a dog obituary with step-by-step writing advice. See what a heartfelt tribute looks like.",
                 href: "/dog-obituary-example",
@@ -351,6 +361,21 @@ const PetMemorial = () => {
                 title: "Cat Memorial Tribute Example",
                 intro: "A complete cat memorial tribute with tips for capturing your cat's quiet, independent personality.",
                 href: "/cat-memorial-tribute-example",
+              },
+              {
+                title: "Pet Sympathy Messages",
+                intro: "What to say when someone you care about loses a pet — messages for cards, texts, and conversations.",
+                href: "/pet-sympathy-messages",
+              },
+              {
+                title: "How to Cope With Losing a Pet",
+                intro: "A gentle, practical guide to understanding pet loss grief and finding healthy ways through it.",
+                href: "/cope-with-losing-a-pet",
+              },
+              {
+                title: "Rainbow Bridge Quotes",
+                intro: "Comforting words rooted in the Rainbow Bridge tradition for those seeking hope of reunion.",
+                href: "/rainbow-bridge-quotes",
               },
             ].map((hub) => (
               <Link
@@ -420,6 +445,10 @@ const PetMemorial = () => {
               { label: "How to cope with losing a pet", href: "/cope-with-losing-a-pet" },
               { label: "Pet sympathy messages", href: "/pet-sympathy-messages" },
               { label: "Rainbow Bridge quotes", href: "/rainbow-bridge-quotes" },
+              { label: "Pet memorial message examples", href: "/pet-memorial-message" },
+              { label: "Dog memorial quotes", href: "/dog-memorial-quotes" },
+              { label: "Cat memorial quotes", href: "/cat-memorial-quotes" },
+              { label: "Pet loss poems", href: "/pet-loss-poems" },
             ].map((link, i) => (
               <li key={i}>
                 <Link to={link.href} className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors">
