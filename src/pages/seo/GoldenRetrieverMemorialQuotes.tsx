@@ -10,8 +10,8 @@ const GoldenRetrieverMemorialQuotes = () => (
       { name: "Golden Retriever Memorial Quotes", href: "/golden-retriever-memorial-quotes" },
     ]}
     meta={{
-      title: "Golden Retriever Memorial Quotes — Quotes for Your Golden",
-      description: "Golden Retriever memorial quotes to honor your gentle, loving Golden. 40+ heartfelt and emotional messages for tributes and social media.",
+      title: "Golden Retriever Memorial Quotes (50+ Quotes for Your Golden)",
+      description: "50+ Golden Retriever memorial quotes to honor your gentle, loving Golden. Heartfelt and emotional messages for tributes and social media.",
     }}
     heading="Golden Retriever Memorial Quotes"
     intro="Golden Retrievers fill our lives with warmth, patience, and unwavering devotion. With their soft golden coats and even softer hearts, they have a way of making everyone feel loved. Losing a Golden means losing a source of comfort and joy that touched every part of your life. These Golden Retriever memorial quotes help you express the depth of love you shared."
