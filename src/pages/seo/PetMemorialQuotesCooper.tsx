@@ -10,8 +10,8 @@ const PetMemorialQuotesCooper = () => (
       { name: "Memorial Quotes for Cooper", href: "/pet-memorial-quotes-cooper" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Cooper — Honor Your Loyal Cooper",
-      description: "40+ pet memorial quotes for a pet named Cooper. Warm, personalized messages to honor your steady, loyal companion.",
+      title: "Pet Memorial Quotes for Cooper (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Cooper. Warm, personalized messages to honor your steady, loyal companion.",
     }}
     heading="Pet Memorial Quotes for Cooper"
     intro="Cooper — loyal, steady, and always by your side. Cooper was the kind of companion who didn't need grand gestures to show love; he simply showed up, every single day, with a devotion that never wavered. His calm presence, his warm body leaning against yours, his quiet faithfulness — these are the things that made Cooper irreplaceable. Losing Cooper means losing the most dependable love you've ever known. These quotes honor the Cooper who was your rock."
