@@ -5,10 +5,8 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distPath = path.resolve(__dirname, "../dist");
 
-// Read the client-built index.html as template
 const template = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
 
-// Import the SSR bundle
 const { render } = await import(path.resolve(distPath, "server/entry-server.js"));
 
 const routes = [
@@ -35,6 +33,39 @@ const routes = [
   "/sudden-pet-death-quotes",
   "/pet-anniversary-quotes",
   "/rest-in-peace-dog-quotes",
+  // Batch 1 — Dog Breeds
+  "/labrador-memorial-quotes",
+  "/golden-retriever-memorial-quotes",
+  "/german-shepherd-memorial-quotes",
+  "/french-bulldog-memorial-quotes",
+  "/poodle-memorial-quotes",
+  "/beagle-memorial-quotes",
+  "/rottweiler-memorial-quotes",
+  "/yorkie-memorial-quotes",
+  "/dachshund-memorial-quotes",
+  "/boxer-dog-memorial-quotes",
+  // Batch 2 — Pet Names
+  "/pet-memorial-quotes-bella",
+  "/pet-memorial-quotes-max",
+  "/pet-memorial-quotes-luna",
+  "/pet-memorial-quotes-charlie",
+  "/pet-memorial-quotes-lucy",
+  "/pet-memorial-quotes-daisy",
+  "/pet-memorial-quotes-milo",
+  "/pet-memorial-quotes-cooper",
+  "/pet-memorial-quotes-bailey",
+  "/pet-memorial-quotes-sadie",
+  // Batch 3 — Emotional Long-Tail
+  "/losing-a-pet-quotes",
+  "/grieving-pet-quotes",
+  "/pet-loss-poems",
+  "/pet-memorial-prayers",
+  "/short-pet-loss-messages",
+  "/long-pet-memorial-messages",
+  "/pet-loss-instagram-captions",
+  "/pet-remembrance-messages",
+  "/pet-grief-quotes",
+  "/missing-my-pet-quotes",
 ];
 
 for (const route of routes) {
@@ -42,23 +73,17 @@ for (const route of routes) {
 
   let page = template;
 
-  // Inject rendered HTML into root div
   page = page.replace(
     '<div id="root"></div>',
     `<div id="root">${html}</div>`
   );
 
-  // Replace existing title with Helmet title, and inject other head tags
   if (head) {
-    // Remove existing title
     page = page.replace(/<title>[^<]*<\/title>/, "");
-    // Remove existing meta description
     page = page.replace(/<meta\s+name="description"\s+content="[^"]*"\s*\/?>/, "");
-    // Inject Helmet head tags before </head>
     page = page.replace("</head>", `${head}\n</head>`);
   }
 
-  // Write to dist/<route>/index.html
   const routeDir = path.resolve(distPath, route.slice(1));
   fs.mkdirSync(routeDir, { recursive: true });
   const filePath = path.resolve(routeDir, "index.html");
