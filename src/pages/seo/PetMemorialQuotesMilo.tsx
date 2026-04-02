@@ -10,8 +10,8 @@ const PetMemorialQuotesMilo = () => (
       { name: "Memorial Quotes for Milo", href: "/pet-memorial-quotes-milo" },
     ]}
     meta={{
-      title: "Pet Memorial Quotes for Milo — Honor Your Adventurous Milo",
-      description: "40+ pet memorial quotes for a pet named Milo. Heartfelt, personalized messages to honor your curious, adventurous companion.",
+      title: "Pet Memorial Quotes for Milo (50+ Personalized Quotes)",
+      description: "50+ pet memorial quotes for a pet named Milo. Heartfelt, personalized messages to honor your curious, adventurous companion.",
     }}
     heading="Pet Memorial Quotes for Milo"
     intro="Milo — curious, playful, and full of adventure. From the moment Milo arrived, he turned every day into an exploration and every walk into a journey. His boundless energy, his mischievous charm, and his warm, loyal heart made him the kind of companion you never forget. Losing Milo leaves a quiet where there used to be excitement, a stillness where there used to be play. These quotes honor the Milo who made every moment an adventure worth taking."
