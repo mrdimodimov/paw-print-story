@@ -64,10 +64,10 @@ const PetMemorialQuotes = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Pet Memorial Quotes: Meaningful Words to Remember Your Pet | VellumPet</title>
+        <title>75+ Pet Memorial Quotes That Will Make You Cry (Beautiful & Comforting)</title>
         <meta
           name="description"
-          content="Find meaningful pet memorial quotes, dog and cat remembrance quotes, and short messages to honor your beloved pet."
+          content="Discover meaningful pet memorial quotes to honor your dog, cat, or companion. Perfect for remembrance, tributes, and sympathy messages."
         />
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>

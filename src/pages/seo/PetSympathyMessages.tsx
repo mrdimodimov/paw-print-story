@@ -59,8 +59,8 @@ const PetSympathyMessages = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Pet Sympathy Messages: What to Say When Someone Loses a Pet | VellumPet</title>
-        <meta name="description" content="Find thoughtful pet sympathy messages, condolence examples, and what to say when someone loses a dog or cat." />
+        <title>What to Say When a Pet Dies (Heartfelt Sympathy Messages That Help)</title>
+        <meta name="description" content="Not sure what to say when a pet dies? Use these heartfelt sympathy messages and comforting words for someone grieving a dog or pet." />
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
         <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
