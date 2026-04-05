@@ -96,18 +96,13 @@ const RainbowBridgeQuotes = () => {
         {/* ─── H1: Hero ─── */}
         <motion.section {...section()} className="mb-10">
           <h1 className="mb-5 text-3xl font-bold leading-[1.15] text-foreground md:text-4xl lg:text-[2.75rem]">
-            Rainbow Bridge Quotes: Comforting Words for Pet Loss
+            75+ Rainbow Bridge Quotes That Will Make You Cry
           </h1>
           <p className="mb-4 text-lg leading-relaxed text-muted-foreground">
-            When a beloved pet dies, the grief can feel overwhelming. One of the
-            most enduring sources of comfort for pet owners is the idea of the
-            Rainbow Bridge — a peaceful place where pets wait, healthy and happy,
-            until they're reunited with the people who loved them.
+            Losing a pet is one of the hardest things to go through. The Rainbow Bridge is a beautiful way to imagine our pets at peace, waiting for us. These Rainbow Bridge quotes are meant to bring comfort, help you express your grief, and remind you that your pet's love never truly leaves.
           </p>
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
-            These rainbow bridge quotes are gathered here to help you find words
-            when your own feel impossible. Whether you're looking for something
-            to write in a card, share alongside{" "}
+            Whether you're looking for something to write in a card, share alongside{" "}
             <Link to="/pet-sympathy-messages" className="text-primary underline underline-offset-2 hover:text-primary/80">
               pet sympathy messages
             </Link>, or include in a{" "}
