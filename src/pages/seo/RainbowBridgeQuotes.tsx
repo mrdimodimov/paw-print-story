@@ -40,9 +40,9 @@ const RainbowBridgeQuotes = () => {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: "Rainbow Bridge Quotes: Comforting Words for Pet Loss",
+    headline: "75+ Rainbow Bridge Quotes That Will Make You Cry (For Dogs & Pets)",
     description:
-      "Find comforting Rainbow Bridge quotes for dogs and cats. Meaningful words to remember your pet and cope with loss.",
+      "Heartfelt Rainbow Bridge quotes for dogs and pets. Find comforting words, sayings, and messages to remember a beloved companion.",
     author: { "@type": "Organization", name: "VellumPet", url: "https://paw-print-story.lovable.app" },
     publisher: { "@type": "Organization", name: "VellumPet", url: "https://paw-print-story.lovable.app" },
     datePublished: "2025-03-27",
