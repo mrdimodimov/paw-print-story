@@ -504,7 +504,49 @@ const PetMemorialQuotes = () => {
           </p>
         </motion.section>
 
-        {/* ─── Related Articles ─── */}
+        {/* ─── When to Use ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-4 text-2xl font-bold text-foreground">When to Use These Quotes</h2>
+          <p className="mb-3 text-muted-foreground leading-relaxed">
+            Pet memorial quotes serve different purposes depending on when and how you use them. They're not just for the day you lose your pet — they stay meaningful for months and years to come.
+          </p>
+          <ul className="space-y-2 text-muted-foreground list-disc pl-5">
+            <li>When creating a <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">memorial page</Link> to honor your pet's life</li>
+            <li>Inside a sympathy card or handwritten note for someone who's grieving</li>
+            <li>As a caption alongside a photo you're sharing on social media</li>
+            <li>On the anniversary of your pet's passing, as a way to remember them</li>
+            <li>When you need words to match the feelings you can't quite express on your own</li>
+          </ul>
+        </motion.section>
+
+        {/* ─── How to Choose ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-4 text-2xl font-bold text-foreground">How to Choose the Right Quote</h2>
+          <ul className="space-y-2 text-muted-foreground list-disc pl-5">
+            <li><strong>Think about length</strong> — short quotes work for captions and cards; longer ones suit tribute pages and keepsakes</li>
+            <li><strong>Reflect on the bond</strong> — was your pet adventurous, gentle, loyal, or playful? Choose a quote that mirrors their spirit</li>
+            <li><strong>Personalize it</strong> — inserting your pet's name makes any quote feel written just for them</li>
+            <li><strong>Match the purpose</strong> — a quote for a <Link to="/pet-sympathy-messages" className="text-primary underline underline-offset-2 hover:text-primary/80">sympathy message</Link> has a different tone than one written for your own remembrance</li>
+            <li><strong>Trust your instinct</strong> — the right quote is the one that makes you pause and feel something</li>
+          </ul>
+        </motion.section>
+
+        {/* ─── Example Messages ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-4 text-2xl font-bold text-foreground">Examples of Pet Memorial Messages</h2>
+          <div className="space-y-4 text-muted-foreground leading-relaxed">
+            <p>
+              "You were never just a pet — you were the reason I came home smiling, the warmth at the end of every hard day. I don't know how to fill the space you left, but I know you filled mine completely."
+            </p>
+            <p>
+              "I thought I was rescuing you, but looking back, I think you were the one who rescued me. Thank you for every morning greeting, every walk, and every quiet evening together."
+            </p>
+            <p>
+              "Some people won't understand why losing you hurts this much. But we know. You were family in every way that matters, and your memory will live in this house forever."
+            </p>
+          </div>
+        </motion.section>
+
         <motion.section {...section()} className="mb-16">
           <h2 className="mb-5 text-2xl font-bold text-foreground">
             Related Articles
