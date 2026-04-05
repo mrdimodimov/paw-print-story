@@ -83,10 +83,10 @@ const PetSympathyMessages = () => {
         {/* H1 */}
         <motion.section {...section()} className="mb-10">
           <h1 className="mb-5 text-3xl font-bold leading-[1.15] text-foreground md:text-4xl lg:text-[2.75rem]">
-            Pet Sympathy Messages: What to Say When Someone Loses a Pet
+            What to Say When a Pet Dies (Heartfelt Messages That Help)
           </h1>
           <p className="mb-4 text-lg leading-relaxed text-muted-foreground">
-            Losing a pet is deeply painful, and finding the right words can be difficult. These pet sympathy messages can help you express comfort, care, and support when someone you know is grieving the loss of a beloved companion.
+            Knowing what to say when a pet dies is never easy. Pets are family, and their loss can be deeply painful. These sympathy messages will help you express compassion, support, and understanding during one of the hardest moments someone can face.
           </p>
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
             These pet sympathy messages are here to help. Whether you're writing a card, sending a text, or helping someone{" "}

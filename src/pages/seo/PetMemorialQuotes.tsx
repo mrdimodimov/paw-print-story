@@ -95,21 +95,16 @@ const PetMemorialQuotes = () => {
         {/* ─── H1: Hero ─── */}
         <motion.section {...section()} className="mb-10">
           <h1 className="mb-5 text-3xl font-bold leading-[1.15] text-foreground md:text-4xl lg:text-[2.75rem]">
-            Pet Memorial Quotes: Meaningful Words to Remember Your Pet
+            75+ Pet Memorial Quotes That Will Make You Cry
           </h1>
           <p className="mb-4 text-lg leading-relaxed text-muted-foreground">
-            Losing a pet leaves a silence that's hard to describe. The walks that
-            no longer happen, the empty spot on the couch, the quiet that settles
-            where a greeting used to be. When grief is this personal, finding the
-            right words can feel impossible.
+            When a beloved pet passes away, finding the right words can feel impossible. These pet memorial quotes are here to help you express love, grief, and remembrance — whether you're honoring your own pet or comforting someone else.
           </p>
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
-            These pet memorial quotes are here to help — whether you're writing a
-            tribute, sending a{" "}
+            Whether you're writing a tribute, sending a{" "}
             <Link to="/pet-sympathy-messages" className="text-primary underline underline-offset-2 hover:text-primary/80">
               pet sympathy message
-            </Link>, or simply looking for words that
-            match what you're feeling. If you're looking to create a lasting{" "}
+            </Link>, or looking to create a lasting{" "}
             <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">
               pet memorial page
             </Link>, these words can be a meaningful starting point. Some are short enough for a caption. Others
