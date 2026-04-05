@@ -40,9 +40,9 @@ const PetMemorialQuotes = () => {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: "Pet Memorial Quotes: Meaningful Words to Remember Your Pet",
+    headline: "75+ Pet Memorial Quotes That Will Make You Cry (Beautiful & Comforting)",
     description:
-      "Find meaningful pet memorial quotes, dog and cat remembrance quotes, and short messages to honor your beloved pet.",
+      "Discover meaningful pet memorial quotes to honor your dog, cat, or companion. Perfect for remembrance, tributes, and sympathy messages.",
     author: { "@type": "Organization", name: "VellumPet", url: "https://paw-print-story.lovable.app" },
     publisher: { "@type": "Organization", name: "VellumPet", url: "https://paw-print-story.lovable.app" },
     datePublished: "2025-03-25",
@@ -64,10 +64,10 @@ const PetMemorialQuotes = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Pet Memorial Quotes: Meaningful Words to Remember Your Pet | VellumPet</title>
+        <title>75+ Pet Memorial Quotes That Will Make You Cry (Beautiful & Comforting)</title>
         <meta
           name="description"
-          content="Find meaningful pet memorial quotes, dog and cat remembrance quotes, and short messages to honor your beloved pet."
+          content="Discover meaningful pet memorial quotes to honor your dog, cat, or companion. Perfect for remembrance, tributes, and sympathy messages."
         />
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
