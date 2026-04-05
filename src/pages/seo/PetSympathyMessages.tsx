@@ -372,6 +372,50 @@ const PetSympathyMessages = () => {
           <p className="mt-3 text-sm text-muted-foreground">Takes less than 2 minutes · No writing required</p>
         </motion.section>
 
+
+        {/* ─── When to Use ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-4 text-2xl font-bold text-foreground">When to Use These Messages</h2>
+          <p className="mb-3 text-muted-foreground leading-relaxed">
+            Knowing when to reach out matters just as much as knowing what to say. These messages are designed for real situations where someone you care about is hurting.
+          </p>
+          <ul className="space-y-2 text-muted-foreground list-disc pl-5">
+            <li>Immediately after hearing about a friend's or coworker's pet loss</li>
+            <li>When writing a sympathy card or sending a thoughtful text</li>
+            <li>As a comment on a social media post about a pet who has passed</li>
+            <li>When you want to check in with someone weeks after their loss — grief doesn't end quickly</li>
+            <li>When helping someone <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">create a memorial page</Link> for their pet</li>
+          </ul>
+        </motion.section>
+
+        {/* ─── How to Choose ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-4 text-2xl font-bold text-foreground">How to Choose the Right Message</h2>
+          <ul className="space-y-2 text-muted-foreground list-disc pl-5">
+            <li><strong>Keep it genuine</strong> — a short, honest message is always better than something overly polished</li>
+            <li><strong>Use their pet's name</strong> — it shows you see the pet as an individual, not just "a pet"</li>
+            <li><strong>Avoid clichés</strong> — phrases like "they're in a better place" can feel dismissive; focus on acknowledging the pain instead</li>
+            <li><strong>Match the format</strong> — a text message can be brief; a card or <Link to="/pet-memorial-quotes" className="text-primary underline underline-offset-2 hover:text-primary/80">memorial quote</Link> can carry more weight</li>
+            <li><strong>Offer support</strong> — sometimes "I'm here for you" means more than any quote</li>
+          </ul>
+        </motion.section>
+
+        {/* ─── Example Messages ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-4 text-2xl font-bold text-foreground">Examples of Pet Sympathy Messages</h2>
+          <div className="space-y-4 text-muted-foreground leading-relaxed">
+            <p>
+              "I just heard about your loss, and I wanted you to know I'm thinking of you. Pets leave such a deep mark on our lives, and it's clear how much love you gave each other. Take all the time you need."
+            </p>
+            <p>
+              "I remember how your eyes would light up when you talked about them. That kind of bond doesn't just disappear — it stays with you. I'm so sorry you're going through this, and I'm here if you need anything at all."
+            </p>
+            <p>
+              "There's no timeline for grief, especially when it's someone who was part of your daily life. I hope you find comfort in the memories you made together. They were lucky to have you as their person."
+            </p>
+          </div>
+        </motion.section>
+
         {/* Related */}
         <motion.section {...section()} className="mb-16">
           <h2 className="mb-5 text-2xl font-bold text-foreground">Related Articles</h2>

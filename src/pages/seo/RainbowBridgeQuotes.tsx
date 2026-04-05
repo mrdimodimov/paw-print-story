@@ -366,7 +366,48 @@ const RainbowBridgeQuotes = () => {
           </p>
         </motion.section>
 
-        {/* ─── Related Articles ─── */}
+        {/* ─── When to Use ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-4 text-2xl font-bold text-foreground">When to Use These Quotes</h2>
+          <p className="mb-3 text-muted-foreground leading-relaxed">
+            Rainbow Bridge quotes can bring comfort in many different moments — not just immediately after a loss. Here are some of the most common times people turn to them:
+          </p>
+          <ul className="space-y-2 text-muted-foreground list-disc pl-5">
+            <li>Right after losing a pet, when grief feels overwhelming and words are hard to find</li>
+            <li>When writing a <Link to="/pet-memorial" className="text-primary underline underline-offset-2 hover:text-primary/80">pet memorial page</Link> or tribute</li>
+            <li>To comfort a friend or family member who has lost a beloved companion</li>
+            <li>When posting a remembrance photo on social media</li>
+            <li>On the anniversary of a pet's passing, to honor their memory</li>
+          </ul>
+        </motion.section>
+
+        {/* ─── How to Choose ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-4 text-2xl font-bold text-foreground">How to Choose the Right Quote</h2>
+          <ul className="space-y-2 text-muted-foreground list-disc pl-5">
+            <li><strong>Match the tone to the moment</strong> — a short, simple quote works for a text message; a longer, emotional one suits a memorial page</li>
+            <li><strong>Think about the relationship</strong> — was the pet a constant companion, a playful soul, or a quiet comforter?</li>
+            <li><strong>Make it personal</strong> — adding your pet's name to a quote makes it feel uniquely yours</li>
+            <li><strong>Consider the audience</strong> — a <Link to="/pet-sympathy-messages" className="text-primary underline underline-offset-2 hover:text-primary/80">sympathy message</Link> for a friend may need a gentler touch than something you write for yourself</li>
+          </ul>
+        </motion.section>
+
+        {/* ─── Example Messages ─── */}
+        <motion.section {...section()} className="mb-16">
+          <h2 className="mb-4 text-2xl font-bold text-foreground">Examples of Rainbow Bridge Memorial Messages</h2>
+          <div className="space-y-4 text-muted-foreground leading-relaxed">
+            <p>
+              "I like to think of you running through fields of green, healthy and whole again. The Rainbow Bridge isn't goodbye — it's just a pause until we meet again. I carry you with me every single day."
+            </p>
+            <p>
+              "You crossed the Rainbow Bridge on a Tuesday, and the house has been quieter ever since. But I know you're at peace now, chasing all the things you loved, and waiting for me on the other side."
+            </p>
+            <p>
+              "They say the Rainbow Bridge is where loyal hearts go. If that's true, you were the first one across. I miss you more than words can hold, but I find peace knowing you're no longer in pain."
+            </p>
+          </div>
+        </motion.section>
+
         <motion.section {...section()} className="mb-16">
           <h2 className="mb-5 text-2xl font-bold text-foreground">
             Related Articles
