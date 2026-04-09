@@ -117,6 +117,10 @@ const ALL_ARTICLES: ArticleEntry[] = [
   { title: "Pet Remembrance Quotes", href: "/pet-remembrance-quotes", short: "Meaningful words to honor your pet", tags: ["memorial", "quotes"] },
   { title: "Short Pet Memorial Quotes", href: "/short-pet-memorial-quotes", short: "Brief pet memorial quotes", tags: ["quotes", "short"] },
   { title: "Sudden Pet Death Quotes", href: "/sudden-pet-death-quotes", short: "Quotes for unexpected pet loss", tags: ["grief", "quotes"] },
+  { title: "Short Cat Memorial Quotes", href: "/short-cat-memorial-quotes", short: "Brief quotes to remember your cat", tags: ["cat", "quotes", "short"] },
+  { title: "Loss of Dog Messages to a Friend", href: "/loss-of-dog-messages-to-a-friend", short: "What to say when a friend loses a dog", tags: ["dog", "messages", "sympathy"] },
+  { title: "Sudden Dog Death Quotes", href: "/sudden-dog-death-quotes", short: "Quotes for sudden dog loss", tags: ["dog", "grief", "quotes"] },
+  { title: "Pet Grief Quotes for Instagram", href: "/pet-grief-quotes-for-instagram", short: "Honest grief captions for Instagram", tags: ["grief", "captions", "social"] },
   { title: "Pet Anniversary Quotes", href: "/pet-anniversary-quotes", short: "Quotes for pet loss anniversaries", tags: ["memorial", "quotes"] },
   // Captions & utility
   { title: "Pet Memorial Captions", href: "/pet-memorial-captions", short: "Captions for pet memorials", tags: ["captions", "social"] },

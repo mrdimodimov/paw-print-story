@@ -58,6 +58,10 @@ import PetLossInstagramCaptions from "./pages/seo/PetLossInstagramCaptions";
 import PetRemembranceMessages from "./pages/seo/PetRemembranceMessages";
 import PetGriefQuotes from "./pages/seo/PetGriefQuotes";
 import MissingMyPetQuotes from "./pages/seo/MissingMyPetQuotes";
+import ShortCatMemorialQuotes from "./pages/seo/ShortCatMemorialQuotes";
+import LossOfDogMessagesToAFriend from "./pages/seo/LossOfDogMessagesToAFriend";
+import SuddenDogDeathQuotes from "./pages/seo/SuddenDogDeathQuotes";
+import PetGriefQuotesForInstagram from "./pages/seo/PetGriefQuotesForInstagram";
 
 export function render(url: string) {
   const helmetContext: { helmet?: any } = {};
@@ -122,6 +126,10 @@ export function render(url: string) {
               <Route path="/pet-remembrance-messages" element={<PetRemembranceMessages />} />
               <Route path="/pet-grief-quotes" element={<PetGriefQuotes />} />
               <Route path="/missing-my-pet-quotes" element={<MissingMyPetQuotes />} />
+              <Route path="/short-cat-memorial-quotes" element={<ShortCatMemorialQuotes />} />
+              <Route path="/loss-of-dog-messages-to-a-friend" element={<LossOfDogMessagesToAFriend />} />
+              <Route path="/sudden-dog-death-quotes" element={<SuddenDogDeathQuotes />} />
+              <Route path="/pet-grief-quotes-for-instagram" element={<PetGriefQuotesForInstagram />} />
             </Routes>
           </StaticRouter>
         </TooltipProvider>
