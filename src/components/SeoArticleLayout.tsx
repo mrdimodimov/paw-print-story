@@ -192,7 +192,8 @@ const SeoArticleLayout = ({
 
   const effectiveDefinitionHeading = definitionHeading || `What Is ${heading}?`;
 
-  const relatedArticles = ALL_ARTICLES.filter((a) => a.href !== slug).slice(0, 3);
+  const relatedArticles = getRelatedArticles(slug, 6);
+  const browseLinks = CATEGORY_LINKS.filter((c) => c.href !== slug);
 
   // Build breadcrumb trail: Home → [parent] → current page
   const crumbs: BreadcrumbItem[] = [
