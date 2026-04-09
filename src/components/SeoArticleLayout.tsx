@@ -195,6 +195,22 @@ const SeoArticleLayout = ({
   const relatedArticles = getRelatedArticles(slug, 6);
   const browseLinks = CATEGORY_LINKS.filter((c) => c.href !== slug);
 
+  // Intent-based CTA text
+  const lowerHeading = heading.toLowerCase();
+  const isExamplePage = lowerHeading.includes("example") || lowerHeading.includes("tribute example");
+  const isGriefPage = lowerHeading.includes("grief") || lowerHeading.includes("losing") || lowerHeading.includes("loss") || lowerHeading.includes("cope") || lowerHeading.includes("sudden");
+  // Default to quotes if not example or grief
+  const emotionalCtaLine1 = isExamplePage
+    ? "You can create something like this for your own pet."
+    : isGriefPage
+    ? "When you're ready, create a quiet space to remember them."
+    : "Turn these words into a personal tribute.";
+  const midCtaText = isExamplePage
+    ? "Create something like this for your pet"
+    : isGriefPage
+    ? "When you're ready, honor their memory"
+    : "Turn your favorite quote into a lasting tribute";
+
   // Build breadcrumb trail: Home → [parent] → current page
   const crumbs: BreadcrumbItem[] = [
     { name: "Home", href: "/" },
