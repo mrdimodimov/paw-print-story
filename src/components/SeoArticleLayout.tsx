@@ -453,7 +453,7 @@ const SeoArticleLayout = ({
             className="mb-14 rounded-xl border border-primary/20 bg-primary/5 p-6 text-center md:p-8"
           >
             <p className="mb-4 text-lg font-medium text-foreground">
-              Create a beautiful memorial for your pet
+              {midCtaText}
             </p>
             <Link
               to="/create"
