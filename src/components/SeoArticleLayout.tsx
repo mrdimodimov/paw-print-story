@@ -60,23 +60,99 @@ interface SeoArticleProps {
   internalLinks?: InternalLink[];
 }
 
-const ALL_ARTICLES = [
-  { title: "Pet Memorial Page Online", href: "/pet-memorial", short: "Create a beautiful online pet memorial" },
-  { title: "Pet Memorial Quotes", href: "/pet-memorial-quotes", short: "Meaningful quotes to remember your pet" },
-  { title: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes", short: "Comforting Rainbow Bridge quotes for pet loss" },
-  { title: "How to Cope With Losing a Pet", href: "/cope-with-losing-a-pet", short: "A gentle guide to pet loss grief and healing" },
-  { title: "Pet Sympathy Messages", href: "/pet-sympathy-messages", short: "What to say when someone loses a pet" },
-  { title: "Short Dog Memorial Quotes", href: "/short-dog-memorial-quotes", short: "Simple words to remember your dog" },
-  { title: "Dog Memorial Quotes", href: "/dog-memorial-quotes", short: "Heartfelt words to remember your dog" },
-  { title: "Cat Memorial Quotes", href: "/cat-memorial-quotes", short: "Gentle words to remember your cat" },
-  { title: "Pet Remembrance Quotes", href: "/pet-remembrance-quotes", short: "Meaningful words to honor your pet" },
-  { title: "Dog Obituary Example", href: "/dog-obituary-example", short: "How to write a beautiful dog obituary" },
-  { title: "Cat Memorial Tribute Example", href: "/cat-memorial-tribute-example", short: "A heartfelt cat memorial tribute guide" },
-  { title: "Pet Memorial Message Examples", href: "/pet-memorial-message", short: "Thoughtful pet memorial message ideas" },
-  { title: "What to Write When a Dog Dies", href: "/what-to-write-when-a-dog-dies", short: "A gentle guide for writing a dog memorial" },
-  { title: "What to Write When a Cat Dies", href: "/what-to-write-when-a-cat-dies", short: "A gentle guide for writing a cat memorial" },
-  { title: "Pet Condolence Messages", href: "/pet-condolence-messages", short: "What to say when someone loses a pet" },
+type ArticleEntry = { title: string; href: string; short: string; tags: string[] };
+
+const ALL_ARTICLES: ArticleEntry[] = [
+  // Hub / pillar pages
+  { title: "Pet Memorial Page", href: "/pet-memorial", short: "Create a beautiful online pet memorial", tags: ["hub", "memorial"] },
+  { title: "Pet Memorial Quotes", href: "/pet-memorial-quotes", short: "Meaningful quotes to remember your pet", tags: ["hub", "quotes"] },
+  { title: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes", short: "Comforting Rainbow Bridge quotes for pet loss", tags: ["hub", "quotes", "grief"] },
+  { title: "How to Cope With Losing a Pet", href: "/cope-with-losing-a-pet", short: "A gentle guide to pet loss grief and healing", tags: ["hub", "grief"] },
+  { title: "Pet Sympathy Messages", href: "/pet-sympathy-messages", short: "What to say when someone loses a pet", tags: ["hub", "messages", "sympathy"] },
+  // Dog
+  { title: "Dog Memorial Quotes", href: "/dog-memorial-quotes", short: "Heartfelt words to remember your dog", tags: ["dog", "quotes"] },
+  { title: "Short Dog Memorial Quotes", href: "/short-dog-memorial-quotes", short: "Simple words to remember your dog", tags: ["dog", "quotes", "short"] },
+  { title: "Rest in Peace Dog Quotes", href: "/rest-in-peace-dog-quotes", short: "RIP quotes for dogs", tags: ["dog", "quotes"] },
+  { title: "Dog Loss Quotes", href: "/dog-loss-quotes", short: "Quotes for coping with losing a dog", tags: ["dog", "quotes", "grief"] },
+  { title: "Dog Obituary Example", href: "/dog-obituary-example", short: "How to write a beautiful dog obituary", tags: ["dog", "writing"] },
+  { title: "What to Write When a Dog Dies", href: "/what-to-write-when-a-dog-dies", short: "A gentle guide for writing a dog memorial", tags: ["dog", "writing"] },
+  // Cat
+  { title: "Cat Memorial Quotes", href: "/cat-memorial-quotes", short: "Gentle words to remember your cat", tags: ["cat", "quotes"] },
+  { title: "Cat Loss Quotes", href: "/cat-loss-quotes", short: "Quotes for coping with losing a cat", tags: ["cat", "quotes", "grief"] },
+  { title: "Cat Memorial Tribute Example", href: "/cat-memorial-tribute-example", short: "A heartfelt cat memorial tribute guide", tags: ["cat", "writing"] },
+  { title: "What to Write When a Cat Dies", href: "/what-to-write-when-a-cat-dies", short: "A gentle guide for writing a cat memorial", tags: ["cat", "writing"] },
+  // Breed pages
+  { title: "Labrador Memorial Quotes", href: "/labrador-memorial-quotes", short: "Memorial quotes for Labradors", tags: ["dog", "breed", "quotes"] },
+  { title: "Golden Retriever Memorial Quotes", href: "/golden-retriever-memorial-quotes", short: "Memorial quotes for Golden Retrievers", tags: ["dog", "breed", "quotes"] },
+  { title: "German Shepherd Memorial Quotes", href: "/german-shepherd-memorial-quotes", short: "Memorial quotes for German Shepherds", tags: ["dog", "breed", "quotes"] },
+  { title: "French Bulldog Memorial Quotes", href: "/french-bulldog-memorial-quotes", short: "Memorial quotes for French Bulldogs", tags: ["dog", "breed", "quotes"] },
+  { title: "Poodle Memorial Quotes", href: "/poodle-memorial-quotes", short: "Memorial quotes for Poodles", tags: ["dog", "breed", "quotes"] },
+  { title: "Beagle Memorial Quotes", href: "/beagle-memorial-quotes", short: "Memorial quotes for Beagles", tags: ["dog", "breed", "quotes"] },
+  { title: "Rottweiler Memorial Quotes", href: "/rottweiler-memorial-quotes", short: "Memorial quotes for Rottweilers", tags: ["dog", "breed", "quotes"] },
+  { title: "Yorkie Memorial Quotes", href: "/yorkie-memorial-quotes", short: "Memorial quotes for Yorkshire Terriers", tags: ["dog", "breed", "quotes"] },
+  { title: "Dachshund Memorial Quotes", href: "/dachshund-memorial-quotes", short: "Memorial quotes for Dachshunds", tags: ["dog", "breed", "quotes"] },
+  { title: "Boxer Dog Memorial Quotes", href: "/boxer-dog-memorial-quotes", short: "Memorial quotes for Boxer dogs", tags: ["dog", "breed", "quotes"] },
+  // Name pages
+  { title: "Pet Memorial Quotes for Bella", href: "/pet-memorial-quotes-bella", short: "Personalized quotes for Bella", tags: ["name", "quotes"] },
+  { title: "Pet Memorial Quotes for Max", href: "/pet-memorial-quotes-max", short: "Personalized quotes for Max", tags: ["name", "quotes"] },
+  { title: "Pet Memorial Quotes for Luna", href: "/pet-memorial-quotes-luna", short: "Personalized quotes for Luna", tags: ["name", "quotes"] },
+  { title: "Pet Memorial Quotes for Charlie", href: "/pet-memorial-quotes-charlie", short: "Personalized quotes for Charlie", tags: ["name", "quotes"] },
+  { title: "Pet Memorial Quotes for Lucy", href: "/pet-memorial-quotes-lucy", short: "Personalized quotes for Lucy", tags: ["name", "quotes"] },
+  { title: "Pet Memorial Quotes for Daisy", href: "/pet-memorial-quotes-daisy", short: "Personalized quotes for Daisy", tags: ["name", "quotes"] },
+  { title: "Pet Memorial Quotes for Milo", href: "/pet-memorial-quotes-milo", short: "Personalized quotes for Milo", tags: ["name", "quotes"] },
+  { title: "Pet Memorial Quotes for Cooper", href: "/pet-memorial-quotes-cooper", short: "Personalized quotes for Cooper", tags: ["name", "quotes"] },
+  { title: "Pet Memorial Quotes for Bailey", href: "/pet-memorial-quotes-bailey", short: "Personalized quotes for Bailey", tags: ["name", "quotes"] },
+  { title: "Pet Memorial Quotes for Sadie", href: "/pet-memorial-quotes-sadie", short: "Personalized quotes for Sadie", tags: ["name", "quotes"] },
+  // Long-tail emotional
+  { title: "Losing a Pet Quotes", href: "/losing-a-pet-quotes", short: "Quotes for coping with pet loss", tags: ["grief", "quotes"] },
+  { title: "Grieving Pet Quotes", href: "/grieving-pet-quotes", short: "Quotes for pet grief", tags: ["grief", "quotes"] },
+  { title: "Pet Loss Poems", href: "/pet-loss-poems", short: "Poems for pet loss", tags: ["grief", "poems"] },
+  { title: "Pet Memorial Prayers", href: "/pet-memorial-prayers", short: "Prayers for pet memorials", tags: ["memorial", "prayers"] },
+  { title: "Short Pet Loss Messages", href: "/short-pet-loss-messages", short: "Brief comfort messages for pet loss", tags: ["messages", "sympathy", "short"] },
+  { title: "Long Pet Memorial Messages", href: "/long-pet-memorial-messages", short: "Extended pet memorial messages", tags: ["messages", "memorial"] },
+  { title: "Pet Loss Instagram Captions", href: "/pet-loss-instagram-captions", short: "Instagram captions for pet loss", tags: ["captions", "social"] },
+  { title: "Pet Remembrance Messages", href: "/pet-remembrance-messages", short: "Messages to remember a pet", tags: ["messages", "memorial"] },
+  { title: "Pet Grief Quotes", href: "/pet-grief-quotes", short: "Quotes for pet grief", tags: ["grief", "quotes"] },
+  { title: "Missing My Pet Quotes", href: "/missing-my-pet-quotes", short: "Quotes about missing a pet", tags: ["grief", "quotes"] },
+  { title: "Pet Remembrance Quotes", href: "/pet-remembrance-quotes", short: "Meaningful words to honor your pet", tags: ["memorial", "quotes"] },
+  { title: "Short Pet Memorial Quotes", href: "/short-pet-memorial-quotes", short: "Brief pet memorial quotes", tags: ["quotes", "short"] },
+  { title: "Sudden Pet Death Quotes", href: "/sudden-pet-death-quotes", short: "Quotes for unexpected pet loss", tags: ["grief", "quotes"] },
+  { title: "Pet Anniversary Quotes", href: "/pet-anniversary-quotes", short: "Quotes for pet loss anniversaries", tags: ["memorial", "quotes"] },
+  // Captions & utility
+  { title: "Pet Memorial Captions", href: "/pet-memorial-captions", short: "Captions for pet memorials", tags: ["captions", "social"] },
+  { title: "Instagram Pet Memorial Captions", href: "/instagram-pet-memorial-captions", short: "Instagram captions for pet memorials", tags: ["captions", "social"] },
+  // Messages
+  { title: "Pet Memorial Message Examples", href: "/pet-memorial-message", short: "Thoughtful pet memorial message ideas", tags: ["messages", "memorial"] },
+  { title: "Pet Condolence Messages", href: "/pet-condolence-messages", short: "What to say when someone loses a pet", tags: ["messages", "sympathy"] },
 ];
+
+// Category browse links shown on every page
+const CATEGORY_LINKS = [
+  { label: "Dog Memorial Quotes", href: "/dog-memorial-quotes" },
+  { label: "Cat Memorial Quotes", href: "/cat-memorial-quotes" },
+  { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
+  { label: "Pet Loss Quotes", href: "/losing-a-pet-quotes" },
+  { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
+  { label: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes" },
+];
+
+/** Return up to `count` related articles based on shared tags, excluding current page */
+function getRelatedArticles(currentSlug: string, count: number = 6): ArticleEntry[] {
+  const current = ALL_ARTICLES.find((a) => a.href === currentSlug);
+  const currentTags = current?.tags || [];
+  const others = ALL_ARTICLES.filter((a) => a.href !== currentSlug);
+
+  // Score by number of shared tags
+  const scored = others.map((a) => ({
+    ...a,
+    score: a.tags.filter((t) => currentTags.includes(t)).length,
+  }));
+
+  // Sort by score desc, then alphabetically for ties
+  scored.sort((a, b) => b.score - a.score || a.title.localeCompare(b.title));
+
+  return scored.slice(0, count);
+}
 
 const SeoArticleLayout = ({
   meta,
