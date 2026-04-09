@@ -393,25 +393,27 @@ const SeoArticleLayout = ({
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="my-20 text-center"
+            className="my-24 flex justify-center"
           >
-            <p className="mb-4 text-sm italic text-muted-foreground tracking-wide">Can you picture them right now?</p>
-            <p className="mb-1 text-xl md:text-2xl font-semibold text-foreground leading-snug">
-              If you're still thinking about them…
-            </p>
-            <p className="mb-5 text-xl md:text-2xl font-semibold text-foreground leading-snug">
-              this is your moment to remember them properly.
-            </p>
-            <p className="mb-8 text-base text-muted-foreground">
-              Create something real, not just words on a page.
-            </p>
-            <Link
-              to="/tribute"
-              className="inline-flex items-center gap-2.5 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-10 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 hover:scale-[1.03] hover:shadow-xl"
-            >
-              <CtaIcon className="mr-1 shrink-0" size={22} />
-              Create Their Tribute Now
-            </Link>
+            <div className="w-full max-w-lg rounded-2xl bg-accent/40 px-8 py-12 text-center">
+              <p className="mb-4 text-sm italic text-muted-foreground tracking-wide">Can you picture them right now?</p>
+              <p className="mb-1 text-xl md:text-2xl font-semibold text-foreground leading-snug">
+                If you're still thinking about them…
+              </p>
+              <p className="mb-5 text-xl md:text-2xl font-semibold text-foreground leading-snug">
+                this is your moment to remember them properly.
+              </p>
+              <p className="mb-8 text-base text-muted-foreground">
+                Create something real, not just words on a page.
+              </p>
+              <Link
+                to="/tribute"
+                className="inline-flex items-center gap-2.5 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-12 py-5 text-lg font-semibold text-white shadow-lg transition-all duration-200 hover:scale-[1.03] hover:shadow-xl"
+              >
+                <CtaIcon className="mr-1 shrink-0" size={22} />
+                Create Their Tribute Now
+              </Link>
+            </div>
           </motion.div>
 
           {/* H2: How to Write Your Own */}
