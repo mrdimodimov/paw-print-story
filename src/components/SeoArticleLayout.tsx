@@ -383,6 +383,32 @@ const SeoArticleLayout = ({
             </div>
           </motion.section>
 
+          {/* Emotional CTA after example */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="mb-14 text-center"
+          >
+            <p className="mb-1 text-lg font-medium text-foreground">
+              If you're thinking of them right now…
+            </p>
+            <p className="mb-4 text-lg font-medium text-foreground">
+              you can turn that memory into something lasting.
+            </p>
+            <p className="mb-6 text-sm italic text-muted-foreground">
+              A quiet place to remember them, in your own words.
+            </p>
+            <Link
+              to="/create"
+              className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-8 py-4 text-base font-medium text-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+            >
+              <CtaIcon className="mr-1 shrink-0" size={20} />
+              Create Their Tribute
+            </Link>
+          </motion.div>
+
           {/* H2: How to Write Your Own */}
           <motion.section
             initial={{ opacity: 0, y: 16 }}
