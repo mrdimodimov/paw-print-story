@@ -69,6 +69,11 @@ import PetLossInstagramCaptions from "./pages/seo/PetLossInstagramCaptions";
 import PetRemembranceMessages from "./pages/seo/PetRemembranceMessages";
 import PetGriefQuotes from "./pages/seo/PetGriefQuotes";
 import MissingMyPetQuotes from "./pages/seo/MissingMyPetQuotes";
+// Batch 4 — New long-tail
+import ShortCatMemorialQuotes from "./pages/seo/ShortCatMemorialQuotes";
+import LossOfDogMessagesToAFriend from "./pages/seo/LossOfDogMessagesToAFriend";
+import SuddenDogDeathQuotes from "./pages/seo/SuddenDogDeathQuotes";
+import PetGriefQuotesForInstagram from "./pages/seo/PetGriefQuotesForInstagram";
 
 import ExampleTribute from "./pages/ExampleTribute";
 import ExampleTributeOliver from "./pages/ExampleTributeOliver";
@@ -196,6 +201,11 @@ const App = () => (
             <Route path="/pet-remembrance-messages" element={<PetRemembranceMessages />} />
             <Route path="/pet-grief-quotes" element={<PetGriefQuotes />} />
             <Route path="/missing-my-pet-quotes" element={<MissingMyPetQuotes />} />
+            {/* Batch 4 — New long-tail */}
+            <Route path="/short-cat-memorial-quotes" element={<ShortCatMemorialQuotes />} />
+            <Route path="/loss-of-dog-messages-to-a-friend" element={<LossOfDogMessagesToAFriend />} />
+            <Route path="/sudden-dog-death-quotes" element={<SuddenDogDeathQuotes />} />
+            <Route path="/pet-grief-quotes-for-instagram" element={<PetGriefQuotesForInstagram />} />
 
             <Route path="/example-tribute" element={<ExampleTribute />} />
             <Route path="/example-tribute/oliver" element={<ExampleTributeOliver />} />
