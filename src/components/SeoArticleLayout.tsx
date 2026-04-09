@@ -393,20 +393,20 @@ const SeoArticleLayout = ({
             className="mb-14 text-center"
           >
             <p className="mb-1 text-lg font-medium text-foreground">
-              If you're thinking of them right now…
+              If you're still thinking about them…
             </p>
             <p className="mb-4 text-lg font-medium text-foreground">
-              {emotionalCtaLine1}
+              this is your moment to remember them properly.
             </p>
             <p className="mb-6 text-sm italic text-muted-foreground">
-              A quiet place to remember them, in your own words.
+              You can create something real, not just words on a page.
             </p>
             <Link
-              to="/create"
+              to="/tribute"
               className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-8 py-4 text-base font-medium text-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
             >
               <CtaIcon className="mr-1 shrink-0" size={20} />
-              Create Their Tribute
+              Create Their Tribute Now
             </Link>
           </motion.div>
 
