@@ -346,7 +346,22 @@ const SeoArticleLayout = ({
             </div>
           )}
 
-          {/* H2: Example Tribute */}
+          {/* Browse more categories */}
+          <div className="mb-12">
+            <p className="mb-3 text-sm font-semibold text-muted-foreground uppercase tracking-wide">Browse more</p>
+            <div className="flex flex-wrap gap-2">
+              {browseLinks.map((link, i) => (
+                <Link
+                  key={i}
+                  to={link.href}
+                  className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-accent/40 hover:text-primary"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
           <motion.section
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
