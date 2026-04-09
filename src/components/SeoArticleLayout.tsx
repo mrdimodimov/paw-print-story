@@ -488,7 +488,7 @@ const SeoArticleLayout = ({
             className="mb-14"
           >
             <h2 className="mb-6 text-2xl font-bold text-foreground">
-              Related Articles
+              Related Reads
             </h2>
             <div className="space-y-4">
               {relatedArticles.map((article) => (
