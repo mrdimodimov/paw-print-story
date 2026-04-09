@@ -395,6 +395,7 @@ const SeoArticleLayout = ({
             viewport={{ once: true }}
             className="mb-14 text-center"
           >
+            <p className="mb-3 text-base italic text-muted-foreground">Can you picture them right now?</p>
             <p className="mb-1 text-lg font-medium text-foreground">
               If you're still thinking about them…
             </p>
