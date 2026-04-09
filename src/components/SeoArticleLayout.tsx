@@ -411,7 +411,7 @@ const SeoArticleLayout = ({
               If you're thinking of them right now…
             </p>
             <p className="mb-4 text-lg font-medium text-foreground">
-              you can turn that memory into something lasting.
+              {emotionalCtaLine1}
             </p>
             <p className="mb-6 text-sm italic text-muted-foreground">
               A quiet place to remember them, in your own words.
