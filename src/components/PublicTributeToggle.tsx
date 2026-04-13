@@ -35,6 +35,7 @@ function validateSlug(slug: string): SlugStatus {
 }
 
 interface PublicTributeToggleProps {
+  tributeId: string;
   petName: string;
   petType: string;
   breed?: string;
@@ -46,6 +47,7 @@ interface PublicTributeToggleProps {
 }
 
 const PublicTributeToggle = ({
+  tributeId,
   petName,
   petType,
   breed,
@@ -168,6 +170,7 @@ const PublicTributeToggle = ({
 
       let { error, data } = await supabase.from("public_tributes").insert({
         slug,
+        tribute_id: tributeId,
         pet_name: petName,
         pet_type: petType,
         breed: breed || null,
@@ -184,7 +187,7 @@ const PublicTributeToggle = ({
       if (error?.code === "23505" && !(isLegacy && customSlug.trim())) {
         slug = generateMemorialSlugWithSuffix(slug);
         const retry = await supabase.from("public_tributes").insert({
-          slug, pet_name: petName, pet_type: petType, breed: breed || null,
+          slug, tribute_id: tributeId, pet_name: petName, pet_type: petType, breed: breed || null,
           years_of_life: yearsOfLife, story: tribute.story,
           social_post: tribute.social_post || null, share_card_text: tribute.share_card_text || null,
           photo_urls: photoUrls, tier_id: tierId, custom_slug: null,
