@@ -30,7 +30,6 @@ serve(async (req) => {
 
   console.log("EVENT TYPE:", event.type);
 
-  // Only handle checkout.session.completed
   if (event.type !== "checkout.session.completed") {
     console.log("Ignoring event type:", event.type);
     return new Response(JSON.stringify({ received: true, ignored: true }), {
@@ -119,7 +118,7 @@ serve(async (req) => {
 
   // --- 3) Send payment confirmation email (non-blocking) ---
   try {
-    // Try by tribute_id first, fallback to slug
+    // Fetch public_tributes data: try tribute_id first, fallback to slug
     let ptData = null;
     const { data: ptById } = await supabaseAdmin
       .from("public_tributes")
@@ -139,8 +138,16 @@ serve(async (req) => {
 
     const petName = ptData?.pet_name || session.metadata?.pet_name || "your pet";
     const slug = ptData?.slug || session.metadata?.slug;
+    const manageToken = ptData?.manage_token;
 
-    // Find recipient email from tribute_emails
+    if (!manageToken) {
+      console.error("CRITICAL: No manage_token found for tribute — cannot send email with dashboard link", {
+        tributeId,
+        slug,
+      });
+    }
+
+    // Find recipient email: tribute_emails first, then Stripe customer
     const { data: emailData } = await supabaseAdmin
       .from("tribute_emails")
       .select("email")
@@ -151,7 +158,7 @@ serve(async (req) => {
 
     const recipientEmail = emailData?.email || session.customer_details?.email;
 
-    if (recipientEmail) {
+    if (recipientEmail && slug) {
       await supabaseAdmin.functions.invoke("send-transactional-email", {
         body: {
           templateName: "payment-confirmation",
@@ -161,16 +168,19 @@ serve(async (req) => {
             petName,
             slug,
             tributeId,
-            manageToken: ptData?.manage_token || "",
+            manageToken: manageToken || "",
           },
         },
       });
-      console.log(`Payment confirmation email queued for ${recipientEmail}`);
+      console.log("Email sent:", { tributeId, email: recipientEmail, slug });
     } else {
-      console.warn("No recipient email found for payment confirmation");
+      console.error("Cannot send payment confirmation email — missing data", {
+        recipientEmail: !!recipientEmail,
+        slug: !!slug,
+        tributeId,
+      });
     }
   } catch (emailErr) {
-    // Never block the webhook response on email failure
     console.error("Failed to send payment confirmation email:", emailErr);
   }
 
