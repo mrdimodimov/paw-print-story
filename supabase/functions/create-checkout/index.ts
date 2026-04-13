@@ -64,13 +64,11 @@ serve(async (req) => {
 
     const origin = req.headers.get("origin") || "https://paw-print-story.lovable.app";
 
-    const successUrl = tributeSlug
-      ? `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}&slug=${encodeURIComponent(tributeSlug)}`
-      : `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}&id=${encodeURIComponent(tributeId)}`;
+    const finalSlug = metadataSlug;
 
-    const cancelUrl = tributeSlug
-      ? `${origin}/tribute/s/${tributeSlug}?tier=${tierId}`
-      : `${origin}/tribute/${tributeId}?tier=${tierId}`;
+    const successUrl = `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}&slug=${encodeURIComponent(finalSlug)}`;
+
+    const cancelUrl = `${origin}/tribute/s/${encodeURIComponent(finalSlug)}?tier=${tierId}`;
 
     const session = await stripe.checkout.sessions.create({
       line_items: [{ price: PRICE_MAP[tierId], quantity: 1 }],
