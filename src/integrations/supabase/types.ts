@@ -238,6 +238,7 @@ export type Database = {
           social_post: string | null
           story: string
           tier_id: string
+          tribute_id: string | null
           years_of_life: string | null
         }
         Insert: {
@@ -256,6 +257,7 @@ export type Database = {
           social_post?: string | null
           story: string
           tier_id?: string
+          tribute_id?: string | null
           years_of_life?: string | null
         }
         Update: {
@@ -274,9 +276,18 @@ export type Database = {
           social_post?: string | null
           story?: string
           tier_id?: string
+          tribute_id?: string | null
           years_of_life?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_tributes_tribute_id_fkey"
+            columns: ["tribute_id"]
+            isOneToOne: true
+            referencedRelation: "tributes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       suppressed_emails: {
         Row: {
