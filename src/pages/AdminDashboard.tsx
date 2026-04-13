@@ -728,6 +728,12 @@ export default function AdminDashboard() {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center justify-end gap-1">
+                        <button onClick={() => handleCopyManageLink(t)}
+                          className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                          title="Copy manage link"
+                        >
+                          <Link2 className="h-4 w-4" />
+                        </button>
                         <button onClick={() => handleResendAccess(t)}
                           disabled={resending === t.id}
                           className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors disabled:opacity-50"
