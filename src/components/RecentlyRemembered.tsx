@@ -1,8 +1,8 @@
 import CtaIcon from "@/components/CtaIcon";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface TributeCard {
@@ -39,7 +39,6 @@ export default function RecentlyRemembered() {
 
       setTributes(data);
 
-      // Fetch reaction counts
       const ids = data.map((t) => t.id);
       const { data: rxData } = await supabase
         .from("tribute_reactions")
@@ -64,62 +63,71 @@ export default function RecentlyRemembered() {
   if (loading || tributes.length === 0) return null;
 
   function getExcerpt(story: string): string {
-    if (!story || story.trim().length === 0) return "A heartfelt tribute to a beloved pet.";
-    // Strip markers and normalize
+    if (!story || story.trim().length === 0) return "A life remembered with love.";
     const cleaned = story.replace(/---[A-Z_]+---[^\n]*/g, "").replace(/\n{3,}/g, "\n\n").trim();
     const paras = cleaned.split(/\n\s*\n/).filter(p => p.trim().length > 30);
-    
-    // Use first meaningful paragraph — it's designed as an emotional hook
     const hookPara = paras[0]?.trim() || cleaned.trim();
-    if (hookPara.length < 20) return "A heartfelt tribute to a beloved pet.";
-    
-    // Find a natural sentence break near 140 chars for a clean cutoff
-    if (hookPara.length <= 160) return hookPara;
-    
-    const sentenceEnd = hookPara.slice(80, 160).search(/[.!?;—]\s/);
+    if (hookPara.length < 20) return "A life remembered with love.";
+    if (hookPara.length <= 120) return hookPara;
+    const sentenceEnd = hookPara.slice(60, 120).search(/[.!?;—]\s/);
     if (sentenceEnd !== -1) {
-      const cutAt = 80 + sentenceEnd + 1;
-      return hookPara.slice(0, cutAt).trim() + "…";
+      return hookPara.slice(0, 60 + sentenceEnd + 1).trim() + "…";
     }
-    // Fallback: word-boundary cutoff
-    const wordCut = hookPara.slice(0, 145).lastIndexOf(" ");
-    return hookPara.slice(0, wordCut > 80 ? wordCut : 140).trim() + "…";
+    const wordCut = hookPara.slice(0, 117).lastIndexOf(" ");
+    return hookPara.slice(0, wordCut > 60 ? wordCut : 110).trim() + "…";
   }
 
   return (
     <section className="tribute-section">
       <div className="tribute-container">
+        {/* Header */}
         <div className="mb-10 text-center">
-          <h2 className="font-display text-3xl font-bold text-foreground">
-            Recently Remembered Pets
-          </h2>
+          <Link
+            to="/memorials"
+            className="group inline-flex items-center gap-1.5 transition-opacity hover:opacity-80"
+          >
+            <h2 className="font-display text-3xl font-bold text-foreground group-hover:underline underline-offset-4 decoration-primary/40">
+              Recently Remembered Pets
+            </h2>
+            <ArrowRight className="h-5 w-5 text-primary opacity-0 -translate-x-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0" />
+          </Link>
           <p className="mt-2 text-base text-muted-foreground">
-            Real tributes created by pet owners — each one started with just a few memories.
+            Real tributes from pet owners — each one started with a small memory.
           </p>
-          <p className="mt-2 text-xs text-muted-foreground/60">
-            New tributes are being created every day
+          <p className="mt-2 text-sm text-muted-foreground/70">
+            Every pet deserves to be remembered.{" "}
+            <Link to="/create" className="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors">
+              Create a tribute →
+            </Link>
           </p>
         </div>
 
+        {/* Grid */}
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {tributes.map((t, i) => {
+          {tributes.map((t) => {
             const rx = reactions[t.id] || { candle: 0, heart: 0 };
+            const hasImage = t.photo_urls?.[0];
             return (
               <Link
                 key={t.id}
                 to={`/memorial/${t.slug}`}
-                className="group block overflow-hidden rounded-2xl border border-border/30 bg-white shadow-soft transition-shadow duration-300 hover:shadow-card"
+                className="group block overflow-hidden rounded-2xl border border-border/30 bg-white shadow-soft transition-all duration-300 hover:shadow-card hover:-translate-y-1"
               >
-                {/* Photo */}
-                {t.photo_urls?.[0] && (
-                  <div className="relative h-44 overflow-hidden">
+                {/* Image */}
+                <div className="relative aspect-video overflow-hidden bg-muted">
+                  {hasImage ? (
                     <img
                       src={t.photo_urls[0]}
                       alt={`${t.pet_name} memorial`}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     />
-                  </div>
-                )}
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-muted to-muted/60">
+                      <span className="text-4xl opacity-40">🐾</span>
+                    </div>
+                  )}
+                </div>
 
                 <div className="p-6">
                   {/* Name + years */}
@@ -130,19 +138,19 @@ export default function RecentlyRemembered() {
                     <p className="mt-0.5 text-xs text-muted-foreground">{t.years_of_life}</p>
                   )}
 
-                  {/* Excerpt */}
-                  <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-                    {getExcerpt(t.story)}
+                  {/* Quoted excerpt */}
+                  <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground italic">
+                    "{getExcerpt(t.story)}"
                   </p>
 
-                  {/* Reactions + CTA */}
+                  {/* Reactions + subtle read link */}
                   <div className="mt-4 flex items-center justify-between">
                     <div className="flex items-center gap-3 text-xs text-muted-foreground">
                       {rx.candle > 0 && <span>🕯️ {rx.candle}</span>}
                       {rx.heart > 0 && <span>❤️ {rx.heart}</span>}
                     </div>
-                    <span className="text-xs text-primary">
-                      View Tribute →
+                    <span className="text-xs text-primary/60 group-hover:text-primary transition-colors">
+                      Read full tribute →
                     </span>
                   </div>
                 </div>
@@ -151,9 +159,9 @@ export default function RecentlyRemembered() {
           })}
         </div>
 
-        {/* View all + CTA */}
+        {/* Footer */}
         <div className="mt-6 text-center">
-          <Link to="/memorials" className="text-sm text-primary underline underline-offset-4 hover:text-primary/80 transition-colors">
+          <Link to="/memorials" className="text-sm text-muted-foreground underline underline-offset-4 hover:text-primary transition-colors">
             View all tributes →
           </Link>
         </div>
