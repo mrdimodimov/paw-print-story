@@ -46,14 +46,35 @@ serve(async (req) => {
 
     const customerEmail = emailRecord?.email || undefined;
 
-    // Fetch manage_token for the success URL
-    const { data: ptRecord } = await supabaseAdmin
+    // Fetch manage_token: try tribute_id first, fallback to slug
+    let manageToken: string | null = null;
+
+    const { data: byId } = await supabaseAdmin
       .from("public_tributes")
       .select("manage_token")
       .eq("tribute_id", tributeId)
       .maybeSingle();
 
-    const manageToken = ptRecord?.manage_token || "";
+    if (byId?.manage_token) {
+      manageToken = byId.manage_token;
+    }
+
+    if (!manageToken && tributeSlug) {
+      const { data: bySlug } = await supabaseAdmin
+        .from("public_tributes")
+        .select("manage_token")
+        .eq("slug", tributeSlug)
+        .maybeSingle();
+
+      if (bySlug?.manage_token) {
+        manageToken = bySlug.manage_token;
+      }
+    }
+
+    if (!manageToken) {
+      console.error("No manage_token found for checkout", { tributeId, tributeSlug });
+      throw new Error("Missing manage token — cannot create secure checkout");
+    }
 
     console.log("Creating Stripe session with metadata:", {
       tribute_id: tributeId,
