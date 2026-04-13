@@ -16,7 +16,7 @@ import {
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Search, X, ChevronDown, Trash2, Eye, EyeOff, Pencil, ImagePlus, Loader2, Mail } from "lucide-react";
+import { ArrowLeft, Search, X, ChevronDown, Trash2, Eye, EyeOff, Pencil, ImagePlus, Loader2, Mail, Link2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -342,6 +342,28 @@ export default function AdminDashboard() {
       toast.error("Failed to send access email");
     } finally {
       setResending(null);
+    }
+  };
+
+  // Copy manage link
+  const handleCopyManageLink = async (tribute: PublicTribute) => {
+    try {
+      const { data } = await supabase
+        .from("public_tributes")
+        .select("manage_token")
+        .eq("id", tribute.id)
+        .single();
+
+      if (!data?.manage_token) {
+        toast.error("No access token found");
+        return;
+      }
+
+      const manageUrl = `${window.location.origin}/memorial/manage/${tribute.slug}?token=${data.manage_token}`;
+      await navigator.clipboard.writeText(manageUrl);
+      toast.success("Manage link copied");
+    } catch {
+      toast.error("Failed to copy link");
     }
   };
 
@@ -706,6 +728,12 @@ export default function AdminDashboard() {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center justify-end gap-1">
+                        <button onClick={() => handleCopyManageLink(t)}
+                          className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                          title="Copy manage link"
+                        >
+                          <Link2 className="h-4 w-4" />
+                        </button>
                         <button onClick={() => handleResendAccess(t)}
                           disabled={resending === t.id}
                           className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors disabled:opacity-50"
