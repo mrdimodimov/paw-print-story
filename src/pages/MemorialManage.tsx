@@ -136,6 +136,50 @@ const MemorialManage = () => {
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(publicUrl)}`, "_blank");
   };
 
+  const handleResendEmail = async () => {
+    if (!data.tribute_id) {
+      toast.error("Unable to resend — no linked tribute found.");
+      return;
+    }
+    setResending(true);
+    try {
+      // Fetch email from tribute_emails
+      const { data: emailRecord } = await supabase
+        .from("tribute_emails")
+        .select("email")
+        .eq("tribute_id", data.tribute_id)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (!emailRecord?.email) {
+        toast.error("No email on file. Please contact support.");
+        setResending(false);
+        return;
+      }
+
+      await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "payment-confirmation",
+          recipientEmail: emailRecord.email,
+          idempotencyKey: `resend-access-${data.id}-${Date.now()}`,
+          templateData: {
+            petName: data.pet_name,
+            slug: data.slug,
+            tributeId: data.tribute_id,
+            manageToken: token,
+          },
+        },
+      });
+
+      toast.success("Access email sent! Check your inbox.");
+    } catch {
+      toast.error("Failed to send email. Please try again.");
+    } finally {
+      setResending(false);
+    }
+  };
+
   const heroPhoto = data.photo_urls?.[0];
   const storyExcerpt = data.story.length > 220 ? data.story.slice(0, 220) + "…" : data.story;
 
