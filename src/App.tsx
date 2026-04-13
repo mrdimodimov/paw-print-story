@@ -85,6 +85,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import AdminDashboard from "./pages/AdminDashboard";
 import Unsubscribe from "./pages/Unsubscribe";
+import MemorialManage from "./pages/MemorialManage";
 import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -145,6 +146,7 @@ const App = () => (
             <Route path="/tribute/:id" element={<TributePage />} />
             <Route path="/tribute/s/:slug" element={<TributePage />} />
             <Route path="/memorial/:slug" element={<PublicMemorialPage />} />
+            <Route path="/memorial/manage/:slug" element={<MemorialManage />} />
             <Route path="/memory/:slug" element={<PublicMemorialPage />} />
             <Route path="/memories" element={<MemoriesGallery />} />
             <Route path="/memorials" element={<Memorials />} />
