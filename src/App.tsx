@@ -145,6 +145,7 @@ const App = () => (
             <Route path="/memorial/:slug" element={<PublicMemorialPage />} />
             <Route path="/memory/:slug" element={<PublicMemorialPage />} />
             <Route path="/memories" element={<MemoriesGallery />} />
+            <Route path="/memorials" element={<Memorials />} />
             <Route path="/dog-obituary-example" element={<DogObituaryExample />} />
             <Route path="/cat-memorial-tribute-example" element={<CatMemorialTributeExample />} />
             <Route path="/pet-memorial-message" element={<PetMemorialMessage />} />

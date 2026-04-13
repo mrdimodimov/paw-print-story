@@ -151,8 +151,13 @@ export default function RecentlyRemembered() {
           })}
         </div>
 
-        {/* CTA */}
-        <div className="mt-10 text-center">
+        {/* View all + CTA */}
+        <div className="mt-6 text-center">
+          <Link to="/memorials" className="text-sm text-primary underline underline-offset-4 hover:text-primary/80 transition-colors">
+            View all tributes →
+          </Link>
+        </div>
+        <div className="mt-6 text-center">
           <p className="mb-3 text-sm text-muted-foreground">
             Your pet's story could be next
           </p>
