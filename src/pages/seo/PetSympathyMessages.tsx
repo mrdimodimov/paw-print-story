@@ -468,6 +468,7 @@ const PetSympathyMessages = () => {
               { label: "Pet condolence messages", href: "/pet-condolence-messages" },
               { label: "Short pet loss messages", href: "/short-pet-loss-messages" },
               { label: "Pet grief quotes", href: "/pet-grief-quotes" },
+              { label: "Loss of dog messages to a friend", href: "/loss-of-dog-messages-to-a-friend" },
             ].map((link, i) => (
               <li key={i}>
                 <Link to={link.href} className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors">

@@ -273,6 +273,7 @@ const ShortDogMemorialQuotes = () => {
               { title: "Dog Obituary Example", desc: "How to write a beautiful dog obituary", href: "/dog-obituary-example" },
               { title: "What to Write When a Dog Dies", desc: "A gentle guide for writing a dog memorial", href: "/what-to-write-when-a-dog-dies" },
               { title: "Pet Memorial Page Online", desc: "Create a beautiful online pet memorial", href: "/pet-memorial" },
+              { title: "Loss of Dog Messages to a Friend", desc: "What to say when a friend loses a dog", href: "/loss-of-dog-messages-to-a-friend" },
             ].map((link) => (
               <Link key={link.href} to={link.href} className="group flex items-center justify-between rounded-xl border border-border bg-card p-4 shadow-card transition-all duration-200 hover:border-primary/30 hover:shadow-md">
                 <div>
