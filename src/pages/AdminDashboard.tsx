@@ -345,6 +345,28 @@ export default function AdminDashboard() {
     }
   };
 
+  // Copy manage link
+  const handleCopyManageLink = async (tribute: PublicTribute) => {
+    try {
+      const { data } = await supabase
+        .from("public_tributes")
+        .select("manage_token")
+        .eq("id", tribute.id)
+        .single();
+
+      if (!data?.manage_token) {
+        toast.error("No access token found");
+        return;
+      }
+
+      const manageUrl = `${window.location.origin}/memorial/manage/${tribute.slug}?token=${data.manage_token}`;
+      await navigator.clipboard.writeText(manageUrl);
+      toast.success("Manage link copied");
+    } catch {
+      toast.error("Failed to copy link");
+    }
+  };
+
   // Analytics computed values
   const overview = useMemo(() => {
     const sources = new Map<string, {
