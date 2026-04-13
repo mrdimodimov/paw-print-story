@@ -300,6 +300,15 @@ const MemorialManage = () => {
             >
               <ImagePlus className="h-4 w-4" /> Add Photos
             </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full gap-2 col-span-2"
+              disabled={resending}
+              onClick={handleResendEmail}
+            >
+              <Mail className="h-4 w-4" /> {resending ? "Sending…" : "Resend Access Email"}
+            </Button>
           </div>
         </motion.div>
 
