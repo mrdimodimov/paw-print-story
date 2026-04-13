@@ -755,6 +755,12 @@ export default function AdminDashboard() {
                         >
                           <Link2 className="h-4 w-4" />
                         </button>
+                        <button onClick={() => handleViewAsOwner(t)}
+                          className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                          title="View as owner"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                        </button>
                         <button onClick={() => handleResendAccess(t)}
                           disabled={resending === t.id}
                           className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors disabled:opacity-50"
