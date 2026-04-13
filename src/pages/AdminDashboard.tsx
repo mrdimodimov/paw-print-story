@@ -16,7 +16,7 @@ import {
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Search, X, ChevronDown, Trash2, Eye, EyeOff, Pencil, ImagePlus, Loader2 } from "lucide-react";
+import { ArrowLeft, Search, X, ChevronDown, Trash2, Eye, EyeOff, Pencil, ImagePlus, Loader2, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -92,6 +92,7 @@ export default function AdminDashboard() {
   const [editPhotos, setEditPhotos] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [resending, setResending] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const getAdminKey = () => localStorage.getItem("admin_key") || "";
@@ -282,6 +283,65 @@ export default function AdminDashboard() {
       toast.error("Failed to save changes");
     } finally {
       setSaving(false);
+    }
+  };
+
+  // Resend access link
+  const handleResendAccess = async (tribute: PublicTribute) => {
+    setResending(tribute.id);
+    try {
+      // Fetch manage_token for this tribute
+      const { data: ptData } = await supabase
+        .from("public_tributes")
+        .select("manage_token, tribute_id")
+        .eq("id", tribute.id)
+        .single();
+
+      if (!ptData?.manage_token) {
+        toast.error("No manage token found for this memorial");
+        return;
+      }
+
+      // Find recipient email
+      const { data: emailData } = await supabase
+        .from("tribute_emails")
+        .select("email")
+        .eq("tribute_id", ptData.tribute_id)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      let recipientEmail = emailData?.email;
+
+      if (!recipientEmail) {
+        const input = window.prompt("No email found for this tribute. Enter recipient email:");
+        if (!input || !input.includes("@")) {
+          toast.error("Invalid or no email provided");
+          return;
+        }
+        recipientEmail = input.trim();
+      }
+
+      const { error } = await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "payment-confirmation",
+          recipientEmail,
+          idempotencyKey: `resend-${tribute.id}-${Date.now()}`,
+          templateData: {
+            petName: tribute.pet_name,
+            slug: tribute.slug,
+            tributeId: ptData.tribute_id,
+            manageToken: ptData.manage_token,
+          },
+        },
+      });
+
+      if (error) throw error;
+      toast.success(`Access link sent to ${recipientEmail}`);
+    } catch {
+      toast.error("Failed to send access email");
+    } finally {
+      setResending(null);
     }
   };
 
@@ -646,6 +706,13 @@ export default function AdminDashboard() {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center justify-end gap-1">
+                        <button onClick={() => handleResendAccess(t)}
+                          disabled={resending === t.id}
+                          className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors disabled:opacity-50"
+                          title="Resend access link"
+                        >
+                          {resending === t.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Mail className="h-4 w-4" />}
+                        </button>
                         <button onClick={() => handleToggleVisibility(t)}
                           className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
                           title={t.is_public ? "Make private" : "Make public"}
