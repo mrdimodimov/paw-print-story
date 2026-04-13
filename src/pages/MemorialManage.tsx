@@ -3,7 +3,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Globe, Check, Copy, RefreshCw, ImagePlus, Pencil,
-  MessageCircle, Twitter, Facebook, ExternalLink, Shield,
+  MessageCircle, Twitter, Facebook, ExternalLink, Shield, Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -43,6 +43,7 @@ const MemorialManage = () => {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [unauthorized, setUnauthorized] = useState(false);
+  const [resending, setResending] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -133,6 +134,50 @@ const MemorialManage = () => {
 
   const handleFacebook = () => {
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(publicUrl)}`, "_blank");
+  };
+
+  const handleResendEmail = async () => {
+    if (!data.tribute_id) {
+      toast.error("Unable to resend — no linked tribute found.");
+      return;
+    }
+    setResending(true);
+    try {
+      // Fetch email from tribute_emails
+      const { data: emailRecord } = await supabase
+        .from("tribute_emails")
+        .select("email")
+        .eq("tribute_id", data.tribute_id)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (!emailRecord?.email) {
+        toast.error("No email on file. Please contact support.");
+        setResending(false);
+        return;
+      }
+
+      await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "payment-confirmation",
+          recipientEmail: emailRecord.email,
+          idempotencyKey: `resend-access-${data.id}-${Date.now()}`,
+          templateData: {
+            petName: data.pet_name,
+            slug: data.slug,
+            tributeId: data.tribute_id,
+            manageToken: token,
+          },
+        },
+      });
+
+      toast.success("Access email sent! Check your inbox.");
+    } catch {
+      toast.error("Failed to send email. Please try again.");
+    } finally {
+      setResending(false);
+    }
   };
 
   const heroPhoto = data.photo_urls?.[0];
@@ -254,6 +299,15 @@ const MemorialManage = () => {
               onClick={() => navigate(`${tributeEditPath}?action=photos`)}
             >
               <ImagePlus className="h-4 w-4" /> Add Photos
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full gap-2 col-span-2"
+              disabled={resending}
+              onClick={handleResendEmail}
+            >
+              <Mail className="h-4 w-4" /> {resending ? "Sending…" : "Resend Access Email"}
             </Button>
           </div>
         </motion.div>
