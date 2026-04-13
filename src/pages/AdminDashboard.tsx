@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,7 +13,10 @@ import {
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog";
-import { ArrowLeft, Search, X, ChevronDown, Trash2, Eye, EyeOff, Pencil } from "lucide-react";
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select";
+import { ArrowLeft, Search, X, ChevronDown, Trash2, Eye, EyeOff, Pencil, ImagePlus, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -40,6 +43,7 @@ interface PublicTribute {
   id: string;
   pet_name: string;
   pet_type: string;
+  breed: string | null;
   slug: string;
   story: string;
   photo_urls: string[];
@@ -83,7 +87,12 @@ export default function AdminDashboard() {
   const [editTarget, setEditTarget] = useState<PublicTribute | null>(null);
   const [editName, setEditName] = useState("");
   const [editStory, setEditStory] = useState("");
+  const [editPetType, setEditPetType] = useState("dog");
+  const [editBreed, setEditBreed] = useState("");
+  const [editPhotos, setEditPhotos] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const getAdminKey = () => localStorage.getItem("admin_key") || "";
 
@@ -104,7 +113,7 @@ export default function AdminDashboard() {
           .limit(2000),
         supabase
           .from("public_tributes")
-          .select("id, pet_name, pet_type, slug, story, photo_urls, is_public, is_deleted, tier_id, created_at, years_of_life")
+          .select("id, pet_name, pet_type, breed, slug, story, photo_urls, is_public, is_deleted, tier_id, created_at, years_of_life")
           .eq("is_deleted", false)
           .order("created_at", { ascending: false }),
       ]);
@@ -194,25 +203,77 @@ export default function AdminDashboard() {
     setEditTarget(t);
     setEditName(t.pet_name);
     setEditStory(t.story);
+    setEditPetType(t.pet_type || "other");
+    setEditBreed(t.breed || "");
+    setEditPhotos([...t.photo_urls]);
+  };
+
+  const handleRemovePhoto = (index: number) => {
+    setEditPhotos((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleUploadPhotos = async (files: FileList) => {
+    setUploading(true);
+    const newUrls: string[] = [];
+    try {
+      for (const file of Array.from(files)) {
+        const ext = file.name.split(".").pop() || "jpg";
+        const path = `admin/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+        const { error } = await supabase.storage.from("pet-photos").upload(path, file);
+        if (error) {
+          console.error("Upload error:", error);
+          continue;
+        }
+        const { data: urlData } = supabase.storage.from("pet-photos").getPublicUrl(path);
+        if (urlData?.publicUrl) newUrls.push(urlData.publicUrl);
+      }
+      if (newUrls.length > 0) {
+        setEditPhotos((prev) => [...prev, ...newUrls]);
+        toast.success(`${newUrls.length} photo(s) uploaded`);
+      }
+    } catch {
+      toast.error("Photo upload failed");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleSaveEdit = async () => {
     if (!editTarget) return;
     setSaving(true);
     try {
+      const normalizedType = ["dog", "cat", "bird", "other"].includes(editPetType.toLowerCase())
+        ? editPetType.toLowerCase()
+        : "other";
+
       const res = await supabase.functions.invoke("admin-manage-tribute", {
         body: {
           action: "edit",
           tribute_id: editTarget.id,
           slug: editTarget.slug,
-          data: { pet_name: editName.trim(), story: editStory.trim() },
+          data: {
+            pet_name: editName.trim(),
+            story: editStory.trim(),
+            pet_type: normalizedType,
+            breed: editBreed.trim(),
+            photo_urls: editPhotos,
+          },
         },
         headers: { "x-admin-key": getAdminKey() },
       });
       if (res.error) throw res.error;
       setPublicTributes((prev) =>
         prev.map((t) =>
-          t.id === editTarget.id ? { ...t, pet_name: editName.trim(), story: editStory.trim() } : t
+          t.id === editTarget.id
+            ? {
+                ...t,
+                pet_name: editName.trim(),
+                story: editStory.trim(),
+                pet_type: normalizedType,
+                breed: editBreed.trim() || null,
+                photo_urls: editPhotos,
+              }
+            : t
         )
       );
       toast.success("Memorial updated");
@@ -645,19 +706,84 @@ export default function AdminDashboard() {
 
       {/* Edit dialog */}
       <Dialog open={!!editTarget} onOpenChange={(open) => !open && setEditTarget(null)}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Memorial</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium text-foreground">Pet Name</label>
+                <Input value={editName} onChange={(e) => setEditName(e.target.value)} className="mt-1" />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground">Pet Type</label>
+                <Select value={editPetType} onValueChange={setEditPetType}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="dog">Dog</SelectItem>
+                    <SelectItem value="cat">Cat</SelectItem>
+                    <SelectItem value="bird">Bird</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Pet Name</label>
-              <Input value={editName} onChange={(e) => setEditName(e.target.value)} className="mt-1" />
+              <label className="text-sm font-medium text-foreground">Breed</label>
+              <Input value={editBreed} onChange={(e) => setEditBreed(e.target.value)} className="mt-1" placeholder="e.g. Golden Retriever" />
             </div>
             <div>
               <label className="text-sm font-medium text-foreground">Story</label>
               <Textarea value={editStory} onChange={(e) => setEditStory(e.target.value)}
                 className="mt-1 min-h-[200px]" />
+            </div>
+
+            {/* Photo Management */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-sm font-medium text-foreground">Photos ({editPhotos.length})</label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="gap-1.5"
+                  disabled={uploading}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ImagePlus className="h-3.5 w-3.5" />}
+                  {uploading ? "Uploading…" : "Add Photos"}
+                </Button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  multiple
+                  className="hidden"
+                  onChange={(e) => e.target.files && handleUploadPhotos(e.target.files)}
+                />
+              </div>
+              {editPhotos.length > 0 ? (
+                <div className="grid grid-cols-4 gap-2">
+                  {editPhotos.map((url, i) => (
+                    <div key={i} className="group relative aspect-square overflow-hidden rounded-lg border border-border">
+                      <img src={url} alt={`Photo ${i + 1}`} className="h-full w-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => handleRemovePhoto(i)}
+                        className="absolute top-1 right-1 rounded-full bg-destructive p-1 text-destructive-foreground opacity-0 group-hover:opacity-100 transition-opacity"
+                        title="Remove photo"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground italic">No photos yet.</p>
+              )}
             </div>
           </div>
           <DialogFooter>

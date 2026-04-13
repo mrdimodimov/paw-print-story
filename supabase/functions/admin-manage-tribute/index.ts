@@ -6,6 +6,8 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
+const VALID_PET_TYPES = ["dog", "cat", "bird", "other"];
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -65,8 +67,30 @@ Deno.serve(async (req) => {
       }
 
       const updateFields: Record<string, unknown> = {};
-      if (data.pet_name) updateFields.pet_name = data.pet_name;
-      if (data.story) updateFields.story = data.story;
+      const tributeUpdateFields: Record<string, unknown> = {};
+
+      if (data.pet_name) {
+        updateFields.pet_name = data.pet_name;
+        tributeUpdateFields.pet_name = data.pet_name;
+      }
+      if (data.story) {
+        updateFields.story = data.story;
+        tributeUpdateFields.tribute_story = data.story;
+      }
+      if (data.pet_type) {
+        const normalized = (data.pet_type as string).toLowerCase();
+        const validType = VALID_PET_TYPES.includes(normalized) ? normalized : "other";
+        updateFields.pet_type = validType;
+        tributeUpdateFields.pet_type = validType;
+      }
+      if (typeof data.breed === "string") {
+        updateFields.breed = data.breed || null;
+        tributeUpdateFields.breed = data.breed || null;
+      }
+      if (Array.isArray(data.photo_urls)) {
+        updateFields.photo_urls = data.photo_urls;
+        tributeUpdateFields.photo_urls = data.photo_urls;
+      }
 
       if (Object.keys(updateFields).length === 0) {
         return new Response(JSON.stringify({ error: "No fields to update" }), {
@@ -83,13 +107,10 @@ Deno.serve(async (req) => {
       if (error) throw error;
 
       // Also update tributes table if slug is available
-      if (slug) {
+      if (slug && Object.keys(tributeUpdateFields).length > 0) {
         await supabaseAdmin
           .from("tributes")
-          .update({
-            ...(data.pet_name ? { pet_name: data.pet_name } : {}),
-            ...(data.story ? { tribute_story: data.story } : {}),
-          })
+          .update(tributeUpdateFields)
           .eq("slug", slug);
       }
 
