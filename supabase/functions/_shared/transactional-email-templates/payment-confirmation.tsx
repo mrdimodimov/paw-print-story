@@ -11,11 +11,14 @@ interface PaymentConfirmationProps {
   petName?: string
   slug?: string
   tributeId?: string
+  manageToken?: string
 }
 
-const PaymentConfirmationEmail = ({ petName, slug, tributeId }: PaymentConfirmationProps) => {
+const PaymentConfirmationEmail = ({ petName, slug, tributeId, manageToken }: PaymentConfirmationProps) => {
   const name = petName || 'your pet'
-  const memoralUrl = slug ? `${BASE_URL}/memorial/manage/${slug}` : `${BASE_URL}/tribute/${tributeId || ''}`
+  const memoralUrl = slug
+    ? `${BASE_URL}/memorial/manage/${slug}${manageToken ? `?token=${manageToken}` : ''}`
+    : `${BASE_URL}/tribute/${tributeId || ''}`
 
   return (
     <Html lang="en" dir="ltr">

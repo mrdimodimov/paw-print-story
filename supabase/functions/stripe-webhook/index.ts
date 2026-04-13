@@ -106,7 +106,7 @@ serve(async (req) => {
     // Fetch tribute data for the email
     const { data: ptData } = await supabaseAdmin
       .from("public_tributes")
-      .select("pet_name, slug")
+      .select("pet_name, slug, manage_token")
       .eq("tribute_id", tributeId)
       .maybeSingle();
 
@@ -134,6 +134,7 @@ serve(async (req) => {
             petName,
             slug,
             tributeId,
+            manageToken: ptData?.manage_token || "",
           },
         },
       });

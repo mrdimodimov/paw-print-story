@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Globe, Check, Copy, RefreshCw, ImagePlus, Pencil,
@@ -26,6 +26,7 @@ interface MemorialData {
   is_paid: boolean;
   social_post: string | null;
   share_card_text: string | null;
+  manage_token: string | null;
 }
 
 const TIER_LABELS: Record<string, string> = {
@@ -36,31 +37,42 @@ const TIER_LABELS: Record<string, string> = {
 
 const MemorialManage = () => {
   const { slug } = useParams<{ slug: string }>();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
   const navigate = useNavigate();
   const [data, setData] = useState<MemorialData | null>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [unauthorized, setUnauthorized] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
+
+    if (!token) {
+      setUnauthorized(true);
+      setLoading(false);
+      return;
+    }
+
     const load = async () => {
       const { data: pt, error } = await supabase
         .from("public_tributes")
-        .select("id, tribute_id, pet_name, pet_type, breed, years_of_life, story, photo_urls, tier_id, slug, is_paid, social_post, share_card_text")
+        .select("id, tribute_id, pet_name, pet_type, breed, years_of_life, story, photo_urls, tier_id, slug, is_paid, social_post, share_card_text, manage_token")
         .eq("slug", slug)
+        .eq("manage_token", token)
         .eq("is_deleted", false)
         .maybeSingle();
 
       if (error || !pt) {
-        toast.error("Memorial not found");
-        navigate("/");
+        setUnauthorized(true);
+        setLoading(false);
         return;
       }
       setData(pt as MemorialData);
       setLoading(false);
     };
     load();
-  }, [slug, navigate]);
+  }, [slug, token, navigate]);
 
   if (loading) {
     return (
@@ -77,7 +89,26 @@ const MemorialManage = () => {
     );
   }
 
-  if (!data) return null;
+  if (unauthorized || !data) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
+        <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 text-center shadow-card">
+          <PawIcon className="mx-auto mb-4 h-8 w-8 text-muted-foreground" />
+          <h1 className="font-display text-xl font-semibold text-foreground">
+            Access restricted
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            This manage page is only accessible via the link sent to your email after payment.
+          </p>
+          {slug && (
+            <Button className="mt-6" onClick={() => navigate(`/memorial/${slug}`)}>
+              View Public Memorial
+            </Button>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   const publicUrl = `${BRAND.baseUrl}/memorial/${data.slug}`;
   const tributeEditPath = data.tribute_id
