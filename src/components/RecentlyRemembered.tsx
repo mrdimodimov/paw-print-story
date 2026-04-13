@@ -93,12 +93,6 @@ export default function RecentlyRemembered() {
           <p className="mt-2 text-base text-muted-foreground">
             Real tributes from pet owners — each one started with a small memory.
           </p>
-          <p className="mt-2 text-sm text-muted-foreground/70">
-            Every pet deserves to be remembered.{" "}
-            <Link to="/create" className="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors">
-              Create a tribute →
-            </Link>
-          </p>
         </div>
 
         {/* Grid */}
@@ -163,12 +157,19 @@ export default function RecentlyRemembered() {
           <Link to="/memorials" className="text-sm text-muted-foreground underline underline-offset-4 hover:text-primary transition-colors">
             View all tributes →
           </Link>
-          <p className="mt-4 text-sm text-muted-foreground/70">
-            Your pet's story could be here too.
+        </div>
+        <div className="mt-10 text-center">
+          <p className="mb-3 text-sm text-muted-foreground">
+            Every pet deserves to be remembered.
           </p>
-          <Link to="/create" className="text-sm text-muted-foreground underline underline-offset-4 hover:text-primary transition-colors">
-            Create a tribute →
-          </Link>
+          <Button
+            size="lg"
+            className="px-8 py-5 text-base"
+            onClick={() => navigate("/create")}
+          >
+            <CtaIcon className="mr-2 shrink-0" size={22} />
+            Create your pet's story →
+          </Button>
         </div>
       </div>
     </section>
