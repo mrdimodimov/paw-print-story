@@ -130,7 +130,7 @@ export default function RecentlyRemembered() {
             <ArrowRight className="h-5 w-5 text-primary opacity-0 -translate-x-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0" />
           </Link>
           <p className="mt-2 text-base text-muted-foreground">
-            Real tributes from pet owners — each one started with a small memory.
+            {isFallback ? "New memorials" : "Real tributes from pet owners — each one started with a small memory."}
           </p>
         </div>
 
