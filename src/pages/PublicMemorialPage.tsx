@@ -136,6 +136,8 @@ const PublicMemorialPage = () => {
     const fetchTribute = async () => {
       if (!slug) return;
 
+      console.log("Memorial slug:", slug);
+
       let { data, error } = await supabase
         .from("public_tributes")
         .select("*")
@@ -154,7 +156,11 @@ const PublicMemorialPage = () => {
         return;
       }
 
-      if (error || !data) { toast.error("Memorial page not found"); navigate("/"); return; }
+      if (error || !data) {
+        console.log("Memorial not found for slug:", slug);
+        setLoading(false);
+        return;
+      }
 
       setTribute(data as PublicTribute);
 
@@ -173,7 +179,14 @@ const PublicMemorialPage = () => {
     );
   }
 
-  if (!tribute) return null;
+  if (!tribute) return (
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background text-center px-6">
+      <PawIcon className="h-12 w-12 text-muted-foreground mb-4" />
+      <h1 className="text-2xl font-semibold text-foreground mb-2">Memorial not found</h1>
+      <p className="text-muted-foreground mb-6">We couldn't find a memorial page for this link.</p>
+      <Link to="/" className="text-primary underline">Go home</Link>
+    </div>
+  );
 
   const pageUrl = `${BRAND.baseUrl}/memorial/${tribute.slug}`;
   const storyExcerpt = tribute.story.replace(/\n+/g, " ").slice(0, 150).trim().replace(/\s+\S*$/, "…");
