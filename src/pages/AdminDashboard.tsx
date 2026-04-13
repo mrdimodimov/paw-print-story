@@ -113,7 +113,7 @@ export default function AdminDashboard() {
           .limit(2000),
         supabase
           .from("public_tributes")
-          .select("id, pet_name, pet_type, slug, story, photo_urls, is_public, is_deleted, tier_id, created_at, years_of_life")
+          .select("id, pet_name, pet_type, breed, slug, story, photo_urls, is_public, is_deleted, tier_id, created_at, years_of_life")
           .eq("is_deleted", false)
           .order("created_at", { ascending: false }),
       ]);
@@ -203,25 +203,77 @@ export default function AdminDashboard() {
     setEditTarget(t);
     setEditName(t.pet_name);
     setEditStory(t.story);
+    setEditPetType(t.pet_type || "other");
+    setEditBreed(t.breed || "");
+    setEditPhotos([...t.photo_urls]);
+  };
+
+  const handleRemovePhoto = (index: number) => {
+    setEditPhotos((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleUploadPhotos = async (files: FileList) => {
+    setUploading(true);
+    const newUrls: string[] = [];
+    try {
+      for (const file of Array.from(files)) {
+        const ext = file.name.split(".").pop() || "jpg";
+        const path = `admin/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+        const { error } = await supabase.storage.from("pet-photos").upload(path, file);
+        if (error) {
+          console.error("Upload error:", error);
+          continue;
+        }
+        const { data: urlData } = supabase.storage.from("pet-photos").getPublicUrl(path);
+        if (urlData?.publicUrl) newUrls.push(urlData.publicUrl);
+      }
+      if (newUrls.length > 0) {
+        setEditPhotos((prev) => [...prev, ...newUrls]);
+        toast.success(`${newUrls.length} photo(s) uploaded`);
+      }
+    } catch {
+      toast.error("Photo upload failed");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleSaveEdit = async () => {
     if (!editTarget) return;
     setSaving(true);
     try {
+      const normalizedType = ["dog", "cat", "bird", "other"].includes(editPetType.toLowerCase())
+        ? editPetType.toLowerCase()
+        : "other";
+
       const res = await supabase.functions.invoke("admin-manage-tribute", {
         body: {
           action: "edit",
           tribute_id: editTarget.id,
           slug: editTarget.slug,
-          data: { pet_name: editName.trim(), story: editStory.trim() },
+          data: {
+            pet_name: editName.trim(),
+            story: editStory.trim(),
+            pet_type: normalizedType,
+            breed: editBreed.trim(),
+            photo_urls: editPhotos,
+          },
         },
         headers: { "x-admin-key": getAdminKey() },
       });
       if (res.error) throw res.error;
       setPublicTributes((prev) =>
         prev.map((t) =>
-          t.id === editTarget.id ? { ...t, pet_name: editName.trim(), story: editStory.trim() } : t
+          t.id === editTarget.id
+            ? {
+                ...t,
+                pet_name: editName.trim(),
+                story: editStory.trim(),
+                pet_type: normalizedType,
+                breed: editBreed.trim() || null,
+                photo_urls: editPhotos,
+              }
+            : t
         )
       );
       toast.success("Memorial updated");
