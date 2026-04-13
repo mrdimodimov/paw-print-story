@@ -107,7 +107,7 @@ const PublicTributeToggle = ({
   const handleSlugInput = (raw: string) => {
     const sanitized = sanitizeSlug(raw);
     setEditSlug(sanitized);
-    checkAvailability(sanitized, tributeId);
+    checkAvailability(sanitized, publicId);
   };
 
   const startEditing = () => {
@@ -124,13 +124,13 @@ const PublicTributeToggle = ({
   };
 
   const handleSave = async () => {
-    if (slugStatus !== "available" || !tributeId) return;
+    if (slugStatus !== "available" || !publicId) return;
     setSaving(true);
     try {
       const { error } = await supabase
         .from("public_tributes")
         .update({ slug: editSlug })
-        .eq("id", tributeId);
+        .eq("id", publicId);
 
       if (error) {
         if (error.code === "23505") {
@@ -157,7 +157,7 @@ const PublicTributeToggle = ({
     setIsPublic(checked);
     if (!checked) {
       setCurrentSlug(null);
-      setTributeId(null);
+      setPublicId(null);
       setShowCompletion(false);
       return;
     }
@@ -207,7 +207,7 @@ const PublicTributeToggle = ({
       }
 
       setCurrentSlug(data?.slug || slug);
-      setTributeId(data?.id || null);
+      setPublicId(data?.id || null);
       setShowCompletion(true);
       toast.success("Public memorial page created!");
     } catch {
