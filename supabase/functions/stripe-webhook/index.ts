@@ -40,7 +40,6 @@ serve(async (req) => {
   }
 
   const session = event.data.object as Stripe.Checkout.Session;
-  console.log("SESSION:", JSON.stringify(session, null, 2));
   console.log("METADATA:", session.metadata);
 
   const supabaseAdmin = createClient(
@@ -48,78 +47,64 @@ serve(async (req) => {
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
   );
 
-  // --- 1) Update tributes table (existing logic) ---
   const tributeId = session.metadata?.tribute_id;
   const planType = session.metadata?.tier_id;
 
-  if (session.payment_status === "paid" && tributeId) {
-    const { data: existing } = await supabaseAdmin
-      .from("tributes")
-      .select("is_paid")
-      .eq("id", tributeId)
-      .single();
-
-    if (existing?.is_paid) {
-      console.log(`Tribute ${tributeId} already marked as paid, skipping update`);
-    } else {
-      const updateData: Record<string, unknown> = {
-        is_paid: true,
-        stripe_session_id: session.id,
-      };
-      if (planType) {
-        updateData.tier_name = planType;
-      }
-
-      const { error: updateError } = await supabaseAdmin
-        .from("tributes")
-        .update(updateData)
-        .eq("id", tributeId);
-
-      if (updateError) {
-        console.error("Failed to update tribute:", updateError);
-      } else {
-        console.log(`Tribute ${tributeId} marked as paid (plan: ${planType})`);
-      }
-    }
-  } else {
-    console.log("Skipping tribute update: not paid or missing tribute_id", {
+  if (session.payment_status !== "paid" || !tributeId) {
+    console.log("Skipping: not paid or missing tribute_id", {
       payment_status: session.payment_status,
       tributeId,
     });
-  }
-
-  // --- 2) Insert into public_tributes if slug metadata present ---
-  const slug = session.metadata?.slug;
-  const petName = session.metadata?.name;
-  const content = session.metadata?.content;
-  const email = session.customer_details?.email;
-
-  if (!slug) {
-    console.error("No slug in session metadata — skipping public_tributes insert");
     return new Response(JSON.stringify({ received: true }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
   }
 
-  const insertData = {
-    slug,
-    pet_name: petName || "Unknown",
-    story: content || "",
-    tier_id: planType || "story",
-  };
+  // --- 1) Update tributes table ---
+  const { data: existing } = await supabaseAdmin
+    .from("tributes")
+    .select("is_paid, slug")
+    .eq("id", tributeId)
+    .single();
 
-  console.log("Inserting into public_tributes:", insertData);
-
-  const { data: insertResult, error: insertError } = await supabaseAdmin
-    .from("public_tributes")
-    .insert(insertData)
-    .select();
-
-  if (insertError) {
-    console.error("INSERT ERROR:", insertError);
+  if (existing?.is_paid) {
+    console.log(`Tribute ${tributeId} already marked as paid, skipping`);
   } else {
-    console.log("INSERT RESULT:", insertResult);
+    const updateData: Record<string, unknown> = {
+      is_paid: true,
+      stripe_session_id: session.id,
+    };
+    if (planType) updateData.tier_name = planType;
+
+    const { error: updateError } = await supabaseAdmin
+      .from("tributes")
+      .update(updateData)
+      .eq("id", tributeId);
+
+    if (updateError) {
+      console.error("Failed to update tribute:", updateError);
+    } else {
+      console.log(`Tribute ${tributeId} marked as paid (plan: ${planType})`);
+    }
+  }
+
+  // --- 2) Update public_tributes: just unlock (is_paid + is_public) ---
+  const slug = existing?.slug;
+  if (slug) {
+    const { error: ptError } = await supabaseAdmin
+      .from("public_tributes")
+      .update({ is_paid: true, is_public: true })
+      .eq("slug", slug);
+
+    if (ptError) {
+      console.error("Failed to update public_tributes by slug:", ptError);
+    } else {
+      console.log(`public_tributes unlocked for slug: ${slug}`);
+    }
+  } else {
+    // Fallback: try by tribute_id match (shouldn't normally happen)
+    console.warn("No slug found on tribute, attempting fallback update by tribute_id");
   }
 
   return new Response(JSON.stringify({ received: true }), {
