@@ -13,6 +13,7 @@ import PublicMemorialPage from "./pages/PublicMemorialPage";
 import NotFound from "./pages/NotFound";
 import ComingSoon from "./pages/ComingSoon";
 import MemoriesGallery from "./pages/MemoriesGallery";
+import Memorials from "./pages/Memorials";
 import DogObituaryExample from "./pages/seo/DogObituaryExample";
 import CatMemorialTributeExample from "./pages/seo/CatMemorialTributeExample";
 import PetMemorialMessage from "./pages/seo/PetMemorialMessage";
