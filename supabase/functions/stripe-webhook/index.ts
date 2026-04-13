@@ -89,26 +89,53 @@ serve(async (req) => {
     }
   }
 
-  // --- 2) Update public_tributes: just unlock (is_paid + is_public) by tribute_id ---
-  const { error: ptError } = await supabaseAdmin
+  // --- 2) Update public_tributes: unlock by tribute_id, fallback to slug ---
+  const { data: updateById } = await supabaseAdmin
     .from("public_tributes")
     .update({ is_paid: true, is_public: true })
-    .eq("tribute_id", tributeId);
+    .eq("tribute_id", tributeId)
+    .select("id");
 
-  if (ptError) {
-    console.error("Failed to update public_tributes:", ptError);
+  let ptUpdated = updateById && updateById.length > 0;
+
+  if (!ptUpdated && existing?.slug) {
+    const { data: updateBySlug } = await supabaseAdmin
+      .from("public_tributes")
+      .update({ is_paid: true, is_public: true })
+      .eq("slug", existing.slug)
+      .select("id");
+
+    ptUpdated = updateBySlug && updateBySlug.length > 0;
+    if (ptUpdated) {
+      console.log(`public_tributes unlocked by slug fallback: ${existing.slug}`);
+    }
+  }
+
+  if (!ptUpdated) {
+    console.error("Failed to update public_tributes — no rows matched", { tributeId, slug: existing?.slug });
   } else {
     console.log(`public_tributes unlocked for tribute_id: ${tributeId}`);
   }
 
   // --- 3) Send payment confirmation email (non-blocking) ---
   try {
-    // Fetch tribute data for the email
-    const { data: ptData } = await supabaseAdmin
+    // Try by tribute_id first, fallback to slug
+    let ptData = null;
+    const { data: ptById } = await supabaseAdmin
       .from("public_tributes")
       .select("pet_name, slug, manage_token")
       .eq("tribute_id", tributeId)
       .maybeSingle();
+
+    ptData = ptById;
+    if (!ptData && existing?.slug) {
+      const { data: ptBySlug } = await supabaseAdmin
+        .from("public_tributes")
+        .select("pet_name, slug, manage_token")
+        .eq("slug", existing.slug)
+        .maybeSingle();
+      ptData = ptBySlug;
+    }
 
     const petName = ptData?.pet_name || session.metadata?.pet_name || "your pet";
     const slug = ptData?.slug || session.metadata?.slug;
