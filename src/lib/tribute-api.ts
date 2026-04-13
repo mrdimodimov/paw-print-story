@@ -239,6 +239,7 @@ export async function generateTribute(
         if (hasValidStory) {
           try {
             await supabase.from("public_tributes").insert({
+              tribute_id: data.id,
               slug: slugToTry,
               pet_name: form.pet_name,
               pet_type: form.pet_type,

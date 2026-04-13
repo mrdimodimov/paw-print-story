@@ -89,22 +89,16 @@ serve(async (req) => {
     }
   }
 
-  // --- 2) Update public_tributes: just unlock (is_paid + is_public) ---
-  const slug = existing?.slug;
-  if (slug) {
-    const { error: ptError } = await supabaseAdmin
-      .from("public_tributes")
-      .update({ is_paid: true, is_public: true })
-      .eq("slug", slug);
+  // --- 2) Update public_tributes: just unlock (is_paid + is_public) by tribute_id ---
+  const { error: ptError } = await supabaseAdmin
+    .from("public_tributes")
+    .update({ is_paid: true, is_public: true })
+    .eq("tribute_id", tributeId);
 
-    if (ptError) {
-      console.error("Failed to update public_tributes by slug:", ptError);
-    } else {
-      console.log(`public_tributes unlocked for slug: ${slug}`);
-    }
+  if (ptError) {
+    console.error("Failed to update public_tributes:", ptError);
   } else {
-    // Fallback: try by tribute_id match (shouldn't normally happen)
-    console.warn("No slug found on tribute, attempting fallback update by tribute_id");
+    console.log(`public_tributes unlocked for tribute_id: ${tributeId}`);
   }
 
   return new Response(JSON.stringify({ received: true }), {
