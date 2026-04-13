@@ -3,7 +3,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Globe, Check, Copy, RefreshCw, ImagePlus, Pencil,
-  MessageCircle, Twitter, Facebook, ExternalLink, Shield,
+  MessageCircle, Twitter, Facebook, ExternalLink, Shield, Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -43,6 +43,7 @@ const MemorialManage = () => {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [unauthorized, setUnauthorized] = useState(false);
+  const [resending, setResending] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
