@@ -239,7 +239,7 @@ export type Database = {
           social_post: string | null
           story: string
           tier_id: string
-          tribute_id: string | null
+          tribute_id: string
           years_of_life: string | null
         }
         Insert: {
@@ -259,7 +259,7 @@ export type Database = {
           social_post?: string | null
           story: string
           tier_id?: string
-          tribute_id?: string | null
+          tribute_id: string
           years_of_life?: string | null
         }
         Update: {
@@ -279,7 +279,7 @@ export type Database = {
           social_post?: string | null
           story?: string
           tier_id?: string
-          tribute_id?: string | null
+          tribute_id?: string
           years_of_life?: string | null
         }
         Relationships: [
