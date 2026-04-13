@@ -32,7 +32,6 @@ interface PublicTribute {
 }
 
 const PAGE_SIZE = 12;
-const ADMIN_KEY = "vellum123";
 
 export default function Memorials() {
   const [tributes, setTributes] = useState<PublicTribute[]>([]);

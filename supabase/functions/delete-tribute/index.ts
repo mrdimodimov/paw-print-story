@@ -15,7 +15,7 @@ Deno.serve(async (req) => {
     const adminKey = req.headers.get("x-admin-key");
     const expectedKey = Deno.env.get("ADMIN_DASHBOARD_KEY");
 
-    if (!adminKey || adminKey !== expectedKey) {
+    if (!adminKey || !expectedKey || adminKey !== expectedKey) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -38,38 +38,37 @@ Deno.serve(async (req) => {
 
     const results: Record<string, unknown> = {};
 
-    // Delete from public_tributes
-    if (tribute_id) {
-      const { error: ptError } = await supabaseAdmin
-        .from("public_tributes")
-        .delete()
-        .eq("id", tribute_id);
-      results.public_tributes = ptError ? ptError.message : "deleted";
-    } else if (slug) {
-      const { error: ptError } = await supabaseAdmin
-        .from("public_tributes")
-        .delete()
-        .eq("slug", slug);
-      results.public_tributes = ptError ? ptError.message : "deleted";
-    }
-
-    // Delete from tributes (try both slug and id)
+    // Soft-delete by slug first (primary identifier)
     if (slug) {
-      const { error: tError } = await supabaseAdmin
-        .from("tributes")
-        .delete()
+      const { error: ptError } = await supabaseAdmin
+        .from("public_tributes")
+        .update({ is_deleted: true })
         .eq("slug", slug);
-      results.tributes_by_slug = tError ? tError.message : "deleted";
-    }
-    if (tribute_id) {
+      results.public_tributes_by_slug = ptError ? ptError.message : "soft-deleted";
+
       const { error: tError } = await supabaseAdmin
         .from("tributes")
-        .delete()
-        .eq("id", tribute_id);
-      results.tributes_by_id = tError ? tError.message : "deleted";
+        .update({ is_deleted: true })
+        .eq("slug", slug);
+      results.tributes_by_slug = tError ? tError.message : "soft-deleted";
     }
 
-    console.log("Delete results:", JSON.stringify(results));
+    // Fallback: soft-delete by tribute_id
+    if (tribute_id) {
+      const { error: ptError } = await supabaseAdmin
+        .from("public_tributes")
+        .update({ is_deleted: true })
+        .eq("id", tribute_id);
+      results.public_tributes_by_id = ptError ? ptError.message : "soft-deleted";
+
+      const { error: tError } = await supabaseAdmin
+        .from("tributes")
+        .update({ is_deleted: true })
+        .eq("id", tribute_id);
+      results.tributes_by_id = tError ? tError.message : "soft-deleted";
+    }
+
+    console.log("Soft-delete results:", JSON.stringify(results));
 
     return new Response(JSON.stringify({ success: true, results }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
