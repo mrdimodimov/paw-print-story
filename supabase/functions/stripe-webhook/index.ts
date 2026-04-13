@@ -101,6 +101,51 @@ serve(async (req) => {
     console.log(`public_tributes unlocked for tribute_id: ${tributeId}`);
   }
 
+  // --- 3) Send payment confirmation email (non-blocking) ---
+  try {
+    // Fetch tribute data for the email
+    const { data: ptData } = await supabaseAdmin
+      .from("public_tributes")
+      .select("pet_name, slug")
+      .eq("tribute_id", tributeId)
+      .maybeSingle();
+
+    const petName = ptData?.pet_name || session.metadata?.pet_name || "your pet";
+    const slug = ptData?.slug || session.metadata?.slug;
+
+    // Find recipient email from tribute_emails
+    const { data: emailData } = await supabaseAdmin
+      .from("tribute_emails")
+      .select("email")
+      .eq("tribute_id", tributeId)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    const recipientEmail = emailData?.email || session.customer_details?.email;
+
+    if (recipientEmail) {
+      await supabaseAdmin.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "payment-confirmation",
+          recipientEmail,
+          idempotencyKey: `payment-confirm-${tributeId}-${session.id}`,
+          templateData: {
+            petName,
+            slug,
+            tributeId,
+          },
+        },
+      });
+      console.log(`Payment confirmation email queued for ${recipientEmail}`);
+    } else {
+      console.warn("No recipient email found for payment confirmation");
+    }
+  } catch (emailErr) {
+    // Never block the webhook response on email failure
+    console.error("Failed to send payment confirmation email:", emailErr);
+  }
+
   return new Response(JSON.stringify({ received: true }), {
     status: 200,
     headers: { "Content-Type": "application/json" },
