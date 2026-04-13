@@ -26,6 +26,7 @@ export default function RecentlyRemembered() {
 
   useEffect(() => {
     async function load() {
+      // Try paid + public + not deleted first
       const { data } = await supabase
         .from("public_tributes")
         .select("id, pet_name, pet_type, years_of_life, story, slug, photo_urls, created_at")
@@ -35,14 +36,31 @@ export default function RecentlyRemembered() {
         .order("created_at", { ascending: false })
         .limit(6);
 
-      if (!data || data.length === 0) {
+      let finalTributes = data && data.length > 0 ? data : null;
+
+      // Fallback: show any non-deleted tributes if no paid ones
+      if (!finalTributes) {
+        const { data: fallback } = await supabase
+          .from("public_tributes")
+          .select("id, pet_name, pet_type, years_of_life, story, slug, photo_urls, created_at")
+          .eq("is_deleted", false)
+          .order("created_at", { ascending: false })
+          .limit(3);
+
+        if (fallback && fallback.length > 0) {
+          finalTributes = fallback;
+          setIsFallback(true);
+        }
+      }
+
+      if (!finalTributes || finalTributes.length === 0) {
         setLoading(false);
         return;
       }
 
-      setTributes(data);
+      setTributes(finalTributes);
 
-      const ids = data.map((t) => t.id);
+      const ids = finalTributes.map((t) => t.id);
       const { data: rxData } = await supabase
         .from("tribute_reactions")
         .select("tribute_id, reaction_type")
