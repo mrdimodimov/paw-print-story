@@ -45,6 +45,7 @@ interface PublicTribute {
   photo_urls: string[];
   is_public: boolean;
   is_deleted: boolean;
+  tier_id: string;
   created_at: string;
   years_of_life: string | null;
 }
@@ -75,6 +76,7 @@ export default function AdminDashboard() {
   // Memorial management state
   const [activeTab, setActiveTab] = useState<"analytics" | "memorials">("analytics");
   const [memorialFilter, setMemorialFilter] = useState<"all" | "public" | "private">("all");
+  const [tierFilter, setTierFilter] = useState<"all" | "story" | "pack" | "legacy">("all");
   const [memorialSearch, setMemorialSearch] = useState("");
   const [deleteTarget, setDeleteTarget] = useState<PublicTribute | null>(null);
   const [deleting, setDeleting] = useState(false);
@@ -102,7 +104,7 @@ export default function AdminDashboard() {
           .limit(2000),
         supabase
           .from("public_tributes")
-          .select("id, pet_name, pet_type, slug, story, photo_urls, is_public, is_deleted, created_at, years_of_life")
+          .select("id, pet_name, pet_type, slug, story, photo_urls, is_public, is_deleted, tier_id, created_at, years_of_life")
           .eq("is_deleted", false)
           .order("created_at", { ascending: false }),
       ]);
@@ -260,16 +262,23 @@ export default function AdminDashboard() {
     );
   }, [tributes, filter]);
 
+  const tierLabel = (tid: string) => {
+    if (tid === "pack") return "Memory Pack";
+    if (tid === "legacy") return "Legacy";
+    return "Story";
+  };
+
   const filteredMemorials = useMemo(() => {
     let list = publicTributes;
     if (memorialFilter === "public") list = list.filter((t) => t.is_public);
     if (memorialFilter === "private") list = list.filter((t) => !t.is_public);
+    if (tierFilter !== "all") list = list.filter((t) => t.tier_id === tierFilter);
     if (memorialSearch.trim()) {
       const q = memorialSearch.toLowerCase();
       list = list.filter((t) => t.pet_name.toLowerCase().includes(q) || t.slug.toLowerCase().includes(q));
     }
     return list;
-  }, [publicTributes, memorialFilter, memorialSearch]);
+  }, [publicTributes, memorialFilter, tierFilter, memorialSearch]);
 
   const excerpt = (story: string, len = 80): string => {
     if (!story) return "";
@@ -501,18 +510,38 @@ export default function AdminDashboard() {
               </div>
               <p className="text-xs text-muted-foreground whitespace-nowrap">{filteredMemorials.length} memorials</p>
             </div>
-            <div className="flex gap-1">
-              {(["all", "public", "private"] as const).map((f) => (
-                <button key={f} onClick={() => setMemorialFilter(f)}
-                  className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-                    memorialFilter === f
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground hover:bg-muted/80"
-                  }`}
-                >
-                  {f.charAt(0).toUpperCase() + f.slice(1)}
-                </button>
-              ))}
+            <div className="flex gap-3">
+              <div className="flex gap-1">
+                {(["all", "public", "private"] as const).map((f) => (
+                  <button key={f} onClick={() => setMemorialFilter(f)}
+                    className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                      memorialFilter === f
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-muted-foreground hover:bg-muted/80"
+                    }`}
+                  >
+                    {f.charAt(0).toUpperCase() + f.slice(1)}
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-1">
+                {([
+                  { key: "all" as const, label: "All tiers" },
+                  { key: "story" as const, label: "Story" },
+                  { key: "pack" as const, label: "Pack" },
+                  { key: "legacy" as const, label: "Legacy" },
+                ]).map((f) => (
+                  <button key={f.key} onClick={() => setTierFilter(f.key)}
+                    className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                      tierFilter === f.key
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-muted-foreground hover:bg-muted/80"
+                    }`}
+                  >
+                    {f.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -523,6 +552,7 @@ export default function AdminDashboard() {
                 <TableRow>
                   <TableHead>Pet Name</TableHead>
                   <TableHead>Type</TableHead>
+                  <TableHead>Tier</TableHead>
                   <TableHead>Visibility</TableHead>
                   <TableHead>Created</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -540,6 +570,9 @@ export default function AdminDashboard() {
                       </div>
                     </TableCell>
                     <TableCell className="text-xs capitalize">{t.pet_type}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className="text-xs">{tierLabel(t.tier_id)}</Badge>
+                    </TableCell>
                     <TableCell>
                       <Badge variant={t.is_public ? "default" : "secondary"}
                         className={`text-xs ${t.is_public ? "bg-green-600 hover:bg-green-700" : ""}`}
@@ -576,7 +609,7 @@ export default function AdminDashboard() {
                 ))}
                 {filteredMemorials.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center text-sm text-muted-foreground py-8">
+                    <TableCell colSpan={6} className="text-center text-sm text-muted-foreground py-8">
                       No memorials found.
                     </TableCell>
                   </TableRow>
