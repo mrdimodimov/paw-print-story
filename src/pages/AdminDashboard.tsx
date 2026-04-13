@@ -92,6 +92,7 @@ export default function AdminDashboard() {
   const [editPhotos, setEditPhotos] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [resending, setResending] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const getAdminKey = () => localStorage.getItem("admin_key") || "";
