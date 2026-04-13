@@ -228,6 +228,7 @@ export type Database = {
           custom_slug: string | null
           id: string
           is_deleted: boolean
+          is_public: boolean
           pet_name: string
           pet_type: string
           photo_urls: string[]
@@ -244,6 +245,7 @@ export type Database = {
           custom_slug?: string | null
           id?: string
           is_deleted?: boolean
+          is_public?: boolean
           pet_name: string
           pet_type?: string
           photo_urls?: string[]
@@ -260,6 +262,7 @@ export type Database = {
           custom_slug?: string | null
           id?: string
           is_deleted?: boolean
+          is_public?: boolean
           pet_name?: string
           pet_type?: string
           photo_urls?: string[]

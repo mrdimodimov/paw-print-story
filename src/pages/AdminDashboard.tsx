@@ -1,18 +1,22 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Search, X, ChevronDown } from "lucide-react";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
+} from "@/components/ui/dialog";
+import { ArrowLeft, Search, X, ChevronDown, Trash2, Eye, EyeOff, Pencil } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface Tribute {
   id: string;
@@ -32,6 +36,19 @@ interface Tribute {
   title: string | null;
 }
 
+interface PublicTribute {
+  id: string;
+  pet_name: string;
+  pet_type: string;
+  slug: string;
+  story: string;
+  photo_urls: string[];
+  is_public: boolean;
+  is_deleted: boolean;
+  created_at: string;
+  years_of_life: string | null;
+}
+
 interface AnalyticsEvent {
   id: string;
   event_name: string;
@@ -46,6 +63,7 @@ const ADMIN_KEY = "vellum123";
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const [tributes, setTributes] = useState<Tribute[]>([]);
+  const [publicTributes, setPublicTributes] = useState<PublicTribute[]>([]);
   const [events, setEvents] = useState<AnalyticsEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -54,11 +72,24 @@ export default function AdminDashboard() {
   const [adminKey, setAdminKey] = useState(() => localStorage.getItem("admin_key") || "");
   const [authenticated, setAuthenticated] = useState(false);
 
-  const fetchData = async () => {
+  // Memorial management state
+  const [activeTab, setActiveTab] = useState<"analytics" | "memorials">("analytics");
+  const [memorialFilter, setMemorialFilter] = useState<"all" | "public" | "private">("all");
+  const [memorialSearch, setMemorialSearch] = useState("");
+  const [deleteTarget, setDeleteTarget] = useState<PublicTribute | null>(null);
+  const [deleting, setDeleting] = useState(false);
+  const [editTarget, setEditTarget] = useState<PublicTribute | null>(null);
+  const [editName, setEditName] = useState("");
+  const [editStory, setEditStory] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  const getAdminKey = () => localStorage.getItem("admin_key") || "";
+
+  const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const [tributeRes, eventRes] = await Promise.all([
+      const [tributeRes, eventRes, publicRes] = await Promise.all([
         supabase
           .from("tributes")
           .select("id, pet_name, pet_type, breed, tier_name, tester_source, created_at, is_paid, slug, tribute_story, photo_urls, form_data, owner_name, years_of_life, title")
@@ -69,6 +100,11 @@ export default function AdminDashboard() {
           .select("id, event_name, tester_source, tribute_id, metadata, created_at")
           .order("created_at", { ascending: false })
           .limit(2000),
+        supabase
+          .from("public_tributes")
+          .select("id, pet_name, pet_type, slug, story, photo_urls, is_public, is_deleted, created_at, years_of_life")
+          .eq("is_deleted", false)
+          .order("created_at", { ascending: false }),
       ]);
 
       if (tributeRes.error) throw new Error(tributeRes.error.message);
@@ -76,12 +112,13 @@ export default function AdminDashboard() {
 
       setTributes((tributeRes.data as Tribute[]) || []);
       setEvents((eventRes.data as AnalyticsEvent[]) || []);
+      setPublicTributes((publicRes.data as PublicTribute[]) || []);
     } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const handleLogin = () => {
     const trimmed = adminKey.trim();
@@ -104,33 +141,99 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     if (authenticated) fetchData();
-  }, [authenticated]);
+  }, [authenticated, fetchData]);
 
-  // Compute overview stats grouped by tester_source
+  // Toggle visibility
+  const handleToggleVisibility = async (tribute: PublicTribute) => {
+    const newValue = !tribute.is_public;
+    // Optimistic update
+    setPublicTributes((prev) =>
+      prev.map((t) => (t.id === tribute.id ? { ...t, is_public: newValue } : t))
+    );
+
+    try {
+      const res = await supabase.functions.invoke("admin-manage-tribute", {
+        body: { action: "toggle_visibility", tribute_id: tribute.id, data: { is_public: newValue } },
+        headers: { "x-admin-key": getAdminKey() },
+      });
+      if (res.error) throw res.error;
+      toast.success(newValue ? "Now public" : "Marked as private");
+    } catch {
+      // Revert
+      setPublicTributes((prev) =>
+        prev.map((t) => (t.id === tribute.id ? { ...t, is_public: !newValue } : t))
+      );
+      toast.error("Failed to update visibility");
+    }
+  };
+
+  // Delete
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    setDeleting(true);
+    try {
+      const res = await supabase.functions.invoke("delete-tribute", {
+        body: { tribute_id: deleteTarget.id, slug: deleteTarget.slug },
+        headers: { "x-admin-key": getAdminKey() },
+      });
+      if (res.error) throw res.error;
+      setPublicTributes((prev) => prev.filter((t) => t.id !== deleteTarget.id));
+      toast.success(`"${deleteTarget.pet_name}" deleted`);
+    } catch {
+      toast.error("Failed to delete");
+    } finally {
+      setDeleting(false);
+      setDeleteTarget(null);
+    }
+  };
+
+  // Edit
+  const openEdit = (t: PublicTribute) => {
+    setEditTarget(t);
+    setEditName(t.pet_name);
+    setEditStory(t.story);
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editTarget) return;
+    setSaving(true);
+    try {
+      const res = await supabase.functions.invoke("admin-manage-tribute", {
+        body: {
+          action: "edit",
+          tribute_id: editTarget.id,
+          slug: editTarget.slug,
+          data: { pet_name: editName.trim(), story: editStory.trim() },
+        },
+        headers: { "x-admin-key": getAdminKey() },
+      });
+      if (res.error) throw res.error;
+      setPublicTributes((prev) =>
+        prev.map((t) =>
+          t.id === editTarget.id ? { ...t, pet_name: editName.trim(), story: editStory.trim() } : t
+        )
+      );
+      toast.success("Memorial updated");
+      setEditTarget(null);
+    } catch {
+      toast.error("Failed to save changes");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Analytics computed values
   const overview = useMemo(() => {
     const sources = new Map<string, {
-      source: string;
-      started: number;
-      stepsCompleted: Map<string, number>;
-      completed: number;
-      paymentClicked: number;
-      tributes: number;
+      source: string; started: number; stepsCompleted: Map<string, number>;
+      completed: number; paymentClicked: number; tributes: number;
     }>();
-
     const getOrCreate = (src: string) => {
       if (!sources.has(src)) {
-        sources.set(src, {
-          source: src,
-          started: 0,
-          stepsCompleted: new Map(),
-          completed: 0,
-          paymentClicked: 0,
-          tributes: 0,
-        });
+        sources.set(src, { source: src, started: 0, stepsCompleted: new Map(), completed: 0, paymentClicked: 0, tributes: 0 });
       }
       return sources.get(src)!;
     };
-
     for (const ev of events) {
       const src = ev.tester_source || "(organic)";
       const entry = getOrCreate(src);
@@ -142,13 +245,10 @@ export default function AdminDashboard() {
       if (ev.event_name === "tribute_completed") entry.completed++;
       if (ev.event_name === "payment_clicked") entry.paymentClicked++;
     }
-
     for (const t of tributes) {
       const src = t.tester_source || "(organic)";
-      const entry = getOrCreate(src);
-      entry.tributes++;
+      getOrCreate(src).tributes++;
     }
-
     return Array.from(sources.values()).sort((a, b) => b.started - a.started);
   }, [events, tributes]);
 
@@ -156,12 +256,28 @@ export default function AdminDashboard() {
     if (!filter) return tributes;
     const q = filter.toLowerCase();
     return tributes.filter(
-      (t) =>
-        (t.tester_source || "").toLowerCase().includes(q) ||
-        t.pet_name.toLowerCase().includes(q) ||
-        t.id.toLowerCase().includes(q)
+      (t) => (t.tester_source || "").toLowerCase().includes(q) || t.pet_name.toLowerCase().includes(q) || t.id.toLowerCase().includes(q)
     );
   }, [tributes, filter]);
+
+  const filteredMemorials = useMemo(() => {
+    let list = publicTributes;
+    if (memorialFilter === "public") list = list.filter((t) => t.is_public);
+    if (memorialFilter === "private") list = list.filter((t) => !t.is_public);
+    if (memorialSearch.trim()) {
+      const q = memorialSearch.toLowerCase();
+      list = list.filter((t) => t.pet_name.toLowerCase().includes(q) || t.slug.toLowerCase().includes(q));
+    }
+    return list;
+  }, [publicTributes, memorialFilter, memorialSearch]);
+
+  const excerpt = (story: string, len = 80): string => {
+    if (!story) return "";
+    const cleaned = story.replace(/---[A-Z_]+---[^\n]*/g, "").trim();
+    if (cleaned.length <= len) return cleaned;
+    const cut = cleaned.slice(0, len).lastIndexOf(" ");
+    return cleaned.slice(0, cut > 40 ? cut : len).trim() + "…";
+  };
 
   // Auth gate
   if (!authenticated) {
@@ -169,13 +285,8 @@ export default function AdminDashboard() {
       <div className="flex min-h-screen items-center justify-center bg-background p-4">
         <div className="w-full max-w-sm space-y-4">
           <h1 className="text-xl font-semibold text-foreground">Admin Dashboard</h1>
-          <Input
-            type="password"
-            placeholder="Enter admin key"
-            value={adminKey}
-            onChange={(e) => setAdminKey(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
-          />
+          <Input type="password" placeholder="Enter admin key" value={adminKey}
+            onChange={(e) => setAdminKey(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleLogin()} />
           <Button className="w-full" onClick={handleLogin} disabled={loading}>
             {loading ? "Loading…" : "Access Dashboard"}
           </Button>
@@ -193,7 +304,7 @@ export default function AdminDashboard() {
     );
   }
 
-  // Detail view
+  // Detail view for analytics tribute
   if (selectedTribute) {
     const t = selectedTribute;
     const tributeEvents = events.filter((e) => e.tribute_id === t.id);
@@ -202,22 +313,16 @@ export default function AdminDashboard() {
         <Button variant="ghost" size="sm" onClick={() => setSelectedTribute(null)} className="mb-4">
           <ArrowLeft className="mr-1 h-4 w-4" /> Back to list
         </Button>
-
         <div className="max-w-3xl space-y-6">
           <div>
             <h1 className="text-2xl font-bold text-foreground">{t.title || t.pet_name}</h1>
-            <p className="text-sm text-muted-foreground">
-              {t.pet_type} · {t.breed || "Unknown breed"} · {t.years_of_life || "—"}
-            </p>
+            <p className="text-sm text-muted-foreground">{t.pet_type} · {t.breed || "Unknown breed"} · {t.years_of_life || "—"}</p>
             <div className="mt-2 flex gap-2">
-              <Badge variant={t.is_paid ? "default" : "secondary"}>
-                {t.is_paid ? "Paid" : "Unpaid"}
-              </Badge>
+              <Badge variant={t.is_paid ? "default" : "secondary"}>{t.is_paid ? "Paid" : "Unpaid"}</Badge>
               <Badge variant="outline">{t.tier_name}</Badge>
               {t.tester_source && <Badge variant="outline">tester: {t.tester_source}</Badge>}
             </div>
           </div>
-
           {t.photo_urls.length > 0 && (
             <div>
               <h3 className="mb-2 text-sm font-medium text-foreground">Photos</h3>
@@ -228,14 +333,12 @@ export default function AdminDashboard() {
               </div>
             </div>
           )}
-
           <div>
             <h3 className="mb-2 text-sm font-medium text-foreground">Generated Story</h3>
             <div className="rounded-lg border border-border bg-card p-4 text-sm leading-relaxed text-foreground whitespace-pre-wrap">
               {t.tribute_story}
             </div>
           </div>
-
           {t.form_data && (
             <div>
               <h3 className="mb-2 text-sm font-medium text-foreground">Form Inputs</h3>
@@ -244,7 +347,6 @@ export default function AdminDashboard() {
               </pre>
             </div>
           )}
-
           {tributeEvents.length > 0 && (
             <div>
               <h3 className="mb-2 text-sm font-medium text-foreground">Events ({tributeEvents.length})</h3>
@@ -259,10 +361,7 @@ export default function AdminDashboard() {
               </div>
             </div>
           )}
-
-          <p className="text-xs text-muted-foreground">
-            Created: {new Date(t.created_at).toLocaleString()} · ID: {t.id}
-          </p>
+          <p className="text-xs text-muted-foreground">Created: {new Date(t.created_at).toLocaleString()} · ID: {t.id}</p>
         </div>
       </div>
     );
@@ -270,8 +369,9 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-background p-6">
+      {/* Header */}
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-foreground">Tester Analytics</h1>
+        <h1 className="text-2xl font-bold text-foreground">Admin Dashboard</h1>
         <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
           <ArrowLeft className="mr-1 h-4 w-4" /> Home
         </Button>
@@ -279,103 +379,262 @@ export default function AdminDashboard() {
 
       {error && (
         <div className="mb-4 rounded-lg border border-destructive/50 bg-destructive/10 p-3">
-          <p className="text-sm text-destructive">Unable to load analytics data: {error}</p>
+          <p className="text-sm text-destructive">Unable to load data: {error}</p>
           <Button variant="outline" size="sm" className="mt-2" onClick={fetchData}>Retry</Button>
         </div>
       )}
 
-      {/* Overview Cards */}
-      <div className="mb-8">
-        <h2 className="mb-3 text-lg font-semibold text-foreground">Overview by Source</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {overview.map((o) => (
-            <div key={o.source} className="rounded-lg border border-border bg-card p-4">
-              <p className="text-sm font-medium text-foreground">{o.source}</p>
-              <div className="mt-2 grid grid-cols-2 gap-2 text-xs text-muted-foreground">
-                <div>Started: <span className="font-semibold text-foreground">{o.started}</span></div>
-                <div>Completed: <span className="font-semibold text-foreground">{o.completed}</span></div>
-                <div>Tributes: <span className="font-semibold text-foreground">{o.tributes}</span></div>
-                <div>Payments: <span className="font-semibold text-foreground">{o.paymentClicked}</span></div>
-                <div className="col-span-2">
-                  Conversion: <span className="font-semibold text-foreground">
-                    {o.started > 0 ? Math.round((o.completed / o.started) * 100) : 0}%
-                  </span>
+      {/* Tabs */}
+      <div className="mb-6 flex gap-1 rounded-lg bg-muted p-1 w-fit">
+        {(["analytics", "memorials"] as const).map((tab) => (
+          <button key={tab} onClick={() => setActiveTab(tab)}
+            className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+              activeTab === tab ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {tab === "analytics" ? "Analytics" : "Memorials"}
+          </button>
+        ))}
+      </div>
+
+      {activeTab === "analytics" && (
+        <>
+          {/* Overview Cards */}
+          <div className="mb-8">
+            <h2 className="mb-3 text-lg font-semibold text-foreground">Overview by Source</h2>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {overview.map((o) => (
+                <div key={o.source} className="rounded-lg border border-border bg-card p-4">
+                  <p className="text-sm font-medium text-foreground">{o.source}</p>
+                  <div className="mt-2 grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+                    <div>Started: <span className="font-semibold text-foreground">{o.started}</span></div>
+                    <div>Completed: <span className="font-semibold text-foreground">{o.completed}</span></div>
+                    <div>Tributes: <span className="font-semibold text-foreground">{o.tributes}</span></div>
+                    <div>Payments: <span className="font-semibold text-foreground">{o.paymentClicked}</span></div>
+                    <div className="col-span-2">
+                      Conversion: <span className="font-semibold text-foreground">
+                        {o.started > 0 ? Math.round((o.completed / o.started) * 100) : 0}%
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
+              {overview.length === 0 && (
+                <p className="col-span-full text-sm text-muted-foreground">No analytics data yet.</p>
+              )}
             </div>
-          ))}
-          {overview.length === 0 && (
-            <p className="col-span-full text-sm text-muted-foreground">No analytics data yet.</p>
-          )}
-        </div>
-      </div>
+          </div>
 
-      {/* Filter + Table */}
-      <div className="mb-4 flex items-center gap-2">
-        <div className="relative max-w-xs flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder="Filter by source, name, or ID…"
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="pl-9"
-          />
-          {filter && (
-            <button onClick={() => setFilter("")} className="absolute right-3 top-1/2 -translate-y-1/2">
-              <X className="h-4 w-4 text-muted-foreground" />
-            </button>
-          )}
-        </div>
-        <p className="text-xs text-muted-foreground">{filteredTributes.length} tributes</p>
-      </div>
+          {/* Analytics Table */}
+          <div className="mb-4 flex items-center gap-2">
+            <div className="relative max-w-xs flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input placeholder="Filter by source, name, or ID…" value={filter}
+                onChange={(e) => setFilter(e.target.value)} className="pl-9" />
+              {filter && (
+                <button onClick={() => setFilter("")} className="absolute right-3 top-1/2 -translate-y-1/2">
+                  <X className="h-4 w-4 text-muted-foreground" />
+                </button>
+              )}
+            </div>
+            <p className="text-xs text-muted-foreground">{filteredTributes.length} tributes</p>
+          </div>
+          <div className="rounded-lg border border-border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Pet Name</TableHead>
+                  <TableHead>Source</TableHead>
+                  <TableHead>Tier</TableHead>
+                  <TableHead>Paid</TableHead>
+                  <TableHead>Created</TableHead>
+                  <TableHead></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredTributes.map((t) => (
+                  <TableRow key={t.id} className="cursor-pointer" onClick={() => setSelectedTribute(t)}>
+                    <TableCell className="font-medium">{t.pet_name}</TableCell>
+                    <TableCell>
+                      {t.tester_source ? (
+                        <Badge variant="outline" className="text-xs">{t.tester_source}</Badge>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">—</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-xs">{t.tier_name}</TableCell>
+                    <TableCell>
+                      <Badge variant={t.is_paid ? "default" : "secondary"} className="text-xs">
+                        {t.is_paid ? "Yes" : "No"}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-xs text-muted-foreground">
+                      {new Date(t.created_at).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>
+                      <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                    </TableCell>
+                  </TableRow>
+                ))}
+                {filteredTributes.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center text-sm text-muted-foreground py-8">
+                      No tributes found.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </>
+      )}
 
-      <div className="rounded-lg border border-border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Pet Name</TableHead>
-              <TableHead>Source</TableHead>
-              <TableHead>Tier</TableHead>
-              <TableHead>Paid</TableHead>
-              <TableHead>Created</TableHead>
-              <TableHead></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredTributes.map((t) => (
-              <TableRow key={t.id} className="cursor-pointer" onClick={() => setSelectedTribute(t)}>
-                <TableCell className="font-medium">{t.pet_name}</TableCell>
-                <TableCell>
-                  {t.tester_source ? (
-                    <Badge variant="outline" className="text-xs">{t.tester_source}</Badge>
-                  ) : (
-                    <span className="text-xs text-muted-foreground">—</span>
-                  )}
-                </TableCell>
-                <TableCell className="text-xs">{t.tier_name}</TableCell>
-                <TableCell>
-                  <Badge variant={t.is_paid ? "default" : "secondary"} className="text-xs">
-                    {t.is_paid ? "Yes" : "No"}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-xs text-muted-foreground">
-                  {new Date(t.created_at).toLocaleDateString()}
-                </TableCell>
-                <TableCell>
-                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                </TableCell>
-              </TableRow>
-            ))}
-            {filteredTributes.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center text-sm text-muted-foreground py-8">
-                  No tributes found.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+      {activeTab === "memorials" && (
+        <>
+          {/* Filters */}
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-2">
+              <div className="relative max-w-xs w-full">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input placeholder="Search by name or slug…" value={memorialSearch}
+                  onChange={(e) => setMemorialSearch(e.target.value)} className="pl-9" />
+              </div>
+              <p className="text-xs text-muted-foreground whitespace-nowrap">{filteredMemorials.length} memorials</p>
+            </div>
+            <div className="flex gap-1">
+              {(["all", "public", "private"] as const).map((f) => (
+                <button key={f} onClick={() => setMemorialFilter(f)}
+                  className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                    memorialFilter === f
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  }`}
+                >
+                  {f.charAt(0).toUpperCase() + f.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Memorials Table */}
+          <div className="rounded-lg border border-border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Pet Name</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Visibility</TableHead>
+                  <TableHead>Created</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredMemorials.map((t) => (
+                  <TableRow key={t.id}>
+                    <TableCell>
+                      <div>
+                        <span className="font-medium">{t.pet_name}</span>
+                        <p className="mt-0.5 text-xs text-muted-foreground italic line-clamp-1">
+                          {excerpt(t.story)}
+                        </p>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-xs capitalize">{t.pet_type}</TableCell>
+                    <TableCell>
+                      <Badge variant={t.is_public ? "default" : "secondary"}
+                        className={`text-xs ${t.is_public ? "bg-green-600 hover:bg-green-700" : ""}`}
+                      >
+                        {t.is_public ? "Public" : "Private"}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-xs text-muted-foreground">
+                      {new Date(t.created_at).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center justify-end gap-1">
+                        <button onClick={() => handleToggleVisibility(t)}
+                          className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                          title={t.is_public ? "Make private" : "Make public"}
+                        >
+                          {t.is_public ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </button>
+                        <button onClick={() => openEdit(t)}
+                          className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                          title="Edit"
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </button>
+                        <button onClick={() => setDeleteTarget(t)}
+                          className="rounded-md p-1.5 text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
+                          title="Delete"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+                {filteredMemorials.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center text-sm text-muted-foreground py-8">
+                      No memorials found.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </>
+      )}
+
+      {/* Delete dialog */}
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete "{deleteTarget?.pet_name}"?</AlertDialogTitle>
+            <AlertDialogDescription>
+              <span className="block italic text-muted-foreground mb-2">
+                "{deleteTarget ? excerpt(deleteTarget.story) : ""}"
+              </span>
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete} disabled={deleting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deleting ? "Deleting…" : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Edit dialog */}
+      <Dialog open={!!editTarget} onOpenChange={(open) => !open && setEditTarget(null)}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Edit Memorial</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium text-foreground">Pet Name</label>
+              <Input value={editName} onChange={(e) => setEditName(e.target.value)} className="mt-1" />
+            </div>
+            <div>
+              <label className="text-sm font-medium text-foreground">Story</label>
+              <Textarea value={editStory} onChange={(e) => setEditStory(e.target.value)}
+                className="mt-1 min-h-[200px]" />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditTarget(null)} disabled={saving}>Cancel</Button>
+            <Button onClick={handleSaveEdit} disabled={saving || !editName.trim()}>
+              {saving ? "Saving…" : "Save Changes"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

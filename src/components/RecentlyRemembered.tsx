@@ -29,6 +29,8 @@ export default function RecentlyRemembered() {
       const { data } = await supabase
         .from("public_tributes")
         .select("id, pet_name, pet_type, years_of_life, story, slug, photo_urls, created_at")
+        .eq("is_deleted", false)
+        .eq("is_public", true)
         .order("created_at", { ascending: false })
         .limit(6);
 
