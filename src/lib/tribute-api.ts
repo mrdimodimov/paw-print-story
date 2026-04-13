@@ -210,9 +210,17 @@ export async function generateTribute(
   for (let attempt = 0; attempt < 3; attempt++) {
     const slugToTry = attempt === 0 ? baseSlug : generateMemorialSlugWithSuffix(baseSlug);
     try {
+      const normalizedPetType = (form.pet_type || "").toLowerCase();
+      const safePetType =
+        normalizedPetType === "dog" ||
+        normalizedPetType === "cat" ||
+        normalizedPetType === "bird"
+          ? normalizedPetType
+          : "other";
+
       const { data, error } = await supabase.from("tributes").insert({
         pet_name: form.pet_name,
-        pet_type: form.pet_type,
+        pet_type: safePetType,
         breed: form.breed || null,
         years_of_life: form.years_of_life || null,
         owner_name: form.owner_name || null,
@@ -234,7 +242,6 @@ export async function generateTribute(
         tributeSlug = data.slug ?? undefined;
 
         // Always pre-insert into public_tributes with full data (unpaid, private)
-        // This ensures no data loss after Stripe redirect
         const safeStory =
           result.story && result.story.length > 30
             ? result.story
@@ -244,7 +251,7 @@ export async function generateTribute(
           tribute_id: data.id,
           slug: slugToTry,
           pet_name: form.pet_name,
-          pet_type: form.pet_type,
+          pet_type: safePetType,
           breed: form.breed || null,
           years_of_life: form.years_of_life || null,
           story: safeStory,
