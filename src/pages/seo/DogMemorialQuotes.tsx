@@ -81,6 +81,8 @@ const DogMemorialQuotes = () => (
       { label: "Rest in Peace Dog Quotes", href: "/rest-in-peace-dog-quotes" },
       { label: "Labrador Memorial Quotes", href: "/labrador-memorial-quotes" },
       { label: "Golden Retriever Memorial Quotes", href: "/golden-retriever-memorial-quotes" },
+      { label: "Loss of Dog Messages to a Friend", href: "/loss-of-dog-messages-to-a-friend" },
+      { label: "Sudden Dog Death Quotes", href: "/sudden-dog-death-quotes" },
     ]}
   />
 );
