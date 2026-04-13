@@ -28,8 +28,11 @@ serve(async (req) => {
     return new Response(`Webhook Error: ${err.message}`, { status: 400 });
   }
 
+  console.log("EVENT TYPE:", event.type);
+
   // Only handle checkout.session.completed
   if (event.type !== "checkout.session.completed") {
+    console.log("Ignoring event type:", event.type);
     return new Response(JSON.stringify({ received: true, ignored: true }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
@@ -37,61 +40,87 @@ serve(async (req) => {
   }
 
   const session = event.data.object as Stripe.Checkout.Session;
-  const tributeId = session.metadata?.tribute_id;
-  const planType = session.metadata?.tier_id;
-
-  // Only process paid sessions with a tribute ID
-  if (session.payment_status !== "paid" || !tributeId) {
-    console.log("Skipping: not paid or missing tribute_id", {
-      payment_status: session.payment_status,
-      tributeId,
-    });
-    return new Response(JSON.stringify({ received: true }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+  console.log("SESSION:", JSON.stringify(session, null, 2));
+  console.log("METADATA:", session.metadata);
 
   const supabaseAdmin = createClient(
     Deno.env.get("SUPABASE_URL") ?? "",
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
   );
 
-  // Idempotency check: skip if already paid
-  const { data: existing } = await supabaseAdmin
-    .from("tributes")
-    .select("is_paid")
-    .eq("id", tributeId)
-    .single();
+  // --- 1) Update tributes table (existing logic) ---
+  const tributeId = session.metadata?.tribute_id;
+  const planType = session.metadata?.tier_id;
 
-  if (existing?.is_paid) {
-    console.log(`Tribute ${tributeId} already marked as paid, skipping`);
-    return new Response(JSON.stringify({ received: true, duplicate: true }), {
+  if (session.payment_status === "paid" && tributeId) {
+    const { data: existing } = await supabaseAdmin
+      .from("tributes")
+      .select("is_paid")
+      .eq("id", tributeId)
+      .single();
+
+    if (existing?.is_paid) {
+      console.log(`Tribute ${tributeId} already marked as paid, skipping update`);
+    } else {
+      const updateData: Record<string, unknown> = {
+        is_paid: true,
+        stripe_session_id: session.id,
+      };
+      if (planType) {
+        updateData.tier_name = planType;
+      }
+
+      const { error: updateError } = await supabaseAdmin
+        .from("tributes")
+        .update(updateData)
+        .eq("id", tributeId);
+
+      if (updateError) {
+        console.error("Failed to update tribute:", updateError);
+      } else {
+        console.log(`Tribute ${tributeId} marked as paid (plan: ${planType})`);
+      }
+    }
+  } else {
+    console.log("Skipping tribute update: not paid or missing tribute_id", {
+      payment_status: session.payment_status,
+      tributeId,
+    });
+  }
+
+  // --- 2) Insert into public_tributes if slug metadata present ---
+  const slug = session.metadata?.slug;
+  const petName = session.metadata?.name;
+  const content = session.metadata?.content;
+  const email = session.customer_details?.email;
+
+  if (!slug) {
+    console.error("No slug in session metadata — skipping public_tributes insert");
+    return new Response(JSON.stringify({ received: true }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
   }
 
-  // Update tribute with payment data
-  const updateData: Record<string, unknown> = {
-    is_paid: true,
-    stripe_session_id: session.id,
+  const insertData = {
+    slug,
+    pet_name: petName || "Unknown",
+    story: content || "",
+    tier_id: planType || "story",
   };
-  if (planType) {
-    updateData.tier_name = planType;
+
+  console.log("Inserting into public_tributes:", insertData);
+
+  const { data: insertResult, error: insertError } = await supabaseAdmin
+    .from("public_tributes")
+    .insert(insertData)
+    .select();
+
+  if (insertError) {
+    console.error("INSERT ERROR:", insertError);
+  } else {
+    console.log("INSERT RESULT:", insertResult);
   }
-
-  const { error } = await supabaseAdmin
-    .from("tributes")
-    .update(updateData)
-    .eq("id", tributeId);
-
-  if (error) {
-    console.error("Failed to update tribute:", error);
-    return new Response("Database update failed", { status: 500 });
-  }
-
-  console.log(`Tribute ${tributeId} marked as paid via webhook (plan: ${planType})`);
 
   return new Response(JSON.stringify({ received: true }), {
     status: 200,
