@@ -1319,6 +1319,7 @@ const TributePage = () => {
           {effectiveUnlocked && (
             <div className="mb-6">
               <PublicTributeToggle
+                tributeId={tributeDbId}
                 petName={petName || ""}
                 petType={petType}
                 breed={breed}

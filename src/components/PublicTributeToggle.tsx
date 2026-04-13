@@ -35,6 +35,7 @@ function validateSlug(slug: string): SlugStatus {
 }
 
 interface PublicTributeToggleProps {
+  tributeId: string;
   petName: string;
   petType: string;
   breed?: string;
@@ -46,6 +47,7 @@ interface PublicTributeToggleProps {
 }
 
 const PublicTributeToggle = ({
+  tributeId,
   petName,
   petType,
   breed,
@@ -56,7 +58,7 @@ const PublicTributeToggle = ({
 }: PublicTributeToggleProps) => {
   const [isPublic, setIsPublic] = useState(false);
   const [currentSlug, setCurrentSlug] = useState<string | null>(null);
-  const [tributeId, setTributeId] = useState<string | null>(null);
+  const [publicId, setPublicId] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [copied, setCopied] = useState(false);
   const [customSlug, setCustomSlug] = useState("");
@@ -105,7 +107,7 @@ const PublicTributeToggle = ({
   const handleSlugInput = (raw: string) => {
     const sanitized = sanitizeSlug(raw);
     setEditSlug(sanitized);
-    checkAvailability(sanitized, tributeId);
+    checkAvailability(sanitized, publicId);
   };
 
   const startEditing = () => {
@@ -122,13 +124,13 @@ const PublicTributeToggle = ({
   };
 
   const handleSave = async () => {
-    if (slugStatus !== "available" || !tributeId) return;
+    if (slugStatus !== "available" || !publicId) return;
     setSaving(true);
     try {
       const { error } = await supabase
         .from("public_tributes")
         .update({ slug: editSlug })
-        .eq("id", tributeId);
+        .eq("id", publicId);
 
       if (error) {
         if (error.code === "23505") {
@@ -155,7 +157,7 @@ const PublicTributeToggle = ({
     setIsPublic(checked);
     if (!checked) {
       setCurrentSlug(null);
-      setTributeId(null);
+      setPublicId(null);
       setShowCompletion(false);
       return;
     }
@@ -168,6 +170,7 @@ const PublicTributeToggle = ({
 
       let { error, data } = await supabase.from("public_tributes").insert({
         slug,
+        tribute_id: tributeId,
         pet_name: petName,
         pet_type: petType,
         breed: breed || null,
@@ -184,7 +187,7 @@ const PublicTributeToggle = ({
       if (error?.code === "23505" && !(isLegacy && customSlug.trim())) {
         slug = generateMemorialSlugWithSuffix(slug);
         const retry = await supabase.from("public_tributes").insert({
-          slug, pet_name: petName, pet_type: petType, breed: breed || null,
+          slug, tribute_id: tributeId, pet_name: petName, pet_type: petType, breed: breed || null,
           years_of_life: yearsOfLife, story: tribute.story,
           social_post: tribute.social_post || null, share_card_text: tribute.share_card_text || null,
           photo_urls: photoUrls, tier_id: tierId, custom_slug: null,
@@ -204,7 +207,7 @@ const PublicTributeToggle = ({
       }
 
       setCurrentSlug(data?.slug || slug);
-      setTributeId(data?.id || null);
+      setPublicId(data?.id || null);
       setShowCompletion(true);
       toast.success("Public memorial page created!");
     } catch {
