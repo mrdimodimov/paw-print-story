@@ -45,6 +45,7 @@ interface PublicTribute {
   photo_urls: string[];
   is_public: boolean;
   is_deleted: boolean;
+  tier_id: string;
   created_at: string;
   years_of_life: string | null;
 }
@@ -75,6 +76,7 @@ export default function AdminDashboard() {
   // Memorial management state
   const [activeTab, setActiveTab] = useState<"analytics" | "memorials">("analytics");
   const [memorialFilter, setMemorialFilter] = useState<"all" | "public" | "private">("all");
+  const [tierFilter, setTierFilter] = useState<"all" | "story" | "pack" | "legacy">("all");
   const [memorialSearch, setMemorialSearch] = useState("");
   const [deleteTarget, setDeleteTarget] = useState<PublicTribute | null>(null);
   const [deleting, setDeleting] = useState(false);
@@ -102,7 +104,7 @@ export default function AdminDashboard() {
           .limit(2000),
         supabase
           .from("public_tributes")
-          .select("id, pet_name, pet_type, slug, story, photo_urls, is_public, is_deleted, created_at, years_of_life")
+          .select("id, pet_name, pet_type, slug, story, photo_urls, is_public, is_deleted, tier_id, created_at, years_of_life")
           .eq("is_deleted", false)
           .order("created_at", { ascending: false }),
       ]);
@@ -260,16 +262,23 @@ export default function AdminDashboard() {
     );
   }, [tributes, filter]);
 
+  const tierLabel = (tid: string) => {
+    if (tid === "pack") return "Memory Pack";
+    if (tid === "legacy") return "Legacy";
+    return "Story";
+  };
+
   const filteredMemorials = useMemo(() => {
     let list = publicTributes;
     if (memorialFilter === "public") list = list.filter((t) => t.is_public);
     if (memorialFilter === "private") list = list.filter((t) => !t.is_public);
+    if (tierFilter !== "all") list = list.filter((t) => t.tier_id === tierFilter);
     if (memorialSearch.trim()) {
       const q = memorialSearch.toLowerCase();
       list = list.filter((t) => t.pet_name.toLowerCase().includes(q) || t.slug.toLowerCase().includes(q));
     }
     return list;
-  }, [publicTributes, memorialFilter, memorialSearch]);
+  }, [publicTributes, memorialFilter, tierFilter, memorialSearch]);
 
   const excerpt = (story: string, len = 80): string => {
     if (!story) return "";
