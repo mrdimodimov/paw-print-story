@@ -367,6 +367,27 @@ export default function AdminDashboard() {
     }
   };
 
+  // View as owner
+  const handleViewAsOwner = async (tribute: PublicTribute) => {
+    try {
+      const { data } = await supabase
+        .from("public_tributes")
+        .select("manage_token")
+        .eq("id", tribute.id)
+        .single();
+
+      if (!data?.manage_token) {
+        toast.error("No access token found");
+        return;
+      }
+
+      const manageUrl = `${window.location.origin}/memorial/manage/${tribute.slug}?token=${data.manage_token}`;
+      window.open(manageUrl, "_blank");
+    } catch {
+      toast.error("Failed to open manage page");
+    }
+  };
+
   // Analytics computed values
   const overview = useMemo(() => {
     const sources = new Map<string, {
