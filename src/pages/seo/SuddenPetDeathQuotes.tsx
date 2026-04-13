@@ -85,6 +85,7 @@ const SuddenPetDeathQuotes = () => (
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
       { label: "Grieving Pet Quotes", href: "/grieving-pet-quotes" },
       { label: "Rainbow Bridge Quotes", href: "/rainbow-bridge-quotes" },
+      { label: "Sudden Dog Death Quotes", href: "/sudden-dog-death-quotes" },
     ]}
   />
 );

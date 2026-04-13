@@ -100,6 +100,7 @@ const CatLossQuotes = () => (
       { label: "Pet Memorial Quotes", href: "/pet-memorial-quotes" },
       { label: "What to Write When a Cat Dies", href: "/what-to-write-when-a-cat-dies" },
       { label: "Cat Memorial Tribute Example", href: "/cat-memorial-tribute-example" },
+      { label: "Short Cat Memorial Quotes", href: "/short-cat-memorial-quotes" },
     ]}
   />
 );

@@ -95,6 +95,7 @@ const InstagramPetMemorialCaptions = () => (
       { label: "Pet Memorial Captions", href: "/pet-memorial-captions" },
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
       { label: "Pet Loss Instagram Captions", href: "/pet-loss-instagram-captions" },
+      { label: "Pet Grief Quotes for Instagram", href: "/pet-grief-quotes-for-instagram" },
     ]}
   />
 );

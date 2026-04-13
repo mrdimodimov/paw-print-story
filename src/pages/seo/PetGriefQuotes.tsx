@@ -85,6 +85,7 @@ const PetGriefQuotes = () => (
       { label: "Pet Sympathy Messages", href: "/pet-sympathy-messages" },
       { label: "Cope With Losing a Pet", href: "/cope-with-losing-a-pet" },
       { label: "Grieving Pet Quotes", href: "/grieving-pet-quotes" },
+      { label: "Pet Grief Quotes for Instagram", href: "/pet-grief-quotes-for-instagram" },
     ]}
   />
 );
