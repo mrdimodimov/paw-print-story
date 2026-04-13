@@ -89,7 +89,26 @@ const MemorialManage = () => {
     );
   }
 
-  if (!data) return null;
+  if (unauthorized || !data) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
+        <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 text-center shadow-card">
+          <PawIcon className="mx-auto mb-4 h-8 w-8 text-muted-foreground" />
+          <h1 className="font-display text-xl font-semibold text-foreground">
+            Access restricted
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            This manage page is only accessible via the link sent to your email after payment.
+          </p>
+          {slug && (
+            <Button className="mt-6" onClick={() => navigate(`/memorial/${slug}`)}>
+              View Public Memorial
+            </Button>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   const publicUrl = `${BRAND.baseUrl}/memorial/${data.slug}`;
   const tributeEditPath = data.tribute_id
