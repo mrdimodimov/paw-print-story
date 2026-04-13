@@ -26,7 +26,6 @@ interface MemorialData {
   is_paid: boolean;
   social_post: string | null;
   share_card_text: string | null;
-  manage_token: string | null;
 }
 
 const TIER_LABELS: Record<string, string> = {
@@ -57,7 +56,7 @@ const MemorialManage = () => {
     const load = async () => {
       const { data: pt, error } = await supabase
         .from("public_tributes")
-        .select("id, tribute_id, pet_name, pet_type, breed, years_of_life, story, photo_urls, tier_id, slug, is_paid, social_post, share_card_text, manage_token")
+        .select("id, tribute_id, pet_name, pet_type, breed, years_of_life, story, photo_urls, tier_id, slug, is_paid, social_post, share_card_text")
         .eq("slug", slug)
         .eq("manage_token", token)
         .eq("is_deleted", false)
