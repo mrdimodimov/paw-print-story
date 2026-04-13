@@ -706,19 +706,84 @@ export default function AdminDashboard() {
 
       {/* Edit dialog */}
       <Dialog open={!!editTarget} onOpenChange={(open) => !open && setEditTarget(null)}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Memorial</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium text-foreground">Pet Name</label>
+                <Input value={editName} onChange={(e) => setEditName(e.target.value)} className="mt-1" />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground">Pet Type</label>
+                <Select value={editPetType} onValueChange={setEditPetType}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="dog">Dog</SelectItem>
+                    <SelectItem value="cat">Cat</SelectItem>
+                    <SelectItem value="bird">Bird</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Pet Name</label>
-              <Input value={editName} onChange={(e) => setEditName(e.target.value)} className="mt-1" />
+              <label className="text-sm font-medium text-foreground">Breed</label>
+              <Input value={editBreed} onChange={(e) => setEditBreed(e.target.value)} className="mt-1" placeholder="e.g. Golden Retriever" />
             </div>
             <div>
               <label className="text-sm font-medium text-foreground">Story</label>
               <Textarea value={editStory} onChange={(e) => setEditStory(e.target.value)}
                 className="mt-1 min-h-[200px]" />
+            </div>
+
+            {/* Photo Management */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-sm font-medium text-foreground">Photos ({editPhotos.length})</label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="gap-1.5"
+                  disabled={uploading}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ImagePlus className="h-3.5 w-3.5" />}
+                  {uploading ? "Uploading…" : "Add Photos"}
+                </Button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  multiple
+                  className="hidden"
+                  onChange={(e) => e.target.files && handleUploadPhotos(e.target.files)}
+                />
+              </div>
+              {editPhotos.length > 0 ? (
+                <div className="grid grid-cols-4 gap-2">
+                  {editPhotos.map((url, i) => (
+                    <div key={i} className="group relative aspect-square overflow-hidden rounded-lg border border-border">
+                      <img src={url} alt={`Photo ${i + 1}`} className="h-full w-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => handleRemovePhoto(i)}
+                        className="absolute top-1 right-1 rounded-full bg-destructive p-1 text-destructive-foreground opacity-0 group-hover:opacity-100 transition-opacity"
+                        title="Remove photo"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground italic">No photos yet.</p>
+              )}
             </div>
           </div>
           <DialogFooter>
