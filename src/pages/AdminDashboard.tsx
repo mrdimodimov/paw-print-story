@@ -43,6 +43,7 @@ interface PublicTribute {
   id: string;
   pet_name: string;
   pet_type: string;
+  breed: string | null;
   slug: string;
   story: string;
   photo_urls: string[];
