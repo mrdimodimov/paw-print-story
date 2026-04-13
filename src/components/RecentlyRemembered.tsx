@@ -160,23 +160,16 @@ export default function RecentlyRemembered() {
         </div>
 
         {/* Footer */}
-        <div className="mt-6 text-center">
+        <div className="mt-8 flex flex-col items-center gap-1.5 text-center">
           <Link to="/memorials" className="text-sm text-muted-foreground underline underline-offset-4 hover:text-primary transition-colors">
             View all tributes →
           </Link>
-        </div>
-        <div className="mt-6 text-center">
-          <p className="mb-3 text-sm text-muted-foreground">
-            Your pet's story could be next
+          <p className="mt-4 text-sm text-muted-foreground/70">
+            Your pet's story could be here too.
           </p>
-          <Button
-            size="lg"
-            className="px-8 py-5 text-base"
-            onClick={() => navigate("/create")}
-          >
-            <CtaIcon className="mr-2 shrink-0" size={22} />
-            Create your pet's story →
-          </Button>
+          <Link to="/create" className="text-sm text-muted-foreground underline underline-offset-4 hover:text-primary transition-colors">
+            Create a tribute →
+          </Link>
         </div>
       </div>
     </section>
