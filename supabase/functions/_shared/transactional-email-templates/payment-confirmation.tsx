@@ -15,7 +15,7 @@ interface PaymentConfirmationProps {
 
 const PaymentConfirmationEmail = ({ petName, slug, tributeId }: PaymentConfirmationProps) => {
   const name = petName || 'your pet'
-  const memoralUrl = slug ? `${BASE_URL}/memorial/${slug}` : `${BASE_URL}/tribute/${tributeId || ''}`
+  const memoralUrl = slug ? `${BASE_URL}/memorial/manage/${slug}` : `${BASE_URL}/tribute/${tributeId || ''}`
 
   return (
     <Html lang="en" dir="ltr">
