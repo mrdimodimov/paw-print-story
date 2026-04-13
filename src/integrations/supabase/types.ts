@@ -227,6 +227,7 @@ export type Database = {
           created_at: string
           custom_slug: string | null
           id: string
+          is_deleted: boolean
           pet_name: string
           pet_type: string
           photo_urls: string[]
@@ -242,6 +243,7 @@ export type Database = {
           created_at?: string
           custom_slug?: string | null
           id?: string
+          is_deleted?: boolean
           pet_name: string
           pet_type?: string
           photo_urls?: string[]
@@ -257,6 +259,7 @@ export type Database = {
           created_at?: string
           custom_slug?: string | null
           id?: string
+          is_deleted?: boolean
           pet_name?: string
           pet_type?: string
           photo_urls?: string[]
@@ -456,6 +459,7 @@ export type Database = {
           created_at: string
           form_data: Json | null
           id: string
+          is_deleted: boolean
           is_paid: boolean
           is_public: boolean
           owner_name: string | null
@@ -478,6 +482,7 @@ export type Database = {
           created_at?: string
           form_data?: Json | null
           id?: string
+          is_deleted?: boolean
           is_paid?: boolean
           is_public?: boolean
           owner_name?: string | null
@@ -500,6 +505,7 @@ export type Database = {
           created_at?: string
           form_data?: Json | null
           id?: string
+          is_deleted?: boolean
           is_paid?: boolean
           is_public?: boolean
           owner_name?: string | null
