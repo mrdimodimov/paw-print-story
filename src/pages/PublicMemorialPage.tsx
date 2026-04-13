@@ -136,6 +136,8 @@ const PublicMemorialPage = () => {
     const fetchTribute = async () => {
       if (!slug) return;
 
+      console.log("Memorial slug:", slug);
+
       let { data, error } = await supabase
         .from("public_tributes")
         .select("*")
@@ -154,7 +156,11 @@ const PublicMemorialPage = () => {
         return;
       }
 
-      if (error || !data) { toast.error("Memorial page not found"); navigate("/"); return; }
+      if (error || !data) {
+        console.log("Memorial not found for slug:", slug);
+        setLoading(false);
+        return;
+      }
 
       setTribute(data as PublicTribute);
 
