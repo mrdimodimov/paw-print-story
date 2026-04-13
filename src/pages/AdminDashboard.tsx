@@ -16,7 +16,7 @@ import {
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Search, X, ChevronDown, Trash2, Eye, EyeOff, Pencil, ImagePlus, Loader2, Mail, Link2 } from "lucide-react";
+import { ArrowLeft, Search, X, ChevronDown, Trash2, Eye, EyeOff, Pencil, ImagePlus, Loader2, Mail, Link2, ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -364,6 +364,27 @@ export default function AdminDashboard() {
       toast.success("Manage link copied");
     } catch {
       toast.error("Failed to copy link");
+    }
+  };
+
+  // View as owner
+  const handleViewAsOwner = async (tribute: PublicTribute) => {
+    try {
+      const { data } = await supabase
+        .from("public_tributes")
+        .select("manage_token")
+        .eq("id", tribute.id)
+        .single();
+
+      if (!data?.manage_token) {
+        toast.error("No access token found");
+        return;
+      }
+
+      const manageUrl = `${window.location.origin}/memorial/manage/${tribute.slug}?token=${data.manage_token}`;
+      window.open(manageUrl, "_blank");
+    } catch {
+      toast.error("Failed to open manage page");
     }
   };
 
@@ -733,6 +754,12 @@ export default function AdminDashboard() {
                           title="Copy manage link"
                         >
                           <Link2 className="h-4 w-4" />
+                        </button>
+                        <button onClick={() => handleViewAsOwner(t)}
+                          className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                          title="View as owner"
+                        >
+                          <ExternalLink className="h-4 w-4" />
                         </button>
                         <button onClick={() => handleResendAccess(t)}
                           disabled={resending === t.id}
