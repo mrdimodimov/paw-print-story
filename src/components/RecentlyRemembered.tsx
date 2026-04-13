@@ -63,7 +63,23 @@ export default function RecentlyRemembered() {
     load();
   }, []);
 
-  if (loading || tributes.length === 0) return null;
+  if (loading) return null;
+
+  if (tributes.length === 0) {
+    return (
+      <section className="tribute-section">
+        <div className="tribute-container">
+          <div className="py-12 text-center">
+            <p className="text-muted-foreground">No tributes yet — be the first to create one.</p>
+            <Button className="mt-4" onClick={() => navigate("/create")}>
+              <CtaIcon className="mr-2 shrink-0" size={22} />
+              Create your pet's story →
+            </Button>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   function getExcerpt(story: string): string {
     if (!story || story.trim().length === 0) return "A life remembered with love.";
