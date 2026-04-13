@@ -119,12 +119,23 @@ serve(async (req) => {
 
   // --- 3) Send payment confirmation email (non-blocking) ---
   try {
-    // Fetch tribute data for the email
-    const { data: ptData } = await supabaseAdmin
+    // Try by tribute_id first, fallback to slug
+    let ptData = null;
+    const { data: ptById } = await supabaseAdmin
       .from("public_tributes")
       .select("pet_name, slug, manage_token")
       .eq("tribute_id", tributeId)
       .maybeSingle();
+
+    ptData = ptById;
+    if (!ptData && existing?.slug) {
+      const { data: ptBySlug } = await supabaseAdmin
+        .from("public_tributes")
+        .select("pet_name, slug, manage_token")
+        .eq("slug", existing.slug)
+        .maybeSingle();
+      ptData = ptBySlug;
+    }
 
     const petName = ptData?.pet_name || session.metadata?.pet_name || "your pet";
     const slug = ptData?.slug || session.metadata?.slug;
