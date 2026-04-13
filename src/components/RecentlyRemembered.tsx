@@ -23,6 +23,7 @@ export default function RecentlyRemembered() {
   const [tributes, setTributes] = useState<TributeCard[]>([]);
   const [reactions, setReactions] = useState<ReactionCounts>({});
   const [loading, setLoading] = useState(true);
+  const [isFallback, setIsFallback] = useState(false);
 
   useEffect(() => {
     async function load() {
