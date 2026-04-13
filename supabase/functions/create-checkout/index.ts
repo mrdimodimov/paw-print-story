@@ -1,6 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
-import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -30,30 +29,7 @@ serve(async (req) => {
       throw new Error("Tribute ID is required");
     }
 
-    // Fetch tribute data for metadata
-    const supabaseAdmin = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-    );
-
-    const { data: tribute, error: fetchError } = await supabaseAdmin
-      .from("tributes")
-      .select("pet_name, tribute_story, slug")
-      .eq("id", tributeId)
-      .single();
-
-    if (fetchError) {
-      console.error("Failed to fetch tribute for metadata:", fetchError);
-    }
-
-    const metadataSlug = tributeSlug || tribute?.slug || tributeId;
-    const metadataName = tribute?.pet_name || "Unknown";
-    // Stripe metadata values max 500 chars
-    const metadataContent = (tribute?.tribute_story || "").substring(0, 500);
-
     console.log("Creating Stripe session with metadata:", {
-      slug: metadataSlug,
-      name: metadataName,
       tribute_id: tributeId,
       tier_id: tierId,
     });
@@ -63,12 +39,10 @@ serve(async (req) => {
     });
 
     const origin = req.headers.get("origin") || "https://paw-print-story.lovable.app";
+    const slug = tributeSlug || tributeId;
 
-    const finalSlug = metadataSlug;
-
-    const successUrl = `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}&slug=${encodeURIComponent(finalSlug)}`;
-
-    const cancelUrl = `${origin}/tribute/s/${encodeURIComponent(finalSlug)}?tier=${tierId}`;
+    const successUrl = `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}&slug=${encodeURIComponent(slug)}`;
+    const cancelUrl = `${origin}/tribute/s/${encodeURIComponent(slug)}?tier=${tierId}`;
 
     const session = await stripe.checkout.sessions.create({
       line_items: [{ price: PRICE_MAP[tierId], quantity: 1 }],
@@ -78,9 +52,6 @@ serve(async (req) => {
       metadata: {
         tribute_id: tributeId,
         tier_id: tierId,
-        slug: metadataSlug,
-        name: metadataName,
-        content: metadataContent,
       },
     });
 

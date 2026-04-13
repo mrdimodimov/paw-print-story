@@ -228,6 +228,7 @@ export type Database = {
           custom_slug: string | null
           id: string
           is_deleted: boolean
+          is_paid: boolean
           is_public: boolean
           pet_name: string
           pet_type: string
@@ -245,6 +246,7 @@ export type Database = {
           custom_slug?: string | null
           id?: string
           is_deleted?: boolean
+          is_paid?: boolean
           is_public?: boolean
           pet_name: string
           pet_type?: string
@@ -262,6 +264,7 @@ export type Database = {
           custom_slug?: string | null
           id?: string
           is_deleted?: boolean
+          is_paid?: boolean
           is_public?: boolean
           pet_name?: string
           pet_type?: string
