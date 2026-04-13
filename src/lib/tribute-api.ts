@@ -237,24 +237,25 @@ export async function generateTribute(
         // This ensures no data loss after Stripe redirect
         const hasValidStory = result.story && result.story.length > 50;
         if (hasValidStory) {
-          try {
-            await supabase.from("public_tributes").insert({
-              tribute_id: data.id,
-              slug: slugToTry,
-              pet_name: form.pet_name,
-              pet_type: form.pet_type,
-              breed: form.breed || null,
-              years_of_life: form.years_of_life || null,
-              story: result.story,
-              social_post: result.social_post || null,
-              share_card_text: result.share_card_text || null,
-              photo_urls: form.photo_urls,
-              tier_id: tier.id,
-              is_public: false,
-              is_paid: false,
-            } as any).select("id").single();
-          } catch (e) {
-            console.warn("Failed to pre-insert public_tributes:", e);
+          const { error: ptError } = await supabase.from("public_tributes").insert({
+            tribute_id: data.id,
+            slug: slugToTry,
+            pet_name: form.pet_name,
+            pet_type: form.pet_type,
+            breed: form.breed || null,
+            years_of_life: form.years_of_life || null,
+            story: result.story,
+            social_post: result.social_post || null,
+            share_card_text: result.share_card_text || null,
+            photo_urls: form.photo_urls,
+            tier_id: tier.id,
+            is_public: false,
+            is_paid: false,
+          } as any).select("id").maybeSingle();
+
+          if (ptError) {
+            console.error("Failed to insert public_tributes:", ptError);
+            throw new Error("Failed to create tribute record for payment");
           }
         }
 
