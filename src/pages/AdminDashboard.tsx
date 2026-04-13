@@ -87,7 +87,12 @@ export default function AdminDashboard() {
   const [editTarget, setEditTarget] = useState<PublicTribute | null>(null);
   const [editName, setEditName] = useState("");
   const [editStory, setEditStory] = useState("");
+  const [editPetType, setEditPetType] = useState("dog");
+  const [editBreed, setEditBreed] = useState("");
+  const [editPhotos, setEditPhotos] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const getAdminKey = () => localStorage.getItem("admin_key") || "";
 
