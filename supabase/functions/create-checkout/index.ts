@@ -46,6 +46,15 @@ serve(async (req) => {
 
     const customerEmail = emailRecord?.email || undefined;
 
+    // Fetch manage_token for the success URL
+    const { data: ptRecord } = await supabaseAdmin
+      .from("public_tributes")
+      .select("manage_token")
+      .eq("tribute_id", tributeId)
+      .maybeSingle();
+
+    const manageToken = ptRecord?.manage_token || "";
+
     console.log("Creating Stripe session with metadata:", {
       tribute_id: tributeId,
       tier_id: tierId,
@@ -59,7 +68,7 @@ serve(async (req) => {
     const origin = req.headers.get("origin") || "https://paw-print-story.lovable.app";
     const slug = tributeSlug || tributeId;
 
-    const successUrl = `${origin}/memorial/manage/${encodeURIComponent(slug)}?session_id={CHECKOUT_SESSION_ID}`;
+    const successUrl = `${origin}/memorial/manage/${encodeURIComponent(slug)}?token=${manageToken}&session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${origin}/tribute/s/${encodeURIComponent(slug)}?tier=${tierId}`;
 
     const session = await stripe.checkout.sessions.create({
