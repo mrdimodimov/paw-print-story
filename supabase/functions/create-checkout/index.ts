@@ -59,7 +59,7 @@ serve(async (req) => {
     const origin = req.headers.get("origin") || "https://paw-print-story.lovable.app";
     const slug = tributeSlug || tributeId;
 
-    const successUrl = `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}&slug=${encodeURIComponent(slug)}`;
+    const successUrl = `${origin}/memorial/manage/${encodeURIComponent(slug)}?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${origin}/tribute/s/${encodeURIComponent(slug)}?tier=${tierId}`;
 
     const session = await stripe.checkout.sessions.create({
