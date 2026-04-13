@@ -4,10 +4,21 @@ import { Link } from "react-router-dom";
 import BrandLogo from "@/components/BrandLogo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, ArrowRight, Search } from "lucide-react";
+import { ArrowLeft, ArrowRight, Search, Trash2 } from "lucide-react";
 import CtaIcon from "@/components/CtaIcon";
 import { BRAND } from "@/lib/brand";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface PublicTribute {
   id: string;
@@ -21,6 +32,7 @@ interface PublicTribute {
 }
 
 const PAGE_SIZE = 12;
+const ADMIN_KEY = "vellum123";
 
 export default function Memorials() {
   const [tributes, setTributes] = useState<PublicTribute[]>([]);
@@ -29,6 +41,12 @@ export default function Memorials() {
   const [hasMore, setHasMore] = useState(true);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "dog" | "cat" | "other">("all");
+  const [deleteTarget, setDeleteTarget] = useState<PublicTribute | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const isAdmin = useMemo(() => {
+    return localStorage.getItem("admin_key") === ADMIN_KEY;
+  }, []);
 
   const fetchTributes = useCallback(async (offset: number, append = false) => {
     const setter = append ? setLoadingMore : setLoading;
@@ -55,6 +73,27 @@ export default function Memorials() {
 
   const loadMore = () => {
     fetchTributes(tributes.length, true);
+  };
+
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    setDeleting(true);
+    try {
+      const res = await supabase.functions.invoke("delete-tribute", {
+        body: { tribute_id: deleteTarget.id, slug: deleteTarget.slug },
+        headers: { "x-admin-key": ADMIN_KEY },
+      });
+
+      if (res.error) throw res.error;
+
+      setTributes((prev) => prev.filter((t) => t.id !== deleteTarget.id));
+      toast.success(`"${deleteTarget.pet_name}" memorial deleted`);
+    } catch (err: any) {
+      toast.error("Failed to delete: " + (err?.message || "Unknown error"));
+    } finally {
+      setDeleting(false);
+      setDeleteTarget(null);
+    }
   };
 
   const filtered = useMemo(() => {
@@ -118,6 +157,28 @@ export default function Memorials() {
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
+
+      {/* Delete confirmation dialog */}
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete memorial?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete the memorial for <strong>{deleteTarget?.pet_name}</strong>? This will remove it from both public tributes and the tributes table. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDelete}
+              disabled={deleting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deleting ? "Deleting…" : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Header */}
       <header className="border-b border-border/50">
@@ -214,40 +275,56 @@ export default function Memorials() {
               {filtered.map((t) => {
                 const hasImage = t.photo_urls?.[0];
                 return (
-                  <Link
-                    key={t.id}
-                    to={`/memorial/${t.slug}`}
-                    className="group block overflow-hidden rounded-2xl border border-border/30 bg-white shadow-soft transition-all duration-300 hover:shadow-card hover:-translate-y-1"
-                  >
-                    <div className="relative aspect-video overflow-hidden bg-muted">
-                      {hasImage ? (
-                        <img
-                          src={t.photo_urls[0]}
-                          alt={`${t.pet_name} memorial`}
-                          loading="lazy"
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-muted to-muted/60">
-                          <span className="text-4xl opacity-40">🐾</span>
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-6">
-                      <h2 className="font-display text-lg font-semibold text-foreground">
-                        {t.pet_name}
-                      </h2>
-                      {t.years_of_life && (
-                        <p className="mt-0.5 text-xs text-muted-foreground">{t.years_of_life}</p>
-                      )}
-                      <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground italic">
-                        "{excerpt(t.story)}"
-                      </p>
-                      <span className="mt-3 block text-xs text-primary/60 group-hover:text-primary transition-colors">
-                        Read full tribute →
-                      </span>
-                    </div>
-                  </Link>
+                  <div key={t.id} className="relative">
+                    <Link
+                      to={`/memorial/${t.slug}`}
+                      className="group block overflow-hidden rounded-2xl border border-border/30 bg-white shadow-soft transition-all duration-300 hover:shadow-card hover:-translate-y-1"
+                    >
+                      <div className="relative aspect-video overflow-hidden bg-muted">
+                        {hasImage ? (
+                          <img
+                            src={t.photo_urls[0]}
+                            alt={`${t.pet_name} memorial`}
+                            loading="lazy"
+                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-muted to-muted/60">
+                            <span className="text-4xl opacity-40">🐾</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-6">
+                        <h2 className="font-display text-lg font-semibold text-foreground">
+                          {t.pet_name}
+                        </h2>
+                        {t.years_of_life && (
+                          <p className="mt-0.5 text-xs text-muted-foreground">{t.years_of_life}</p>
+                        )}
+                        <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground italic">
+                          "{excerpt(t.story)}"
+                        </p>
+                        <span className="mt-3 block text-xs text-primary/60 group-hover:text-primary transition-colors">
+                          Read full tribute →
+                        </span>
+                      </div>
+                    </Link>
+
+                    {/* Admin delete button */}
+                    {isAdmin && (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setDeleteTarget(t);
+                        }}
+                        className="absolute top-2 right-2 z-10 rounded-full bg-destructive/90 p-1.5 text-destructive-foreground opacity-0 hover:bg-destructive transition-all group-hover:opacity-100 hover:opacity-100 focus:opacity-100 shadow-md"
+                        title="Delete memorial"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </button>
+                    )}
+                  </div>
                 );
               })}
             </div>
