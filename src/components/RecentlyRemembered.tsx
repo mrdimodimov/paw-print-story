@@ -17,7 +17,6 @@ interface TributeCard {
 type ReactionCounts = Record<string, { candle: number; heart: number }>;
 
 export default function RecentlyRemembered() {
-  const navigate = useNavigate();
   const [tributes, setTributes] = useState<TributeCard[]>([]);
   const [reactions, setReactions] = useState<ReactionCounts>({});
   const [loading, setLoading] = useState(true);
