@@ -54,6 +54,7 @@ export default function Memorials() {
     const { data } = await supabase
       .from("public_tributes")
       .select("id, pet_name, pet_type, years_of_life, story, slug, photo_urls, created_at")
+      .eq("is_deleted", false)
       .order("created_at", { ascending: false })
       .range(offset, offset + PAGE_SIZE - 1);
 
@@ -162,9 +163,12 @@ export default function Memorials() {
       <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete memorial?</AlertDialogTitle>
+            <AlertDialogTitle>Delete "{deleteTarget?.pet_name}"?</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete the memorial for <strong>{deleteTarget?.pet_name}</strong>? This will remove it from both public tributes and the tributes table. This action cannot be undone.
+              <span className="block italic text-muted-foreground mb-2">
+                "{deleteTarget?.story ? excerpt(deleteTarget.story) : "A life remembered with love."}"
+              </span>
+              This will remove the memorial from public view. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -318,7 +322,7 @@ export default function Memorials() {
                           e.stopPropagation();
                           setDeleteTarget(t);
                         }}
-                        className="absolute top-2 right-2 z-10 rounded-full bg-destructive/90 p-1.5 text-destructive-foreground opacity-0 hover:bg-destructive transition-all group-hover:opacity-100 hover:opacity-100 focus:opacity-100 shadow-md"
+                        className="absolute top-2 right-2 z-10 rounded-full bg-destructive/90 p-1.5 text-destructive-foreground opacity-60 hover:bg-destructive transition-all hover:opacity-100 focus:opacity-100 shadow-md"
                         title="Delete memorial"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
