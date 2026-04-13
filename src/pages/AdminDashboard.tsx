@@ -286,6 +286,65 @@ export default function AdminDashboard() {
     }
   };
 
+  // Resend access link
+  const handleResendAccess = async (tribute: PublicTribute) => {
+    setResending(tribute.id);
+    try {
+      // Fetch manage_token for this tribute
+      const { data: ptData } = await supabase
+        .from("public_tributes")
+        .select("manage_token, tribute_id")
+        .eq("id", tribute.id)
+        .single();
+
+      if (!ptData?.manage_token) {
+        toast.error("No manage token found for this memorial");
+        return;
+      }
+
+      // Find recipient email
+      const { data: emailData } = await supabase
+        .from("tribute_emails")
+        .select("email")
+        .eq("tribute_id", ptData.tribute_id)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      let recipientEmail = emailData?.email;
+
+      if (!recipientEmail) {
+        const input = window.prompt("No email found for this tribute. Enter recipient email:");
+        if (!input || !input.includes("@")) {
+          toast.error("Invalid or no email provided");
+          return;
+        }
+        recipientEmail = input.trim();
+      }
+
+      const { error } = await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "payment-confirmation",
+          recipientEmail,
+          idempotencyKey: `resend-${tribute.id}-${Date.now()}`,
+          templateData: {
+            petName: tribute.pet_name,
+            slug: tribute.slug,
+            tributeId: ptData.tribute_id,
+            manageToken: ptData.manage_token,
+          },
+        },
+      });
+
+      if (error) throw error;
+      toast.success(`Access link sent to ${recipientEmail}`);
+    } catch {
+      toast.error("Failed to send access email");
+    } finally {
+      setResending(null);
+    }
+  };
+
   // Analytics computed values
   const overview = useMemo(() => {
     const sources = new Map<string, {
