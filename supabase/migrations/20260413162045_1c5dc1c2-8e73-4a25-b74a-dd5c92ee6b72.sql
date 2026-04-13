@@ -1,0 +1,1 @@
+ALTER TABLE public.public_tributes ADD COLUMN manage_token uuid DEFAULT gen_random_uuid();

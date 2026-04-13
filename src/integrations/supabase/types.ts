@@ -230,6 +230,7 @@ export type Database = {
           is_deleted: boolean
           is_paid: boolean
           is_public: boolean
+          manage_token: string | null
           pet_name: string
           pet_type: string
           photo_urls: string[]
@@ -249,6 +250,7 @@ export type Database = {
           is_deleted?: boolean
           is_paid?: boolean
           is_public?: boolean
+          manage_token?: string | null
           pet_name: string
           pet_type?: string
           photo_urls?: string[]
@@ -268,6 +270,7 @@ export type Database = {
           is_deleted?: boolean
           is_paid?: boolean
           is_public?: boolean
+          manage_token?: string | null
           pet_name?: string
           pet_type?: string
           photo_urls?: string[]
