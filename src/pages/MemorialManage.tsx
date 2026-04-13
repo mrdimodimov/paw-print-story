@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Globe, Check, Copy, RefreshCw, ImagePlus, Pencil,
@@ -26,6 +26,7 @@ interface MemorialData {
   is_paid: boolean;
   social_post: string | null;
   share_card_text: string | null;
+  manage_token: string | null;
 }
 
 const TIER_LABELS: Record<string, string> = {
@@ -36,31 +37,42 @@ const TIER_LABELS: Record<string, string> = {
 
 const MemorialManage = () => {
   const { slug } = useParams<{ slug: string }>();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
   const navigate = useNavigate();
   const [data, setData] = useState<MemorialData | null>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [unauthorized, setUnauthorized] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
+
+    if (!token) {
+      setUnauthorized(true);
+      setLoading(false);
+      return;
+    }
+
     const load = async () => {
       const { data: pt, error } = await supabase
         .from("public_tributes")
-        .select("id, tribute_id, pet_name, pet_type, breed, years_of_life, story, photo_urls, tier_id, slug, is_paid, social_post, share_card_text")
+        .select("id, tribute_id, pet_name, pet_type, breed, years_of_life, story, photo_urls, tier_id, slug, is_paid, social_post, share_card_text, manage_token")
         .eq("slug", slug)
+        .eq("manage_token", token)
         .eq("is_deleted", false)
         .maybeSingle();
 
       if (error || !pt) {
-        toast.error("Memorial not found");
-        navigate("/");
+        setUnauthorized(true);
+        setLoading(false);
         return;
       }
       setData(pt as MemorialData);
       setLoading(false);
     };
     load();
-  }, [slug, navigate]);
+  }, [slug, token, navigate]);
 
   if (loading) {
     return (
