@@ -44,7 +44,7 @@ export default function Memorials() {
   const [deleting, setDeleting] = useState(false);
 
   const isAdmin = useMemo(() => {
-    return localStorage.getItem("admin_key") === ADMIN_KEY;
+    return !!localStorage.getItem("admin_key");
   }, []);
 
   const fetchTributes = useCallback(async (offset: number, append = false) => {
@@ -78,9 +78,10 @@ export default function Memorials() {
     if (!deleteTarget) return;
     setDeleting(true);
     try {
+      const adminKey = localStorage.getItem("admin_key") || "";
       const res = await supabase.functions.invoke("delete-tribute", {
         body: { tribute_id: deleteTarget.id, slug: deleteTarget.slug },
-        headers: { "x-admin-key": ADMIN_KEY },
+        headers: { "x-admin-key": adminKey },
       });
 
       if (res.error) throw res.error;
