@@ -256,8 +256,19 @@ const PublicMemorialPage = () => {
             {tribute.breed && <p className="mt-1 text-xs text-muted-foreground capitalize">{tribute.breed} · {tribute.pet_type}</p>}
           </div>
 
+          {/* Incomplete memorial CTA */}
+          {isIncomplete && (
+            <IncompleteMemorialCta
+              petName={tribute.pet_name}
+              slug={tribute.slug}
+              tributeId={tribute.id}
+              hasPhotos={hasPhotos}
+              hasStory={storyTrimmed >= 100}
+            />
+          )}
+
           {/* Photos */}
-          <PhotoGallery photos={tribute.photo_urls} petName={tribute.pet_name} tier={tribute.tier_id} />
+          {!isIncomplete && <PhotoGallery photos={tribute.photo_urls} petName={tribute.pet_name} tier={tribute.tier_id} />}
 
           {/* Tribute Story */}
           {(() => {
