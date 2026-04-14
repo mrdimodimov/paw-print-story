@@ -1,4 +1,5 @@
 import CtaIcon from "@/components/CtaIcon";
+import IncompleteMemorialCta from "@/components/IncompleteMemorialCta";
 import PawIcon from "@/components/PawIcon";
 import BrandLogo from "@/components/BrandLogo";
 import { useEffect, useState, useRef } from "react";
@@ -196,6 +197,10 @@ const PublicMemorialPage = () => {
   const isPack = tribute.tier_id === "pack";
   const breedOrType = tribute.breed ? `${tribute.breed} ${tribute.pet_type}` : tribute.pet_type;
 
+  const hasPhotos = tribute.photo_urls.length > 0;
+  const storyTrimmed = tribute.story.replace(/\s+/g, "").length;
+  const isIncomplete = !hasPhotos && storyTrimmed < 100;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
@@ -251,9 +256,21 @@ const PublicMemorialPage = () => {
             {tribute.breed && <p className="mt-1 text-xs text-muted-foreground capitalize">{tribute.breed} · {tribute.pet_type}</p>}
           </div>
 
-          {/* Photos */}
-          <PhotoGallery photos={tribute.photo_urls} petName={tribute.pet_name} tier={tribute.tier_id} />
+          {/* Incomplete memorial CTA */}
+          {isIncomplete && (
+            <IncompleteMemorialCta
+              petName={tribute.pet_name}
+              slug={tribute.slug}
+              tributeId={tribute.id}
+              hasPhotos={hasPhotos}
+              hasStory={storyTrimmed >= 100}
+            />
+          )}
 
+          {/* Photos */}
+          {!isIncomplete && <PhotoGallery photos={tribute.photo_urls} petName={tribute.pet_name} tier={tribute.tier_id} />}
+
+          {!isIncomplete && <>
           {/* Tribute Story */}
           {(() => {
             const storySplit = splitStoryWithCta(tribute.story);
@@ -334,6 +351,8 @@ const PublicMemorialPage = () => {
               {" "}This tribute was created to honor {tribute.pet_name}'s memory and celebrate the joy they brought to their family.
             </p>
           </section>
+
+          </>}
 
           {/* Internal Links */}
           <nav className="mb-8 flex flex-wrap items-center justify-center gap-4 text-sm" aria-label="Related pages">
