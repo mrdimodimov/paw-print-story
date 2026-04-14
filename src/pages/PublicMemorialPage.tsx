@@ -1,4 +1,5 @@
 import CtaIcon from "@/components/CtaIcon";
+import IncompleteMemorialCta from "@/components/IncompleteMemorialCta";
 import PawIcon from "@/components/PawIcon";
 import BrandLogo from "@/components/BrandLogo";
 import { useEffect, useState, useRef } from "react";
@@ -195,6 +196,10 @@ const PublicMemorialPage = () => {
   const isLegacy = tribute.tier_id === "legacy";
   const isPack = tribute.tier_id === "pack";
   const breedOrType = tribute.breed ? `${tribute.breed} ${tribute.pet_type}` : tribute.pet_type;
+
+  const hasPhotos = tribute.photo_urls.length > 0;
+  const storyTrimmed = tribute.story.replace(/\s+/g, "").length;
+  const isIncomplete = !hasPhotos && storyTrimmed < 100;
 
   const jsonLd = {
     "@context": "https://schema.org",
