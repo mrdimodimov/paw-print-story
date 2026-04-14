@@ -270,6 +270,7 @@ const PublicMemorialPage = () => {
           {/* Photos */}
           {!isIncomplete && <PhotoGallery photos={tribute.photo_urls} petName={tribute.pet_name} tier={tribute.tier_id} />}
 
+          {!isIncomplete && <>
           {/* Tribute Story */}
           {(() => {
             const storySplit = splitStoryWithCta(tribute.story);
