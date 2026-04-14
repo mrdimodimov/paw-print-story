@@ -352,6 +352,8 @@ const PublicMemorialPage = () => {
             </p>
           </section>
 
+          </>}
+
           {/* Internal Links */}
           <nav className="mb-8 flex flex-wrap items-center justify-center gap-4 text-sm" aria-label="Related pages">
             <Link to="/" className="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors">Home</Link>
