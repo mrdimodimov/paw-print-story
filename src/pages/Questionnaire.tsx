@@ -530,9 +530,15 @@ const Questionnaire = () => {
           </div>
         </div>
 
-        <h2 className="mb-6 font-display text-2xl font-bold text-foreground">
-          {STEPS[step]}
+        <h2 className="mb-2 font-display text-2xl font-bold text-foreground">
+          {step === 0 ? "Tell us about them." : STEPS[step]}
         </h2>
+        {step === 0 && (
+          <p className="mb-6 text-sm text-muted-foreground">
+            We'll help you turn your memories into something beautiful.
+          </p>
+        )}
+        {step !== 0 && <div className="mb-6" />}
 
         <AnimatePresence mode="wait">
           <motion.div
