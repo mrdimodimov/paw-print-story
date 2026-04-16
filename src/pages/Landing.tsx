@@ -50,16 +50,12 @@ const Landing = () => {
               transition={{ duration: 0.7 }}
               className="text-center lg:text-left"
             >
-              <p className="mb-4 font-display text-sm tracking-wide text-muted-foreground">
-                Turn a few simple memories into a beautiful tribute
-              </p>
               <h1 className="mb-5 font-display text-4xl font-bold leading-[1.15] md:text-5xl lg:text-[3.4rem]" style={{ color: "hsl(20, 22%, 14%)" }}>
-                When saying goodbye is hard, keep their{" "}
-                <span className="font-extrabold" style={{ color: "hsl(28, 46%, 44%)" }}>story alive</span>.
+                They were never{" "}
+                <span className="font-extrabold" style={{ color: "hsl(28, 46%, 44%)" }}>just a pet.</span>
               </h1>
               <p className="mx-auto mb-10 max-w-lg text-lg leading-relaxed text-muted-foreground lg:mx-0">
-                Answer a few simple questions, and we'll turn your memories into
-                a heartfelt tribute you can keep, read, and share.
+                Create a lasting online memorial for your pet.
               </p>
               <Button
                 size="lg"
@@ -69,8 +65,8 @@ const Landing = () => {
                 <CtaIcon className="mr-2 shrink-0" size={22} />
                 Create Their Tribute
               </Button>
-              <p className="mt-4 text-sm text-muted-foreground">
-                Takes less than 2 minutes — no writing needed
+              <p className="mt-4 font-display text-sm tracking-wide text-muted-foreground">
+                Turn a few simple memories into a beautiful tribute
               </p>
             </motion.div>
 
