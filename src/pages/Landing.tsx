@@ -51,11 +51,14 @@ const Landing = () => {
               className="text-center lg:text-left"
             >
               <h1 className="mb-5 font-display text-4xl font-bold leading-[1.15] md:text-5xl lg:text-[3.4rem]" style={{ color: "hsl(20, 22%, 14%)" }}>
-                They were never{" "}
-                <span className="font-extrabold" style={{ color: "hsl(28, 46%, 44%)" }}>just a pet.</span>
+                They were never just a{" "}
+                <span className="font-extrabold" style={{ color: "hsl(28, 46%, 44%)" }}>pet.</span>
               </h1>
               <p className="mx-auto mb-10 max-w-lg text-lg leading-relaxed text-muted-foreground lg:mx-0">
-                Create a lasting online memorial for your pet.
+                A simple way to honor their life — and keep their memory alive.
+              </p>
+              <p className="mb-3 font-display text-sm tracking-wide text-muted-foreground/80">
+                Start with just a few memories
               </p>
               <Button
                 size="lg"
@@ -66,7 +69,7 @@ const Landing = () => {
                 Create Their Tribute
               </Button>
               <p className="mt-4 font-display text-sm tracking-wide text-muted-foreground">
-                Turn a few simple memories into a beautiful tribute
+                Takes less than 2 minutes. No writing needed.
               </p>
             </motion.div>
 
@@ -77,6 +80,9 @@ const Landing = () => {
               transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="relative"
             >
+              <p className="mb-3 text-center font-display text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
+                Example tribute
+              </p>
               <div
                 className="overflow-hidden border border-border/50 bg-card shadow-card"
                 style={{ borderRadius: "20px", padding: "1.75rem" }}
