@@ -137,7 +137,8 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <div className="app-root">
+        <BrowserRouter>
         <ScrollToTop />
           <Routes>
             <Route path="/" element={<Landing />} />
