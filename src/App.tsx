@@ -137,7 +137,8 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <div className="app-root">
+        <BrowserRouter>
         <ScrollToTop />
           <Routes>
             <Route path="/" element={<Landing />} />
@@ -223,7 +224,8 @@ const App = () => (
             <Route path="/unsubscribe" element={<Unsubscribe />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-      </BrowserRouter>
+        </BrowserRouter>
+      </div>
     </TooltipProvider>
   </QueryClientProvider>
 );
