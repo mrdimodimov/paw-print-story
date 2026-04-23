@@ -54,6 +54,7 @@ export function trackEvent(name: string, params: TrackEventParams = {}): void {
   }
 
   try {
+    console.log("GA Event:", name, rest);
     window.gtag("event", name, rest);
   } catch (err) {
     console.warn("[gtag]", name, err);
