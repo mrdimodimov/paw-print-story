@@ -151,7 +151,16 @@ const TributePage = () => {
         setGenerating(false);
         setJustGenerated(true);
         if (result.jobId) setLastJobId(result.jobId);
-        if (result.tributeId) setTributeDbId(result.tributeId);
+        if (result.tributeId) {
+          setTributeDbId(result.tributeId);
+          // GA4: tribute successfully created (deduped per tribute id)
+          trackEvent("tribute_created", {
+            event_category: "engagement",
+            event_label: "tribute",
+            tier: tierConfig.id,
+            dedupe_key: result.tributeId,
+          });
+        }
         // Save pre-generation email if provided (guarded)
         if (preEmail.current && result.tributeId && !isTestMode) {
           const guardKey = `nurture_${result.tributeId}`;
@@ -464,6 +473,15 @@ const TributePage = () => {
       return;
     }
     setCheckoutLoading(true);
+    // GA4: checkout started (deduped per tribute+tier within session)
+    trackEvent("checkout_started", {
+      event_category: "ecommerce",
+      event_label: "checkout",
+      tier: currentTier.id,
+      value: currentTier.price,
+      currency: "EUR",
+      dedupe_key: `${tributeDbId}:${currentTier.id}`,
+    });
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
         body: {
