@@ -141,6 +141,7 @@ const App = () => (
       <div className="app-root">
         <BrowserRouter>
         <ScrollToTop />
+        <AnalyticsTracker />
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/create" element={<Questionnaire />} />
