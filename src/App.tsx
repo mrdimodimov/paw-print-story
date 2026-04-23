@@ -75,6 +75,7 @@ import ShortCatMemorialQuotes from "./pages/seo/ShortCatMemorialQuotes";
 import LossOfDogMessagesToAFriend from "./pages/seo/LossOfDogMessagesToAFriend";
 import SuddenDogDeathQuotes from "./pages/seo/SuddenDogDeathQuotes";
 import PetGriefQuotesForInstagram from "./pages/seo/PetGriefQuotesForInstagram";
+import PetLossMessages from "./pages/seo/PetLossMessages";
 
 import ExampleTribute from "./pages/ExampleTribute";
 import ExampleTributeOliver from "./pages/ExampleTributeOliver";
@@ -214,6 +215,7 @@ const App = () => (
             <Route path="/loss-of-dog-messages-to-a-friend" element={<LossOfDogMessagesToAFriend />} />
             <Route path="/sudden-dog-death-quotes" element={<SuddenDogDeathQuotes />} />
             <Route path="/pet-grief-quotes-for-instagram" element={<PetGriefQuotesForInstagram />} />
+            <Route path="/pet-loss-messages" element={<PetLossMessages />} />
 
             <Route path="/example-tribute" element={<ExampleTribute />} />
             <Route path="/example-tribute/oliver" element={<ExampleTributeOliver />} />
