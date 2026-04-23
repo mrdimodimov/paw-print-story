@@ -211,12 +211,12 @@ const DogMemorialQuotes = () => {
             <QuoteBlock text='"You were more than a good dog. You were the best part of every day."' />
             <QuoteBlock text='"The house is the same. The walls, the floors, the routine. But without you, none of it feels like home."' />
             <QuoteBlock text='"You taught me what it means to be loved without conditions, and I will spend the rest of my life trying to live up to that."' />
-            <QuoteBlock text='"They say grief is the price we pay for love. If that\'s true, you were worth every tear."' />
+            <QuoteBlock text={`"They say grief is the price we pay for love. If that's true, you were worth every tear."`} />
             <QuoteBlock text='"I keep waiting to hear your nails on the floor. I think I always will."' />
-            <QuoteBlock text='"Some bonds don\'t end. They just change shape."' />
-            <QuoteBlock text='"Goodbye is the hardest word I\'ve ever had to say to you."' />
+            <QuoteBlock text={`"Some bonds don't end. They just change shape."`} />
+            <QuoteBlock text={`"Goodbye is the hardest word I've ever had to say to you."`} />
             <QuoteBlock text='"You were here for the worst days of my life and made them survivable."' />
-            <QuoteBlock text='"I didn\'t know my heart could break this way."' />
+            <QuoteBlock text={`"I didn't know my heart could break this way."`} />
           </div>
         </motion.section>
 
@@ -230,16 +230,16 @@ const DogMemorialQuotes = () => {
           </p>
           <div className="space-y-4">
             <QuoteBlock text='"Dogs love us in a way humans rarely manage — completely, daily, without keeping score."' />
-            <QuoteBlock text='"You loved me on my worst days as much as my best. That\'s a kind of grace I\'ll never forget."' />
+            <QuoteBlock text={`"You loved me on my worst days as much as my best. That's a kind of grace I'll never forget."`} />
             <QuoteBlock text='"There is no love so pure as the love of a dog who chose you."' />
-            <QuoteBlock text='"You didn\'t care what I did, what I earned, or what I looked like. You just wanted me home."' />
-            <QuoteBlock text='"A dog\'s loyalty is the rarest gift in the world. I\'m grateful you gave it to me."' />
-            <QuoteBlock text='"You were proof that love doesn\'t need words."' />
+            <QuoteBlock text={`"You didn't care what I did, what I earned, or what I looked like. You just wanted me home."`} />
+            <QuoteBlock text={`"A dog's loyalty is the rarest gift in the world. I'm grateful you gave it to me."`} />
+            <QuoteBlock text={`"You were proof that love doesn't need words."`} />
             <QuoteBlock text='"They asked nothing of me except presence. And gave everything in return."' />
             <QuoteBlock text='"You loved me longer than most people ever bothered to try."' />
             <QuoteBlock text='"My dog reminded me, every single day, that I was worth coming home to."' />
             <QuoteBlock text='"Love like yours is the kind of thing the rest of the world should aspire to."' />
-            <QuoteBlock text='"You followed me from room to room because being near me was enough. I\'ll never forget that."' />
+            <QuoteBlock text={`"You followed me from room to room because being near me was enough. I'll never forget that."`} />
           </div>
         </motion.section>
 
@@ -262,13 +262,13 @@ const DogMemorialQuotes = () => {
             <QuoteBlock text='"Grief is just love with nowhere to go."' />
             <QuoteBlock text='"The pain of losing you is only matched by the joy of having known you."' />
             <QuoteBlock text='"Some absences are louder than presence."' />
-            <QuoteBlock text='"You don\'t \'get over\' losing a dog. You just learn to carry the weight differently."' />
+            <QuoteBlock text={`"You don't 'get over' losing a dog. You just learn to carry the weight differently."`} />
             <QuoteBlock text='"What we have once enjoyed deeply, we can never lose. All that we love deeply becomes a part of us."' />
-            <QuoteBlock text='"The bond doesn\'t break. It just stretches across whatever comes next."' />
+            <QuoteBlock text={`"The bond doesn't break. It just stretches across whatever comes next."`} />
             <QuoteBlock text='"Sorrow is the price of having loved something that good."' />
             <QuoteBlock text='"There is no grief like the grief that does not speak. Pet loss is real loss."' />
-            <QuoteBlock text='"I\'ll grieve you for as long as I loved you. So, always."' />
-            <QuoteBlock text='"You took a piece of me with you. I\'m not asking for it back."' />
+            <QuoteBlock text={`"I'll grieve you for as long as I loved you. So, always."`} />
+            <QuoteBlock text={`"You took a piece of me with you. I'm not asking for it back."`} />
             <QuoteBlock text='"Tears are the silent language of grief. And I have so many things to say."' />
             <QuoteBlock text='"How lucky I am to have something that makes saying goodbye so hard."' />
           </div>
@@ -288,15 +288,15 @@ const DogMemorialQuotes = () => {
           </p>
           <div className="space-y-4">
             <QuoteBlock text='"Just this side of heaven is a place called Rainbow Bridge."' />
-            <QuoteBlock text='"Run free at the Rainbow Bridge, my sweet friend. I\'ll see you there one day."' />
-            <QuoteBlock text='"You\'re not gone — you\'re just waiting for me on the other side of the Bridge."' />
-            <QuoteBlock text='"There\'s sunshine, fresh grass, and not a single sore paw at the Rainbow Bridge."' />
+            <QuoteBlock text={`"Run free at the Rainbow Bridge, my sweet friend. I'll see you there one day."`} />
+            <QuoteBlock text={`"You're not gone — you're just waiting for me on the other side of the Bridge."`} />
+            <QuoteBlock text={`"There's sunshine, fresh grass, and not a single sore paw at the Rainbow Bridge."`} />
             <QuoteBlock text='"Until I see you at the Bridge, run free, sweet boy."' />
-            <QuoteBlock text='"At the Rainbow Bridge, no dog is ever lonely. I take comfort knowing you\'re among friends."' />
-            <QuoteBlock text='"One day, I\'ll cross that Bridge. And you\'ll be the first to greet me — tail wagging, just like always."' />
+            <QuoteBlock text={`"At the Rainbow Bridge, no dog is ever lonely. I take comfort knowing you're among friends."`} />
+            <QuoteBlock text={`"One day, I'll cross that Bridge. And you'll be the first to greet me — tail wagging, just like always."`} />
             <QuoteBlock text='"The Rainbow Bridge: where pain ends, love continues, and reunions are forever."' />
-            <QuoteBlock text='"You\'re young again, healthy again, and waiting. That\'s how I picture you now."' />
-            <QuoteBlock text='"Heaven\'s gates open wider for the dogs who loved their humans well."' />
+            <QuoteBlock text={`"You're young again, healthy again, and waiting. That's how I picture you now."`} />
+            <QuoteBlock text={`"Heaven's gates open wider for the dogs who loved their humans well."`} />
             <QuoteBlock text='"Some say all dogs go to heaven. I say: of course they do — they ARE heaven."' />
           </div>
         </motion.section>
