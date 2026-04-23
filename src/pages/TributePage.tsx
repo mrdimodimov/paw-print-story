@@ -37,6 +37,7 @@ import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
 import { generateTribute, loadTributeById, loadTributeBySlug, loadJobById, getActiveJobId } from "@/lib/tribute-api";
 import { trackEvent, captureTesterSource } from "@/lib/analytics";
+import { trackEvent as trackGAEvent } from "@/lib/gtag";
 import { supabase } from "@/integrations/supabase/client";
 import { isInCooldown, markSent, isEmailEnabled, logEmailAttempt } from "@/lib/email-guard";
 import { downloadTributePDF, downloadMemorialPDF, ensureParagraphs } from "@/lib/pdf-export";
