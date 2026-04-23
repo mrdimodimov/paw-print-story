@@ -66,6 +66,8 @@ const routes = [
   "/pet-remembrance-messages",
   "/pet-grief-quotes",
   "/missing-my-pet-quotes",
+  "/loss-of-dog-messages-to-a-friend",
+  "/pet-loss-messages",
 ];
 
 for (const route of routes) {
