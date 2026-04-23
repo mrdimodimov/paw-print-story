@@ -37,6 +37,7 @@ import { BRAND } from "@/lib/brand";
 import { TIERS } from "@/lib/types";
 import { generateTribute, loadTributeById, loadTributeBySlug, loadJobById, getActiveJobId } from "@/lib/tribute-api";
 import { trackEvent, captureTesterSource } from "@/lib/analytics";
+import { trackEvent as trackGAEvent } from "@/lib/gtag";
 import { supabase } from "@/integrations/supabase/client";
 import { isInCooldown, markSent, isEmailEnabled, logEmailAttempt } from "@/lib/email-guard";
 import { downloadTributePDF, downloadMemorialPDF, ensureParagraphs } from "@/lib/pdf-export";
@@ -151,7 +152,16 @@ const TributePage = () => {
         setGenerating(false);
         setJustGenerated(true);
         if (result.jobId) setLastJobId(result.jobId);
-        if (result.tributeId) setTributeDbId(result.tributeId);
+        if (result.tributeId) {
+          setTributeDbId(result.tributeId);
+          // GA4: tribute successfully created (deduped per tribute id)
+          trackGAEvent("tribute_created", {
+            event_category: "engagement",
+            event_label: "tribute",
+            tier: tierConfig.id,
+            dedupe_key: result.tributeId,
+          });
+        }
         // Save pre-generation email if provided (guarded)
         if (preEmail.current && result.tributeId && !isTestMode) {
           const guardKey = `nurture_${result.tributeId}`;
@@ -464,6 +474,15 @@ const TributePage = () => {
       return;
     }
     setCheckoutLoading(true);
+    // GA4: checkout started (deduped per tribute+tier within session)
+    trackGAEvent("checkout_started", {
+      event_category: "ecommerce",
+      event_label: "checkout",
+      tier: currentTier.id,
+      value: currentTier.price,
+      currency: "EUR",
+      dedupe_key: `${tributeDbId}:${currentTier.id}`,
+    });
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
         body: {

@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { BRAND } from "@/lib/brand";
+import { TIERS } from "@/lib/types";
+import { trackEvent as trackGAEvent } from "@/lib/gtag";
 
 interface TributePreview {
   pet_name: string;
@@ -66,6 +68,18 @@ const PaymentSuccess = () => {
                 story: pt.story,
                 photo_urls: pt.photo_urls || [],
                 tier_id: pt.tier_id,
+              });
+              // GA4: payment success (deduped per Stripe session id, persists across reloads)
+              const tierConfig = TIERS.find((t) => t.id === pt.tier_id);
+              trackGAEvent("payment_success", {
+                event_category: "ecommerce",
+                event_label: "purchase",
+                value: tierConfig?.price,
+                currency: "EUR",
+                tier: pt.tier_id,
+                transaction_id: sessionId,
+                dedupe_key: sessionId,
+                persist: true,
               });
             } else if (!slug) {
               const { data: tribute } = await supabase
