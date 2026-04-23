@@ -155,7 +155,7 @@ const TributePage = () => {
         if (result.tributeId) {
           setTributeDbId(result.tributeId);
           // GA4: tribute successfully created (deduped per tribute id)
-          trackEvent("tribute_created", {
+          trackGAEvent("tribute_created", {
             event_category: "engagement",
             event_label: "tribute",
             tier: tierConfig.id,
@@ -475,7 +475,7 @@ const TributePage = () => {
     }
     setCheckoutLoading(true);
     // GA4: checkout started (deduped per tribute+tier within session)
-    trackEvent("checkout_started", {
+    trackGAEvent("checkout_started", {
       event_category: "ecommerce",
       event_label: "checkout",
       tier: currentTier.id,
