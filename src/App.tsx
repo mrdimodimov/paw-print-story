@@ -87,6 +87,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Unsubscribe from "./pages/Unsubscribe";
 import MemorialManage from "./pages/MemorialManage";
 import ScrollToTop from "./components/ScrollToTop";
+import AnalyticsTracker from "./components/AnalyticsTracker";
 
 const queryClient = new QueryClient();
 
