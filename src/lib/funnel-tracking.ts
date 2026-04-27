@@ -17,6 +17,21 @@ import { trackEvent } from "@/lib/gtag";
 
 const STATE_KEY = "vp_funnel_state_v1";
 const UTM_KEY = "vp_utm";
+const FIRST_TOUCH_KEY = "vp_first_touch";
+
+/**
+ * Name of the final funnel step (already normalized). Viewing this step is
+ * treated as high purchase intent and fires `create_intent_high`.
+ */
+const FINAL_STEP_NAME = "style";
+
+/**
+ * Normalize a step name for analytics so casing/whitespace variations don't
+ * fragment GA reports (e.g. "About Your Pet" -> "about_your_pet").
+ */
+function normalizeStepName(name: string): string {
+  return name.toLowerCase().trim().replace(/\s+/g, "_");
+}
 
 interface FunnelState {
   /** ms timestamp when the user landed on /create */
@@ -158,6 +173,31 @@ export function getSourceContext(): SourceContext {
   }
 }
 
+/**
+ * First-touch attribution: persists the FIRST acquisition source seen for this
+ * browser and returns it for every subsequent event. This prevents internal
+ * navigation (e.g. blog -> /create) from overwriting the original source.
+ *
+ * Resolution: returns the cached first-touch context if present, otherwise
+ * captures the current `getSourceContext()` and persists it.
+ */
+export function getFirstTouch(): SourceContext {
+  if (typeof window === "undefined") return { source_page: "direct" };
+  try {
+    const raw = localStorage.getItem(FIRST_TOUCH_KEY);
+    if (raw) return JSON.parse(raw) as SourceContext;
+  } catch {
+    /* ignore */
+  }
+  const ctx = getSourceContext();
+  try {
+    localStorage.setItem(FIRST_TOUCH_KEY, JSON.stringify(ctx));
+  } catch {
+    /* ignore */
+  }
+  return ctx;
+}
+
 /* -------------------------------------------------------------------------- */
 /* Debug                                                                       */
 /* -------------------------------------------------------------------------- */
@@ -179,6 +219,19 @@ function debug(event: string, payload: Record<string, unknown>): void {
  */
 export function trackCreateStarted(): void {
   const existing = readState();
+
+  // Funnel restart: previous session existed but never published. Fire
+  // `funnel_restarted` BEFORE the early return so we still capture the signal
+  // even when create_started is suppressed (refresh case).
+  if (existing?.startedFired && !existing.published) {
+    const restartParams = {
+      previous_steps_completed: existing.completed.length,
+      ...getFirstTouch(),
+    };
+    debug("funnel_restarted", restartParams);
+    trackEvent("funnel_restarted", restartParams);
+  }
+
   // If we already started this session and the user just refreshed, don't re-fire.
   if (existing?.startedFired) return;
 
@@ -195,7 +248,7 @@ export function trackCreateStarted(): void {
   };
   writeState(state);
 
-  const ctx = getSourceContext();
+  const ctx = getFirstTouch();
   const params = {
     ...ctx,
     device: getDevice(),
@@ -222,15 +275,28 @@ export function trackStepMounted(stepName: string, stepNumber?: number): void {
   s.currentStepStartedAt = Date.now();
   writeState(s);
 
-  const ctx = getSourceContext();
+  const normalized = normalizeStepName(stepName);
+  const ctx = getFirstTouch();
   const params: Record<string, unknown> = {
-    step_name: stepName,
+    step_name: normalized,
     ...ctx,
   };
   if (typeof stepNumber === "number") params.step_number = stepNumber;
 
   debug("step_viewed", params);
   trackEvent("step_viewed", params);
+
+  // High-intent signal: viewing the final funnel step. Intentionally NOT
+  // deduped — every view of the final step counts (e.g. user revisits).
+  if (normalized === FINAL_STEP_NAME) {
+    const intentParams: Record<string, unknown> = {
+      step_name: normalized,
+      ...ctx,
+    };
+    if (typeof stepNumber === "number") intentParams.step_number = stepNumber;
+    debug("create_intent_high", intentParams);
+    trackEvent("create_intent_high", intentParams);
+  }
 }
 
 /**
@@ -251,9 +317,9 @@ export function trackStepCompleted(stepName: string, stepNumber: number): void {
   s.completed.push(stepName);
   writeState(s);
 
-  const ctx = getSourceContext();
+  const ctx = getFirstTouch();
   const params = {
-    step_name: stepName,
+    step_name: normalizeStepName(stepName),
     step_number: stepNumber,
     time_on_step,
     ...ctx,
@@ -268,9 +334,9 @@ export type CreateErrorType = "validation" | "upload_failed" | "unknown";
 
 /** Fire `create_error`. Not deduped — every error counts. */
 export function trackCreateError(stepName: string, errorType: CreateErrorType): void {
-  const ctx = getSourceContext();
+  const ctx = getFirstTouch();
   const params = {
-    step_name: stepName,
+    step_name: normalizeStepName(stepName),
     error_type: errorType,
     ...ctx,
   };
@@ -304,7 +370,7 @@ export function trackTributePublished(params: {
     writeState(s);
   }
 
-  const ctx = getSourceContext();
+  const ctx = getFirstTouch();
   const eventParams = {
     total_steps_completed,
     total_time_spent,
@@ -335,15 +401,18 @@ export function trackExitIntent(): void {
     0,
     Math.round((Date.now() - s.startedAt) / 1000)
   );
+  let time_on_last_step = Math.round((Date.now() - s.currentStepStartedAt) / 1000);
+  if (time_on_last_step < 0 || time_on_last_step > 600) time_on_last_step = 0;
 
   s.exited = true;
   writeState(s);
 
-  const ctx = getSourceContext();
+  const ctx = getFirstTouch();
   const params = {
-    last_step: s.currentStep ?? "intro",
+    last_step: normalizeStepName(s.currentStep ?? "intro"),
     steps_completed_count: s.completed.length,
     time_spent_total,
+    time_on_last_step,
     ...ctx,
     dedupe_key: `${s.startedAt}:exit`,
     persist: true,
