@@ -370,7 +370,7 @@ export function trackTributePublished(params: {
     writeState(s);
   }
 
-  const ctx = getSourceContext();
+  const ctx = getFirstTouch();
   const eventParams = {
     total_steps_completed,
     total_time_spent,
