@@ -115,7 +115,9 @@ const Questionnaire = () => {
   // The `intro` pseudo-step (step === -1) is treated as the funnel landing.
   useEffect(() => {
     const stepName = step === -1 ? "intro" : STEPS[step] ?? `step_${step}`;
-    trackStepMounted(stepName);
+    // step_number: 0 for intro, 1..N for actual steps (human-friendly indexing)
+    const stepNumber = step === -1 ? 0 : step + 1;
+    trackStepMounted(stepName, stepNumber);
   }, [step]);
 
   const update = <K extends keyof TributeFormData>(key: K, value: TributeFormData[K]) => {
