@@ -54,38 +54,51 @@ const Landing = () => {
                 They were never just a{" "}
                 <span className="font-extrabold" style={{ color: "hsl(28, 46%, 44%)" }}>pet.</span>
               </h1>
-              <p className="mx-auto mb-10 max-w-lg text-lg leading-relaxed text-muted-foreground lg:mx-0">
-                A simple way to honor their life — and keep their memory alive.
+              <p className="mx-auto mb-8 max-w-lg text-xl leading-relaxed text-foreground/80 md:text-2xl lg:mx-0">
+                Create a beautiful tribute to honor their life and keep their memory alive.
               </p>
-              <p className="mb-3 font-display text-sm tracking-wide text-muted-foreground/80">
-                Start with just a few memories
-              </p>
-              <Button
-                size="lg"
-                className="px-10 py-6 text-lg"
-                onClick={() => navigate("/create")}
-              >
-                <CtaIcon className="mr-2 shrink-0" size={22} />
-                Create Their Tribute
-              </Button>
+              <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center lg:items-start lg:justify-start">
+                <Button
+                  size="lg"
+                  className="px-10 py-6 text-lg"
+                  onClick={() => navigate("/create")}
+                >
+                  <CtaIcon className="mr-2 shrink-0" size={22} />
+                  Create a Tribute
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="px-8 py-6 text-base"
+                  onClick={() => {
+                    document.getElementById("example-tribute-preview")?.scrollIntoView({ behavior: "smooth", block: "center" });
+                  }}
+                >
+                  View Example
+                </Button>
+              </div>
               <p className="mt-4 font-display text-sm tracking-wide text-muted-foreground">
-                Takes less than 2 minutes. No writing needed.
+                Takes 2 minutes • No signup required
+              </p>
+              <p className="mt-3 font-display text-sm italic text-muted-foreground/70">
+                Loved by pet owners creating meaningful tributes
               </p>
             </motion.div>
 
             {/* Right — visual preview card */}
             <motion.div
+              id="example-tribute-preview"
               initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="relative"
+              className="relative scroll-mt-24"
             >
-              <p className="mb-3 text-center font-display text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
-                Example tribute
+              <p className="mb-3 text-center font-display text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
+                Example Tribute
               </p>
               <div
-                className="overflow-hidden border border-border/50 bg-card shadow-card"
-                style={{ borderRadius: "20px", padding: "1.75rem" }}
+                className="overflow-hidden border-2 border-primary/20 bg-card shadow-2xl ring-1 ring-primary/10 transition-shadow"
+                style={{ borderRadius: "20px", padding: "1.85rem" }}
               >
                 {/* Pet image */}
                 <div className="mb-5 overflow-hidden" style={{ borderRadius: "14px" }}>
@@ -122,13 +135,72 @@ const Landing = () => {
                   Read full tribute →
                 </span>
               </div>
-              <div className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-primary/5 blur-2xl" />
+              <p className="mt-4 text-center font-display text-sm italic text-muted-foreground">
+                This is what you'll create.
+              </p>
+              <div className="pointer-events-none absolute -inset-6 -z-10 rounded-3xl bg-primary/10 blur-3xl" />
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Product Preview — horizontal scroll */}
+      {/* How It Works — moved up directly under hero */}
+      <section className="tribute-section">
+        <div className="tribute-container text-center">
+          <h2 className="mb-12 text-3xl font-bold text-foreground">
+            How It Works
+          </h2>
+          <div className="grid gap-8 md:grid-cols-3">
+            {[
+              {
+                icon: Heart,
+                title: "Tell us about your pet",
+              },
+              {
+                icon: BookOpen,
+                title: "We create a tribute",
+              },
+              {
+                icon: FileText,
+                title: "Share and remember forever",
+              },
+            ].map((step, i) => (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.15, duration: 0.5 }}
+                viewport={{ once: true }}
+                className="flex flex-col items-center"
+              >
+                <div className="mb-4 rounded-full bg-accent p-4">
+                  <step.icon className="h-6 w-6 text-primary" />
+                </div>
+                <p className="mb-2 font-display text-xs font-semibold uppercase tracking-widest text-muted-foreground/70">
+                  Step {i + 1}
+                </p>
+                <h3 className="font-display text-xl font-semibold text-foreground">
+                  {step.title}
+                </h3>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Mid-page CTA */}
+          <div className="mt-12 flex justify-center">
+            <Button
+              size="lg"
+              className="px-10 py-6 text-lg"
+              onClick={() => navigate("/create")}
+            >
+              <CtaIcon className="mr-2 shrink-0" size={22} />
+              Start Your Tribute
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Product Preview — horizontal scroll (simplified to 3 cards) */}
       <section className="tribute-section bg-section-alt">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -147,7 +219,7 @@ const Landing = () => {
           </motion.div>
 
           <div className="-mx-4 overflow-x-auto px-4 pb-4 scrollbar-hide sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-            <div className="flex gap-5" style={{ scrollSnapType: "x mandatory" }}>
+            <div className="flex justify-center gap-5" style={{ scrollSnapType: "x mandatory" }}>
               {[
                 {
                   imageUrl: tributeWhiskers,
@@ -163,13 +235,6 @@ const Landing = () => {
                   memoryTitle: "The One Who Greeted Everyone",
                   preview: "He never met a stranger. Every visitor was welcomed with a full-body wiggle that could knock a toddler over.",
                   linkTo: "/example-tribute/max",
-                },
-                {
-                  imageUrl: tributeLuna,
-                  petName: "Luna",
-                  memoryTitle: "The Door That Was Never Empty",
-                  preview: "She waited by the front window every afternoon, tail wagging the moment she heard the car pull into the driveway.",
-                  linkTo: "/example-tribute",
                 },
                 {
                   imageUrl: tributeClover,
@@ -207,59 +272,38 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="tribute-section">
-        <div className="tribute-container text-center">
-          <h2 className="mb-12 text-3xl font-bold text-foreground">
-            How It Works
-          </h2>
-          <div className="grid gap-8 md:grid-cols-3">
-            {[
-              {
-                icon: Heart,
-                title: "Share a Few Memories",
-                desc: "Answer a few simple questions about your pet — no writing required.",
-              },
-              {
-                icon: BookOpen,
-                title: "We Create Your Tribute",
-                desc: "Your memories are transformed into a heartfelt, beautifully written story.",
-              },
-              {
-                icon: FileText,
-                title: "Keep and Share It",
-                desc: "Download your tribute or create a memorial page to share with others.",
-              },
-            ].map((step, i) => (
-              <motion.div
-                key={step.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.15, duration: 0.5 }}
-                viewport={{ once: true }}
-                className="flex flex-col items-center"
-              >
-                <div className="mb-4 rounded-full bg-accent p-4">
-                  <step.icon className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="mb-2 font-display text-xl font-semibold text-foreground">
-                  {step.title}
-                </h3>
-                <p className="text-muted-foreground">{step.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Before → After Transformation */}
       <BeforeAfterTransform />
 
       {/* Social proof — Recently Remembered */}
       <RecentlyRemembered />
 
+      {/* Final conversion push */}
+      <section className="tribute-section">
+        <div className="tribute-container max-w-3xl text-center">
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="mb-6 font-display text-3xl font-bold text-foreground md:text-4xl"
+          >
+            Give them the tribute they deserve.
+          </motion.h2>
+          <Button
+            size="lg"
+            className="px-10 py-6 text-lg"
+            onClick={() => navigate("/create")}
+          >
+            <CtaIcon className="mr-2 shrink-0" size={22} />
+            Create Your Tribute
+          </Button>
+        </div>
+      </section>
+
       {/* Pricing */}
       <section className="tribute-section bg-section-alt">
+
         <div className="tribute-container">
           <div className="mb-12 text-center">
             <h2 className="mb-3 font-display text-3xl font-bold text-foreground">
