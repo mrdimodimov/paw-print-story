@@ -219,6 +219,19 @@ function debug(event: string, payload: Record<string, unknown>): void {
  */
 export function trackCreateStarted(): void {
   const existing = readState();
+
+  // Funnel restart: previous session existed but never published. Fire
+  // `funnel_restarted` BEFORE the early return so we still capture the signal
+  // even when create_started is suppressed (refresh case).
+  if (existing?.startedFired && !existing.published) {
+    const restartParams = {
+      previous_steps_completed: existing.completed.length,
+      ...getFirstTouch(),
+    };
+    debug("funnel_restarted", restartParams);
+    trackEvent("funnel_restarted", restartParams);
+  }
+
   // If we already started this session and the user just refreshed, don't re-fire.
   if (existing?.startedFired) return;
 
@@ -235,7 +248,7 @@ export function trackCreateStarted(): void {
   };
   writeState(state);
 
-  const ctx = getSourceContext();
+  const ctx = getFirstTouch();
   const params = {
     ...ctx,
     device: getDevice(),
