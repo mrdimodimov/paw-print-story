@@ -54,22 +54,34 @@ const Landing = () => {
                 They were never just a{" "}
                 <span className="font-extrabold" style={{ color: "hsl(28, 46%, 44%)" }}>pet.</span>
               </h1>
-              <p className="mx-auto mb-10 max-w-lg text-lg leading-relaxed text-muted-foreground lg:mx-0">
-                A simple way to honor their life — and keep their memory alive.
+              <p className="mx-auto mb-8 max-w-lg text-xl leading-relaxed text-foreground/80 md:text-2xl lg:mx-0">
+                Create a beautiful tribute to honor their life and keep their memory alive.
               </p>
-              <p className="mb-3 font-display text-sm tracking-wide text-muted-foreground/80">
-                Start with just a few memories
-              </p>
-              <Button
-                size="lg"
-                className="px-10 py-6 text-lg"
-                onClick={() => navigate("/create")}
-              >
-                <CtaIcon className="mr-2 shrink-0" size={22} />
-                Create Their Tribute
-              </Button>
+              <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center lg:items-start lg:justify-start">
+                <Button
+                  size="lg"
+                  className="px-10 py-6 text-lg"
+                  onClick={() => navigate("/create")}
+                >
+                  <CtaIcon className="mr-2 shrink-0" size={22} />
+                  Create a Tribute
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="px-8 py-6 text-base"
+                  onClick={() => {
+                    document.getElementById("example-tribute-preview")?.scrollIntoView({ behavior: "smooth", block: "center" });
+                  }}
+                >
+                  View Example
+                </Button>
+              </div>
               <p className="mt-4 font-display text-sm tracking-wide text-muted-foreground">
-                Takes less than 2 minutes. No writing needed.
+                Takes 2 minutes • No signup required
+              </p>
+              <p className="mt-3 font-display text-sm italic text-muted-foreground/70">
+                Loved by pet owners creating meaningful tributes
               </p>
             </motion.div>
 
