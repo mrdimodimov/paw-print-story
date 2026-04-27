@@ -13,11 +13,66 @@
  * to every event via `getSourceContext()`.
  */
 
-import { trackEvent } from "@/lib/gtag";
+import { trackEvent as gtagTrackEvent } from "@/lib/gtag";
 
 const STATE_KEY = "vp_funnel_state_v1";
 const UTM_KEY = "vp_utm";
 const FIRST_TOUCH_KEY = "vp_first_touch";
+
+/* -------------------------------------------------------------------------- */
+/* Event documentation map                                                     */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Human-readable description of every funnel event we emit. Useful as docs
+ * and as a single source of truth when configuring GA4 conversions.
+ */
+export const FUNNEL_EVENT_MAP = {
+  create_started: "user entered funnel",
+  step_viewed: "user saw a step",
+  step_completed: "user completed a step",
+  create_error: "user encountered error",
+  create_intent_high: "user reached final step",
+  tribute_published: "user completed funnel",
+  exit_intent_create: "user dropped off",
+  funnel_restarted: "user restarted funnel",
+} as const;
+
+const DEV_LOUD_EVENTS = new Set<string>([
+  "create_started",
+  "tribute_published",
+  "exit_intent_create",
+]);
+
+const IS_DEV =
+  typeof import.meta !== "undefined" && !!import.meta.env?.DEV;
+
+/* -------------------------------------------------------------------------- */
+/* Event validation (QA guard)                                                 */
+/* -------------------------------------------------------------------------- */
+
+function validateEvent(event: string, params: Record<string, unknown> | undefined): boolean {
+  if (!params) return false;
+  if (event === "step_completed" && !params.step_name) return false;
+  if (event === "create_error" && !params.error_type) return false;
+  if (event === "tribute_published" && !params.dedupe_key) return false;
+  return true;
+}
+
+/**
+ * Validated wrapper around the underlying gtag tracker. Drops malformed
+ * events in dev with a warning so QA catches them before shipping.
+ */
+function trackEvent(eventName: string, params: Record<string, unknown>): void {
+  if (!validateEvent(eventName, params)) {
+    if (IS_DEV) {
+      // eslint-disable-next-line no-console
+      console.warn("[FUNNEL INVALID EVENT]", eventName, params);
+    }
+    return;
+  }
+  gtagTrackEvent(eventName, params);
+}
 
 /**
  * Name of the final funnel step (already normalized). Viewing this step is
