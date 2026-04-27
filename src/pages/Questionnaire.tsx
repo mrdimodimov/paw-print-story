@@ -85,11 +85,25 @@ const Questionnaire = () => {
   const [step, setStep] = useState(-1); // -1 = intro screen
   const [form, setForm] = useState<TributeFormData>(defaultForm);
 
-  // Capture tester source on mount and track tribute_started
-  useState(() => {
+  // Capture tester source on mount and fire DB + GA4 funnel-start events.
+  // Also wire exit-intent: if the user leaves /create without finishing, fire
+  // `exit_intent_create`. The funnel state is cleared by `trackTributePublished`,
+  // so a successful generation suppresses this exit event.
+  useEffect(() => {
     captureTesterSource();
     trackEvent("tribute_started");
-  });
+    trackCreateStarted();
+
+    const handleBeforeUnload = () => trackExitIntent();
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      // SPA navigation away from /create
+      trackExitIntent();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [isPublic, setIsPublic] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [email, setEmail] = useState("");
