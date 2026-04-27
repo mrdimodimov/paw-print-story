@@ -180,16 +180,39 @@ const Questionnaire = () => {
 
     const ext = croppedFile.name.split(".").pop() || "jpg";
     const path = `${crypto.randomUUID()}.${ext}`;
-    const { error } = await supabase.storage.from("pet-photos").upload(path, croppedFile);
-    if (error) {
-      toast({ title: "Upload failed", description: error.message });
-      trackCreateError("About Your Pet", "upload_failed");
+    const startedAt = Date.now();
+    try {
+      const { error } = await supabase.storage.from("pet-photos").upload(path, croppedFile);
+      if (error) {
+        toast({ title: "Upload failed", description: error.message });
+        const elapsed = Date.now() - startedAt;
+        const msg = (error.message || "").toLowerCase();
+        const errorType =
+          elapsed > 10000
+            ? "timeout"
+            : msg.includes("network") || msg.includes("fetch")
+              ? "network"
+              : "upload_failed";
+        trackCreateError("About Your Pet", errorType);
+        setUploading(false);
+        return;
+      }
+      const { data: urlData } = supabase.storage.from("pet-photos").getPublicUrl(path);
+      update("photo_urls", [...form.photo_urls, urlData.publicUrl]);
+    } catch (err) {
+      const elapsed = Date.now() - startedAt;
+      const msg = err instanceof Error ? err.message.toLowerCase() : "";
+      const errorType =
+        elapsed > 10000
+          ? "timeout"
+          : msg.includes("network") || msg.includes("fetch") || msg.includes("failed to fetch")
+            ? "network"
+            : "unknown";
+      toast({ title: "Upload failed", description: msg || "Unexpected error" });
+      trackCreateError("About Your Pet", errorType);
+    } finally {
       setUploading(false);
-      return;
     }
-    const { data: urlData } = supabase.storage.from("pet-photos").getPublicUrl(path);
-    update("photo_urls", [...form.photo_urls, urlData.publicUrl]);
-    setUploading(false);
   };
 
   const removePhoto = (index: number) => {
