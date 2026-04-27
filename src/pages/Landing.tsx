@@ -278,8 +278,32 @@ const Landing = () => {
       {/* Social proof — Recently Remembered */}
       <RecentlyRemembered />
 
+      {/* Final conversion push */}
+      <section className="tribute-section">
+        <div className="tribute-container max-w-3xl text-center">
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="mb-6 font-display text-3xl font-bold text-foreground md:text-4xl"
+          >
+            Give them the tribute they deserve.
+          </motion.h2>
+          <Button
+            size="lg"
+            className="px-10 py-6 text-lg"
+            onClick={() => navigate("/create")}
+          >
+            <CtaIcon className="mr-2 shrink-0" size={22} />
+            Create Your Tribute
+          </Button>
+        </div>
+      </section>
+
       {/* Pricing */}
       <section className="tribute-section bg-section-alt">
+
         <div className="tribute-container">
           <div className="mb-12 text-center">
             <h2 className="mb-3 font-display text-3xl font-bold text-foreground">
