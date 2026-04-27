@@ -1,7 +1,14 @@
 import CtaIcon from "@/components/CtaIcon";
 import BrandLogo from "@/components/BrandLogo";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  trackCreateStarted,
+  trackStepMounted,
+  trackStepCompleted,
+  trackCreateError,
+  trackExitIntent,
+} from "@/lib/funnel-tracking";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, Sparkles, ImagePlus, X, Shield, Heart } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
