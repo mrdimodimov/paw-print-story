@@ -317,9 +317,9 @@ export function trackStepCompleted(stepName: string, stepNumber: number): void {
   s.completed.push(stepName);
   writeState(s);
 
-  const ctx = getSourceContext();
+  const ctx = getFirstTouch();
   const params = {
-    step_name: stepName,
+    step_name: normalizeStepName(stepName),
     step_number: stepNumber,
     time_on_step,
     ...ctx,
