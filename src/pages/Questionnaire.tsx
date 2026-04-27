@@ -223,10 +223,35 @@ const Questionnaire = () => {
   };
 
   const encouragementMessage = (() => {
-    if (step === 1) return "This is already becoming something special ❤️";
-    if (step === 3) return "You're doing great — your tribute is taking shape.";
+    if (step === 1) return "You're doing great ❤️";
+    if (step === 2) return "You're halfway there";
+    if (step === 3) return "Almost done";
     return null;
   })();
+
+  const MEMORY_STARTERS = [
+    { label: "A favorite memory", text: "One of my favorite memories is " },
+    { label: "Something they always did", text: "They always " },
+    { label: "A funny moment", text: "The funniest thing was when " },
+  ];
+
+  const fillFirstEmptyMemory = (text: string) => {
+    const updated = [...form.memories];
+    const idx = updated.findIndex((m) => !m.trim());
+    const target = idx === -1 ? 0 : idx;
+    updated[target] = (updated[target] || "") + text;
+    update("memories", updated);
+  };
+
+  const [showExtraMemories, setShowExtraMemories] = useState(false);
+
+  // Ensure at least 2 memory slots are visible by default
+  useEffect(() => {
+    if (form.memories.length < 2) {
+      update("memories", [...form.memories, ...Array(2 - form.memories.length).fill("")]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleGenerate = () => {
     // Final step (Style) — fire DB step_completed + GA4 step_completed
@@ -256,6 +281,7 @@ const Questionnaire = () => {
       case 0:
         return (
           <div className="space-y-5">
+            <p className="text-sm text-muted-foreground">This takes less than a minute.</p>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <Label>Pet's Name *</Label>
@@ -292,9 +318,10 @@ const Questionnaire = () => {
                 />
               </div>
             </div>
-            <div>
-              <Label>Your Name (optional)</Label>
+            <div className="pt-1">
+              <Label className="text-xs text-muted-foreground">Your Name (optional)</Label>
               <Input
+                className="h-9 text-sm"
                 placeholder="Your first name"
                 value={form.owner_name}
                 onChange={(e) => update("owner_name", e.target.value)}
@@ -389,47 +416,75 @@ const Questionnaire = () => {
             <div>
               <Label>Describe their personality in a few words</Label>
               <Textarea
+                className="min-h-[60px] transition-[min-height] duration-200 focus:min-h-[120px]"
                 placeholder="e.g., Always the first to greet visitors, loved belly rubs..."
                 value={form.personality_description}
                 onChange={(e) => update("personality_description", e.target.value)}
-                rows={3}
+                rows={2}
               />
+              <p className="mt-1.5 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
             </div>
           </div>
         );
 
-      case 2:
+      case 2: {
+        const placeholders = [
+          "One of your favorite moments together...",
+          "A moment that always makes you smile...",
+          "Something they used to do that you'll never forget...",
+          "A small habit or memory you loved...",
+        ];
+        const visibleCount = showExtraMemories ? form.memories.length : Math.min(2, form.memories.length);
         return (
           <div className="space-y-5">
             <div>
               <Label className="mb-3 block">
                 Share your favorite memories with {form.pet_name || "your pet"}
               </Label>
-              {form.memories.map((m, i) => {
-                const placeholders = [
-                  "One of your favorite moments together...",
-                  "A moment that always makes you smile...",
-                  "Something they used to do that you'll never forget...",
-                  "A small habit or memory you loved...",
-                ];
-                return (
-                  <Textarea
-                    key={i}
-                    className="mb-3"
-                    placeholder={placeholders[i % placeholders.length]}
-                    value={m}
-                    onChange={(e) => updateMemory(i, e.target.value)}
-                    rows={2}
-                  />
-                );
-              })}
-              <Button variant="outline" size="sm" onClick={addMemory}>
-                + Add another memory
-              </Button>
+              <div className="mb-3 flex flex-wrap gap-2">
+                {MEMORY_STARTERS.map((s) => (
+                  <button
+                    key={s.label}
+                    type="button"
+                    onClick={() => fillFirstEmptyMemory(s.text)}
+                    className="rounded-full border border-border bg-card px-3 py-1 text-xs text-foreground transition-colors hover:border-primary/50 hover:bg-accent/50"
+                  >
+                    + {s.label}
+                  </button>
+                ))}
+              </div>
+              {form.memories.slice(0, visibleCount).map((m, i) => (
+                <Textarea
+                  key={i}
+                  className="mb-2 min-h-[56px] transition-[min-height] duration-200 focus:min-h-[110px]"
+                  placeholder={placeholders[i % placeholders.length]}
+                  value={m}
+                  onChange={(e) => updateMemory(i, e.target.value)}
+                  rows={2}
+                />
+              ))}
+              <p className="mb-3 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+              {!showExtraMemories ? (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setShowExtraMemories(true);
+                    if (form.memories.length < 3) addMemory();
+                  }}
+                >
+                  + Add another memory
+                </Button>
+              ) : (
+                <Button variant="outline" size="sm" onClick={addMemory}>
+                  + Add another memory
+                </Button>
+              )}
             </div>
             <div>
               <Label>Any special habits or quirks?</Label>
               <Textarea
+                className="min-h-[56px] transition-[min-height] duration-200 focus:min-h-[110px]"
                 placeholder="e.g., Always stole socks, slept in funny positions..."
                 value={form.special_habits}
                 onChange={(e) => update("special_habits", e.target.value)}
@@ -438,6 +493,7 @@ const Questionnaire = () => {
             </div>
           </div>
         );
+      }
 
       case 3:
         return (
@@ -445,19 +501,22 @@ const Questionnaire = () => {
             <div>
               <Label>Favorite activities or hobbies</Label>
               <Textarea
-                placeholder="e.g., Chasing squirrels, swimming, car rides..."
+                className="min-h-[60px] transition-[min-height] duration-200 focus:min-h-[120px]"
+                placeholder="e.g. Chasing balls, sleeping in the sun..."
                 value={form.favorite_activities}
                 onChange={(e) => update("favorite_activities", e.target.value)}
-                rows={3}
+                rows={2}
               />
+              <p className="mt-1.5 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
             </div>
             <div>
               <Label>Favorite people or animal friends</Label>
               <Textarea
-                placeholder="e.g., Best friends with the neighbor's cat..."
+                className="min-h-[60px] transition-[min-height] duration-200 focus:min-h-[120px]"
+                placeholder="e.g. Best friends with the neighbor's cat, loved the mailman..."
                 value={form.favorite_people_or_animals}
                 onChange={(e) => update("favorite_people_or_animals", e.target.value)}
-                rows={3}
+                rows={2}
               />
             </div>
           </div>
@@ -470,12 +529,17 @@ const Questionnaire = () => {
               <Label>
                 A personal message to {form.pet_name || "your pet"} (optional)
               </Label>
+              <p className="mt-1 mb-2 text-xs text-muted-foreground">
+                This is optional — even one sentence is enough.
+              </p>
               <Textarea
+                className="min-h-[80px] transition-[min-height] duration-200 focus:min-h-[160px]"
                 placeholder="Say anything you'd like them to know..."
                 value={form.owner_message}
                 onChange={(e) => update("owner_message", e.target.value)}
-                rows={5}
+                rows={3}
               />
+              <p className="mt-1.5 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
             </div>
           </div>
         );
@@ -664,22 +728,40 @@ const Questionnaire = () => {
             <ArrowLeft className="mr-1 h-4 w-4" /> Previous
           </Button>
           {step < STEPS.length - 1 ? (
-            <Button
-              onClick={() => {
-                if (!canProceed()) {
-                  trackCreateError(STEPS[step], "validation");
-                  return;
-                }
-                trackEvent("step_completed", { metadata: { step: STEPS[step] } });
-                trackStepCompleted(STEPS[step], step + 1);
-                setStep((s) => s + 1);
-              }}
-              disabled={!canProceed()}
-            >
-              Next <ArrowRight className="ml-1 h-4 w-4" />
-            </Button>
+            <div className="flex flex-col items-end gap-1.5">
+              <Button
+                onClick={() => {
+                  if (!canProceed()) {
+                    trackCreateError(STEPS[step], "validation");
+                    return;
+                  }
+                  trackEvent("step_completed", { metadata: { step: STEPS[step] } });
+                  trackStepCompleted(STEPS[step], step + 1);
+                  setStep((s) => s + 1);
+                }}
+                disabled={!canProceed()}
+              >
+                Next <ArrowRight className="ml-1 h-4 w-4" />
+              </Button>
+              {step > 0 && step < STEPS.length - 1 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    trackEvent("step_completed", { metadata: { step: STEPS[step], skipped: true } });
+                    trackStepCompleted(STEPS[step], step + 1);
+                    setStep((s) => s + 1);
+                  }}
+                  className="text-xs text-muted-foreground/70 underline-offset-2 hover:text-muted-foreground hover:underline"
+                >
+                  Skip this step
+                </button>
+              )}
+            </div>
           ) : (
             <div className="flex flex-col items-center gap-2">
+              <p className="text-sm font-medium text-foreground/90 text-center">
+                You've shared enough to create something meaningful.
+              </p>
               <p className="text-xs text-muted-foreground text-center">
                 We're creating your tribute now…
               </p>
