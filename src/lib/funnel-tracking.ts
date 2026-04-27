@@ -334,9 +334,9 @@ export type CreateErrorType = "validation" | "upload_failed" | "unknown";
 
 /** Fire `create_error`. Not deduped — every error counts. */
 export function trackCreateError(stepName: string, errorType: CreateErrorType): void {
-  const ctx = getSourceContext();
+  const ctx = getFirstTouch();
   const params = {
-    step_name: stepName,
+    step_name: normalizeStepName(stepName),
     error_type: errorType,
     ...ctx,
   };
