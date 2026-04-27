@@ -17,6 +17,21 @@ import { trackEvent } from "@/lib/gtag";
 
 const STATE_KEY = "vp_funnel_state_v1";
 const UTM_KEY = "vp_utm";
+const FIRST_TOUCH_KEY = "vp_first_touch";
+
+/**
+ * Name of the final funnel step (already normalized). Viewing this step is
+ * treated as high purchase intent and fires `create_intent_high`.
+ */
+const FINAL_STEP_NAME = "style";
+
+/**
+ * Normalize a step name for analytics so casing/whitespace variations don't
+ * fragment GA reports (e.g. "About Your Pet" -> "about_your_pet").
+ */
+function normalizeStepName(name: string): string {
+  return name.toLowerCase().trim().replace(/\s+/g, "_");
+}
 
 interface FunnelState {
   /** ms timestamp when the user landed on /create */
