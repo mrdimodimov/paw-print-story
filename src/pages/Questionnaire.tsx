@@ -23,6 +23,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { DevTestingPanel } from "@/components/DevTestingPanel";
 import ImageCropModal from "@/components/ImageCropModal";
+import { AutofillButton } from "@/components/AutofillButton";
 import { useTestMode } from "@/hooks/use-test-mode";
 import { TEST_PRESETS } from "@/lib/test-presets";
 import { captureTesterSource, trackEvent } from "@/lib/analytics";
@@ -422,7 +423,15 @@ const Questionnaire = () => {
                 onChange={(e) => update("personality_description", e.target.value)}
                 rows={2}
               />
-              <p className="mt-1.5 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+              <div className="mt-1.5 flex items-center justify-between gap-3">
+                <p className="text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+                <AutofillButton
+                  field="personality_description"
+                  form={form}
+                  currentValue={form.personality_description || ""}
+                  onApply={(text) => update("personality_description", text)}
+                />
+              </div>
             </div>
           </div>
         );
@@ -454,14 +463,23 @@ const Questionnaire = () => {
                 ))}
               </div>
               {form.memories.slice(0, visibleCount).map((m, i) => (
-                <Textarea
-                  key={i}
-                  className="mb-2 min-h-[56px] transition-[min-height] duration-200 focus:min-h-[110px]"
-                  placeholder={placeholders[i % placeholders.length]}
-                  value={m}
-                  onChange={(e) => updateMemory(i, e.target.value)}
-                  rows={2}
-                />
+                <div key={i} className="mb-2">
+                  <Textarea
+                    className="min-h-[56px] transition-[min-height] duration-200 focus:min-h-[110px]"
+                    placeholder={placeholders[i % placeholders.length]}
+                    value={m}
+                    onChange={(e) => updateMemory(i, e.target.value)}
+                    rows={2}
+                  />
+                  <div className="mt-1 flex justify-end">
+                    <AutofillButton
+                      field="memories"
+                      form={form}
+                      currentValue={m}
+                      onApply={(text) => updateMemory(i, text)}
+                    />
+                  </div>
+                </div>
               ))}
               <p className="mb-3 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
               {!showExtraMemories ? (
@@ -490,6 +508,14 @@ const Questionnaire = () => {
                 onChange={(e) => update("special_habits", e.target.value)}
                 rows={2}
               />
+              <div className="mt-1 flex justify-end">
+                <AutofillButton
+                  field="special_habits"
+                  form={form}
+                  currentValue={form.special_habits || ""}
+                  onApply={(text) => update("special_habits", text)}
+                />
+              </div>
             </div>
           </div>
         );
@@ -507,7 +533,15 @@ const Questionnaire = () => {
                 onChange={(e) => update("favorite_activities", e.target.value)}
                 rows={2}
               />
-              <p className="mt-1.5 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+              <div className="mt-1.5 flex items-center justify-between gap-3">
+                <p className="text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+                <AutofillButton
+                  field="favorite_activities"
+                  form={form}
+                  currentValue={form.favorite_activities || ""}
+                  onApply={(text) => update("favorite_activities", text)}
+                />
+              </div>
             </div>
             <div>
               <Label>Favorite people or animal friends</Label>
@@ -518,6 +552,14 @@ const Questionnaire = () => {
                 onChange={(e) => update("favorite_people_or_animals", e.target.value)}
                 rows={2}
               />
+              <div className="mt-1 flex justify-end">
+                <AutofillButton
+                  field="favorite_people_or_animals"
+                  form={form}
+                  currentValue={form.favorite_people_or_animals || ""}
+                  onApply={(text) => update("favorite_people_or_animals", text)}
+                />
+              </div>
             </div>
           </div>
         );
@@ -539,7 +581,15 @@ const Questionnaire = () => {
                 onChange={(e) => update("owner_message", e.target.value)}
                 rows={3}
               />
-              <p className="mt-1.5 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+              <div className="mt-1.5 flex items-center justify-between gap-3">
+                <p className="text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+                <AutofillButton
+                  field="owner_message"
+                  form={form}
+                  currentValue={form.owner_message || ""}
+                  onApply={(text) => update("owner_message", text)}
+                />
+              </div>
             </div>
           </div>
         );
