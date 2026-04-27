@@ -643,7 +643,15 @@ const Questionnaire = () => {
           </Button>
           {step < STEPS.length - 1 ? (
             <Button
-              onClick={() => { trackEvent("step_completed", { metadata: { step: STEPS[step] } }); setStep((s) => s + 1); }}
+              onClick={() => {
+                if (!canProceed()) {
+                  trackCreateError(STEPS[step], "validation");
+                  return;
+                }
+                trackEvent("step_completed", { metadata: { step: STEPS[step] } });
+                trackStepCompleted(STEPS[step], step + 1);
+                setStep((s) => s + 1);
+              }}
               disabled={!canProceed()}
             >
               Next <ArrowRight className="ml-1 h-4 w-4" />
