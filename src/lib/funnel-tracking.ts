@@ -490,3 +490,104 @@ export function trackExitIntent(): void {
 export function isFunnelActive(): boolean {
   return !!readState();
 }
+
+/* -------------------------------------------------------------------------- */
+/* Diagnostics & QA helpers                                                    */
+/* -------------------------------------------------------------------------- */
+
+/** Raw funnel state read straight from localStorage (for debugging). */
+export function getFunnelStateDebug(): Record<string, unknown> {
+  if (typeof window === "undefined") return {};
+  try {
+    return JSON.parse(localStorage.getItem(STATE_KEY) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * Compact, human-readable snapshot of the active funnel session.
+ * Returns null if no funnel is in progress.
+ */
+export function getFunnelSnapshot(): {
+  startedAt: number;
+  stepsCompleted: number;
+  currentStep: string | null;
+  timeElapsed: number;
+} | null {
+  const s = readState();
+  if (!s) return null;
+  return {
+    startedAt: s.startedAt,
+    stepsCompleted: s.completed.length,
+    currentStep: s.currentStep,
+    timeElapsed: Math.round((Date.now() - s.startedAt) / 1000),
+  };
+}
+
+export type FunnelHealth =
+  | "no_active_funnel"
+  | "stuck_on_first_step"
+  | "early_dropoff_risk"
+  | "healthy";
+
+/**
+ * Lightweight heuristic for monitoring funnel state in dev / smoke tests.
+ *  - `stuck_on_first_step`: 30s+ elapsed with zero steps completed
+ *  - `early_dropoff_risk`: only one step completed so far
+ */
+export function checkFunnelHealth(): FunnelHealth {
+  const s = readState();
+  if (!s) return "no_active_funnel";
+  if (s.completed.length === 0 && Date.now() - s.startedAt > 30000) {
+    return "stuck_on_first_step";
+  }
+  if (s.completed.length > 0 && s.completed.length < 2) {
+    return "early_dropoff_risk";
+  }
+  return "healthy";
+}
+
+/* -------------------------------------------------------------------------- */
+/* Side effects: dev panel + cross-tab attribution sync                        */
+/* -------------------------------------------------------------------------- */
+
+if (typeof window !== "undefined") {
+  // 1. Dev-only debug panel exposed on window.__FUNNEL__.
+  if (IS_DEV) {
+    try {
+      (window as unknown as { __FUNNEL__: unknown }).__FUNNEL__ = {
+        state: getFunnelStateDebug,
+        snapshot: getFunnelSnapshot,
+        health: checkFunnelHealth,
+        events: FUNNEL_EVENT_MAP,
+        firstTouch: () => {
+          try {
+            return JSON.parse(localStorage.getItem(FIRST_TOUCH_KEY) || "{}");
+          } catch {
+            return {};
+          }
+        },
+      };
+    } catch {
+      /* ignore */
+    }
+  }
+
+  // 2. Keep first-touch attribution consistent across tabs. The `storage`
+  // event only fires in OTHER tabs, so when one tab sets first-touch the
+  // others mirror it (effectively a no-op write but keeps state explicit).
+  try {
+    window.addEventListener("storage", (e) => {
+      if (e.key === FIRST_TOUCH_KEY && e.newValue) {
+        try {
+          localStorage.setItem(FIRST_TOUCH_KEY, e.newValue);
+        } catch {
+          /* ignore */
+        }
+      }
+    });
+  } catch {
+    /* ignore */
+  }
+}
