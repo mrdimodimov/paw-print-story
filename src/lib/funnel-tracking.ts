@@ -275,15 +275,28 @@ export function trackStepMounted(stepName: string, stepNumber?: number): void {
   s.currentStepStartedAt = Date.now();
   writeState(s);
 
-  const ctx = getSourceContext();
+  const normalized = normalizeStepName(stepName);
+  const ctx = getFirstTouch();
   const params: Record<string, unknown> = {
-    step_name: stepName,
+    step_name: normalized,
     ...ctx,
   };
   if (typeof stepNumber === "number") params.step_number = stepNumber;
 
   debug("step_viewed", params);
   trackEvent("step_viewed", params);
+
+  // High-intent signal: viewing the final funnel step. Intentionally NOT
+  // deduped — every view of the final step counts (e.g. user revisits).
+  if (normalized === FINAL_STEP_NAME) {
+    const intentParams: Record<string, unknown> = {
+      step_name: normalized,
+      ...ctx,
+    };
+    if (typeof stepNumber === "number") intentParams.step_number = stepNumber;
+    debug("create_intent_high", intentParams);
+    trackEvent("create_intent_high", intentParams);
+  }
 }
 
 /**
