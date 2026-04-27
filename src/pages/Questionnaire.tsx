@@ -223,10 +223,35 @@ const Questionnaire = () => {
   };
 
   const encouragementMessage = (() => {
-    if (step === 1) return "This is already becoming something special ❤️";
-    if (step === 3) return "You're doing great — your tribute is taking shape.";
+    if (step === 1) return "You're doing great ❤️";
+    if (step === 2) return "You're halfway there";
+    if (step === 3) return "Almost done";
     return null;
   })();
+
+  const MEMORY_STARTERS = [
+    { label: "A favorite memory", text: "One of my favorite memories is " },
+    { label: "Something they always did", text: "They always " },
+    { label: "A funny moment", text: "The funniest thing was when " },
+  ];
+
+  const fillFirstEmptyMemory = (text: string) => {
+    const updated = [...form.memories];
+    const idx = updated.findIndex((m) => !m.trim());
+    const target = idx === -1 ? 0 : idx;
+    updated[target] = (updated[target] || "") + text;
+    update("memories", updated);
+  };
+
+  const [showExtraMemories, setShowExtraMemories] = useState(false);
+
+  // Ensure at least 2 memory slots are visible by default
+  useEffect(() => {
+    if (form.memories.length < 2) {
+      update("memories", [...form.memories, ...Array(2 - form.memories.length).fill("")]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleGenerate = () => {
     // Final step (Style) — fire DB step_completed + GA4 step_completed
