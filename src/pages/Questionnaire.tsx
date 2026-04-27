@@ -416,47 +416,75 @@ const Questionnaire = () => {
             <div>
               <Label>Describe their personality in a few words</Label>
               <Textarea
+                className="min-h-[60px] transition-[min-height] duration-200 focus:min-h-[120px]"
                 placeholder="e.g., Always the first to greet visitors, loved belly rubs..."
                 value={form.personality_description}
                 onChange={(e) => update("personality_description", e.target.value)}
-                rows={3}
+                rows={2}
               />
+              <p className="mt-1.5 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
             </div>
           </div>
         );
 
-      case 2:
+      case 2: {
+        const placeholders = [
+          "One of your favorite moments together...",
+          "A moment that always makes you smile...",
+          "Something they used to do that you'll never forget...",
+          "A small habit or memory you loved...",
+        ];
+        const visibleCount = showExtraMemories ? form.memories.length : Math.min(2, form.memories.length);
         return (
           <div className="space-y-5">
             <div>
               <Label className="mb-3 block">
                 Share your favorite memories with {form.pet_name || "your pet"}
               </Label>
-              {form.memories.map((m, i) => {
-                const placeholders = [
-                  "One of your favorite moments together...",
-                  "A moment that always makes you smile...",
-                  "Something they used to do that you'll never forget...",
-                  "A small habit or memory you loved...",
-                ];
-                return (
-                  <Textarea
-                    key={i}
-                    className="mb-3"
-                    placeholder={placeholders[i % placeholders.length]}
-                    value={m}
-                    onChange={(e) => updateMemory(i, e.target.value)}
-                    rows={2}
-                  />
-                );
-              })}
-              <Button variant="outline" size="sm" onClick={addMemory}>
-                + Add another memory
-              </Button>
+              <div className="mb-3 flex flex-wrap gap-2">
+                {MEMORY_STARTERS.map((s) => (
+                  <button
+                    key={s.label}
+                    type="button"
+                    onClick={() => fillFirstEmptyMemory(s.text)}
+                    className="rounded-full border border-border bg-card px-3 py-1 text-xs text-foreground transition-colors hover:border-primary/50 hover:bg-accent/50"
+                  >
+                    + {s.label}
+                  </button>
+                ))}
+              </div>
+              {form.memories.slice(0, visibleCount).map((m, i) => (
+                <Textarea
+                  key={i}
+                  className="mb-2 min-h-[56px] transition-[min-height] duration-200 focus:min-h-[110px]"
+                  placeholder={placeholders[i % placeholders.length]}
+                  value={m}
+                  onChange={(e) => updateMemory(i, e.target.value)}
+                  rows={2}
+                />
+              ))}
+              <p className="mb-3 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+              {!showExtraMemories ? (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setShowExtraMemories(true);
+                    if (form.memories.length < 3) addMemory();
+                  }}
+                >
+                  + Add another memory
+                </Button>
+              ) : (
+                <Button variant="outline" size="sm" onClick={addMemory}>
+                  + Add another memory
+                </Button>
+              )}
             </div>
             <div>
               <Label>Any special habits or quirks?</Label>
               <Textarea
+                className="min-h-[56px] transition-[min-height] duration-200 focus:min-h-[110px]"
                 placeholder="e.g., Always stole socks, slept in funny positions..."
                 value={form.special_habits}
                 onChange={(e) => update("special_habits", e.target.value)}
@@ -465,6 +493,7 @@ const Questionnaire = () => {
             </div>
           </div>
         );
+      }
 
       case 3:
         return (
