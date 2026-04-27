@@ -87,17 +87,18 @@ const Landing = () => {
 
             {/* Right — visual preview card */}
             <motion.div
+              id="example-tribute-preview"
               initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="relative"
+              className="relative scroll-mt-24"
             >
-              <p className="mb-3 text-center font-display text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
-                Example tribute
+              <p className="mb-3 text-center font-display text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
+                Example Tribute
               </p>
               <div
-                className="overflow-hidden border border-border/50 bg-card shadow-card"
-                style={{ borderRadius: "20px", padding: "1.75rem" }}
+                className="overflow-hidden border-2 border-primary/20 bg-card shadow-2xl ring-1 ring-primary/10 transition-shadow"
+                style={{ borderRadius: "20px", padding: "1.85rem" }}
               >
                 {/* Pet image */}
                 <div className="mb-5 overflow-hidden" style={{ borderRadius: "14px" }}>
@@ -134,7 +135,10 @@ const Landing = () => {
                   Read full tribute →
                 </span>
               </div>
-              <div className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-primary/5 blur-2xl" />
+              <p className="mt-4 text-center font-display text-sm italic text-muted-foreground">
+                This is what you'll create.
+              </p>
+              <div className="pointer-events-none absolute -inset-6 -z-10 rounded-3xl bg-primary/10 blur-3xl" />
             </motion.div>
           </div>
         </div>
