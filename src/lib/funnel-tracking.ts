@@ -13,11 +13,66 @@
  * to every event via `getSourceContext()`.
  */
 
-import { trackEvent } from "@/lib/gtag";
+import { trackEvent as gtagTrackEvent } from "@/lib/gtag";
 
 const STATE_KEY = "vp_funnel_state_v1";
 const UTM_KEY = "vp_utm";
 const FIRST_TOUCH_KEY = "vp_first_touch";
+
+/* -------------------------------------------------------------------------- */
+/* Event documentation map                                                     */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Human-readable description of every funnel event we emit. Useful as docs
+ * and as a single source of truth when configuring GA4 conversions.
+ */
+export const FUNNEL_EVENT_MAP = {
+  create_started: "user entered funnel",
+  step_viewed: "user saw a step",
+  step_completed: "user completed a step",
+  create_error: "user encountered error",
+  create_intent_high: "user reached final step",
+  tribute_published: "user completed funnel",
+  exit_intent_create: "user dropped off",
+  funnel_restarted: "user restarted funnel",
+} as const;
+
+const DEV_LOUD_EVENTS = new Set<string>([
+  "create_started",
+  "tribute_published",
+  "exit_intent_create",
+]);
+
+const IS_DEV =
+  typeof import.meta !== "undefined" && !!import.meta.env?.DEV;
+
+/* -------------------------------------------------------------------------- */
+/* Event validation (QA guard)                                                 */
+/* -------------------------------------------------------------------------- */
+
+function validateEvent(event: string, params: Record<string, unknown> | undefined): boolean {
+  if (!params) return false;
+  if (event === "step_completed" && !params.step_name) return false;
+  if (event === "create_error" && !params.error_type) return false;
+  if (event === "tribute_published" && !params.dedupe_key) return false;
+  return true;
+}
+
+/**
+ * Validated wrapper around the underlying gtag tracker. Drops malformed
+ * events in dev with a warning so QA catches them before shipping.
+ */
+function trackEvent(eventName: string, params: Record<string, unknown>): void {
+  if (!validateEvent(eventName, params)) {
+    if (IS_DEV) {
+      // eslint-disable-next-line no-console
+      console.warn("[FUNNEL INVALID EVENT]", eventName, params);
+    }
+    return;
+  }
+  gtagTrackEvent(eventName, params);
+}
 
 /**
  * Name of the final funnel step (already normalized). Viewing this step is
@@ -203,10 +258,12 @@ export function getFirstTouch(): SourceContext {
 /* -------------------------------------------------------------------------- */
 
 function debug(event: string, payload: Record<string, unknown>): void {
-  if (typeof import.meta !== "undefined" && import.meta.env?.DEV) {
-    // eslint-disable-next-line no-console
-    console.log("[FUNNEL]", event, payload);
-  }
+  if (!IS_DEV) return;
+  // Only loud-log key milestones to avoid console noise; everything else
+  // is silenced unless the developer inspects window.__FUNNEL__.
+  if (!DEV_LOUD_EVENTS.has(event)) return;
+  // eslint-disable-next-line no-console
+  console.log("[FUNNEL]", event, payload);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -330,7 +387,12 @@ export function trackStepCompleted(stepName: string, stepNumber: number): void {
   trackEvent("step_completed", params);
 }
 
-export type CreateErrorType = "validation" | "upload_failed" | "unknown";
+export type CreateErrorType =
+  | "validation"
+  | "upload_failed"
+  | "network"
+  | "timeout"
+  | "unknown";
 
 /** Fire `create_error`. Not deduped — every error counts. */
 export function trackCreateError(stepName: string, errorType: CreateErrorType): void {
@@ -427,4 +489,105 @@ export function trackExitIntent(): void {
  */
 export function isFunnelActive(): boolean {
   return !!readState();
+}
+
+/* -------------------------------------------------------------------------- */
+/* Diagnostics & QA helpers                                                    */
+/* -------------------------------------------------------------------------- */
+
+/** Raw funnel state read straight from localStorage (for debugging). */
+export function getFunnelStateDebug(): Record<string, unknown> {
+  if (typeof window === "undefined") return {};
+  try {
+    return JSON.parse(localStorage.getItem(STATE_KEY) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * Compact, human-readable snapshot of the active funnel session.
+ * Returns null if no funnel is in progress.
+ */
+export function getFunnelSnapshot(): {
+  startedAt: number;
+  stepsCompleted: number;
+  currentStep: string | null;
+  timeElapsed: number;
+} | null {
+  const s = readState();
+  if (!s) return null;
+  return {
+    startedAt: s.startedAt,
+    stepsCompleted: s.completed.length,
+    currentStep: s.currentStep,
+    timeElapsed: Math.round((Date.now() - s.startedAt) / 1000),
+  };
+}
+
+export type FunnelHealth =
+  | "no_active_funnel"
+  | "stuck_on_first_step"
+  | "early_dropoff_risk"
+  | "healthy";
+
+/**
+ * Lightweight heuristic for monitoring funnel state in dev / smoke tests.
+ *  - `stuck_on_first_step`: 30s+ elapsed with zero steps completed
+ *  - `early_dropoff_risk`: only one step completed so far
+ */
+export function checkFunnelHealth(): FunnelHealth {
+  const s = readState();
+  if (!s) return "no_active_funnel";
+  if (s.completed.length === 0 && Date.now() - s.startedAt > 30000) {
+    return "stuck_on_first_step";
+  }
+  if (s.completed.length > 0 && s.completed.length < 2) {
+    return "early_dropoff_risk";
+  }
+  return "healthy";
+}
+
+/* -------------------------------------------------------------------------- */
+/* Side effects: dev panel + cross-tab attribution sync                        */
+/* -------------------------------------------------------------------------- */
+
+if (typeof window !== "undefined") {
+  // 1. Dev-only debug panel exposed on window.__FUNNEL__.
+  if (IS_DEV) {
+    try {
+      (window as unknown as { __FUNNEL__: unknown }).__FUNNEL__ = {
+        state: getFunnelStateDebug,
+        snapshot: getFunnelSnapshot,
+        health: checkFunnelHealth,
+        events: FUNNEL_EVENT_MAP,
+        firstTouch: () => {
+          try {
+            return JSON.parse(localStorage.getItem(FIRST_TOUCH_KEY) || "{}");
+          } catch {
+            return {};
+          }
+        },
+      };
+    } catch {
+      /* ignore */
+    }
+  }
+
+  // 2. Keep first-touch attribution consistent across tabs. The `storage`
+  // event only fires in OTHER tabs, so when one tab sets first-touch the
+  // others mirror it (effectively a no-op write but keeps state explicit).
+  try {
+    window.addEventListener("storage", (e) => {
+      if (e.key === FIRST_TOUCH_KEY && e.newValue) {
+        try {
+          localStorage.setItem(FIRST_TOUCH_KEY, e.newValue);
+        } catch {
+          /* ignore */
+        }
+      }
+    });
+  } catch {
+    /* ignore */
+  }
 }
