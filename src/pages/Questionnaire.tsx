@@ -533,7 +533,15 @@ const Questionnaire = () => {
                 onChange={(e) => update("favorite_activities", e.target.value)}
                 rows={2}
               />
-              <p className="mt-1.5 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+              <div className="mt-1.5 flex items-center justify-between gap-3">
+                <p className="text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+                <AutofillButton
+                  field="favorite_activities"
+                  form={form}
+                  currentValue={form.favorite_activities || ""}
+                  onApply={(text) => update("favorite_activities", text)}
+                />
+              </div>
             </div>
             <div>
               <Label>Favorite people or animal friends</Label>
@@ -544,6 +552,14 @@ const Questionnaire = () => {
                 onChange={(e) => update("favorite_people_or_animals", e.target.value)}
                 rows={2}
               />
+              <div className="mt-1 flex justify-end">
+                <AutofillButton
+                  field="favorite_people_or_animals"
+                  form={form}
+                  currentValue={form.favorite_people_or_animals || ""}
+                  onApply={(text) => update("favorite_people_or_animals", text)}
+                />
+              </div>
             </div>
           </div>
         );
@@ -565,7 +581,15 @@ const Questionnaire = () => {
                 onChange={(e) => update("owner_message", e.target.value)}
                 rows={3}
               />
-              <p className="mt-1.5 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+              <div className="mt-1.5 flex items-center justify-between gap-3">
+                <p className="text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+                <AutofillButton
+                  field="owner_message"
+                  form={form}
+                  currentValue={form.owner_message || ""}
+                  onApply={(text) => update("owner_message", text)}
+                />
+              </div>
             </div>
           </div>
         );
