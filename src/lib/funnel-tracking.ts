@@ -258,10 +258,12 @@ export function getFirstTouch(): SourceContext {
 /* -------------------------------------------------------------------------- */
 
 function debug(event: string, payload: Record<string, unknown>): void {
-  if (typeof import.meta !== "undefined" && import.meta.env?.DEV) {
-    // eslint-disable-next-line no-console
-    console.log("[FUNNEL]", event, payload);
-  }
+  if (!IS_DEV) return;
+  // Only loud-log key milestones to avoid console noise; everything else
+  // is silenced unless the developer inspects window.__FUNNEL__.
+  if (!DEV_LOUD_EVENTS.has(event)) return;
+  // eslint-disable-next-line no-console
+  console.log("[FUNNEL]", event, payload);
 }
 
 /* -------------------------------------------------------------------------- */
