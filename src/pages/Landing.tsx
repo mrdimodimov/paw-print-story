@@ -144,7 +144,63 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Product Preview — horizontal scroll */}
+      {/* How It Works — moved up directly under hero */}
+      <section className="tribute-section">
+        <div className="tribute-container text-center">
+          <h2 className="mb-12 text-3xl font-bold text-foreground">
+            How It Works
+          </h2>
+          <div className="grid gap-8 md:grid-cols-3">
+            {[
+              {
+                icon: Heart,
+                title: "Tell us about your pet",
+              },
+              {
+                icon: BookOpen,
+                title: "We create a tribute",
+              },
+              {
+                icon: FileText,
+                title: "Share and remember forever",
+              },
+            ].map((step, i) => (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.15, duration: 0.5 }}
+                viewport={{ once: true }}
+                className="flex flex-col items-center"
+              >
+                <div className="mb-4 rounded-full bg-accent p-4">
+                  <step.icon className="h-6 w-6 text-primary" />
+                </div>
+                <p className="mb-2 font-display text-xs font-semibold uppercase tracking-widest text-muted-foreground/70">
+                  Step {i + 1}
+                </p>
+                <h3 className="font-display text-xl font-semibold text-foreground">
+                  {step.title}
+                </h3>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Mid-page CTA */}
+          <div className="mt-12 flex justify-center">
+            <Button
+              size="lg"
+              className="px-10 py-6 text-lg"
+              onClick={() => navigate("/create")}
+            >
+              <CtaIcon className="mr-2 shrink-0" size={22} />
+              Start Your Tribute
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Product Preview — horizontal scroll (simplified to 3 cards) */}
       <section className="tribute-section bg-section-alt">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -163,7 +219,7 @@ const Landing = () => {
           </motion.div>
 
           <div className="-mx-4 overflow-x-auto px-4 pb-4 scrollbar-hide sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-            <div className="flex gap-5" style={{ scrollSnapType: "x mandatory" }}>
+            <div className="flex justify-center gap-5" style={{ scrollSnapType: "x mandatory" }}>
               {[
                 {
                   imageUrl: tributeWhiskers,
@@ -179,13 +235,6 @@ const Landing = () => {
                   memoryTitle: "The One Who Greeted Everyone",
                   preview: "He never met a stranger. Every visitor was welcomed with a full-body wiggle that could knock a toddler over.",
                   linkTo: "/example-tribute/max",
-                },
-                {
-                  imageUrl: tributeLuna,
-                  petName: "Luna",
-                  memoryTitle: "The Door That Was Never Empty",
-                  preview: "She waited by the front window every afternoon, tail wagging the moment she heard the car pull into the driveway.",
-                  linkTo: "/example-tribute",
                 },
                 {
                   imageUrl: tributeClover,
@@ -220,51 +269,6 @@ const Landing = () => {
               Create your pet's story →
             </Link>
           </motion.div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="tribute-section">
-        <div className="tribute-container text-center">
-          <h2 className="mb-12 text-3xl font-bold text-foreground">
-            How It Works
-          </h2>
-          <div className="grid gap-8 md:grid-cols-3">
-            {[
-              {
-                icon: Heart,
-                title: "Share a Few Memories",
-                desc: "Answer a few simple questions about your pet — no writing required.",
-              },
-              {
-                icon: BookOpen,
-                title: "We Create Your Tribute",
-                desc: "Your memories are transformed into a heartfelt, beautifully written story.",
-              },
-              {
-                icon: FileText,
-                title: "Keep and Share It",
-                desc: "Download your tribute or create a memorial page to share with others.",
-              },
-            ].map((step, i) => (
-              <motion.div
-                key={step.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.15, duration: 0.5 }}
-                viewport={{ once: true }}
-                className="flex flex-col items-center"
-              >
-                <div className="mb-4 rounded-full bg-accent p-4">
-                  <step.icon className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="mb-2 font-display text-xl font-semibold text-foreground">
-                  {step.title}
-                </h3>
-                <p className="text-muted-foreground">{step.desc}</p>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 
