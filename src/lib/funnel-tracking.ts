@@ -72,6 +72,14 @@ function trackEvent(eventName: string, params: Record<string, unknown>): void {
     return;
   }
   gtagTrackEvent(eventName, params);
+  // Record into session timeline (lightweight, capped).
+  const stepParam = typeof params.step_name === "string" ? params.step_name : undefined;
+  pushTimeline(eventName, stepParam);
+  // Optional auto-log of full timeline on key milestones (DEV only).
+  if (IS_DEV && (eventName === "tribute_published" || eventName === "exit_intent_create")) {
+    // eslint-disable-next-line no-console
+    console.log("[FUNNEL TIMELINE]", getFunnelTimeline());
+  }
 }
 
 /**
