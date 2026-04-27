@@ -173,6 +173,31 @@ export function getSourceContext(): SourceContext {
   }
 }
 
+/**
+ * First-touch attribution: persists the FIRST acquisition source seen for this
+ * browser and returns it for every subsequent event. This prevents internal
+ * navigation (e.g. blog -> /create) from overwriting the original source.
+ *
+ * Resolution: returns the cached first-touch context if present, otherwise
+ * captures the current `getSourceContext()` and persists it.
+ */
+export function getFirstTouch(): SourceContext {
+  if (typeof window === "undefined") return { source_page: "direct" };
+  try {
+    const raw = localStorage.getItem(FIRST_TOUCH_KEY);
+    if (raw) return JSON.parse(raw) as SourceContext;
+  } catch {
+    /* ignore */
+  }
+  const ctx = getSourceContext();
+  try {
+    localStorage.setItem(FIRST_TOUCH_KEY, JSON.stringify(ctx));
+  } catch {
+    /* ignore */
+  }
+  return ctx;
+}
+
 /* -------------------------------------------------------------------------- */
 /* Debug                                                                       */
 /* -------------------------------------------------------------------------- */
