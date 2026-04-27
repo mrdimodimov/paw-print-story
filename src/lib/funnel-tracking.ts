@@ -648,6 +648,8 @@ if (typeof window !== "undefined") {
         snapshot: getFunnelSnapshot,
         health: checkFunnelHealth,
         events: FUNNEL_EVENT_MAP,
+        timeline: getFunnelTimeline,
+        reset: resetFunnelDebug,
         firstTouch: () => {
           try {
             return JSON.parse(localStorage.getItem(FIRST_TOUCH_KEY) || "{}");
