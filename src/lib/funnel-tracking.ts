@@ -401,15 +401,18 @@ export function trackExitIntent(): void {
     0,
     Math.round((Date.now() - s.startedAt) / 1000)
   );
+  let time_on_last_step = Math.round((Date.now() - s.currentStepStartedAt) / 1000);
+  if (time_on_last_step < 0 || time_on_last_step > 600) time_on_last_step = 0;
 
   s.exited = true;
   writeState(s);
 
-  const ctx = getSourceContext();
+  const ctx = getFirstTouch();
   const params = {
-    last_step: s.currentStep ?? "intro",
+    last_step: normalizeStepName(s.currentStep ?? "intro"),
     steps_completed_count: s.completed.length,
     time_spent_total,
+    time_on_last_step,
     ...ctx,
     dedupe_key: `${s.startedAt}:exit`,
     persist: true,
