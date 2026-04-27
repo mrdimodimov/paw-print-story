@@ -31,17 +31,16 @@ interface AutofillButtonProps {
  */
 export function AutofillButton({ field, form, currentValue, onApply }: AutofillButtonProps) {
   const [loading, setLoading] = useState(false);
+  const [cooldown, setCooldown] = useState(false);
 
   const callSuggest = async () => {
-    if (loading) return;
+    if (loading || cooldown) return;
 
     const hasExisting = !!currentValue.trim();
-    if (hasExisting) {
-      const confirmed = window.confirm(
-        "Replace your current text with an AI suggestion? Click Cancel to keep what you wrote.",
-      );
-      if (!confirmed) return;
-    }
+
+    // Trigger 1.5s cooldown immediately to prevent spam clicks
+    setCooldown(true);
+    setTimeout(() => setCooldown(false), 1500);
 
     setLoading(true);
     const isRegenerate = hasExisting;
@@ -72,7 +71,15 @@ export function AutofillButton({ field, form, currentValue, onApply }: AutofillB
       const suggestion: string | undefined = data?.suggestion;
       if (!suggestion) throw new Error("No suggestion returned");
 
-      onApply(suggestion);
+      // Append rather than replace: preserves user's own writing
+      const merged = currentValue.trim()
+        ? `${currentValue}\n\n${suggestion}`
+        : suggestion;
+      onApply(merged);
+
+      trackEvent("autofill_applied", {
+        metadata: { field, had_existing_content: hasExisting },
+      });
     } catch (err) {
       // Never block the user's flow — only show a soft toast.
       console.warn("[autofill] suggestion failed", err);
@@ -89,9 +96,9 @@ export function AutofillButton({ field, form, currentValue, onApply }: AutofillB
     <button
       type="button"
       onClick={callSuggest}
-      disabled={loading}
+      disabled={loading || cooldown}
       className="mt-1.5 inline-flex items-center gap-1 text-xs text-primary/80 transition-colors hover:text-primary disabled:opacity-60"
-      aria-label="Help me write this"
+      aria-label="Suggest something"
     >
       {loading ? (
         <>
@@ -101,7 +108,7 @@ export function AutofillButton({ field, form, currentValue, onApply }: AutofillB
       ) : (
         <>
           <Sparkles className="h-3 w-3" />
-          Help me write this
+          Suggest something
         </>
       )}
     </button>
