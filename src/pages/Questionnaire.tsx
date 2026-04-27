@@ -8,6 +8,7 @@ import {
   trackStepCompleted,
   trackCreateError,
   trackExitIntent,
+  detectTimeout,
 } from "@/lib/funnel-tracking";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, Sparkles, ImagePlus, X, Shield, Heart } from "lucide-react";
