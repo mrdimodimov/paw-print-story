@@ -423,7 +423,15 @@ const Questionnaire = () => {
                 onChange={(e) => update("personality_description", e.target.value)}
                 rows={2}
               />
-              <p className="mt-1.5 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+              <div className="mt-1.5 flex items-center justify-between gap-3">
+                <p className="text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+                <AutofillButton
+                  field="personality_description"
+                  form={form}
+                  currentValue={form.personality_description || ""}
+                  onApply={(text) => update("personality_description", text)}
+                />
+              </div>
             </div>
           </div>
         );
