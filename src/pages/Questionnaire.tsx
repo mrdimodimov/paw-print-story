@@ -8,6 +8,7 @@ import {
   trackStepCompleted,
   trackCreateError,
   trackExitIntent,
+  detectTimeout,
 } from "@/lib/funnel-tracking";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, Sparkles, ImagePlus, X, Shield, Heart } from "lucide-react";
@@ -185,14 +186,12 @@ const Questionnaire = () => {
       const { error } = await supabase.storage.from("pet-photos").upload(path, croppedFile);
       if (error) {
         toast({ title: "Upload failed", description: error.message });
-        const elapsed = Date.now() - startedAt;
         const msg = (error.message || "").toLowerCase();
-        const errorType =
-          elapsed > 10000
-            ? "timeout"
-            : msg.includes("network") || msg.includes("fetch")
-              ? "network"
-              : "upload_failed";
+        const errorType = detectTimeout(startedAt)
+          ? "timeout"
+          : msg.includes("network") || msg.includes("fetch")
+            ? "network"
+            : "upload_failed";
         trackCreateError("About Your Pet", errorType);
         setUploading(false);
         return;
@@ -200,14 +199,12 @@ const Questionnaire = () => {
       const { data: urlData } = supabase.storage.from("pet-photos").getPublicUrl(path);
       update("photo_urls", [...form.photo_urls, urlData.publicUrl]);
     } catch (err) {
-      const elapsed = Date.now() - startedAt;
       const msg = err instanceof Error ? err.message.toLowerCase() : "";
-      const errorType =
-        elapsed > 10000
-          ? "timeout"
-          : msg.includes("network") || msg.includes("fetch") || msg.includes("failed to fetch")
-            ? "network"
-            : "unknown";
+      const errorType = detectTimeout(startedAt)
+        ? "timeout"
+        : msg.includes("network") || msg.includes("fetch") || msg.includes("failed to fetch")
+          ? "network"
+          : "unknown";
       toast({ title: "Upload failed", description: msg || "Unexpected error" });
       trackCreateError("About Your Pet", errorType);
     } finally {

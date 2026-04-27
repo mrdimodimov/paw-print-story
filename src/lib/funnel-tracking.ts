@@ -36,6 +36,7 @@ export const FUNNEL_EVENT_MAP = {
   tribute_published: "user completed funnel",
   exit_intent_create: "user dropped off",
   funnel_restarted: "user restarted funnel",
+  funnel_stuck: "user lingered too long on a step",
 } as const;
 
 const DEV_LOUD_EVENTS = new Set<string>([
@@ -51,7 +52,7 @@ const IS_DEV =
 /* Event validation (QA guard)                                                 */
 /* -------------------------------------------------------------------------- */
 
-function validateEvent(event: string, params: Record<string, unknown> | undefined): boolean {
+export function validateEvent(event: string, params: Record<string, unknown> | undefined): boolean {
   if (!params) return false;
   if (event === "step_completed" && !params.step_name) return false;
   if (event === "create_error" && !params.error_type) return false;
@@ -72,6 +73,14 @@ function trackEvent(eventName: string, params: Record<string, unknown>): void {
     return;
   }
   gtagTrackEvent(eventName, params);
+  // Record into session timeline (lightweight, capped).
+  const stepParam = typeof params.step_name === "string" ? params.step_name : undefined;
+  pushTimeline(eventName, stepParam);
+  // Optional auto-log of full timeline on key milestones (DEV only).
+  if (IS_DEV && (eventName === "tribute_published" || eventName === "exit_intent_create")) {
+    // eslint-disable-next-line no-console
+    console.log("[FUNNEL TIMELINE]", getFunnelTimeline());
+  }
 }
 
 /**
@@ -86,6 +95,12 @@ const FINAL_STEP_NAME = "style";
  */
 function normalizeStepName(name: string): string {
   return name.toLowerCase().trim().replace(/\s+/g, "_");
+}
+
+interface TimelineEntry {
+  event: string;
+  step?: string;
+  timestamp: number;
 }
 
 interface FunnelState {
@@ -103,6 +118,33 @@ interface FunnelState {
   published: boolean;
   /** Whether exit_intent fired (prevents duplicate exits) */
   exited: boolean;
+  /** Stuck-on-step report flag (prevents duplicate funnel_stuck) */
+  stuckReported?: boolean;
+  /** Ordered session history of funnel events (capped at TIMELINE_MAX) */
+  timeline?: TimelineEntry[];
+}
+
+const TIMELINE_MAX = 50;
+const STUCK_THRESHOLD_MS = 30000;
+const TIMEOUT_THRESHOLD_MS = 10000;
+
+/**
+ * Returns true if `startTime` (ms epoch) is older than the global timeout
+ * threshold. Intended for upload + future API call instrumentation.
+ */
+export function detectTimeout(startTime: number): boolean {
+  return Date.now() - startTime > TIMEOUT_THRESHOLD_MS;
+}
+
+function pushTimeline(eventName: string, step?: string): void {
+  const s = readState();
+  if (!s) return;
+  const entry: TimelineEntry = { event: eventName, timestamp: Date.now() };
+  if (step) entry.step = step;
+  const next = [...(s.timeline ?? []), entry];
+  // Trim from the front so the most recent TIMELINE_MAX entries remain.
+  s.timeline = next.length > TIMELINE_MAX ? next.slice(next.length - TIMELINE_MAX) : next;
+  writeState(s);
 }
 
 interface StoredUtm {
@@ -302,6 +344,8 @@ export function trackCreateStarted(): void {
     startedFired: true,
     published: false,
     exited: false,
+    stuckReported: false,
+    timeline: [],
   };
   writeState(state);
 
@@ -330,6 +374,7 @@ export function trackStepMounted(stepName: string, stepNumber?: number): void {
 
   s.currentStep = stepName;
   s.currentStepStartedAt = Date.now();
+  s.stuckReported = false; // reset stuck flag for new step
   writeState(s);
 
   const normalized = normalizeStepName(stepName);
@@ -353,6 +398,25 @@ export function trackStepMounted(stepName: string, stepNumber?: number): void {
     if (typeof stepNumber === "number") intentParams.step_number = stepNumber;
     debug("create_intent_high", intentParams);
     trackEvent("create_intent_high", intentParams);
+  }
+
+  // Stuck-on-step auto-detection: if the user is still on this step after the
+  // threshold and hasn't been reported yet, fire `funnel_stuck` once.
+  if (typeof window !== "undefined") {
+    setTimeout(() => {
+      const cur = readState();
+      if (!cur || cur.currentStep !== stepName) return;
+      if (cur.stuckReported) return;
+      const timeOnStep = Date.now() - cur.currentStepStartedAt;
+      if (timeOnStep <= STUCK_THRESHOLD_MS) return;
+      cur.stuckReported = true;
+      writeState(cur);
+      trackEvent("funnel_stuck", {
+        step_name: normalizeStepName(stepName),
+        time_on_step: Math.round(timeOnStep / 1000),
+        ...getFirstTouch(),
+      });
+    }, STUCK_THRESHOLD_MS);
   }
 }
 
@@ -514,6 +578,7 @@ export function getFunnelSnapshot(): {
   stepsCompleted: number;
   currentStep: string | null;
   timeElapsed: number;
+  source: SourceContext;
 } | null {
   const s = readState();
   if (!s) return null;
@@ -522,7 +587,29 @@ export function getFunnelSnapshot(): {
     stepsCompleted: s.completed.length,
     currentStep: s.currentStep,
     timeElapsed: Math.round((Date.now() - s.startedAt) / 1000),
+    source: getFirstTouch(),
   };
+}
+
+/** Returns the ordered session timeline (capped at TIMELINE_MAX). */
+export function getFunnelTimeline(): TimelineEntry[] {
+  const s = readState();
+  return s?.timeline ?? [];
+}
+
+/**
+ * Wipes funnel + first-touch state. Intended as a debug/QA helper — exposed
+ * via `window.__FUNNEL__.reset()` in development.
+ */
+export function resetFunnelDebug(): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.removeItem(STATE_KEY);
+    localStorage.removeItem(FIRST_TOUCH_KEY);
+    publishedInMemory = false;
+  } catch {
+    /* ignore */
+  }
 }
 
 export type FunnelHealth =
@@ -561,6 +648,8 @@ if (typeof window !== "undefined") {
         snapshot: getFunnelSnapshot,
         health: checkFunnelHealth,
         events: FUNNEL_EVENT_MAP,
+        timeline: getFunnelTimeline,
+        reset: resetFunnelDebug,
         firstTouch: () => {
           try {
             return JSON.parse(localStorage.getItem(FIRST_TOUCH_KEY) || "{}");
