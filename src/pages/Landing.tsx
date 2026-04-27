@@ -155,14 +155,17 @@ const Landing = () => {
               {
                 icon: Heart,
                 title: "Tell us about your pet",
+                description: "Share a few memories, traits, and special moments.",
               },
               {
                 icon: BookOpen,
                 title: "We create a tribute",
+                description: "We turn your words into a beautiful, heartfelt memorial.",
               },
               {
                 icon: FileText,
                 title: "Share and remember forever",
+                description: "Keep it private or share it with friends and family.",
               },
             ].map((step, i) => (
               <motion.div
