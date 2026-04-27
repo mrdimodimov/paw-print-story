@@ -185,6 +185,9 @@ const Landing = () => {
                 <h3 className="font-display text-xl font-semibold text-foreground">
                   {step.title}
                 </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {step.description}
+                </p>
               </motion.div>
             ))}
           </div>
