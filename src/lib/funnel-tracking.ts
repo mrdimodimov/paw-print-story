@@ -578,6 +578,7 @@ export function getFunnelSnapshot(): {
   stepsCompleted: number;
   currentStep: string | null;
   timeElapsed: number;
+  source: SourceContext;
 } | null {
   const s = readState();
   if (!s) return null;
@@ -586,7 +587,29 @@ export function getFunnelSnapshot(): {
     stepsCompleted: s.completed.length,
     currentStep: s.currentStep,
     timeElapsed: Math.round((Date.now() - s.startedAt) / 1000),
+    source: getFirstTouch(),
   };
+}
+
+/** Returns the ordered session timeline (capped at TIMELINE_MAX). */
+export function getFunnelTimeline(): TimelineEntry[] {
+  const s = readState();
+  return s?.timeline ?? [];
+}
+
+/**
+ * Wipes funnel + first-touch state. Intended as a debug/QA helper — exposed
+ * via `window.__FUNNEL__.reset()` in development.
+ */
+export function resetFunnelDebug(): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.removeItem(STATE_KEY);
+    localStorage.removeItem(FIRST_TOUCH_KEY);
+    publishedInMemory = false;
+  } catch {
+    /* ignore */
+  }
 }
 
 export type FunnelHealth =
