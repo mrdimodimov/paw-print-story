@@ -374,6 +374,7 @@ export function trackStepMounted(stepName: string, stepNumber?: number): void {
 
   s.currentStep = stepName;
   s.currentStepStartedAt = Date.now();
+  s.stuckReported = false; // reset stuck flag for new step
   writeState(s);
 
   const normalized = normalizeStepName(stepName);
@@ -397,6 +398,25 @@ export function trackStepMounted(stepName: string, stepNumber?: number): void {
     if (typeof stepNumber === "number") intentParams.step_number = stepNumber;
     debug("create_intent_high", intentParams);
     trackEvent("create_intent_high", intentParams);
+  }
+
+  // Stuck-on-step auto-detection: if the user is still on this step after the
+  // threshold and hasn't been reported yet, fire `funnel_stuck` once.
+  if (typeof window !== "undefined") {
+    setTimeout(() => {
+      const cur = readState();
+      if (!cur || cur.currentStep !== stepName) return;
+      if (cur.stuckReported) return;
+      const timeOnStep = Date.now() - cur.currentStepStartedAt;
+      if (timeOnStep <= STUCK_THRESHOLD_MS) return;
+      cur.stuckReported = true;
+      writeState(cur);
+      trackEvent("funnel_stuck", {
+        step_name: normalizeStepName(stepName),
+        time_on_step: Math.round(timeOnStep / 1000),
+        ...getFirstTouch(),
+      });
+    }, STUCK_THRESHOLD_MS);
   }
 }
 
