@@ -344,6 +344,8 @@ export function trackCreateStarted(): void {
     startedFired: true,
     published: false,
     exited: false,
+    stuckReported: false,
+    timeline: [],
   };
   writeState(state);
 
