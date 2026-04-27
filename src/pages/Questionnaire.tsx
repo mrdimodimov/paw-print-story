@@ -23,6 +23,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { DevTestingPanel } from "@/components/DevTestingPanel";
 import ImageCropModal from "@/components/ImageCropModal";
+import { AutofillButton } from "@/components/AutofillButton";
 import { useTestMode } from "@/hooks/use-test-mode";
 import { TEST_PRESETS } from "@/lib/test-presets";
 import { captureTesterSource, trackEvent } from "@/lib/analytics";
