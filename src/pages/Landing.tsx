@@ -66,22 +66,15 @@ const Landing = () => {
                   <CtaIcon className="mr-2 shrink-0" size={22} />
                   Create a Tribute
                 </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="px-8 py-6 text-base"
-                  onClick={() => {
-                    document.getElementById("example-tribute-preview")?.scrollIntoView({ behavior: "smooth", block: "center" });
-                  }}
-                >
-                  View Example
-                </Button>
               </div>
               <p className="mt-4 font-display text-sm tracking-wide text-muted-foreground">
                 Takes 2 minutes • No signup required
               </p>
               <p className="mt-3 font-display text-sm italic text-muted-foreground/70">
                 Loved by pet owners creating meaningful tributes
+              </p>
+              <p className="mt-6 font-display text-xs tracking-wide text-muted-foreground/60 lg:text-left">
+                Scroll to explore examples ↓
               </p>
             </motion.div>
 
