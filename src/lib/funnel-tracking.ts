@@ -88,6 +88,12 @@ function normalizeStepName(name: string): string {
   return name.toLowerCase().trim().replace(/\s+/g, "_");
 }
 
+interface TimelineEntry {
+  event: string;
+  step?: string;
+  timestamp: number;
+}
+
 interface FunnelState {
   /** ms timestamp when the user landed on /create */
   startedAt: number;
@@ -103,6 +109,33 @@ interface FunnelState {
   published: boolean;
   /** Whether exit_intent fired (prevents duplicate exits) */
   exited: boolean;
+  /** Stuck-on-step report flag (prevents duplicate funnel_stuck) */
+  stuckReported?: boolean;
+  /** Ordered session history of funnel events (capped at TIMELINE_MAX) */
+  timeline?: TimelineEntry[];
+}
+
+const TIMELINE_MAX = 50;
+const STUCK_THRESHOLD_MS = 30000;
+const TIMEOUT_THRESHOLD_MS = 10000;
+
+/**
+ * Returns true if `startTime` (ms epoch) is older than the global timeout
+ * threshold. Intended for upload + future API call instrumentation.
+ */
+export function detectTimeout(startTime: number): boolean {
+  return Date.now() - startTime > TIMEOUT_THRESHOLD_MS;
+}
+
+function pushTimeline(eventName: string, step?: string): void {
+  const s = readState();
+  if (!s) return;
+  const entry: TimelineEntry = { event: eventName, timestamp: Date.now() };
+  if (step) entry.step = step;
+  const next = [...(s.timeline ?? []), entry];
+  // Trim from the front so the most recent TIMELINE_MAX entries remain.
+  s.timeline = next.length > TIMELINE_MAX ? next.slice(next.length - TIMELINE_MAX) : next;
+  writeState(s);
 }
 
 interface StoredUtm {
