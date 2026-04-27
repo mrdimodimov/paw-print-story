@@ -387,7 +387,12 @@ export function trackStepCompleted(stepName: string, stepNumber: number): void {
   trackEvent("step_completed", params);
 }
 
-export type CreateErrorType = "validation" | "upload_failed" | "unknown";
+export type CreateErrorType =
+  | "validation"
+  | "upload_failed"
+  | "network"
+  | "timeout"
+  | "unknown";
 
 /** Fire `create_error`. Not deduped — every error counts. */
 export function trackCreateError(stepName: string, errorType: CreateErrorType): void {
