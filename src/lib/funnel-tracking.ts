@@ -36,6 +36,7 @@ export const FUNNEL_EVENT_MAP = {
   tribute_published: "user completed funnel",
   exit_intent_create: "user dropped off",
   funnel_restarted: "user restarted funnel",
+  funnel_stuck: "user lingered too long on a step",
 } as const;
 
 const DEV_LOUD_EVENTS = new Set<string>([
