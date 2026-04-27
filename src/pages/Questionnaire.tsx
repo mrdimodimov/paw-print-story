@@ -501,19 +501,22 @@ const Questionnaire = () => {
             <div>
               <Label>Favorite activities or hobbies</Label>
               <Textarea
-                placeholder="e.g., Chasing squirrels, swimming, car rides..."
+                className="min-h-[60px] transition-[min-height] duration-200 focus:min-h-[120px]"
+                placeholder="e.g. Chasing balls, sleeping in the sun..."
                 value={form.favorite_activities}
                 onChange={(e) => update("favorite_activities", e.target.value)}
-                rows={3}
+                rows={2}
               />
+              <p className="mt-1.5 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
             </div>
             <div>
               <Label>Favorite people or animal friends</Label>
               <Textarea
-                placeholder="e.g., Best friends with the neighbor's cat..."
+                className="min-h-[60px] transition-[min-height] duration-200 focus:min-h-[120px]"
+                placeholder="e.g. Best friends with the neighbor's cat, loved the mailman..."
                 value={form.favorite_people_or_animals}
                 onChange={(e) => update("favorite_people_or_animals", e.target.value)}
-                rows={3}
+                rows={2}
               />
             </div>
           </div>
@@ -526,12 +529,17 @@ const Questionnaire = () => {
               <Label>
                 A personal message to {form.pet_name || "your pet"} (optional)
               </Label>
+              <p className="mt-1 mb-2 text-xs text-muted-foreground">
+                This is optional — even one sentence is enough.
+              </p>
               <Textarea
+                className="min-h-[80px] transition-[min-height] duration-200 focus:min-h-[160px]"
                 placeholder="Say anything you'd like them to know..."
                 value={form.owner_message}
                 onChange={(e) => update("owner_message", e.target.value)}
-                rows={5}
+                rows={3}
               />
+              <p className="mt-1.5 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
             </div>
           </div>
         );
