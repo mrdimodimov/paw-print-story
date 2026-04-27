@@ -463,14 +463,23 @@ const Questionnaire = () => {
                 ))}
               </div>
               {form.memories.slice(0, visibleCount).map((m, i) => (
-                <Textarea
-                  key={i}
-                  className="mb-2 min-h-[56px] transition-[min-height] duration-200 focus:min-h-[110px]"
-                  placeholder={placeholders[i % placeholders.length]}
-                  value={m}
-                  onChange={(e) => updateMemory(i, e.target.value)}
-                  rows={2}
-                />
+                <div key={i} className="mb-2">
+                  <Textarea
+                    className="min-h-[56px] transition-[min-height] duration-200 focus:min-h-[110px]"
+                    placeholder={placeholders[i % placeholders.length]}
+                    value={m}
+                    onChange={(e) => updateMemory(i, e.target.value)}
+                    rows={2}
+                  />
+                  <div className="mt-1 flex justify-end">
+                    <AutofillButton
+                      field="memories"
+                      form={form}
+                      currentValue={m}
+                      onApply={(text) => updateMemory(i, text)}
+                    />
+                  </div>
+                </div>
               ))}
               <p className="mb-3 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
               {!showExtraMemories ? (
@@ -499,6 +508,14 @@ const Questionnaire = () => {
                 onChange={(e) => update("special_habits", e.target.value)}
                 rows={2}
               />
+              <div className="mt-1 flex justify-end">
+                <AutofillButton
+                  field="special_habits"
+                  form={form}
+                  currentValue={form.special_habits || ""}
+                  onApply={(text) => update("special_habits", text)}
+                />
+              </div>
             </div>
           </div>
         );
