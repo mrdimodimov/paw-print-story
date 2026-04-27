@@ -281,6 +281,7 @@ const Questionnaire = () => {
       case 0:
         return (
           <div className="space-y-5">
+            <p className="text-sm text-muted-foreground">This takes less than a minute.</p>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <Label>Pet's Name *</Label>
@@ -317,9 +318,10 @@ const Questionnaire = () => {
                 />
               </div>
             </div>
-            <div>
-              <Label>Your Name (optional)</Label>
+            <div className="pt-1">
+              <Label className="text-xs text-muted-foreground">Your Name (optional)</Label>
               <Input
+                className="h-9 text-sm"
                 placeholder="Your first name"
                 value={form.owner_name}
                 onChange={(e) => update("owner_name", e.target.value)}
