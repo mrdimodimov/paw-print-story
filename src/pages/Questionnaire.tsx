@@ -111,6 +111,13 @@ const Questionnaire = () => {
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const [cropOpen, setCropOpen] = useState(false);
 
+  // Fire `trackStepMounted` whenever the user enters a new step.
+  // The `intro` pseudo-step (step === -1) is treated as the funnel landing.
+  useEffect(() => {
+    const stepName = step === -1 ? "intro" : STEPS[step] ?? `step_${step}`;
+    trackStepMounted(stepName);
+  }, [step]);
+
   const update = <K extends keyof TributeFormData>(key: K, value: TributeFormData[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
@@ -147,10 +154,12 @@ const Questionnaire = () => {
     const file = files[0];
     if (!ACCEPTED_TYPES.includes(file.type)) {
       toast({ title: "Invalid file type", description: "Photos must be JPG, PNG, or WEBP and under 5MB." });
+      trackCreateError("About Your Pet", "validation");
       return;
     }
     if (file.size > MAX_FILE_SIZE) {
       toast({ title: "File too large", description: `${file.name} exceeds the 5MB limit.` });
+      trackCreateError("About Your Pet", "validation");
       return;
     }
 
@@ -172,6 +181,7 @@ const Questionnaire = () => {
     const { error } = await supabase.storage.from("pet-photos").upload(path, croppedFile);
     if (error) {
       toast({ title: "Upload failed", description: error.message });
+      trackCreateError("About Your Pet", "upload_failed");
       setUploading(false);
       return;
     }
@@ -197,7 +207,9 @@ const Questionnaire = () => {
   })();
 
   const handleGenerate = () => {
+    // Final step (Style) — fire DB step_completed + GA4 step_completed
     trackEvent("step_completed", { metadata: { step: STEPS[step] } });
+    trackStepCompleted(STEPS[step], step + 1);
     trackEvent("tribute_completed", { metadata: { photos: form.photo_urls.length, tier } });
     const testerSource = sessionStorage.getItem("tester_source");
     const testerParam = testerSource ? `&tester=${testerSource}` : "";
