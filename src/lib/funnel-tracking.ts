@@ -51,7 +51,7 @@ const IS_DEV =
 /* Event validation (QA guard)                                                 */
 /* -------------------------------------------------------------------------- */
 
-function validateEvent(event: string, params: Record<string, unknown> | undefined): boolean {
+export function validateEvent(event: string, params: Record<string, unknown> | undefined): boolean {
   if (!params) return false;
   if (event === "step_completed" && !params.step_name) return false;
   if (event === "create_error" && !params.error_type) return false;
