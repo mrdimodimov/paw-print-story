@@ -38,6 +38,7 @@ import { TIERS } from "@/lib/types";
 import { generateTribute, loadTributeById, loadTributeBySlug, loadJobById, getActiveJobId } from "@/lib/tribute-api";
 import { trackEvent, captureTesterSource } from "@/lib/analytics";
 import { trackEvent as trackGAEvent } from "@/lib/gtag";
+import { trackTributePublished, trackCreateError } from "@/lib/funnel-tracking";
 import { supabase } from "@/integrations/supabase/client";
 import { isInCooldown, markSent, isEmailEnabled, logEmailAttempt } from "@/lib/email-guard";
 import { downloadTributePDF, downloadMemorialPDF, ensureParagraphs } from "@/lib/pdf-export";
@@ -161,6 +162,12 @@ const TributePage = () => {
             tier: tierConfig.id,
             dedupe_key: result.tributeId,
           });
+          // GA4: funnel completion — final preview reached.
+          // Clears funnel state so `exit_intent_create` won't fire on navigation.
+          trackTributePublished({
+            tributeId: result.tributeId,
+            hasPhotos: (data.photo_urls?.length ?? 0) > 0,
+          });
         }
         // Save pre-generation email if provided (guarded)
         if (preEmail.current && result.tributeId && !isTestMode) {
@@ -207,6 +214,7 @@ const TributePage = () => {
       },
       onError: (error) => {
         toast.error(error);
+        trackCreateError("Generation", "unknown");
         setGenerating(false);
       },
     }, prevJobId, isPublicRef.current);

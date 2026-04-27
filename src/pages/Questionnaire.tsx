@@ -1,7 +1,14 @@
 import CtaIcon from "@/components/CtaIcon";
 import BrandLogo from "@/components/BrandLogo";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  trackCreateStarted,
+  trackStepMounted,
+  trackStepCompleted,
+  trackCreateError,
+  trackExitIntent,
+} from "@/lib/funnel-tracking";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, Sparkles, ImagePlus, X, Shield, Heart } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -78,17 +85,38 @@ const Questionnaire = () => {
   const [step, setStep] = useState(-1); // -1 = intro screen
   const [form, setForm] = useState<TributeFormData>(defaultForm);
 
-  // Capture tester source on mount and track tribute_started
-  useState(() => {
+  // Capture tester source on mount and fire DB + GA4 funnel-start events.
+  // Also wire exit-intent: if the user leaves /create without finishing, fire
+  // `exit_intent_create`. The funnel state is cleared by `trackTributePublished`,
+  // so a successful generation suppresses this exit event.
+  useEffect(() => {
     captureTesterSource();
     trackEvent("tribute_started");
-  });
+    trackCreateStarted();
+
+    const handleBeforeUnload = () => trackExitIntent();
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      // SPA navigation away from /create
+      trackExitIntent();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [isPublic, setIsPublic] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [email, setEmail] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const [cropOpen, setCropOpen] = useState(false);
+
+  // Fire `trackStepMounted` whenever the user enters a new step.
+  // The `intro` pseudo-step (step === -1) is treated as the funnel landing.
+  useEffect(() => {
+    const stepName = step === -1 ? "intro" : STEPS[step] ?? `step_${step}`;
+    trackStepMounted(stepName);
+  }, [step]);
 
   const update = <K extends keyof TributeFormData>(key: K, value: TributeFormData[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -126,10 +154,12 @@ const Questionnaire = () => {
     const file = files[0];
     if (!ACCEPTED_TYPES.includes(file.type)) {
       toast({ title: "Invalid file type", description: "Photos must be JPG, PNG, or WEBP and under 5MB." });
+      trackCreateError("About Your Pet", "validation");
       return;
     }
     if (file.size > MAX_FILE_SIZE) {
       toast({ title: "File too large", description: `${file.name} exceeds the 5MB limit.` });
+      trackCreateError("About Your Pet", "validation");
       return;
     }
 
@@ -151,6 +181,7 @@ const Questionnaire = () => {
     const { error } = await supabase.storage.from("pet-photos").upload(path, croppedFile);
     if (error) {
       toast({ title: "Upload failed", description: error.message });
+      trackCreateError("About Your Pet", "upload_failed");
       setUploading(false);
       return;
     }
@@ -176,7 +207,9 @@ const Questionnaire = () => {
   })();
 
   const handleGenerate = () => {
+    // Final step (Style) — fire DB step_completed + GA4 step_completed
     trackEvent("step_completed", { metadata: { step: STEPS[step] } });
+    trackStepCompleted(STEPS[step], step + 1);
     trackEvent("tribute_completed", { metadata: { photos: form.photo_urls.length, tier } });
     const testerSource = sessionStorage.getItem("tester_source");
     const testerParam = testerSource ? `&tester=${testerSource}` : "";
@@ -610,7 +643,15 @@ const Questionnaire = () => {
           </Button>
           {step < STEPS.length - 1 ? (
             <Button
-              onClick={() => { trackEvent("step_completed", { metadata: { step: STEPS[step] } }); setStep((s) => s + 1); }}
+              onClick={() => {
+                if (!canProceed()) {
+                  trackCreateError(STEPS[step], "validation");
+                  return;
+                }
+                trackEvent("step_completed", { metadata: { step: STEPS[step] } });
+                trackStepCompleted(STEPS[step], step + 1);
+                setStep((s) => s + 1);
+              }}
               disabled={!canProceed()}
             >
               Next <ArrowRight className="ml-1 h-4 w-4" />
