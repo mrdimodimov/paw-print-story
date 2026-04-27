@@ -101,6 +101,8 @@ serve(async (req) => {
       "You help a grieving pet owner fill in a single short field of a memorial questionnaire. " +
       "Output ONLY the suggested text — no preamble, no quotes, no labels. " +
       "Keep it to 1-2 short sentences. Warm, sincere, never templated, never generic. " +
+      "Avoid repetitive phrasing like 'always', 'so much', 'very', 'incredibly'. " +
+      "Prefer specific, concrete details over general emotional statements. " +
       "Never invent the owner's name. Never mention AI. Never use clichés like 'rainbow bridge' unless asked.";
 
     const userPrompt = [
