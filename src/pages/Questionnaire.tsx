@@ -728,22 +728,40 @@ const Questionnaire = () => {
             <ArrowLeft className="mr-1 h-4 w-4" /> Previous
           </Button>
           {step < STEPS.length - 1 ? (
-            <Button
-              onClick={() => {
-                if (!canProceed()) {
-                  trackCreateError(STEPS[step], "validation");
-                  return;
-                }
-                trackEvent("step_completed", { metadata: { step: STEPS[step] } });
-                trackStepCompleted(STEPS[step], step + 1);
-                setStep((s) => s + 1);
-              }}
-              disabled={!canProceed()}
-            >
-              Next <ArrowRight className="ml-1 h-4 w-4" />
-            </Button>
+            <div className="flex flex-col items-end gap-1.5">
+              <Button
+                onClick={() => {
+                  if (!canProceed()) {
+                    trackCreateError(STEPS[step], "validation");
+                    return;
+                  }
+                  trackEvent("step_completed", { metadata: { step: STEPS[step] } });
+                  trackStepCompleted(STEPS[step], step + 1);
+                  setStep((s) => s + 1);
+                }}
+                disabled={!canProceed()}
+              >
+                Next <ArrowRight className="ml-1 h-4 w-4" />
+              </Button>
+              {step > 0 && step < STEPS.length - 1 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    trackEvent("step_completed", { metadata: { step: STEPS[step], skipped: true } });
+                    trackStepCompleted(STEPS[step], step + 1);
+                    setStep((s) => s + 1);
+                  }}
+                  className="text-xs text-muted-foreground/70 underline-offset-2 hover:text-muted-foreground hover:underline"
+                >
+                  Skip this step
+                </button>
+              )}
+            </div>
           ) : (
             <div className="flex flex-col items-center gap-2">
+              <p className="text-sm font-medium text-foreground/90 text-center">
+                You've shared enough to create something meaningful.
+              </p>
               <p className="text-xs text-muted-foreground text-center">
                 We're creating your tribute now…
               </p>
