@@ -14,6 +14,7 @@ interface PaymentConfirmationProps {
   tributeId?: string
   manageToken?: string
   logoUrl?: string
+  photoUrl?: string
   state?: 'processing' | 'ready'
 }
 
@@ -22,6 +23,7 @@ const PaymentConfirmationEmail = ({
   slug,
   manageToken,
   logoUrl,
+  photoUrl,
   state,
 }: PaymentConfirmationProps) => {
   const name = petName || 'your pet'
@@ -36,7 +38,7 @@ const PaymentConfirmationEmail = ({
     ? `Your memorial for ${name} is ready 💛`
     : `We're creating ${name}'s memorial 🐾`
   const subtext = isReady
-    ? `A quiet little place to hold ${name}'s story, whenever you need to return to it.`
+    ? `A place to remember ${name}, whenever you feel like returning to those moments.`
     : `Thank you. We're carefully shaping ${name}'s tribute now — you'll receive another email the moment it's ready.`
   const previewText = isReady
     ? `${name}'s memorial is ready 💛`
@@ -58,12 +60,18 @@ const PaymentConfirmationEmail = ({
 
           <Heading style={h1}>{headline}</Heading>
 
+          {photoUrl && (
+            <Section style={photoSection}>
+              <Img src={photoUrl} alt={name} width="420" style={photoStyle} />
+            </Section>
+          )}
+
           <Text style={text}>{subtext}</Text>
 
           {isReady && (
             <Section style={buttonSection}>
               <Button style={primaryButton} href={publicUrl}>
-                View Memorial
+                Visit {name}'s Memorial
               </Button>
             </Section>
           )}
@@ -125,6 +133,15 @@ const logoStyle = {
   maxWidth: '90px',
   height: 'auto',
   opacity: 0.9,
+}
+const photoSection = { textAlign: 'center' as const, margin: '0 0 24px' }
+const photoStyle = {
+  display: 'block',
+  margin: '0 auto',
+  maxWidth: '420px',
+  width: '100%',
+  height: 'auto',
+  borderRadius: '12px',
 }
 const memoryLine = {
   fontSize: '13px',
