@@ -296,9 +296,10 @@ export async function generateTribute(
     try {
       await supabase.functions.invoke("send-transactional-email", {
         body: {
-          templateName: "ready",
+          templateName: "payment-confirmation",
           tributeId,
           idempotencyKey: `ready-${tributeId}`,
+          templateData: { state: "ready" },
         },
       });
     } catch (emailErr) {
