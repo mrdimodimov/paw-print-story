@@ -383,10 +383,9 @@ Deno.serve(async (req) => {
       ? template.subject(templateData)
       : template.subject
 
-  // 5. Enqueue the pre-rendered email for async processing by the dispatcher.
-  // The dispatcher (process-email-queue) handles sending, retries, and rate-limit backoff.
+  // 5. Send directly via Resend API (no queue/dispatcher).
 
-  // Log pending BEFORE enqueue so we have a record even if enqueue crashes
+  // Log pending BEFORE sending so we have a record even if send crashes
   await supabase.from('email_send_log').insert({
     message_id: messageId,
     template_name: templateName,
@@ -395,49 +394,87 @@ Deno.serve(async (req) => {
     metadata: tributeId ? { tribute_id: tributeId } : null,
   })
 
-  const { error: enqueueError } = await supabase.rpc('enqueue_email', {
-    queue_name: 'transactional_emails',
-    payload: {
-      message_id: messageId,
-      to: effectiveRecipient,
-      from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
-      sender_domain: SENDER_DOMAIN,
-      subject: resolvedSubject,
-      html,
-      text: plainText,
-      purpose: 'transactional',
-      label: templateName,
-      idempotency_key: idempotencyKey,
-      unsubscribe_token: unsubscribeToken,
-      queued_at: new Date().toISOString(),
-    },
-  })
-
-  if (enqueueError) {
-    console.error('Failed to enqueue email', {
-      error: enqueueError,
-      templateName,
-      effectiveRecipient,
-    })
-
+  const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
+  if (!RESEND_API_KEY) {
+    console.error('RESEND_API_KEY is not configured')
     await supabase.from('email_send_log').insert({
       message_id: messageId,
       template_name: templateName,
       recipient_email: effectiveRecipient,
       status: 'failed',
-      error_message: 'Failed to enqueue email',
+      error_message: 'RESEND_API_KEY missing',
+      metadata: tributeId ? { tribute_id: tributeId } : null,
     })
-
-    return new Response(JSON.stringify({ error: 'Failed to enqueue email' }), {
+    return new Response(JSON.stringify({ error: 'Email service not configured' }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
   }
 
-  console.log('Transactional email enqueued', { templateName, effectiveRecipient })
+  let resendResponse: Response
+  let resendData: any
+  try {
+    resendResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'VellumPet <noreply@notify.vellumpet.com>',
+        to: [effectiveRecipient],
+        subject: resolvedSubject,
+        html,
+        text: plainText,
+      }),
+    })
+    resendData = await resendResponse.json().catch(() => ({}))
+  } catch (err) {
+    console.error('Resend request failed', { error: err, templateName, effectiveRecipient })
+    await supabase.from('email_send_log').insert({
+      message_id: messageId,
+      template_name: templateName,
+      recipient_email: effectiveRecipient,
+      status: 'failed',
+      error_message: err instanceof Error ? err.message : 'Resend request failed',
+      metadata: tributeId ? { tribute_id: tributeId } : null,
+    })
+    return new Response(JSON.stringify({ error: 'Failed to send email' }), {
+      status: 502,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    })
+  }
+
+  if (!resendResponse.ok) {
+    const errMsg = `Resend API failed [${resendResponse.status}]: ${JSON.stringify(resendData).slice(0, 500)}`
+    console.error(errMsg, { templateName, effectiveRecipient })
+    await supabase.from('email_send_log').insert({
+      message_id: messageId,
+      template_name: templateName,
+      recipient_email: effectiveRecipient,
+      status: 'failed',
+      error_message: errMsg,
+      metadata: tributeId ? { tribute_id: tributeId } : null,
+    })
+    return new Response(JSON.stringify({ error: 'Failed to send email' }), {
+      status: 502,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    })
+  }
+
+  // Log the successful send (append-only — keeps idempotency check working)
+  await supabase.from('email_send_log').insert({
+    message_id: resendData?.id ?? messageId,
+    template_name: templateName,
+    recipient_email: effectiveRecipient,
+    status: 'sent',
+    metadata: tributeId ? { tribute_id: tributeId } : null,
+  })
+
+  console.log('Transactional email sent', { templateName, effectiveRecipient, id: resendData?.id })
 
   return new Response(
-    JSON.stringify({ success: true, queued: true }),
+    JSON.stringify({ success: true, id: resendData?.id ?? null }),
     {
       status: 200,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
