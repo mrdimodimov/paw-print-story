@@ -125,6 +125,22 @@ Deno.serve(async (req) => {
     const safeGreet = escapeHtml(tribute.owner_name || "there");
     const safeUrl = escapeHtml(manageUrl);
 
+    const petName = tribute.pet_name || "your pet";
+    const greetName = tribute.owner_name || "there";
+    const text = `Hi ${greetName},
+
+We're gently crafting ${petName}'s tribute right now. 🐾
+
+You can manage the memorial — update photos, edit details, or change privacy — anytime using your private link below.
+
+Manage Your Memorial:
+${manageUrl}
+
+Keep this email safe — the link is your private key to manage ${petName}'s memorial.
+
+With care,
+The VellumPet Team`;
+
     const html = `
       <div style="font-family: Arial, sans-serif; color: #3d2817; max-width: 560px; margin: 0 auto; padding: 24px;">
         <h1 style="font-size: 22px; margin: 0 0 16px;">Hi ${safeGreet},</h1>
@@ -166,6 +182,7 @@ Deno.serve(async (req) => {
         to: [email],
         subject: "Your tribute is being created 🐾",
         html,
+        text,
       }),
     });
 

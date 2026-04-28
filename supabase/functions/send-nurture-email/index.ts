@@ -86,6 +86,25 @@ function ctaButton(text: string, url: string): string {
 
 interface EmailTemplate { subject: string; html: string }
 
+function htmlToText(html: string): string {
+  return html
+    .replace(/<style[\s\S]*?<\/style>/gi, "")
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<\/(p|div|h[1-6]|li|tr|br)>/gi, "\n")
+    .replace(/<br\s*\/?>(?!\n)/gi, "\n")
+    .replace(/<a[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi, "$2 ($1)")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\n{3,}/g, "\n\n")
+    .split("\n").map((l) => l.trim()).join("\n")
+    .trim();
+}
+
 const templates: Record<number, (petName: string, tributeId: string) => EmailTemplate> = {
   1: (petName, tId) => ({
     subject: `${petName}'s tribute has been saved`,
@@ -307,6 +326,7 @@ async function enqueueNurtureEmail(
     to: recipientEmail,
     subject: tpl.subject,
     html: tpl.html,
+    text: htmlToText(tpl.html),
     from: `${BRAND_NAME} <hello@${SENDER_DOMAIN}>`,
     purpose: "transactional" as const,
     idempotency_key: idempotencyKey,
