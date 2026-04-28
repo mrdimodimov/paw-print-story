@@ -158,21 +158,36 @@ const MemorialManage = () => {
         return;
       }
 
-      await supabase.functions.invoke("send-transactional-email", {
-        body: {
-          templateName: "payment-confirmation",
-          recipientEmail: emailRecord.email,
-          idempotencyKey: `resend-access-${data.id}-${Date.now()}`,
-          templateData: {
-            petName: data.pet_name,
-            slug: data.slug,
-            tributeId: data.tribute_id,
-            manageToken: token,
+      const { data: sendResult, error: sendError } = await supabase.functions.invoke(
+        "send-transactional-email",
+        {
+          body: {
+            templateName: "payment-confirmation",
+            recipientEmail: emailRecord.email,
+            idempotencyKey: `resend-access-${data.id}`,
+            templateData: {
+              petName: data.pet_name,
+              slug: data.slug,
+              tributeId: data.tribute_id,
+              manageToken: token,
+            },
           },
         },
-      });
+      );
 
-      toast.success("Access email sent! Check your inbox.");
+      if (sendError) throw sendError;
+
+      const alreadySent =
+        sendResult?.skipped === true ||
+        sendResult?.deduplicated === true ||
+        sendResult?.status === "already_sent" ||
+        sendResult?.reason === "already_sent";
+
+      if (alreadySent) {
+        toast("Email already sent");
+      } else {
+        toast.success("Email sent");
+      }
     } catch {
       toast.error("Failed to send email. Please try again.");
     } finally {
