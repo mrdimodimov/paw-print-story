@@ -76,6 +76,14 @@ const PaymentConfirmationEmail = ({
             </Section>
           )}
 
+          {isReady && (
+            <Text style={shareLine}>
+              <Link href={publicUrl} style={shareLink}>
+                Share {name}'s memory with loved ones
+              </Link>
+            </Text>
+          )}
+
           {isReady && <Hr style={divider} />}
 
           {isReady && (
