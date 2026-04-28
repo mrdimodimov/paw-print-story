@@ -154,19 +154,19 @@ Deno.serve(async (req) => {
       tributeId,
     }
 
-    // Idempotency: if a "ready" email was already sent for this tribute, skip.
-    if (templateName === 'ready') {
+    // Idempotency: if a "ready"-state memorial email was already sent for this tribute, skip.
+    if (templateName === 'payment-confirmation' && templateData.state === 'ready') {
       const { data: alreadySent } = await supabase
         .from('email_send_log')
         .select('id')
-        .eq('template_name', 'ready')
+        .eq('template_name', 'payment-confirmation')
         .eq('status', 'sent')
-        .contains('metadata', { tribute_id: tributeId })
+        .contains('metadata', { tribute_id: tributeId, state: 'ready' })
         .limit(1)
         .maybeSingle()
 
       if (alreadySent) {
-        console.log('Ready email already sent for tribute, skipping', { tributeId })
+        console.log('Ready memorial email already sent for tribute, skipping', { tributeId })
         return new Response(
           JSON.stringify({ success: true, skipped: true, reason: 'already_sent' }),
           { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
