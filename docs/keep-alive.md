@@ -113,6 +113,46 @@ After setting up the external monitor:
       and confirm the alert fires, then restore it to `alive`.
 - [ ] Document the monitor URL and credentials in the team password manager.
 
+## Debugging
+
+### Cold starts
+
+If a check (or a real user request) hits the function after a long idle
+period, the edge runtime needs to spin up a fresh worker. This **cold start**
+typically adds **300 ms – 2 s** of latency on the first request, and can
+occasionally spike to ~5 s. Subsequent requests are fast (<50 ms). This is
+expected — set the monitor timeout to **5–10 s** so cold starts do not trigger
+false alerts.
+
+### Manual verification with curl
+
+Run from any machine with internet access:
+
+```
+curl -i https://ppfrtdbjsagytuhweywd.supabase.co/functions/v1/health-check
+```
+
+Expected output:
+
+```
+HTTP/2 200
+content-type: application/json
+...
+
+{"status":"alive"}
+```
+
+If you see anything else:
+
+- **HTTP 503 / 504** — the project is paused or the function is cold-starting.
+  Retry after a few seconds; if it persists, check Lovable Cloud status.
+- **HTTP 401 / 403** — `verify_jwt` was accidentally re-enabled on the
+  `health-check` function. Check `supabase/config.toml`.
+- **Connection refused / DNS error** — the project ref in the URL is wrong,
+  or the project has been deleted.
+- **Body missing `"alive"`** — the edge function code was modified. Restore
+  `supabase/functions/health-check/index.ts`.
+
 ## Outcome
 
 With all three layers in place, the project remains active even with zero
