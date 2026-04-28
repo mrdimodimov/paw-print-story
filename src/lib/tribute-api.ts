@@ -291,6 +291,21 @@ export async function generateTribute(
     });
   }
 
+  // Fire-and-forget "ready" email. Must never block job completion.
+  if (tributeId) {
+    try {
+      await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "ready",
+          tributeId,
+          idempotencyKey: `ready-${tributeId}`,
+        },
+      });
+    } catch (emailErr) {
+      console.warn("Failed to send 'ready' email (non-blocking):", emailErr);
+    }
+  }
+
   releaseLock();
   callbacks.onDone({ ...result, tributeId, jobId, slug: tributeSlug });
 }
