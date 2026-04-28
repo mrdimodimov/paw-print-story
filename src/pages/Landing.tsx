@@ -1,7 +1,9 @@
 import CtaIcon from "@/components/CtaIcon";
 import BrandLogo from "@/components/BrandLogo";
 import { useNavigate, Link } from "react-router-dom";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { supabase } from "@/integrations/supabase/client";
 import { Heart, FileText, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
@@ -25,6 +27,17 @@ import {
 
 const Landing = () => {
   const navigate = useNavigate();
+
+  // Silent keep-alive ping (once per session)
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem("kalive")) return;
+      sessionStorage.setItem("kalive", "1");
+      supabase.functions.invoke("health-check").catch(() => {});
+    } catch {
+      // ignore
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
