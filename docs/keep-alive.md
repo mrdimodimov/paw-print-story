@@ -25,7 +25,21 @@ own infrastructure has gone quiet.
 |------|-----------|-----------|---------|
 | 1 | Frontend session ping (Landing page) | Once per browser session | Warms function on real visits |
 | 2 | Internal `pg_cron` job `keep-alive-health-check` | Every 48h (`0 0 */2 * *`) | Cheap baseline ping while project is active |
-| 3 | **External uptime monitor** *(this document)* | Every 24h | Survives full project pause; wakes the backend |
+| 3 | **External uptime monitor** *(this document)* | Every 24h (recommended) | Survives full project pause; wakes the backend |
+
+## Critical note — read this first
+
+Once a Supabase project is **paused**, *nothing inside it can wake it up*:
+
+- Edge functions return HTTP 503
+- `pg_cron` stops firing — our internal `keep-alive-health-check` job is dead
+  until something external touches the project
+- Frontend session pings only help if real users still visit the site
+
+The **external uptime monitor described below is the only mechanism that can
+recover the project from a paused state.** If it is disabled, paused, or
+misconfigured, the backend will eventually go offline and stay offline until
+someone manually resumes it from the Lovable Cloud dashboard.
 
 ## Target endpoint
 
@@ -70,7 +84,7 @@ Pick **one** of the following free-tier services:
 | Monitor type | HTTP(S) / Keyword |
 | Method | `GET` |
 | URL | `https://ppfrtdbjsagytuhweywd.supabase.co/functions/v1/health-check` |
-| Interval | **Every 24 hours** (or the closest allowed value — most free tiers default to 5 min, which is also fine) |
+| Interval | **Every 24 hours (recommended).** Shorter intervals (e.g. the 3–5 min defaults on most free tiers) are fine but **not required** — one successful hit per day is enough to keep the project active. |
 | Request timeout | **5–10 seconds** |
 | Expected status code | `200` |
 | Keyword / body match | `alive` (must be present in response body) |
@@ -98,6 +112,46 @@ After setting up the external monitor:
 - [ ] Temporarily change the keyword to something that will not match (e.g. `xxxxx`)
       and confirm the alert fires, then restore it to `alive`.
 - [ ] Document the monitor URL and credentials in the team password manager.
+
+## Debugging
+
+### Cold starts
+
+If a check (or a real user request) hits the function after a long idle
+period, the edge runtime needs to spin up a fresh worker. This **cold start**
+typically adds **300 ms – 2 s** of latency on the first request, and can
+occasionally spike to ~5 s. Subsequent requests are fast (<50 ms). This is
+expected — set the monitor timeout to **5–10 s** so cold starts do not trigger
+false alerts.
+
+### Manual verification with curl
+
+Run from any machine with internet access:
+
+```
+curl -i https://ppfrtdbjsagytuhweywd.supabase.co/functions/v1/health-check
+```
+
+Expected output:
+
+```
+HTTP/2 200
+content-type: application/json
+...
+
+{"status":"alive"}
+```
+
+If you see anything else:
+
+- **HTTP 503 / 504** — the project is paused or the function is cold-starting.
+  Retry after a few seconds; if it persists, check Lovable Cloud status.
+- **HTTP 401 / 403** — `verify_jwt` was accidentally re-enabled on the
+  `health-check` function. Check `supabase/config.toml`.
+- **Connection refused / DNS error** — the project ref in the URL is wrong,
+  or the project has been deleted.
+- **Body missing `"alive"`** — the edge function code was modified. Restore
+  `supabase/functions/health-check/index.ts`.
 
 ## Outcome
 
