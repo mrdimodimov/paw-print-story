@@ -134,6 +134,15 @@ const logoStyle = {
   height: 'auto',
   opacity: 0.9,
 }
+const photoSection = { textAlign: 'center' as const, margin: '0 0 24px' }
+const photoStyle = {
+  display: 'block',
+  margin: '0 auto',
+  maxWidth: '420px',
+  width: '100%',
+  height: 'auto',
+  borderRadius: '12px',
+}
 const memoryLine = {
   fontSize: '13px',
   color: '#8a7866',
