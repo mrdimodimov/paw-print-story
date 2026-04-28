@@ -25,7 +25,21 @@ own infrastructure has gone quiet.
 |------|-----------|-----------|---------|
 | 1 | Frontend session ping (Landing page) | Once per browser session | Warms function on real visits |
 | 2 | Internal `pg_cron` job `keep-alive-health-check` | Every 48h (`0 0 */2 * *`) | Cheap baseline ping while project is active |
-| 3 | **External uptime monitor** *(this document)* | Every 24h | Survives full project pause; wakes the backend |
+| 3 | **External uptime monitor** *(this document)* | Every 24h (recommended) | Survives full project pause; wakes the backend |
+
+## Critical note — read this first
+
+Once a Supabase project is **paused**, *nothing inside it can wake it up*:
+
+- Edge functions return HTTP 503
+- `pg_cron` stops firing — our internal `keep-alive-health-check` job is dead
+  until something external touches the project
+- Frontend session pings only help if real users still visit the site
+
+The **external uptime monitor described below is the only mechanism that can
+recover the project from a paused state.** If it is disabled, paused, or
+misconfigured, the backend will eventually go offline and stay offline until
+someone manually resumes it from the Lovable Cloud dashboard.
 
 ## Target endpoint
 
