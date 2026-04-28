@@ -153,6 +153,26 @@ Deno.serve(async (req) => {
       manageToken,
       tributeId,
     }
+
+    // Idempotency: if a "ready" email was already sent for this tribute, skip.
+    if (templateName === 'ready') {
+      const { data: alreadySent } = await supabase
+        .from('email_send_log')
+        .select('id')
+        .eq('template_name', 'ready')
+        .eq('status', 'sent')
+        .contains('metadata', { tribute_id: tributeId })
+        .limit(1)
+        .maybeSingle()
+
+      if (alreadySent) {
+        console.log('Ready email already sent for tribute, skipping', { tributeId })
+        return new Response(
+          JSON.stringify({ success: true, skipped: true, reason: 'already_sent' }),
+          { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        )
+      }
+    }
   }
 
 
@@ -372,6 +392,7 @@ Deno.serve(async (req) => {
     template_name: templateName,
     recipient_email: effectiveRecipient,
     status: 'pending',
+    metadata: tributeId ? { tribute_id: tributeId } : null,
   })
 
   const { error: enqueueError } = await supabase.rpc('enqueue_email', {
