@@ -326,6 +326,7 @@ async function enqueueNurtureEmail(
     to: recipientEmail,
     subject: tpl.subject,
     html: tpl.html,
+    text: htmlToText(tpl.html),
     from: `${BRAND_NAME} <hello@${SENDER_DOMAIN}>`,
     purpose: "transactional" as const,
     idempotency_key: idempotencyKey,
