@@ -391,7 +391,7 @@ Deno.serve(async (req) => {
     template_name: templateName,
     recipient_email: effectiveRecipient,
     status: 'pending',
-    metadata: tributeId ? { tribute_id: tributeId } : null,
+    metadata: tributeId ? { tribute_id: tributeId, ...(templateData.state ? { state: templateData.state } : {}) } : (templateData.state ? { state: templateData.state } : null),
   })
 
   const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
@@ -403,7 +403,7 @@ Deno.serve(async (req) => {
       recipient_email: effectiveRecipient,
       status: 'failed',
       error_message: 'RESEND_API_KEY missing',
-      metadata: tributeId ? { tribute_id: tributeId } : null,
+      metadata: tributeId ? { tribute_id: tributeId, ...(templateData.state ? { state: templateData.state } : {}) } : (templateData.state ? { state: templateData.state } : null),
     })
     return new Response(JSON.stringify({ error: 'Email service not configured' }), {
       status: 500,
@@ -437,7 +437,7 @@ Deno.serve(async (req) => {
       recipient_email: effectiveRecipient,
       status: 'failed',
       error_message: err instanceof Error ? err.message : 'Resend request failed',
-      metadata: tributeId ? { tribute_id: tributeId } : null,
+      metadata: tributeId ? { tribute_id: tributeId, ...(templateData.state ? { state: templateData.state } : {}) } : (templateData.state ? { state: templateData.state } : null),
     })
     return new Response(JSON.stringify({ error: 'Failed to send email' }), {
       status: 502,
@@ -454,7 +454,7 @@ Deno.serve(async (req) => {
       recipient_email: effectiveRecipient,
       status: 'failed',
       error_message: errMsg,
-      metadata: tributeId ? { tribute_id: tributeId } : null,
+      metadata: tributeId ? { tribute_id: tributeId, ...(templateData.state ? { state: templateData.state } : {}) } : (templateData.state ? { state: templateData.state } : null),
     })
     return new Response(JSON.stringify({ error: 'Failed to send email' }), {
       status: 502,
@@ -468,7 +468,7 @@ Deno.serve(async (req) => {
     template_name: templateName,
     recipient_email: effectiveRecipient,
     status: 'sent',
-    metadata: tributeId ? { tribute_id: tributeId } : null,
+    metadata: tributeId ? { tribute_id: tributeId, ...(templateData.state ? { state: templateData.state } : {}) } : (templateData.state ? { state: templateData.state } : null),
   })
 
   console.log('Transactional email sent', { templateName, effectiveRecipient, id: resendData?.id })
