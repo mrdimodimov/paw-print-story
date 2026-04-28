@@ -84,7 +84,7 @@ Pick **one** of the following free-tier services:
 | Monitor type | HTTP(S) / Keyword |
 | Method | `GET` |
 | URL | `https://ppfrtdbjsagytuhweywd.supabase.co/functions/v1/health-check` |
-| Interval | **Every 24 hours** (or the closest allowed value — most free tiers default to 5 min, which is also fine) |
+| Interval | **Every 24 hours (recommended).** Shorter intervals (e.g. the 3–5 min defaults on most free tiers) are fine but **not required** — one successful hit per day is enough to keep the project active. |
 | Request timeout | **5–10 seconds** |
 | Expected status code | `200` |
 | Keyword / body match | `alive` (must be present in response body) |
