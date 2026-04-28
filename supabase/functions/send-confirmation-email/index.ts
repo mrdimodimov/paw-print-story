@@ -146,19 +146,24 @@ Deno.serve(async (req) => {
 
     const data = await response.json();
     if (!response.ok) {
+      // Release the idempotency slot so a future retry can succeed.
+      await supabase
+        .from("email_send_log")
+        .update({
+          status: "failed",
+          error_message: `Resend API failed [${response.status}]: ${JSON.stringify(data).slice(0, 500)}`,
+        })
+        .eq("id", logId);
       throw new Error(`Resend API failed [${response.status}]: ${JSON.stringify(data)}`);
     }
 
-    // Log successful send for idempotency
-    const { error: logErr } = await supabase.from("email_send_log").insert({
-      recipient_email: email,
-      template_name: "confirmation",
-      status: "sent",
-      message_id: data?.id ?? null,
-      metadata: { tribute_id: tributeId, type: "confirmation" },
-    });
-    if (logErr) {
-      console.warn("email_send_log insert failed:", logErr.message);
+    // Promote the pending row to sent and store the provider message id.
+    const { error: updateErr } = await supabase
+      .from("email_send_log")
+      .update({ status: "sent", message_id: data?.id ?? null })
+      .eq("id", logId);
+    if (updateErr) {
+      console.warn("email_send_log status update failed:", updateErr.message);
     }
 
     return json({ success: true, id: data?.id ?? null });
