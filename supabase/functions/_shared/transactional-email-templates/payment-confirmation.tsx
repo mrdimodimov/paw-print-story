@@ -6,7 +6,7 @@ import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = "VellumPet"
 const BASE_URL = "https://vellumpet.com"
-const DEFAULT_LOGO_URL = `${BASE_URL}/logo.png`
+const LOGO_URL = "https://ppfrtdbjsagytuhweywd.supabase.co/storage/v1/object/public/pet-photos/branding/VellumPetlogo.png"
 
 interface PaymentConfirmationProps {
   petName?: string
@@ -39,7 +39,7 @@ const PaymentConfirmationEmail = ({
   const manageUrl = slug && manageToken
     ? `${BASE_URL}/memorial/manage/${slug}?token=${manageToken}`
     : null
-  const logo = logoUrl || DEFAULT_LOGO_URL
+  
 
   const headline = isReady
     ? `Your memorial for ${name} is ready 💛`
@@ -57,9 +57,12 @@ const PaymentConfirmationEmail = ({
       <Preview>{previewText}</Preview>
       <Body style={main}>
         <Container style={card}>
-          <Section style={logoSection}>
-            <Img src={logo} alt="VellumPet" width="90" style={logoStyle} />
-          </Section>
+          <Img
+            src={LOGO_URL}
+            alt="VellumPet"
+            width="120"
+            style={{ display: 'block', margin: '0 auto 20px' }}
+          />
 
           {isReady && (
             <Text style={memoryLine}>In loving memory of {name} 🐾</Text>
