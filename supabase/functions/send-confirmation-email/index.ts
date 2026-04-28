@@ -36,6 +36,31 @@ Deno.serve(async (req) => {
       auth: { persistSession: false, autoRefreshToken: false },
     });
 
+    // Cooldown: block re-sends within 2 minutes of any prior confirmation attempt
+    // (covers sent, pending, and failed rows so retries don't hammer Resend).
+    const COOLDOWN_MS = 2 * 60 * 1000;
+    const cutoffIso = new Date(Date.now() - COOLDOWN_MS).toISOString();
+    const { data: recent, error: recentErr } = await supabase
+      .from("email_send_log")
+      .select("id, created_at, status")
+      .eq("template_name", "confirmation")
+      .contains("metadata", { tribute_id: tributeId })
+      .gte("created_at", cutoffIso)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (recentErr) {
+      console.warn("Cooldown check failed (continuing):", recentErr.message);
+    }
+    if (recent) {
+      return json({
+        success: true,
+        skipped: true,
+        reason: "cooldown",
+        message: "Recently sent",
+      });
+    }
+
     // 1. Tribute (pet name + slug)
     const { data: tribute, error: tErr } = await supabase
       .from("tributes")
