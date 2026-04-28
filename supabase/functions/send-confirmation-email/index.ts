@@ -36,6 +36,22 @@ Deno.serve(async (req) => {
       auth: { persistSession: false, autoRefreshToken: false },
     });
 
+    // Idempotency: skip if a confirmation email was already sent for this tribute
+    const { data: existing, error: existingErr } = await supabase
+      .from("email_send_log")
+      .select("id, message_id")
+      .eq("template_name", "confirmation")
+      .eq("status", "sent")
+      .contains("metadata", { tribute_id: tributeId })
+      .limit(1)
+      .maybeSingle();
+    if (existingErr) {
+      console.warn("Idempotency check failed (continuing):", existingErr.message);
+    }
+    if (existing) {
+      return json({ success: true, skipped: true, reason: "already_sent", id: existing.message_id ?? null });
+    }
+
     // 1. Tribute (pet name + slug)
     const { data: tribute, error: tErr } = await supabase
       .from("tributes")
@@ -123,6 +139,18 @@ Deno.serve(async (req) => {
     const data = await response.json();
     if (!response.ok) {
       throw new Error(`Resend API failed [${response.status}]: ${JSON.stringify(data)}`);
+    }
+
+    // Log successful send for idempotency
+    const { error: logErr } = await supabase.from("email_send_log").insert({
+      recipient_email: email,
+      template_name: "confirmation",
+      status: "sent",
+      message_id: data?.id ?? null,
+      metadata: { tribute_id: tributeId, type: "confirmation" },
+    });
+    if (logErr) {
+      console.warn("email_send_log insert failed:", logErr.message);
     }
 
     return json({ success: true, id: data?.id ?? null });
