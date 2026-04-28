@@ -182,6 +182,7 @@ The VellumPet Team`;
         to: [email],
         subject: "Your tribute is being created 🐾",
         html,
+        text,
       }),
     });
 
