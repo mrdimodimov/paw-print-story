@@ -334,6 +334,7 @@ export default function AdminDashboard() {
               slug: tribute.slug,
               tributeId: ptData.tribute_id,
               manageToken: ptData.manage_token,
+              state: "ready",
             },
           },
         },

@@ -79,6 +79,7 @@ export default function IncompleteMemorialCta({
             slug,
             tributeId: pt.tribute_id,
             manageToken: pt.manage_token,
+            state: "ready",
           },
         },
       });

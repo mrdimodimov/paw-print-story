@@ -170,6 +170,7 @@ const MemorialManage = () => {
               slug: data.slug,
               tributeId: data.tribute_id,
               manageToken: token,
+              state: "ready",
             },
           },
         },

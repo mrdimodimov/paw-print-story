@@ -169,6 +169,7 @@ serve(async (req) => {
             slug,
             tributeId,
             manageToken: manageToken || "",
+            state: "processing",
           },
         },
       });
