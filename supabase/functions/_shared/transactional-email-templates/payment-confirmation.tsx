@@ -119,7 +119,9 @@ export const template = {
   component: PaymentConfirmationEmail,
   subject: (data: Record<string, any>) => {
     const name = data.petName || 'your pet'
-    return data.state === 'ready'
+    const variant = data.type || data.state || 'ready'
+    const isReady = variant === 'ready' || variant === 'resend'
+    return isReady
       ? `Your memorial for ${name} is ready 💛`
       : `We're creating ${name}'s memorial 🐾`
   },
