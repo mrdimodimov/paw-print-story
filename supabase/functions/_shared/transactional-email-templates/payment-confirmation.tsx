@@ -15,7 +15,12 @@ interface PaymentConfirmationProps {
   manageToken?: string
   logoUrl?: string
   photoUrl?: string
-  state?: 'processing' | 'ready'
+  // Supported variants — all rendered by this single template:
+  //   'creating' (alias: 'processing') → tribute is being generated
+  //   'ready'                          → memorial is ready
+  //   'resend'                         → re-send of the ready email (same content)
+  state?: 'creating' | 'processing' | 'ready' | 'resend'
+  type?: 'creating' | 'processing' | 'ready' | 'resend'
 }
 
 const PaymentConfirmationEmail = ({
@@ -25,9 +30,11 @@ const PaymentConfirmationEmail = ({
   logoUrl,
   photoUrl,
   state,
+  type,
 }: PaymentConfirmationProps) => {
   const name = petName || 'your pet'
-  const isReady = state === 'ready'
+  const variant = type || state || 'ready'
+  const isReady = variant === 'ready' || variant === 'resend'
   const publicUrl = slug ? `${BASE_URL}/memorial/${slug}` : BASE_URL
   const manageUrl = slug && manageToken
     ? `${BASE_URL}/memorial/manage/${slug}?token=${manageToken}`
