@@ -60,6 +60,7 @@ Deno.serve(async (req) => {
   let idempotencyKey: string
   let messageId: string
   let templateData: Record<string, any> = {}
+  let tributeId: string | undefined
   try {
     const body = await req.json()
     templateName = body.templateName || body.template_name
@@ -68,6 +69,11 @@ Deno.serve(async (req) => {
     idempotencyKey = body.idempotencyKey || body.idempotency_key || messageId
     if (body.templateData && typeof body.templateData === 'object') {
       templateData = body.templateData
+    }
+    if (typeof body.tributeId === 'string') {
+      tributeId = body.tributeId
+    } else if (typeof body.tribute_id === 'string') {
+      tributeId = body.tribute_id
     }
   } catch {
     return new Response(
@@ -88,6 +94,67 @@ Deno.serve(async (req) => {
       }
     )
   }
+
+  // Create Supabase client with service role (bypasses RLS) — needed early
+  // for tributeId resolution.
+  const supabase = createClient(
+    Deno.env.get('SUPABASE_URL')!,
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+  )
+
+  // If tributeId is provided, hydrate recipient + templateData from the database.
+  // Client-supplied email/slug/manageToken values are ignored in this path so
+  // they cannot be spoofed.
+  if (tributeId) {
+    if (!/^[0-9a-f-]{36}$/i.test(tributeId)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid tributeId' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    const [{ data: tributeRow }, { data: emailRow }, { data: publicRow }] = await Promise.all([
+      supabase.from('tributes').select('pet_name, slug').eq('id', tributeId).maybeSingle(),
+      supabase
+        .from('tribute_emails')
+        .select('email')
+        .eq('tribute_id', tributeId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+      supabase
+        .from('public_tributes')
+        .select('slug, custom_slug, manage_token')
+        .eq('tribute_id', tributeId)
+        .maybeSingle(),
+    ])
+
+    if (!tributeRow) {
+      return new Response(
+        JSON.stringify({ error: 'Tribute not found' }),
+        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+    if (!emailRow?.email) {
+      return new Response(
+        JSON.stringify({ error: 'No email on file for tribute' }),
+        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    const slug = publicRow?.custom_slug || publicRow?.slug || tributeRow.slug
+    const manageToken = publicRow?.manage_token
+
+    recipientEmail = emailRow.email
+    templateData = {
+      ...templateData,
+      petName: tributeRow.pet_name,
+      slug,
+      manageToken,
+      tributeId,
+    }
+  }
+
 
   // 1. Look up template from registry (early — needed to resolve recipient)
   const template = TEMPLATES[templateName]
