@@ -141,6 +141,18 @@ Deno.serve(async (req) => {
       throw new Error(`Resend API failed [${response.status}]: ${JSON.stringify(data)}`);
     }
 
+    // Log successful send for idempotency
+    const { error: logErr } = await supabase.from("email_send_log").insert({
+      recipient_email: email,
+      template_name: "confirmation",
+      status: "sent",
+      message_id: data?.id ?? null,
+      metadata: { tribute_id: tributeId, type: "confirmation" },
+    });
+    if (logErr) {
+      console.warn("email_send_log insert failed:", logErr.message);
+    }
+
     return json({ success: true, id: data?.id ?? null });
   } catch (error) {
     console.error("send-confirmation-email error:", error);
