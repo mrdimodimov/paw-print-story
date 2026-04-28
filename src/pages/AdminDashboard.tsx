@@ -322,22 +322,36 @@ export default function AdminDashboard() {
         recipientEmail = input.trim();
       }
 
-      const { error } = await supabase.functions.invoke("send-transactional-email", {
-        body: {
-          templateName: "payment-confirmation",
-          recipientEmail,
-          idempotencyKey: `resend-${tribute.id}-${Date.now()}`,
-          templateData: {
-            petName: tribute.pet_name,
-            slug: tribute.slug,
-            tributeId: ptData.tribute_id,
-            manageToken: ptData.manage_token,
+      const { data: sendResult, error } = await supabase.functions.invoke(
+        "send-transactional-email",
+        {
+          body: {
+            templateName: "payment-confirmation",
+            recipientEmail,
+            idempotencyKey: `resend-${tribute.id}`,
+            templateData: {
+              petName: tribute.pet_name,
+              slug: tribute.slug,
+              tributeId: ptData.tribute_id,
+              manageToken: ptData.manage_token,
+            },
           },
         },
-      });
+      );
 
       if (error) throw error;
-      toast.success(`Access link sent to ${recipientEmail}`);
+
+      const alreadySent =
+        sendResult?.skipped === true ||
+        sendResult?.deduplicated === true ||
+        sendResult?.status === "already_sent" ||
+        sendResult?.reason === "already_sent";
+
+      if (alreadySent) {
+        toast("Email already sent");
+      } else {
+        toast.success("Email sent");
+      }
     } catch {
       toast.error("Failed to send access email");
     } finally {
