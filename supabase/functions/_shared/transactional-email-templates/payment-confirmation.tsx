@@ -197,6 +197,8 @@ const supportingText = {
   lineHeight: '1.5',
   margin: '0 0 20px',
 }
+const shareLine = { fontSize: '13px', color: '#8a7866', textAlign: 'center' as const, margin: '-8px 0 24px', lineHeight: '1.5' }
+const shareLink = { color: '#8a7866', textDecoration: 'underline' }
 const manageLine = { fontSize: '13px', color: '#999999', textAlign: 'center' as const, margin: '0 0 32px' }
 const manageLink = { color: '#6f4e37', textDecoration: 'underline' }
 const footer = {
