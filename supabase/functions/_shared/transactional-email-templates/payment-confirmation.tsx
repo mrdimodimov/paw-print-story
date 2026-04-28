@@ -1,85 +1,89 @@
 import * as React from 'npm:react@18.3.1'
 import {
-  Body, Container, Head, Heading, Html, Preview, Text, Button, Hr, Section, Link,
+  Body, Container, Head, Heading, Html, Preview, Text, Button, Section, Link, Img, Hr,
 } from 'npm:@react-email/components@0.0.22'
 import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = "VellumPet"
 const BASE_URL = "https://vellumpet.com"
+const DEFAULT_LOGO_URL = `${BASE_URL}/logo.png`
 
 interface PaymentConfirmationProps {
   petName?: string
   slug?: string
   tributeId?: string
   manageToken?: string
+  logoUrl?: string
+  state?: 'processing' | 'ready'
 }
 
-const PaymentConfirmationEmail = ({ petName, slug, tributeId, manageToken }: PaymentConfirmationProps) => {
+const PaymentConfirmationEmail = ({
+  petName,
+  slug,
+  manageToken,
+  logoUrl,
+  state,
+}: PaymentConfirmationProps) => {
   const name = petName || 'your pet'
+  const isReady = state === 'ready'
+  const publicUrl = slug ? `${BASE_URL}/memorial/${slug}` : BASE_URL
   const manageUrl = slug && manageToken
     ? `${BASE_URL}/memorial/manage/${slug}?token=${manageToken}`
     : null
-  const publicUrl = slug
-    ? `${BASE_URL}/memorial/${slug}`
-    : `${BASE_URL}/tribute/${tributeId || ''}`
+  const logo = logoUrl || DEFAULT_LOGO_URL
+
+  const headline = isReady
+    ? `Your memorial for ${name} is ready 💛`
+    : `We're creating ${name}'s memorial 🐾`
+  const subtext = isReady
+    ? `A quiet little place to hold ${name}'s story, whenever you need to return to it.`
+    : `Thank you. We're carefully shaping ${name}'s tribute now — you'll receive another email the moment it's ready.`
+  const previewText = isReady
+    ? `${name}'s memorial is ready 💛`
+    : `We're creating ${name}'s memorial`
 
   return (
     <Html lang="en" dir="ltr">
       <Head />
-      <Preview>Your memorial for {name} is ready 💛</Preview>
+      <Preview>{previewText}</Preview>
       <Body style={main}>
-        <Container style={container}>
-          <Text style={logoText}>🐾 {SITE_NAME}</Text>
+        <Container style={card}>
+          <Section style={logoSection}>
+            <Img src={logo} alt="VellumPet" width="90" style={logoStyle} />
+          </Section>
 
-          <Heading style={h1}>Your memorial for {name} is ready 💛</Heading>
+          {isReady && (
+            <Text style={memoryLine}>In loving memory of {name} 🐾</Text>
+          )}
 
-          <Text style={text}>
-            Thank you for creating a beautiful tribute. Your memorial page is now live and ready to share with friends and family.
-          </Text>
+          <Heading style={h1}>{headline}</Heading>
 
-          {manageUrl && (
+          <Text style={text}>{subtext}</Text>
+
+          {isReady && (
             <Section style={buttonSection}>
-              <Button style={primaryButton} href={manageUrl}>
-                Manage Your Memorial
+              <Button style={primaryButton} href={publicUrl}>
+                View Memorial
               </Button>
             </Section>
           )}
 
-          <Section style={buttonSection}>
-            <Button style={secondaryButton} href={publicUrl}>
-              View Public Memorial
-            </Button>
-          </Section>
+          {isReady && <Hr style={divider} />}
 
-          <Hr style={divider} />
-
-          <Text style={subheading}>What you can do from your dashboard:</Text>
-
-          <Text style={text}>
-            • <strong>Edit your story</strong> — Update the tribute anytime{'\n'}
-            • <strong>Add photos</strong> — Upload more memories to your page{'\n'}
-            • <strong>Regenerate</strong> — Create a fresh version of the tribute{'\n'}
-            • <strong>Share it</strong> — Send the link to loved ones who knew {name}
-          </Text>
-
-          <Text style={text}>
-            You can edit, regenerate, and add photos anytime using your management dashboard.
-          </Text>
-
-          {manageUrl && (
-            <>
-              <Text style={linkLabel}>Your private management link (save this!):</Text>
-              <Text style={linkText}>{manageUrl}</Text>
-            </>
+          {isReady && (
+            <Text style={supportingText}>
+              You can return anytime to remember, update, or share.
+            </Text>
           )}
 
-          <Text style={linkLabel}>Public memorial link:</Text>
-          <Text style={linkText}>{publicUrl}</Text>
-
-          <Hr style={divider} />
+          {manageUrl && (
+            <Text style={manageLine}>
+              <Link href={manageUrl} style={manageLink}>Manage your memorial</Link>
+            </Text>
+          )}
 
           <Text style={footer}>
-            With love,{'\n'}
+            With care,<br />
             The {SITE_NAME} Team
           </Text>
         </Container>
@@ -90,21 +94,90 @@ const PaymentConfirmationEmail = ({ petName, slug, tributeId, manageToken }: Pay
 
 export const template = {
   component: PaymentConfirmationEmail,
-  subject: (data: Record<string, any>) => `Your memorial for ${data.petName || 'your pet'} is ready 💛`,
-  displayName: 'Payment confirmation',
-  previewData: { petName: 'Bella', slug: 'bella-golden-retriever', tributeId: 'abc-123', manageToken: 'test-token-uuid' },
+  subject: (data: Record<string, any>) => {
+    const name = data.petName || 'your pet'
+    return data.state === 'ready'
+      ? `Your memorial for ${name} is ready 💛`
+      : `We're creating ${name}'s memorial 🐾`
+  },
+  displayName: 'Memorial status',
+  previewData: { petName: 'Bella', slug: 'bella-golden-retriever', manageToken: 'test-token-uuid', state: 'ready' },
 } satisfies TemplateEntry
 
-const main = { backgroundColor: '#ffffff', fontFamily: "'Source Sans 3', Arial, sans-serif" }
-const container = { padding: '40px 25px', maxWidth: '560px', margin: '0 auto' }
-const logoText = { fontSize: '18px', fontWeight: '600' as const, color: '#5A4634', margin: '0 0 30px', textAlign: 'center' as const }
-const h1 = { fontSize: '24px', fontWeight: '700' as const, color: '#3B2E22', margin: '0 0 20px', fontFamily: "'Playfair Display', Georgia, serif", lineHeight: '1.3' }
-const text = { fontSize: '15px', color: '#55575d', lineHeight: '1.6', margin: '0 0 20px' }
-const subheading = { fontSize: '16px', fontWeight: '600' as const, color: '#3B2E22', margin: '0 0 12px' }
-const buttonSection = { textAlign: 'center' as const, margin: '20px 0' }
-const primaryButton = { backgroundColor: '#5A4634', color: '#F3EEE7', fontSize: '16px', fontWeight: '600' as const, padding: '14px 32px', borderRadius: '8px', textDecoration: 'none' }
-const secondaryButton = { backgroundColor: 'transparent', color: '#5A4634', fontSize: '14px', fontWeight: '600' as const, padding: '10px 24px', borderRadius: '8px', textDecoration: 'none', border: '2px solid #5A4634' }
-const divider = { borderTop: '1px solid #E8E0D8', margin: '28px 0' }
-const linkLabel = { fontSize: '13px', color: '#999999', margin: '0 0 4px' }
-const linkText = { fontSize: '14px', color: '#5A4634', margin: '0 0 20px', wordBreak: 'break-all' as const }
-const footer = { fontSize: '13px', color: '#999999', margin: '20px 0 0', whiteSpace: 'pre-line' as const }
+const main = {
+  backgroundColor: '#f6f3ef',
+  fontFamily: "Arial, Helvetica, sans-serif",
+  margin: '0',
+  padding: '40px 20px',
+}
+const card = {
+  backgroundColor: '#ffffff',
+  maxWidth: '520px',
+  margin: '0 auto',
+  padding: '48px 40px',
+  borderRadius: '14px',
+  boxShadow: '0 4px 20px rgba(60, 40, 25, 0.06)',
+}
+const logoSection = { textAlign: 'center' as const, margin: '0 0 20px' }
+const logoStyle = {
+  display: 'block',
+  margin: '0 auto',
+  maxWidth: '90px',
+  height: 'auto',
+  opacity: 0.9,
+}
+const memoryLine = {
+  fontSize: '13px',
+  color: '#8a7866',
+  textAlign: 'center' as const,
+  letterSpacing: '0.5px',
+  textTransform: 'uppercase' as const,
+  margin: '0 0 12px',
+}
+const h1 = {
+  fontSize: '22px',
+  fontWeight: '700' as const,
+  color: '#3B2E22',
+  margin: '0 0 16px',
+  lineHeight: '1.35',
+  textAlign: 'center' as const,
+}
+const text = {
+  fontSize: '15px',
+  color: '#55575d',
+  lineHeight: '1.6',
+  margin: '0 0 28px',
+  textAlign: 'center' as const,
+}
+const buttonSection = { textAlign: 'center' as const, margin: '0 0 28px' }
+const primaryButton = {
+  backgroundColor: '#6f4e37',
+  color: '#ffffff',
+  fontSize: '15px',
+  fontWeight: '600' as const,
+  padding: '14px 32px',
+  borderRadius: '999px',
+  textDecoration: 'none',
+  display: 'inline-block',
+}
+const divider = {
+  border: 'none',
+  borderTop: '1px solid #ece6dd',
+  margin: '0 0 20px',
+}
+const supportingText = {
+  fontSize: '14px',
+  color: '#8a7866',
+  textAlign: 'center' as const,
+  lineHeight: '1.5',
+  margin: '0 0 20px',
+}
+const manageLine = { fontSize: '13px', color: '#999999', textAlign: 'center' as const, margin: '0 0 32px' }
+const manageLink = { color: '#6f4e37', textDecoration: 'underline' }
+const footer = {
+  fontSize: '13px',
+  color: '#999999',
+  textAlign: 'center' as const,
+  margin: '0',
+  lineHeight: '1.5',
+}

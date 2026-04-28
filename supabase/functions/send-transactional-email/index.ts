@@ -154,19 +154,19 @@ Deno.serve(async (req) => {
       tributeId,
     }
 
-    // Idempotency: if a "ready" email was already sent for this tribute, skip.
-    if (templateName === 'ready') {
+    // Idempotency: if a "ready"-state memorial email was already sent for this tribute, skip.
+    if (templateName === 'payment-confirmation' && templateData.state === 'ready') {
       const { data: alreadySent } = await supabase
         .from('email_send_log')
         .select('id')
-        .eq('template_name', 'ready')
+        .eq('template_name', 'payment-confirmation')
         .eq('status', 'sent')
-        .contains('metadata', { tribute_id: tributeId })
+        .contains('metadata', { tribute_id: tributeId, state: 'ready' })
         .limit(1)
         .maybeSingle()
 
       if (alreadySent) {
-        console.log('Ready email already sent for tribute, skipping', { tributeId })
+        console.log('Ready memorial email already sent for tribute, skipping', { tributeId })
         return new Response(
           JSON.stringify({ success: true, skipped: true, reason: 'already_sent' }),
           { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -391,7 +391,7 @@ Deno.serve(async (req) => {
     template_name: templateName,
     recipient_email: effectiveRecipient,
     status: 'pending',
-    metadata: tributeId ? { tribute_id: tributeId } : null,
+    metadata: tributeId ? { tribute_id: tributeId, ...(templateData.state ? { state: templateData.state } : {}) } : (templateData.state ? { state: templateData.state } : null),
   })
 
   const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
@@ -403,7 +403,7 @@ Deno.serve(async (req) => {
       recipient_email: effectiveRecipient,
       status: 'failed',
       error_message: 'RESEND_API_KEY missing',
-      metadata: tributeId ? { tribute_id: tributeId } : null,
+      metadata: tributeId ? { tribute_id: tributeId, ...(templateData.state ? { state: templateData.state } : {}) } : (templateData.state ? { state: templateData.state } : null),
     })
     return new Response(JSON.stringify({ error: 'Email service not configured' }), {
       status: 500,
@@ -437,7 +437,7 @@ Deno.serve(async (req) => {
       recipient_email: effectiveRecipient,
       status: 'failed',
       error_message: err instanceof Error ? err.message : 'Resend request failed',
-      metadata: tributeId ? { tribute_id: tributeId } : null,
+      metadata: tributeId ? { tribute_id: tributeId, ...(templateData.state ? { state: templateData.state } : {}) } : (templateData.state ? { state: templateData.state } : null),
     })
     return new Response(JSON.stringify({ error: 'Failed to send email' }), {
       status: 502,
@@ -454,7 +454,7 @@ Deno.serve(async (req) => {
       recipient_email: effectiveRecipient,
       status: 'failed',
       error_message: errMsg,
-      metadata: tributeId ? { tribute_id: tributeId } : null,
+      metadata: tributeId ? { tribute_id: tributeId, ...(templateData.state ? { state: templateData.state } : {}) } : (templateData.state ? { state: templateData.state } : null),
     })
     return new Response(JSON.stringify({ error: 'Failed to send email' }), {
       status: 502,
@@ -468,7 +468,7 @@ Deno.serve(async (req) => {
     template_name: templateName,
     recipient_email: effectiveRecipient,
     status: 'sent',
-    metadata: tributeId ? { tribute_id: tributeId } : null,
+    metadata: tributeId ? { tribute_id: tributeId, ...(templateData.state ? { state: templateData.state } : {}) } : (templateData.state ? { state: templateData.state } : null),
   })
 
   console.log('Transactional email sent', { templateName, effectiveRecipient, id: resendData?.id })
