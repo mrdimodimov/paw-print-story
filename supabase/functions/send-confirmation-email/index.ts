@@ -36,22 +36,6 @@ Deno.serve(async (req) => {
       auth: { persistSession: false, autoRefreshToken: false },
     });
 
-    // Idempotency: skip if a confirmation email was already sent for this tribute
-    const { data: existing, error: existingErr } = await supabase
-      .from("email_send_log")
-      .select("id, message_id")
-      .eq("template_name", "confirmation")
-      .eq("status", "sent")
-      .contains("metadata", { tribute_id: tributeId })
-      .limit(1)
-      .maybeSingle();
-    if (existingErr) {
-      console.warn("Idempotency check failed (continuing):", existingErr.message);
-    }
-    if (existing) {
-      return json({ success: true, skipped: true, reason: "already_sent", id: existing.message_id ?? null });
-    }
-
     // 1. Tribute (pet name + slug)
     const { data: tribute, error: tErr } = await supabase
       .from("tributes")
@@ -86,6 +70,30 @@ Deno.serve(async (req) => {
     if (!manageToken || !slug) {
       return json({ success: false, error: "Tribute is missing manage token or slug" }, 409);
     }
+
+    // 4. Race-safe idempotency: insert a "pending" row first.
+    // A unique partial index on (metadata->>'tribute_id') WHERE template_name='confirmation'
+    // AND status <> 'failed' guarantees only one in-flight or sent row per tribute.
+    const { data: pendingRow, error: pendingErr } = await supabase
+      .from("email_send_log")
+      .insert({
+        recipient_email: email,
+        template_name: "confirmation",
+        status: "pending",
+        metadata: { tribute_id: tributeId, type: "confirmation" },
+      })
+      .select("id")
+      .single();
+
+    if (pendingErr) {
+      // Postgres unique violation = another invocation already claimed this tribute.
+      if ((pendingErr as { code?: string }).code === "23505") {
+        return json({ success: true, skipped: true, reason: "already_sent" });
+      }
+      throw new Error(`Idempotency reservation failed: ${pendingErr.message}`);
+    }
+
+    const logId = pendingRow.id;
 
     const manageUrl = `https://vellumpet.com/memorial/manage/${encodeURIComponent(slug)}?token=${encodeURIComponent(manageToken)}`;
     const safePet = escapeHtml(tribute.pet_name || "your pet");
