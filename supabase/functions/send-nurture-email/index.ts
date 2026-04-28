@@ -84,7 +84,7 @@ function ctaButton(text: string, url: string): string {
 </td></tr></table>`;
 }
 
-interface EmailTemplate { subject: string; html: string; text: string }
+interface EmailTemplate { subject: string; html: string }
 
 function htmlToText(html: string): string {
   return html
