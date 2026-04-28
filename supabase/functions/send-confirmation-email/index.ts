@@ -86,8 +86,8 @@ Deno.serve(async (req) => {
           You can manage the memorial — update photos, edit details, or change privacy — anytime using your private link below.
         </p>
         <p style="text-align: center; margin: 0 0 24px;">
-          <a href="${safeUrl}"
-             style="display: inline-block; background: linear-gradient(135deg, #8b5a3c, #6b4423); color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 999px; font-weight: 600; font-size: 16px;">
+          <a href="${safeUrl}" target="_blank" rel="noopener noreferrer"
+             style="display: inline-block; background-color: #8b5a3c; background-image: linear-gradient(135deg, #8b5a3c, #6b4423); color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 999px; font-weight: 600; font-size: 16px; mso-padding-alt: 0;">
             Manage Your Memorial
           </a>
         </p>
