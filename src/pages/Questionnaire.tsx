@@ -132,9 +132,10 @@ const Questionnaire = () => {
   // Fire `trackStepMounted` whenever the user enters a new step.
   // The `intro` pseudo-step (step === -1) is treated as the funnel landing.
   useEffect(() => {
-    const stepName = step === -1 ? "intro" : STEPS[step] ?? `step_${step}`;
-    // step_number: 0 for intro, 1..N for actual steps (human-friendly indexing)
-    const stepNumber = step === -1 ? 0 : step + 1;
+    const stepName =
+      step === -2 ? "prefill_reveal" : step === -1 ? "intro" : STEPS[step] ?? `step_${step}`;
+    // step_number: -1 for prefill, 0 for intro, 1..N for actual steps
+    const stepNumber = step === -2 ? -1 : step === -1 ? 0 : step + 1;
     trackStepMounted(stepName, stepNumber);
   }, [step]);
 
