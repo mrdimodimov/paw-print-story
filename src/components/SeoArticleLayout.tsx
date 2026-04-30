@@ -724,6 +724,39 @@ const SeoArticleLayout = ({
         </div>
       </article>
 
+      {/* Floating contextual CTA when a quote is selected */}
+      <AnimatePresence>
+        {selectedQuote && (
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 24 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 pointer-events-none"
+            role="region"
+            aria-label="Continue with selected quote"
+          >
+            <div className="pointer-events-auto flex w-full max-w-xl items-center gap-4 rounded-2xl border border-border/60 bg-card/95 p-4 shadow-card backdrop-blur md:p-5">
+              <div className="min-w-0 flex-1 text-left">
+                <p className="text-sm font-semibold text-foreground">
+                  You've chosen something meaningful.
+                </p>
+                <p className="mt-0.5 text-xs text-muted-foreground">
+                  Turn it into a full tribute.
+                </p>
+              </div>
+              <Link
+                to="/create?prefill=1"
+                className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-5 py-3 text-sm font-semibold text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+              >
+                Continue
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Footer */}
       <footer className="border-t border-border/50 py-8 text-center text-sm text-muted-foreground">
         <div className="tribute-container">
