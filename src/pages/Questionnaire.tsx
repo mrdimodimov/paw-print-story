@@ -762,6 +762,24 @@ const Questionnaire = () => {
             <p className="mb-10 max-w-md text-base text-muted-foreground">
               This will only take 2 minutes. We'll guide you every step of the way.
             </p>
+            {hasDemoPrefill && (
+              <div className="mb-8 w-full max-w-md rounded-2xl border border-primary/20 bg-primary/5 p-4 text-left">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">
+                  ✓ We started this for you
+                </p>
+                <ul className="space-y-1 text-sm text-foreground/80">
+                  {prefilledName && (
+                    <li><span className="text-muted-foreground">Name:</span> {prefilledName}</li>
+                  )}
+                  {prefilledTrait && (
+                    <li><span className="text-muted-foreground">Personality:</span> {prefilledTrait}</li>
+                  )}
+                  {prefilledMemory && (
+                    <li><span className="text-muted-foreground">Memory:</span> {prefilledMemory}</li>
+                  )}
+                </ul>
+              </div>
+            )}
             <Button
               size="lg"
               className="px-8 py-6 text-lg shadow-glow"
