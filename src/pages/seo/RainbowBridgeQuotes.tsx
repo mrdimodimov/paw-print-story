@@ -382,6 +382,7 @@ const RainbowBridgeQuotes = () => {
           </p>
         </footer>
       </article>
+      <PrefillFloatingBar slug="/rainbow-bridge-quotes" />
     </div>
   );
 };
