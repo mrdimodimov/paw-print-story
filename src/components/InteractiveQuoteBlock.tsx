@@ -43,7 +43,7 @@ export function InteractiveQuoteBlock({ text, slug }: { text: string; slug?: str
       <span className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-primary">
         {selected ? (
           <>
-            <Check className="h-3.5 w-3.5" /> This will be included in your tribute
+            <Check className="h-3.5 w-3.5" /> We'll start your tribute with this exact message
           </>
         ) : (
           <>
@@ -83,21 +83,24 @@ export function PrefillFloatingBar({ slug }: { slug?: string }) {
         >
           <div className="mx-auto flex max-w-3xl flex-col items-center justify-between gap-3 sm:flex-row sm:gap-4">
             <div className="min-w-0 flex-1 text-center sm:text-left">
-              <p className="text-sm font-semibold text-foreground">You chose something meaningful</p>
+              <p className="text-sm font-semibold text-foreground">Start your tribute with this</p>
               <p className="truncate text-xs italic text-muted-foreground">"{quote}"</p>
             </div>
-            <Link
-              to="/create?prefill=1"
-              onClick={() =>
-                trackEvent("prefill_continue_clicked", {
-                  metadata: { source: "floating_bar", slug },
-                })
-              }
-              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
-            >
-              Continue with this quote
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+            <div className="flex flex-col items-center sm:items-end gap-1">
+              <Link
+                to="/create?prefill=1"
+                onClick={() =>
+                  trackEvent("prefill_continue_clicked", {
+                    metadata: { source: "floating_bar", slug },
+                  })
+                }
+                className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+              >
+                Continue with this quote
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <p className="text-[11px] text-muted-foreground">This will be included in your tribute</p>
+            </div>
           </div>
         </motion.div>
       )}
