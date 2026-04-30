@@ -81,6 +81,7 @@ async function hashContext(data: TributeRequest): Promise<string> {
     data.owner_name, data.personality_traits, data.personality_description,
     data.memories, data.special_habits, data.favorite_activities,
     data.favorite_people_or_animals, data.owner_message, data.tone, data.tier_name,
+    data.tone_seed || "",
   ].join("|");
   const encoder = new TextEncoder();
   const hashBuffer = await crypto.subtle.digest("SHA-256", encoder.encode(input));
