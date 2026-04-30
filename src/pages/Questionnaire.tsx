@@ -85,7 +85,9 @@ const Questionnaire = () => {
   const tier = searchParams.get("tier") || "story";
   const isTester = !!searchParams.get("tester");
   const tierConfig = TIERS.find((t) => t.id === tier) || TIERS[0];
-  const [step, setStep] = useState(-1); // -1 = intro screen, -2 = prefill reveal
+  // Skip intro screen when arriving from homepage demo prefill — go straight to Step 1
+  const initialStep = !!(searchParams.get("name") || searchParams.get("trait") || searchParams.get("memory")) ? 0 : -1;
+  const [step, setStep] = useState(initialStep); // -1 = intro screen, -2 = prefill reveal
   const [form, setForm] = useState<TributeFormData>(defaultForm);
   const [prefillQuote, setPrefillQuote] = useState<string | null>(null);
   const prefilledName = searchParams.get("name") || "";
