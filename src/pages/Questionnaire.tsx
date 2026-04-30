@@ -76,6 +76,47 @@ const defaultForm: TributeFormData = {
   tone: "warm",
 };
 
+// Single-line input that expands to a textarea on focus or once content is typed.
+// Keeps the optional details section feeling lightweight.
+function ExpandingField({
+  label,
+  placeholder,
+  value,
+  onChange,
+}: {
+  label: string;
+  placeholder: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  const [focused, setFocused] = useState(false);
+  const expanded = focused || (value && value.length > 0);
+  return (
+    <div>
+      <Label className="text-xs text-muted-foreground">{label} (optional)</Label>
+      {expanded ? (
+        <Textarea
+          autoFocus={focused}
+          className="mt-1 min-h-[64px] text-sm transition-all"
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onBlur={() => setFocused(false)}
+          rows={2}
+        />
+      ) : (
+        <Input
+          className="mt-1 h-9 text-sm"
+          placeholder={placeholder}
+          value={value}
+          onFocus={() => setFocused(true)}
+          onChange={(e) => onChange(e.target.value)}
+        />
+      )}
+    </div>
+  );
+}
+
 const Questionnaire = () => {
   const { isTestMode } = useTestMode();
   const navigate = useNavigate();
