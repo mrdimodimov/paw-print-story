@@ -770,9 +770,6 @@ const Questionnaire = () => {
           </motion.div>
         ) : (
         <>
-        <div className="mb-8 rounded-lg bg-accent/60 p-4 text-center text-sm text-accent-foreground">
-          This will take less than a minute.
-        </div>
 
         <div className="mb-8">
           <div className="mb-2 flex justify-between text-xs text-muted-foreground">
