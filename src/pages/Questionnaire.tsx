@@ -54,10 +54,8 @@ const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const STEPS = [
   "About Your Pet",
   "Personality",
-  "Memories",
-  "What They Loved",
   "Your Message",
-  "Style",
+  "Memories & Style",
 ];
 
 
