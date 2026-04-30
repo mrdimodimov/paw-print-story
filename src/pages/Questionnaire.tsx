@@ -85,8 +85,23 @@ const Questionnaire = () => {
   const tier = searchParams.get("tier") || "story";
   const isTester = !!searchParams.get("tester");
   const tierConfig = TIERS.find((t) => t.id === tier) || TIERS[0];
-  const [step, setStep] = useState(-1); // -1 = intro screen
+  const [step, setStep] = useState(-1); // -1 = intro screen, -2 = prefill reveal
   const [form, setForm] = useState<TributeFormData>(defaultForm);
+  const [prefillQuote, setPrefillQuote] = useState<string | null>(null);
+
+  // Read prefill quote from localStorage on mount; if present and the user
+  // arrived via ?prefill=1, show a dedicated reveal screen first.
+  useEffect(() => {
+    const q = readPrefillQuote();
+    if (q && searchParams.get("prefill") === "1") {
+      setPrefillQuote(q);
+      setStep(-2);
+    } else if (q) {
+      // Quote exists but no prefill flag — still seed owner_message silently
+      setPrefillQuote(q);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Capture tester source on mount and fire DB + GA4 funnel-start events.
   // Also wire exit-intent: if the user leaves /create without finishing, fire
