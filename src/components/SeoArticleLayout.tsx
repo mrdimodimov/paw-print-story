@@ -575,25 +575,46 @@ const SeoArticleLayout = ({
             viewport={{ once: true }}
             className="mb-14 rounded-xl border border-border bg-accent/30 p-8 text-center md:p-10"
           >
-            <h2 className="mb-3 text-2xl font-bold text-foreground">
-              {outroHeading}
-            </h2>
-            <p className="mb-6 text-muted-foreground">{outro}</p>
-            <Link
-              to="/create"
-              className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-8 py-4 text-base font-medium text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
-            >
-              <CtaIcon className="mr-1 shrink-0" size={22} />
-              Create a Tribute for Your Pet
-            </Link>
-            <div className="mt-5 space-y-1">
-              <p className="text-xs italic text-muted-foreground/60">
-                "I didn't expect something this simple to feel so meaningful."
-              </p>
-              <p className="text-xs italic text-muted-foreground/60">
-                "Now I have something I can come back to and remember them."
-              </p>
-            </div>
+            {selectedQuote ? (
+              <>
+                <h2 className="mb-3 text-2xl font-bold text-foreground">
+                  Carry these words with you
+                </h2>
+                <p className="mb-4 font-display text-lg italic text-foreground/90">"{selectedQuote}"</p>
+                <p className="mb-6 text-muted-foreground">
+                  We'll start your tribute with this quote already in place.
+                </p>
+                <Link
+                  to="/create?prefill=1"
+                  className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-8 py-4 text-base font-medium text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+                >
+                  <CtaIcon className="mr-1 shrink-0" size={22} />
+                  Continue with this quote
+                </Link>
+              </>
+            ) : (
+              <>
+                <h2 className="mb-3 text-2xl font-bold text-foreground">
+                  {outroHeading}
+                </h2>
+                <p className="mb-6 text-muted-foreground">{outro}</p>
+                <Link
+                  to="/create"
+                  className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-8 py-4 text-base font-medium text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+                >
+                  <CtaIcon className="mr-1 shrink-0" size={22} />
+                  Create a Tribute for Your Pet
+                </Link>
+                <div className="mt-5 space-y-1">
+                  <p className="text-xs italic text-muted-foreground/60">
+                    "I didn't expect something this simple to feel so meaningful."
+                  </p>
+                  <p className="text-xs italic text-muted-foreground/60">
+                    "Now I have something I can come back to and remember them."
+                  </p>
+                </div>
+              </>
+            )}
           </motion.section>
 
           {/* Related Articles */}
