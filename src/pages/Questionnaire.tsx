@@ -843,9 +843,11 @@ const Questionnaire = () => {
           </motion.p>
         )}
 
-        <p className="mt-6 text-center text-xs text-muted-foreground/70">
-          Your answers are never stored or used for AI training. They are only used to generate your tribute.
-        </p>
+        {step === 0 && (
+          <p className="mt-6 text-center text-xs text-muted-foreground/70">
+            Your answers are never stored or used for AI training. They are only used to generate your tribute.
+          </p>
+        )}
 
         <ImageCropModal
           open={cropOpen}
