@@ -635,6 +635,7 @@ const PetMemorialQuotes = () => {
           </p>
         </div>
       </footer>
+      <PrefillFloatingBar slug="/pet-memorial-quotes" />
     </div>
   );
 };
