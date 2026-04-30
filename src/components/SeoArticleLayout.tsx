@@ -3,9 +3,23 @@ import CtaIcon from "@/components/CtaIcon";
 import PawIcon from "@/components/PawIcon";
 import { useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { motion } from "framer-motion";
-import { Heart, ArrowRight } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Heart, ArrowRight, Check } from "lucide-react";
+import { useRef, useState } from "react";
 import { BRAND } from "@/lib/brand";
+
+/** A line is treated as a selectable quote if it starts and ends with a straight or curly quote */
+const isQuoteLine = (s: string) => {
+  const t = s.trim();
+  if (t.length < 3) return false;
+  const first = t[0];
+  const last = t[t.length - 1];
+  const openers = ['"', "\u201C", "'", "\u2018"];
+  const closers = ['"', "\u201D", "'", "\u2019"];
+  return openers.includes(first) && closers.includes(last);
+};
+
+const stripQuotes = (s: string) => s.trim().replace(/^["'\u201C\u2018]+|["'\u201D\u2019]+$/g, "").trim();
 
 interface SeoArticleMeta {
   title: string;
