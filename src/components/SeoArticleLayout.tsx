@@ -414,11 +414,61 @@ const SeoArticleLayout = ({
                 {exampleTitle}
               </h3>
               <div className="space-y-4 font-body text-sm leading-relaxed text-foreground/90">
-                {exampleBody.map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
+                {exampleBody.map((p, i) => {
+                  if (!isQuoteLine(p)) {
+                    return <p key={i}>{p}</p>;
+                  }
+                  const clean = stripQuotes(p);
+                  const isSelected = selectedQuote === clean;
+                  return (
+                    <div key={i} className="group">
+                      <button
+                        type="button"
+                        onClick={() => handleQuoteSelect(p)}
+                        aria-pressed={isSelected}
+                        className={`block w-full rounded-lg border px-4 py-3 text-left transition-all duration-200 ${
+                          isSelected
+                            ? "border-primary/60 bg-primary/10 shadow-soft"
+                            : "border-border/40 bg-background/60 hover:border-primary/40 hover:bg-accent/30"
+                        }`}
+                      >
+                        <p className="text-foreground/90">{p}</p>
+                        <span className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-primary">
+                          {isSelected ? (
+                            <>
+                              <Check className="h-3.5 w-3.5" /> Saved for your tribute
+                            </>
+                          ) : (
+                            <>
+                              Use this in your tribute <ArrowRight className="h-3.5 w-3.5" />
+                            </>
+                          )}
+                        </span>
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
+            <div ref={ctaAnchorRef} aria-hidden="true" className="h-0" />
+            {selectedQuote && (
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="mt-6 rounded-2xl border border-primary/30 bg-primary/5 p-6 text-center"
+              >
+                <p className="mb-2 text-sm uppercase tracking-wide text-muted-foreground">Your chosen words</p>
+                <p className="mb-5 font-display text-lg italic text-foreground">"{selectedQuote}"</p>
+                <Link
+                  to="/create?prefill=1"
+                  className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-6 py-3 text-sm font-semibold text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+                >
+                  <CtaIcon className="mr-1 shrink-0" size={18} />
+                  Continue with this quote
+                </Link>
+              </motion.div>
+            )}
           </motion.section>
 
           {/* Emotional CTA after example */}
