@@ -806,7 +806,7 @@ const Questionnaire = () => {
         ) : (
         <>
         <div className="mb-8 rounded-lg bg-accent/60 p-4 text-center text-sm text-accent-foreground">
-          Take your time. There are no right or wrong answers. Even small memories create meaningful tributes.
+          This will take less than a minute.
         </div>
 
         <div className="mb-8">
