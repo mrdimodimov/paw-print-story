@@ -62,24 +62,14 @@ export function InteractiveQuoteBlock({ text, slug }: { text: string; slug?: str
 export function PrefillFloatingBar({ slug }: { slug?: string }) {
   const [quote, setQuote] = useState<string | null>(() => readPrefillQuote());
 
-  // Subscribe to changes from any InteractiveQuoteBlock on the page
-  if (typeof window !== "undefined") {
-    // Lightweight effect-less listener: attach once
-    if (!(window as any).__vpPrefillListenerAttached) {
-      (window as any).__vpPrefillListenerAttached = true;
-    }
-  }
-
-  // Use effect-equivalent via a one-shot setup
-  useState(() => {
-    if (typeof window === "undefined") return null;
+  useEffect(() => {
     const handler = (e: Event) => {
       const detail = (e as CustomEvent).detail as string | null;
       setQuote(detail || readPrefillQuote());
     };
     window.addEventListener("vp_prefill_quote_changed", handler);
     return () => window.removeEventListener("vp_prefill_quote_changed", handler);
-  });
+  }, []);
 
   return (
     <AnimatePresence>
