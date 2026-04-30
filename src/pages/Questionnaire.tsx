@@ -321,7 +321,17 @@ const Questionnaire = () => {
       case 0:
         return (
           <div className="space-y-5">
-            <p className="text-sm text-muted-foreground">This takes less than a minute.</p>
+            {hasDemoPrefill && (
+              <div className="rounded-2xl border border-primary/20 bg-primary/5 p-4">
+                <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-primary">
+                  ✓ We started this for you
+                </p>
+                <p className="text-sm text-foreground/80">
+                  {[prefilledName, prefilledTrait, prefilledMemory].filter(Boolean).join(" • ")}
+                </p>
+              </div>
+            )}
+            <p className="text-sm text-muted-foreground">This will take less than a minute.</p>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <Label>Pet's Name *</Label>
@@ -339,92 +349,6 @@ const Questionnaire = () => {
                   onChange={(e) => update("pet_type", e.target.value)}
                 />
               </div>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <Label>Breed (optional)</Label>
-                <Input
-                  placeholder="e.g., Golden Retriever"
-                  value={form.breed}
-                  onChange={(e) => update("breed", e.target.value)}
-                />
-              </div>
-              <div>
-                <Label>Years of Life</Label>
-                <Input
-                  placeholder="e.g., 2010–2024 or 12 years"
-                  value={form.years_of_life}
-                  onChange={(e) => update("years_of_life", e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="pt-1">
-              <Label className="text-xs text-muted-foreground">Your Name (optional)</Label>
-              <Input
-                className="h-9 text-sm"
-                placeholder="Your first name"
-                value={form.owner_name}
-                onChange={(e) => update("owner_name", e.target.value)}
-              />
-            </div>
-
-            {/* Photo Upload */}
-            <div className="rounded-lg border border-border bg-accent/30 p-5">
-              <Label className="mb-1 block">Pet Photo (optional)</Label>
-              <p className="mb-4 text-sm text-muted-foreground">
-                Upload a photo of your pet to make the tribute more personal.
-                {tierConfig.photo_limit > 1 && (
-                  <> You can add up to {tierConfig.photo_limit} photos with your current plan.</>
-                )}
-              </p>
-
-              {/* Photo Previews */}
-              {form.photo_urls.length > 0 && (
-                <div className="mb-4 flex flex-wrap gap-3">
-                  {form.photo_urls.map((url, i) => (
-                    <div key={i} className="group relative h-24 w-24 overflow-hidden rounded-lg border border-border">
-                      <img src={url} alt={`Pet photo ${i + 1}`} className="h-full w-full object-cover" />
-                      <button
-                        type="button"
-                        onClick={() => removePhoto(i)}
-                        className="absolute right-1 top-1 rounded-full bg-foreground/70 p-0.5 text-background opacity-0 transition-opacity group-hover:opacity-100"
-                        aria-label="Remove photo"
-                      >
-                        <X className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {form.photo_urls.length < tierConfig.photo_limit && (
-                <>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept=".jpg,.jpeg,.png"
-                    multiple={tierConfig.photo_limit > 1}
-                    onChange={handlePhotoUpload}
-                    className="hidden"
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    disabled={uploading}
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <ImagePlus className="mr-1.5 h-4 w-4" />
-                    {uploading ? "Uploading…" : "Choose Photo"}
-                  </Button>
-                </>
-              )}
-
-              {form.photo_urls.length >= tierConfig.photo_limit && tierConfig.photo_limit > 0 && (
-                <p className="text-xs text-muted-foreground">
-                  You've reached the {tierConfig.photo_limit}-photo limit for your plan.
-                </p>
-              )}
             </div>
           </div>
         );
