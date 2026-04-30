@@ -33,9 +33,9 @@ export function InteractiveQuoteBlock({ text, slug }: { text: string; slug?: str
       type="button"
       onClick={onClick}
       aria-pressed={selected}
-      className={`block w-full rounded-lg border px-5 py-4 text-left transition-all duration-200 ${
+      className={`block w-full rounded-lg border px-5 py-4 text-left transition-all duration-300 ${
         selected
-          ? "border-primary/60 bg-primary/10 shadow-soft"
+          ? "scale-[1.02] border-2 border-primary/70 bg-primary/10 shadow-[0_8px_24px_-8px_hsl(var(--primary)/0.35)]"
           : "border-l-2 border-y-0 border-r-0 border-primary/30 bg-transparent hover:border-l-primary hover:bg-accent/30"
       }`}
     >
@@ -43,7 +43,7 @@ export function InteractiveQuoteBlock({ text, slug }: { text: string; slug?: str
       <span className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-primary">
         {selected ? (
           <>
-            <Check className="h-3.5 w-3.5" /> We'll start your tribute with this exact message
+            <Check className="h-3.5 w-3.5" /> This is now part of your tribute
           </>
         ) : (
           <>
@@ -51,6 +51,11 @@ export function InteractiveQuoteBlock({ text, slug }: { text: string; slug?: str
           </>
         )}
       </span>
+      {selected && (
+        <p className="mt-1 text-[11px] text-muted-foreground">
+          This will be included in your tribute
+        </p>
+      )}
     </button>
   );
 }
