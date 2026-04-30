@@ -7,19 +7,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Heart, ArrowRight, Check } from "lucide-react";
 import { useRef, useState } from "react";
 import { BRAND } from "@/lib/brand";
-
-/** A line is treated as a selectable quote if it starts and ends with a straight or curly quote */
-const isQuoteLine = (s: string) => {
-  const t = s.trim();
-  if (t.length < 3) return false;
-  const first = t[0];
-  const last = t[t.length - 1];
-  const openers = ['"', "\u201C", "'", "\u2018"];
-  const closers = ['"', "\u201D", "'", "\u2019"];
-  return openers.includes(first) && closers.includes(last);
-};
-
-const stripQuotes = (s: string) => s.trim().replace(/^["'\u201C\u2018]+|["'\u201D\u2019]+$/g, "").trim();
+import { isQuoteLine, stripQuotes, savePrefillQuote } from "@/lib/quote-prefill";
+import { trackEvent } from "@/lib/analytics";
 
 interface SeoArticleMeta {
   title: string;
@@ -206,11 +195,8 @@ const SeoArticleLayout = ({
   const handleQuoteSelect = (quote: string) => {
     const clean = stripQuotes(quote);
     setSelectedQuote(clean);
-    try {
-      localStorage.setItem("vp_prefill_quote", clean);
-    } catch {
-      // ignore storage errors (private mode etc.)
-    }
+    savePrefillQuote(clean);
+    trackEvent("quote_selected", { metadata: { quote: clean, slug } });
     // Auto-scroll slightly down to the contextual CTA
     setTimeout(() => {
       ctaAnchorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -440,11 +426,11 @@ const SeoArticleLayout = ({
                         <span className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-primary">
                           {isSelected ? (
                             <>
-                              <Check className="h-3.5 w-3.5" /> Saved for your tribute
+                              <Check className="h-3.5 w-3.5" /> This will be included in your tribute
                             </>
                           ) : (
                             <>
-                              Use this in your tribute <ArrowRight className="h-3.5 w-3.5" />
+                              Use this to start your tribute <ArrowRight className="h-3.5 w-3.5" />
                             </>
                           )}
                         </span>
@@ -581,15 +567,42 @@ const SeoArticleLayout = ({
             </h2>
             <p className="mb-8 text-muted-foreground">{tipsIntro}</p>
             <div className="space-y-6">
-              {tips.map((tip, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <PawIcon className="mt-1 h-4 w-4 shrink-0 text-primary" />
-                  <div>
-                    <h3 className="font-semibold text-foreground">{tip.heading}</h3>
-                    <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{tip.body}</p>
+              {tips.map((tip, i) => {
+                const tipIsQuote = isQuoteLine(tip.body);
+                const cleanTip = tipIsQuote ? stripQuotes(tip.body) : "";
+                const tipSelected = tipIsQuote && selectedQuote === cleanTip;
+                return (
+                  <div key={i} className="flex items-start gap-3">
+                    <PawIcon className="mt-1 h-4 w-4 shrink-0 text-primary" />
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-foreground">{tip.heading}</h3>
+                      {tipIsQuote ? (
+                        <button
+                          type="button"
+                          onClick={() => handleQuoteSelect(tip.body)}
+                          aria-pressed={tipSelected}
+                          className={`mt-2 block w-full rounded-lg border px-4 py-3 text-left transition-all duration-200 ${
+                            tipSelected
+                              ? "border-primary/60 bg-primary/10 shadow-soft"
+                              : "border-border/40 bg-background/60 hover:border-primary/40 hover:bg-accent/30"
+                          }`}
+                        >
+                          <p className="text-sm leading-relaxed text-foreground/90">{tip.body}</p>
+                          <span className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-primary">
+                            {tipSelected ? (
+                              <><Check className="h-3.5 w-3.5" /> This will be included in your tribute</>
+                            ) : (
+                              <>Use this to start your tribute <ArrowRight className="h-3.5 w-3.5" /></>
+                            )}
+                          </span>
+                        </button>
+                      ) : (
+                        <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{tip.body}</p>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </motion.section>
 
@@ -802,6 +815,34 @@ const SeoArticleLayout = ({
           </p>
         </div>
       </footer>
+
+      {/* Floating selection bar */}
+      <AnimatePresence>
+        {selectedQuote && (
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 60 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-x-0 bottom-0 z-40 border-t border-border/60 bg-background/95 px-4 py-3 shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.18)] backdrop-blur-md"
+          >
+            <div className="mx-auto flex max-w-3xl flex-col items-center justify-between gap-3 sm:flex-row sm:gap-4">
+              <div className="min-w-0 flex-1 text-center sm:text-left">
+                <p className="text-sm font-semibold text-foreground">You chose something meaningful</p>
+                <p className="truncate text-xs italic text-muted-foreground">"{selectedQuote}"</p>
+              </div>
+              <Link
+                to="/create?prefill=1"
+                onClick={() => trackEvent("prefill_continue_clicked", { metadata: { source: "floating_bar", slug } })}
+                className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+              >
+                Continue with this quote
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

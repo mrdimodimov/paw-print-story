@@ -27,6 +27,7 @@ import { AutofillButton } from "@/components/AutofillButton";
 import { useTestMode } from "@/hooks/use-test-mode";
 import { TEST_PRESETS } from "@/lib/test-presets";
 import { captureTesterSource, trackEvent } from "@/lib/analytics";
+import { readPrefillQuote, clearPrefillQuote } from "@/lib/quote-prefill";
 import type { TributeFormData, TributeStyle } from "@/lib/types";
 
 const PERSONALITY_OPTIONS = [
@@ -84,8 +85,23 @@ const Questionnaire = () => {
   const tier = searchParams.get("tier") || "story";
   const isTester = !!searchParams.get("tester");
   const tierConfig = TIERS.find((t) => t.id === tier) || TIERS[0];
-  const [step, setStep] = useState(-1); // -1 = intro screen
+  const [step, setStep] = useState(-1); // -1 = intro screen, -2 = prefill reveal
   const [form, setForm] = useState<TributeFormData>(defaultForm);
+  const [prefillQuote, setPrefillQuote] = useState<string | null>(null);
+
+  // Read prefill quote from localStorage on mount; if present and the user
+  // arrived via ?prefill=1, show a dedicated reveal screen first.
+  useEffect(() => {
+    const q = readPrefillQuote();
+    if (q && searchParams.get("prefill") === "1") {
+      setPrefillQuote(q);
+      setStep(-2);
+    } else if (q) {
+      // Quote exists but no prefill flag — still seed owner_message silently
+      setPrefillQuote(q);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Capture tester source on mount and fire DB + GA4 funnel-start events.
   // Also wire exit-intent: if the user leaves /create without finishing, fire
@@ -116,9 +132,10 @@ const Questionnaire = () => {
   // Fire `trackStepMounted` whenever the user enters a new step.
   // The `intro` pseudo-step (step === -1) is treated as the funnel landing.
   useEffect(() => {
-    const stepName = step === -1 ? "intro" : STEPS[step] ?? `step_${step}`;
-    // step_number: 0 for intro, 1..N for actual steps (human-friendly indexing)
-    const stepNumber = step === -1 ? 0 : step + 1;
+    const stepName =
+      step === -2 ? "prefill_reveal" : step === -1 ? "intro" : STEPS[step] ?? `step_${step}`;
+    // step_number: -1 for prefill, 0 for intro, 1..N for actual steps
+    const stepNumber = step === -2 ? -1 : step === -1 ? 0 : step + 1;
     trackStepMounted(stepName, stepNumber);
   }, [step]);
 
@@ -651,8 +668,65 @@ const Questionnaire = () => {
       </header>
 
       <div className="tribute-container max-w-2xl py-8">
-        {/* Intro screen */}
-        {step === -1 ? (
+        {/* Prefill reveal screen */}
+        {step === -2 && prefillQuote ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col items-center text-center py-12"
+          >
+            <div className="mb-6 rounded-full bg-accent p-5">
+              <Heart className="h-10 w-10 text-primary" />
+            </div>
+            <h1 className="mb-3 font-display text-3xl font-bold text-foreground md:text-4xl">
+              We started this for you
+            </h1>
+            <p className="mb-8 max-w-md text-base text-muted-foreground">
+              You picked words that meant something. We'll weave them into your tribute.
+            </p>
+            <div className="mb-10 w-full max-w-lg rounded-2xl border border-primary/30 bg-primary/5 p-8 shadow-soft">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Your chosen words
+              </p>
+              <p className="font-display text-xl italic leading-relaxed text-foreground md:text-2xl">
+                "{prefillQuote}"
+              </p>
+            </div>
+            <Button
+              size="lg"
+              className="px-8 py-6 text-lg shadow-glow"
+              onClick={() => {
+                // Seed owner_message with the quote so it carries into generation
+                setForm((prev) => ({
+                  ...prev,
+                  owner_message: prev.owner_message?.trim()
+                    ? prev.owner_message
+                    : prefillQuote,
+                }));
+                trackEvent("prefill_continue_clicked", {
+                  metadata: { quote: prefillQuote, source: "prefill_reveal" },
+                });
+                clearPrefillQuote();
+                setStep(0);
+              }}
+            >
+              <CtaIcon className="mr-2 shrink-0" size={22} />
+              Continue
+            </Button>
+            <button
+              type="button"
+              onClick={() => {
+                setPrefillQuote(null);
+                clearPrefillQuote();
+                setStep(-1);
+              }}
+              className="mt-4 text-xs text-muted-foreground underline-offset-2 hover:underline"
+            >
+              Start without this quote
+            </button>
+          </motion.div>
+        ) : step === -1 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

@@ -28,6 +28,7 @@ interface TributeRequest {
   include_share_card: boolean;
   job_id?: string;
   previous_job_id?: string;
+  tone_seed?: string;
 }
 
 // Tier security rules — enforced server-side
@@ -80,6 +81,7 @@ async function hashContext(data: TributeRequest): Promise<string> {
     data.owner_name, data.personality_traits, data.personality_description,
     data.memories, data.special_habits, data.favorite_activities,
     data.favorite_people_or_animals, data.owner_message, data.tone, data.tier_name,
+    data.tone_seed || "",
   ].join("|");
   const encoder = new TextEncoder();
   const hashBuffer = await crypto.subtle.digest("SHA-256", encoder.encode(input));
@@ -187,6 +189,7 @@ function buildPrompt(data: TributeRequest): string {
   if (data.favorite_activities) sections.push(`WHAT THEY LOVED:\n${data.favorite_activities}`);
   if (data.favorite_people_or_animals) sections.push(`SPECIAL BONDS:\n${data.favorite_people_or_animals}`);
   if (data.owner_message) sections.push(`OWNER'S WORDS:\n"${data.owner_message}"`);
+  if (data.tone_seed) sections.push(`EMOTIONAL SEED (a quote the owner connected with — let it gently shape tone, never quote it verbatim unless it fits naturally):\n"${data.tone_seed}"`);
 
   let prompt = `Write a tribute for ${data.pet_name}, a ${data.pet_type}${data.breed && data.breed !== "unknown" ? ` (${data.breed})` : ""}, loved by ${data.owner_name}.
 
