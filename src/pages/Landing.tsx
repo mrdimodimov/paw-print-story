@@ -106,65 +106,6 @@ const Landing = () => {
               transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="relative scroll-mt-24"
             >
-              <p className="mb-3 text-center font-display text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
-                Here's a preview of your tribute
-              </p>
-
-              {/* Interactive chips */}
-              <div className="mb-4 space-y-2.5">
-                <div className="flex flex-wrap items-center justify-center gap-2">
-                  <span className="text-xs font-medium text-muted-foreground">Name:</span>
-                  {NAMES.map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      onClick={() => setDemoName(n)}
-                      className={`rounded-full border px-3 py-1 text-xs font-medium transition-all ${
-                        demoName === n
-                          ? "border-primary bg-primary text-primary-foreground shadow-sm"
-                          : "border-border bg-background text-foreground/70 hover:border-primary/50 hover:text-foreground"
-                      }`}
-                    >
-                      {n}
-                    </button>
-                  ))}
-                </div>
-                <div className="flex flex-wrap items-center justify-center gap-2">
-                  <span className="text-xs font-medium text-muted-foreground">Personality:</span>
-                  {PERSONALITIES.map((p) => (
-                    <button
-                      key={p}
-                      type="button"
-                      onClick={() => setDemoPersonality(p)}
-                      className={`rounded-full border px-3 py-1 text-xs font-medium transition-all ${
-                        demoPersonality === p
-                          ? "border-primary bg-primary text-primary-foreground shadow-sm"
-                          : "border-border bg-background text-foreground/70 hover:border-primary/50 hover:text-foreground"
-                      }`}
-                    >
-                      {p}
-                    </button>
-                  ))}
-                </div>
-                <div className="flex flex-wrap items-center justify-center gap-2">
-                  <span className="text-xs font-medium text-muted-foreground">Memory:</span>
-                  {MEMORIES.map((m, i) => (
-                    <button
-                      key={m}
-                      type="button"
-                      onClick={() => setDemoMemory(m)}
-                      className={`rounded-full border px-3 py-1 text-xs font-medium transition-all ${
-                        demoMemory === m
-                          ? "border-primary bg-primary text-primary-foreground shadow-sm"
-                          : "border-border bg-background text-foreground/70 hover:border-primary/50 hover:text-foreground"
-                      }`}
-                    >
-                      {["Door greeter", "Sock thief", "Foot warmer"][i]}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               <div
                 className="overflow-hidden border-2 border-primary/20 bg-card shadow-2xl ring-1 ring-primary/10 transition-shadow"
                 style={{ borderRadius: "20px", padding: "1.85rem" }}
@@ -208,6 +149,61 @@ const Landing = () => {
                   </motion.div>
                 </AnimatePresence>
 
+                {/* Subtle chip filters — inside the card */}
+                <div className="mt-6 space-y-2 border-t border-border/40 pt-4">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground/60">Name</span>
+                    {NAMES.map((n) => (
+                      <button
+                        key={n}
+                        type="button"
+                        onClick={() => setDemoName(n)}
+                        className={`rounded-full px-2 py-0.5 text-[11px] transition-colors ${
+                          demoName === n
+                            ? "bg-primary/10 text-primary"
+                            : "bg-muted/40 text-muted-foreground hover:bg-muted/70 hover:text-foreground"
+                        }`}
+                      >
+                        {n}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground/60">Trait</span>
+                    {PERSONALITIES.map((p) => (
+                      <button
+                        key={p}
+                        type="button"
+                        onClick={() => setDemoPersonality(p)}
+                        className={`rounded-full px-2 py-0.5 text-[11px] transition-colors ${
+                          demoPersonality === p
+                            ? "bg-primary/10 text-primary"
+                            : "bg-muted/40 text-muted-foreground hover:bg-muted/70 hover:text-foreground"
+                        }`}
+                      >
+                        {p}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground/60">Memory</span>
+                    {MEMORIES.map((m, i) => (
+                      <button
+                        key={m}
+                        type="button"
+                        onClick={() => setDemoMemory(m)}
+                        className={`rounded-full px-2 py-0.5 text-[11px] transition-colors ${
+                          demoMemory === m
+                            ? "bg-primary/10 text-primary"
+                            : "bg-muted/40 text-muted-foreground hover:bg-muted/70 hover:text-foreground"
+                        }`}
+                      >
+                        {["Door greeter", "Sock thief", "Foot warmer"][i]}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <button
                   type="button"
                   onClick={() => navigate("/create")}
@@ -216,9 +212,6 @@ const Landing = () => {
                   Continue this tribute →
                 </button>
               </div>
-              <p className="mt-4 text-center font-display text-sm italic text-muted-foreground">
-                Tap the chips above to see it change.
-              </p>
               <div className="pointer-events-none absolute -inset-6 -z-10 rounded-3xl bg-primary/10 blur-3xl" />
             </motion.div>
           </div>
