@@ -319,6 +319,11 @@ export async function generateTribute(
     }
   }
 
+  // Clear the SEO prefill quote now that generation succeeded
+  try {
+    localStorage.removeItem("vp_prefill_quote");
+  } catch { /* ignore */ }
+
   releaseLock();
   callbacks.onDone({ ...result, tributeId, jobId, slug: tributeSlug });
 }
