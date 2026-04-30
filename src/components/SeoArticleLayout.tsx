@@ -621,23 +621,33 @@ const SeoArticleLayout = ({
             ) : (
               <>
                 <h2 className="mb-3 text-2xl font-bold text-foreground">
-                  {outroHeading}
+                  {isGriefPage ? "When you're ready, we're here." : outroHeading}
                 </h2>
-                <p className="mb-6 text-muted-foreground">{outro}</p>
+                <p className="mb-6 text-muted-foreground">
+                  {isGriefPage
+                    ? "There's no rush. Whenever you feel ready, we can help you gently turn your memories into a tribute you can keep."
+                    : outro}
+                </p>
                 <Link
-                  to="/create"
+                  to={isGriefPage ? "/create?mode=gentle" : "/create"}
                   className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-8 py-4 text-base font-medium text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
                 >
                   <CtaIcon className="mr-1 shrink-0" size={22} />
-                  Create a Tribute for Your Pet
+                  {isGriefPage ? "Start gently" : "Create a Tribute for Your Pet"}
                 </Link>
                 <div className="mt-5 space-y-1">
-                  <p className="text-xs italic text-muted-foreground/60">
-                    "I didn't expect something this simple to feel so meaningful."
-                  </p>
-                  <p className="text-xs italic text-muted-foreground/60">
-                    "Now I have something I can come back to and remember them."
-                  </p>
+                  {isGriefPage ? (
+                    <p className="text-xs italic text-muted-foreground/70">Take your time. Nothing is final.</p>
+                  ) : (
+                    <>
+                      <p className="text-xs italic text-muted-foreground/60">
+                        "I didn't expect something this simple to feel so meaningful."
+                      </p>
+                      <p className="text-xs italic text-muted-foreground/60">
+                        "Now I have something I can come back to and remember them."
+                      </p>
+                    </>
+                  )}
                 </div>
               </>
             )}
