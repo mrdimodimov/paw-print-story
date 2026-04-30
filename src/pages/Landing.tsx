@@ -28,6 +28,18 @@ import {
 const Landing = () => {
   const navigate = useNavigate();
 
+  // Interactive demo state
+  const NAMES = ["Max", "Luna", "Bella"];
+  const PERSONALITIES = ["Loyal", "Playful", "Gentle"];
+  const MEMORIES = [
+    "waiting by the door every evening",
+    "stealing socks with pure joy",
+    "curling up at my feet at night",
+  ];
+  const [demoName, setDemoName] = useState("Max");
+  const [demoPersonality, setDemoPersonality] = useState("Loyal");
+  const [demoMemory, setDemoMemory] = useState(MEMORIES[0]);
+
   // Silent keep-alive ping (once per session)
   useEffect(() => {
     try {
