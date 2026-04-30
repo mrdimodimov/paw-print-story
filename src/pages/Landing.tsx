@@ -1,8 +1,8 @@
 import CtaIcon from "@/components/CtaIcon";
 import BrandLogo from "@/components/BrandLogo";
 import { useNavigate, Link } from "react-router-dom";
-import { useEffect } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { Heart, FileText, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
