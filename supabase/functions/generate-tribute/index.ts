@@ -28,6 +28,7 @@ interface TributeRequest {
   include_share_card: boolean;
   job_id?: string;
   previous_job_id?: string;
+  tone_seed?: string;
 }
 
 // Tier security rules — enforced server-side
