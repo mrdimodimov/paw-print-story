@@ -493,6 +493,9 @@ const Questionnaire = () => {
                   + Add another memory
                 </Button>
               )}
+              <p className="mt-3 text-xs text-muted-foreground">
+                Even one memory is enough — we'll turn it into something meaningful.
+              </p>
             </div>
 
             {/* Style */}
