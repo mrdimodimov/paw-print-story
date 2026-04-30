@@ -314,15 +314,19 @@ const SeoArticleLayout = ({
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <BrandLogo size="sm" onClick={() => navigate("/")} />
-          <div className="flex flex-col items-end gap-0.5">
-            <Link
-              to="/create"
-              className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-4 py-2 text-sm font-medium text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
-            >
-              Start Your Pet's Tribute
-            </Link>
-            <span className="text-xs text-muted-foreground">It only takes a minute to begin.</span>
-          </div>
+          {isGriefPage ? (
+            <span className="text-xs text-muted-foreground italic">Take your time. Nothing is final.</span>
+          ) : (
+            <div className="flex flex-col items-end gap-0.5">
+              <Link
+                to="/create"
+                className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-4 py-2 text-sm font-medium text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+              >
+                Start Your Pet's Tribute
+              </Link>
+              <span className="text-xs text-muted-foreground">It only takes a minute to begin.</span>
+            </div>
+          )}
         </div>
       </header>
 
@@ -525,21 +529,43 @@ const SeoArticleLayout = ({
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="mb-14 rounded-xl border border-primary/20 bg-primary/5 p-6 text-center md:p-8"
+            className="mb-14 rounded-2xl border border-primary/20 bg-primary/5 p-6 text-center md:p-8"
           >
-            <p className="mb-4 text-lg font-medium text-foreground">
-              {midCtaText}
-            </p>
-            <Link
-              to="/create"
-              className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-6 py-3 text-sm font-medium text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
-            >
-              <CtaIcon className="mr-1 shrink-0" size={18} />
-              Start Your Tribute
-            </Link>
-            <p className="mt-4 text-xs italic text-muted-foreground/60">
-              "It made it so much easier to put everything I felt into words."
-            </p>
+            {isGriefPage ? (
+              <>
+                <p className="mb-2 text-lg font-medium text-foreground leading-snug">
+                  If writing feels hard right now,
+                </p>
+                <p className="mb-5 text-lg font-medium text-foreground leading-snug">
+                  we can help you put your memories into words.
+                </p>
+                <Link
+                  to="/create?mode=gentle"
+                  className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-6 py-3 text-sm font-medium text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+                >
+                  Start gently
+                </Link>
+                <p className="mt-4 text-xs italic text-muted-foreground/70">
+                  Take your time. Nothing is final.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="mb-4 text-lg font-medium text-foreground">
+                  {midCtaText}
+                </p>
+                <Link
+                  to="/create"
+                  className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-6 py-3 text-sm font-medium text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+                >
+                  <CtaIcon className="mr-1 shrink-0" size={18} />
+                  Start Your Tribute
+                </Link>
+                <p className="mt-4 text-xs italic text-muted-foreground/60">
+                  "It made it so much easier to put everything I felt into words."
+                </p>
+              </>
+            )}
           </motion.div>
 
           {/* H2: Tips */}
@@ -595,23 +621,33 @@ const SeoArticleLayout = ({
             ) : (
               <>
                 <h2 className="mb-3 text-2xl font-bold text-foreground">
-                  {outroHeading}
+                  {isGriefPage ? "When you're ready, we're here." : outroHeading}
                 </h2>
-                <p className="mb-6 text-muted-foreground">{outro}</p>
+                <p className="mb-6 text-muted-foreground">
+                  {isGriefPage
+                    ? "There's no rush. Whenever you feel ready, we can help you gently turn your memories into a tribute you can keep."
+                    : outro}
+                </p>
                 <Link
-                  to="/create"
+                  to={isGriefPage ? "/create?mode=gentle" : "/create"}
                   className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-8 py-4 text-base font-medium text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
                 >
                   <CtaIcon className="mr-1 shrink-0" size={22} />
-                  Create a Tribute for Your Pet
+                  {isGriefPage ? "Start gently" : "Create a Tribute for Your Pet"}
                 </Link>
                 <div className="mt-5 space-y-1">
-                  <p className="text-xs italic text-muted-foreground/60">
-                    "I didn't expect something this simple to feel so meaningful."
-                  </p>
-                  <p className="text-xs italic text-muted-foreground/60">
-                    "Now I have something I can come back to and remember them."
-                  </p>
+                  {isGriefPage ? (
+                    <p className="text-xs italic text-muted-foreground/70">Take your time. Nothing is final.</p>
+                  ) : (
+                    <>
+                      <p className="text-xs italic text-muted-foreground/60">
+                        "I didn't expect something this simple to feel so meaningful."
+                      </p>
+                      <p className="text-xs italic text-muted-foreground/60">
+                        "Now I have something I can come back to and remember them."
+                      </p>
+                    </>
+                  )}
                 </div>
               </>
             )}
