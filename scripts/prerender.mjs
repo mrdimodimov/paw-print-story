@@ -7,6 +7,37 @@ const distPath = path.resolve(__dirname, "../dist");
 
 const template = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
 
+// SSR polyfills: some client modules (e.g. supabase auth) touch browser globals
+// at import time. Provide minimal in-memory shims so prerender doesn't crash.
+const createMemoryStorage = () => {
+  const store = new Map();
+  return {
+    getItem: (k) => (store.has(k) ? store.get(k) : null),
+    setItem: (k, v) => void store.set(k, String(v)),
+    removeItem: (k) => void store.delete(k),
+    clear: () => store.clear(),
+    key: (i) => Array.from(store.keys())[i] ?? null,
+    get length() {
+      return store.size;
+    },
+  };
+};
+if (typeof globalThis.localStorage === "undefined") {
+  globalThis.localStorage = createMemoryStorage();
+}
+if (typeof globalThis.sessionStorage === "undefined") {
+  globalThis.sessionStorage = createMemoryStorage();
+}
+if (typeof globalThis.window === "undefined") {
+  globalThis.window = {
+    localStorage: globalThis.localStorage,
+    sessionStorage: globalThis.sessionStorage,
+    location: { search: "", href: "", pathname: "/" },
+    addEventListener: () => {},
+    removeEventListener: () => {},
+  };
+}
+
 const { render } = await import(path.resolve(distPath, "server/entry-server.js"));
 
 const routes = [
