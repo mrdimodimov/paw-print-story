@@ -554,6 +554,91 @@ const Questionnaire = () => {
                 />
               </div>
             </div>
+
+            {/* Optional details — moved here from Step 1 to reduce friction */}
+            <div className="space-y-4 rounded-2xl border border-border/60 bg-accent/20 p-5">
+              <p className="text-sm font-medium text-foreground">A few optional details</p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <Label className="text-xs text-muted-foreground">Breed (optional)</Label>
+                  <Input
+                    className="h-9 text-sm"
+                    placeholder="e.g., Golden Retriever"
+                    value={form.breed}
+                    onChange={(e) => update("breed", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label className="text-xs text-muted-foreground">Years of Life (optional)</Label>
+                  <Input
+                    className="h-9 text-sm"
+                    placeholder="e.g., 2010–2024 or 12 years"
+                    value={form.years_of_life}
+                    onChange={(e) => update("years_of_life", e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label className="text-xs text-muted-foreground">Your Name (optional)</Label>
+                <Input
+                  className="h-9 text-sm"
+                  placeholder="Your first name"
+                  value={form.owner_name}
+                  onChange={(e) => update("owner_name", e.target.value)}
+                />
+              </div>
+
+              <div className="rounded-lg border border-border bg-background/60 p-4">
+                <Label className="mb-1 block text-sm">Pet Photo (optional)</Label>
+                <p className="mb-3 text-xs text-muted-foreground">
+                  Add a photo to make the tribute more personal.
+                  {tierConfig.photo_limit > 1 && (
+                    <> Up to {tierConfig.photo_limit} photos with your plan.</>
+                  )}
+                </p>
+
+                {form.photo_urls.length > 0 && (
+                  <div className="mb-3 flex flex-wrap gap-3">
+                    {form.photo_urls.map((url, i) => (
+                      <div key={i} className="group relative h-20 w-20 overflow-hidden rounded-lg border border-border">
+                        <img src={url} alt={`Pet photo ${i + 1}`} className="h-full w-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => removePhoto(i)}
+                          className="absolute right-1 top-1 rounded-full bg-foreground/70 p-0.5 text-background opacity-0 transition-opacity group-hover:opacity-100"
+                          aria-label="Remove photo"
+                        >
+                          <X className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {form.photo_urls.length < tierConfig.photo_limit && (
+                  <>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept=".jpg,.jpeg,.png"
+                      multiple={tierConfig.photo_limit > 1}
+                      onChange={handlePhotoUpload}
+                      className="hidden"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      disabled={uploading}
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <ImagePlus className="mr-1.5 h-4 w-4" />
+                      {uploading ? "Uploading…" : "Choose Photo"}
+                    </Button>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         );
 
