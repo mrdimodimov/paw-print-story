@@ -426,11 +426,11 @@ const SeoArticleLayout = ({
                         <span className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-primary">
                           {isSelected ? (
                             <>
-                              <Check className="h-3.5 w-3.5" /> Saved for your tribute
+                              <Check className="h-3.5 w-3.5" /> This will be included in your tribute
                             </>
                           ) : (
                             <>
-                              Use this in your tribute <ArrowRight className="h-3.5 w-3.5" />
+                              Use this to start your tribute <ArrowRight className="h-3.5 w-3.5" />
                             </>
                           )}
                         </span>
