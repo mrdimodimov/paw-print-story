@@ -529,21 +529,43 @@ const SeoArticleLayout = ({
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="mb-14 rounded-xl border border-primary/20 bg-primary/5 p-6 text-center md:p-8"
+            className="mb-14 rounded-2xl border border-primary/20 bg-primary/5 p-6 text-center md:p-8"
           >
-            <p className="mb-4 text-lg font-medium text-foreground">
-              {midCtaText}
-            </p>
-            <Link
-              to="/create"
-              className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-6 py-3 text-sm font-medium text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
-            >
-              <CtaIcon className="mr-1 shrink-0" size={18} />
-              Start Your Tribute
-            </Link>
-            <p className="mt-4 text-xs italic text-muted-foreground/60">
-              "It made it so much easier to put everything I felt into words."
-            </p>
+            {isGriefPage ? (
+              <>
+                <p className="mb-2 text-lg font-medium text-foreground leading-snug">
+                  If writing feels hard right now,
+                </p>
+                <p className="mb-5 text-lg font-medium text-foreground leading-snug">
+                  we can help you put your memories into words.
+                </p>
+                <Link
+                  to="/create?mode=gentle"
+                  className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-6 py-3 text-sm font-medium text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+                >
+                  Start gently
+                </Link>
+                <p className="mt-4 text-xs italic text-muted-foreground/70">
+                  Take your time. Nothing is final.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="mb-4 text-lg font-medium text-foreground">
+                  {midCtaText}
+                </p>
+                <Link
+                  to="/create"
+                  className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-6 py-3 text-sm font-medium text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+                >
+                  <CtaIcon className="mr-1 shrink-0" size={18} />
+                  Start Your Tribute
+                </Link>
+                <p className="mt-4 text-xs italic text-muted-foreground/60">
+                  "It made it so much easier to put everything I felt into words."
+                </p>
+              </>
+            )}
           </motion.div>
 
           {/* H2: Tips */}
