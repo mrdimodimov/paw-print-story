@@ -668,8 +668,65 @@ const Questionnaire = () => {
       </header>
 
       <div className="tribute-container max-w-2xl py-8">
-        {/* Intro screen */}
-        {step === -1 ? (
+        {/* Prefill reveal screen */}
+        {step === -2 && prefillQuote ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col items-center text-center py-12"
+          >
+            <div className="mb-6 rounded-full bg-accent p-5">
+              <Heart className="h-10 w-10 text-primary" />
+            </div>
+            <h1 className="mb-3 font-display text-3xl font-bold text-foreground md:text-4xl">
+              We started this for you
+            </h1>
+            <p className="mb-8 max-w-md text-base text-muted-foreground">
+              You picked words that meant something. We'll weave them into your tribute.
+            </p>
+            <div className="mb-10 w-full max-w-lg rounded-2xl border border-primary/30 bg-primary/5 p-8 shadow-soft">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Your chosen words
+              </p>
+              <p className="font-display text-xl italic leading-relaxed text-foreground md:text-2xl">
+                "{prefillQuote}"
+              </p>
+            </div>
+            <Button
+              size="lg"
+              className="px-8 py-6 text-lg shadow-glow"
+              onClick={() => {
+                // Seed owner_message with the quote so it carries into generation
+                setForm((prev) => ({
+                  ...prev,
+                  owner_message: prev.owner_message?.trim()
+                    ? prev.owner_message
+                    : prefillQuote,
+                }));
+                trackEvent("prefill_continue_clicked", {
+                  metadata: { quote: prefillQuote, source: "prefill_reveal" },
+                });
+                clearPrefillQuote();
+                setStep(0);
+              }}
+            >
+              <CtaIcon className="mr-2 shrink-0" size={22} />
+              Continue
+            </Button>
+            <button
+              type="button"
+              onClick={() => {
+                setPrefillQuote(null);
+                clearPrefillQuote();
+                setStep(-1);
+              }}
+              className="mt-4 text-xs text-muted-foreground underline-offset-2 hover:underline"
+            >
+              Start without this quote
+            </button>
+          </motion.div>
+        ) : step === -1 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
