@@ -567,15 +567,42 @@ const SeoArticleLayout = ({
             </h2>
             <p className="mb-8 text-muted-foreground">{tipsIntro}</p>
             <div className="space-y-6">
-              {tips.map((tip, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <PawIcon className="mt-1 h-4 w-4 shrink-0 text-primary" />
-                  <div>
-                    <h3 className="font-semibold text-foreground">{tip.heading}</h3>
-                    <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{tip.body}</p>
+              {tips.map((tip, i) => {
+                const tipIsQuote = isQuoteLine(tip.body);
+                const cleanTip = tipIsQuote ? stripQuotes(tip.body) : "";
+                const tipSelected = tipIsQuote && selectedQuote === cleanTip;
+                return (
+                  <div key={i} className="flex items-start gap-3">
+                    <PawIcon className="mt-1 h-4 w-4 shrink-0 text-primary" />
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-foreground">{tip.heading}</h3>
+                      {tipIsQuote ? (
+                        <button
+                          type="button"
+                          onClick={() => handleQuoteSelect(tip.body)}
+                          aria-pressed={tipSelected}
+                          className={`mt-2 block w-full rounded-lg border px-4 py-3 text-left transition-all duration-200 ${
+                            tipSelected
+                              ? "border-primary/60 bg-primary/10 shadow-soft"
+                              : "border-border/40 bg-background/60 hover:border-primary/40 hover:bg-accent/30"
+                          }`}
+                        >
+                          <p className="text-sm leading-relaxed text-foreground/90">{tip.body}</p>
+                          <span className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-primary">
+                            {tipSelected ? (
+                              <><Check className="h-3.5 w-3.5" /> This will be included in your tribute</>
+                            ) : (
+                              <>Use this to start your tribute <ArrowRight className="h-3.5 w-3.5" /></>
+                            )}
+                          </span>
+                        </button>
+                      ) : (
+                        <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{tip.body}</p>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </motion.section>
 
