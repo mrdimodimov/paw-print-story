@@ -3,9 +3,23 @@ import CtaIcon from "@/components/CtaIcon";
 import PawIcon from "@/components/PawIcon";
 import { useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { motion } from "framer-motion";
-import { Heart, ArrowRight } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Heart, ArrowRight, Check } from "lucide-react";
+import { useRef, useState } from "react";
 import { BRAND } from "@/lib/brand";
+
+/** A line is treated as a selectable quote if it starts and ends with a straight or curly quote */
+const isQuoteLine = (s: string) => {
+  const t = s.trim();
+  if (t.length < 3) return false;
+  const first = t[0];
+  const last = t[t.length - 1];
+  const openers = ['"', "\u201C", "'", "\u2018"];
+  const closers = ['"', "\u201D", "'", "\u2019"];
+  return openers.includes(first) && closers.includes(last);
+};
+
+const stripQuotes = (s: string) => s.trim().replace(/^["'\u201C\u2018]+|["'\u201D\u2019]+$/g, "").trim();
 
 interface SeoArticleMeta {
   title: string;
@@ -186,6 +200,22 @@ const SeoArticleLayout = ({
   exampleHeading = "Example Tribute",
 }: SeoArticleProps) => {
   const navigate = useNavigate();
+  const [selectedQuote, setSelectedQuote] = useState<string | null>(null);
+  const ctaAnchorRef = useRef<HTMLDivElement | null>(null);
+
+  const handleQuoteSelect = (quote: string) => {
+    const clean = stripQuotes(quote);
+    setSelectedQuote(clean);
+    try {
+      localStorage.setItem("vp_prefill_quote", clean);
+    } catch {
+      // ignore storage errors (private mode etc.)
+    }
+    // Auto-scroll slightly down to the contextual CTA
+    setTimeout(() => {
+      ctaAnchorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 80);
+  };
 
   const siteBase = import.meta.env.VITE_SITE_URL || "https://vellumpet.com";
   const canonicalUrl = `${siteBase}${slug}`;
@@ -384,11 +414,61 @@ const SeoArticleLayout = ({
                 {exampleTitle}
               </h3>
               <div className="space-y-4 font-body text-sm leading-relaxed text-foreground/90">
-                {exampleBody.map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
+                {exampleBody.map((p, i) => {
+                  if (!isQuoteLine(p)) {
+                    return <p key={i}>{p}</p>;
+                  }
+                  const clean = stripQuotes(p);
+                  const isSelected = selectedQuote === clean;
+                  return (
+                    <div key={i} className="group">
+                      <button
+                        type="button"
+                        onClick={() => handleQuoteSelect(p)}
+                        aria-pressed={isSelected}
+                        className={`block w-full rounded-lg border px-4 py-3 text-left transition-all duration-200 ${
+                          isSelected
+                            ? "border-primary/60 bg-primary/10 shadow-soft"
+                            : "border-border/40 bg-background/60 hover:border-primary/40 hover:bg-accent/30"
+                        }`}
+                      >
+                        <p className="text-foreground/90">{p}</p>
+                        <span className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-primary">
+                          {isSelected ? (
+                            <>
+                              <Check className="h-3.5 w-3.5" /> Saved for your tribute
+                            </>
+                          ) : (
+                            <>
+                              Use this in your tribute <ArrowRight className="h-3.5 w-3.5" />
+                            </>
+                          )}
+                        </span>
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
+            <div ref={ctaAnchorRef} aria-hidden="true" className="h-0" />
+            {selectedQuote && (
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="mt-6 rounded-2xl border border-primary/30 bg-primary/5 p-6 text-center"
+              >
+                <p className="mb-2 text-sm uppercase tracking-wide text-muted-foreground">Your chosen words</p>
+                <p className="mb-5 font-display text-lg italic text-foreground">"{selectedQuote}"</p>
+                <Link
+                  to="/create?prefill=1"
+                  className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-6 py-3 text-sm font-semibold text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+                >
+                  <CtaIcon className="mr-1 shrink-0" size={18} />
+                  Continue with this quote
+                </Link>
+              </motion.div>
+            )}
           </motion.section>
 
           {/* Emotional CTA after example */}
@@ -495,25 +575,46 @@ const SeoArticleLayout = ({
             viewport={{ once: true }}
             className="mb-14 rounded-xl border border-border bg-accent/30 p-8 text-center md:p-10"
           >
-            <h2 className="mb-3 text-2xl font-bold text-foreground">
-              {outroHeading}
-            </h2>
-            <p className="mb-6 text-muted-foreground">{outro}</p>
-            <Link
-              to="/create"
-              className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-8 py-4 text-base font-medium text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
-            >
-              <CtaIcon className="mr-1 shrink-0" size={22} />
-              Create a Tribute for Your Pet
-            </Link>
-            <div className="mt-5 space-y-1">
-              <p className="text-xs italic text-muted-foreground/60">
-                "I didn't expect something this simple to feel so meaningful."
-              </p>
-              <p className="text-xs italic text-muted-foreground/60">
-                "Now I have something I can come back to and remember them."
-              </p>
-            </div>
+            {selectedQuote ? (
+              <>
+                <h2 className="mb-3 text-2xl font-bold text-foreground">
+                  Carry these words with you
+                </h2>
+                <p className="mb-4 font-display text-lg italic text-foreground/90">"{selectedQuote}"</p>
+                <p className="mb-6 text-muted-foreground">
+                  We'll start your tribute with this quote already in place.
+                </p>
+                <Link
+                  to="/create?prefill=1"
+                  className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-8 py-4 text-base font-medium text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+                >
+                  <CtaIcon className="mr-1 shrink-0" size={22} />
+                  Continue with this quote
+                </Link>
+              </>
+            ) : (
+              <>
+                <h2 className="mb-3 text-2xl font-bold text-foreground">
+                  {outroHeading}
+                </h2>
+                <p className="mb-6 text-muted-foreground">{outro}</p>
+                <Link
+                  to="/create"
+                  className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-8 py-4 text-base font-medium text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+                >
+                  <CtaIcon className="mr-1 shrink-0" size={22} />
+                  Create a Tribute for Your Pet
+                </Link>
+                <div className="mt-5 space-y-1">
+                  <p className="text-xs italic text-muted-foreground/60">
+                    "I didn't expect something this simple to feel so meaningful."
+                  </p>
+                  <p className="text-xs italic text-muted-foreground/60">
+                    "Now I have something I can come back to and remember them."
+                  </p>
+                </div>
+              </>
+            )}
           </motion.section>
 
           {/* Related Articles */}
@@ -622,6 +723,39 @@ const SeoArticleLayout = ({
           )}
         </div>
       </article>
+
+      {/* Floating contextual CTA when a quote is selected */}
+      <AnimatePresence>
+        {selectedQuote && (
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 24 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 pointer-events-none"
+            role="region"
+            aria-label="Continue with selected quote"
+          >
+            <div className="pointer-events-auto flex w-full max-w-xl items-center gap-4 rounded-2xl border border-border/60 bg-card/95 p-4 shadow-card backdrop-blur md:p-5">
+              <div className="min-w-0 flex-1 text-left">
+                <p className="text-sm font-semibold text-foreground">
+                  You've chosen something meaningful.
+                </p>
+                <p className="mt-0.5 text-xs text-muted-foreground">
+                  Turn it into a full tribute.
+                </p>
+              </div>
+              <Link
+                to="/create?prefill=1"
+                className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-5 py-3 text-sm font-semibold text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+              >
+                Continue
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Footer */}
       <footer className="border-t border-border/50 py-8 text-center text-sm text-muted-foreground">
