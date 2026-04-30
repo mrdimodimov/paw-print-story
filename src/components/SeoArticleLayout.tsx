@@ -195,11 +195,8 @@ const SeoArticleLayout = ({
   const handleQuoteSelect = (quote: string) => {
     const clean = stripQuotes(quote);
     setSelectedQuote(clean);
-    try {
-      localStorage.setItem("vp_prefill_quote", clean);
-    } catch {
-      // ignore storage errors (private mode etc.)
-    }
+    savePrefillQuote(clean);
+    trackEvent("quote_selected", { metadata: { quote: clean, slug } });
     // Auto-scroll slightly down to the contextual CTA
     setTimeout(() => {
       ctaAnchorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
