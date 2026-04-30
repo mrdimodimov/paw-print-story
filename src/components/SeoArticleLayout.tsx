@@ -200,6 +200,22 @@ const SeoArticleLayout = ({
   exampleHeading = "Example Tribute",
 }: SeoArticleProps) => {
   const navigate = useNavigate();
+  const [selectedQuote, setSelectedQuote] = useState<string | null>(null);
+  const ctaAnchorRef = useRef<HTMLDivElement | null>(null);
+
+  const handleQuoteSelect = (quote: string) => {
+    const clean = stripQuotes(quote);
+    setSelectedQuote(clean);
+    try {
+      localStorage.setItem("vp_prefill_quote", clean);
+    } catch {
+      // ignore storage errors (private mode etc.)
+    }
+    // Auto-scroll slightly down to the contextual CTA
+    setTimeout(() => {
+      ctaAnchorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 80);
+  };
 
   const siteBase = import.meta.env.VITE_SITE_URL || "https://vellumpet.com";
   const canonicalUrl = `${siteBase}${slug}`;
