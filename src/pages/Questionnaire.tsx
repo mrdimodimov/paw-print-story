@@ -823,7 +823,7 @@ const Questionnaire = () => {
         </div>
 
         <h2 className="mb-2 font-display text-2xl font-bold text-foreground">
-          {step === 0 ? "Tell us about them." : STEPS[step]}
+          {step === 0 ? `Let's finish your tribute for ${form.pet_name || "them"}` : STEPS[step]}
         </h2>
         {step === 0 && (
           <p className="mb-6 text-sm text-muted-foreground">
