@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Heart, ArrowRight } from "lucide-react";
 import { BRAND } from "@/lib/brand";
+import { InteractiveQuoteBlock, PrefillFloatingBar } from "@/components/InteractiveQuoteBlock";
 
 const section = (delay = 0) => ({
   initial: { opacity: 0, y: 16 },
@@ -16,12 +17,12 @@ const section = (delay = 0) => ({
 });
 
 const QuoteBlock = ({ text, author }: { text: string; author?: string }) => (
-  <blockquote className="border-l-2 border-primary/30 pl-5 py-1">
-    <p className="text-foreground/90 italic leading-relaxed">{text}</p>
+  <div>
+    <InteractiveQuoteBlock text={text} slug="/pet-memorial-quotes" />
     {author && (
-      <footer className="mt-1 text-xs text-muted-foreground">— {author}</footer>
+      <p className="mt-1 pl-5 text-xs text-muted-foreground">— {author}</p>
     )}
-  </blockquote>
+  </div>
 );
 
 const PET_MEMORIAL_QUOTES_FAQS = [
