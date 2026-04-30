@@ -64,30 +64,25 @@ const Landing = () => {
               className="text-center lg:text-left"
             >
               <h1 className="mb-5 font-display text-4xl font-bold leading-[1.15] md:text-5xl lg:text-[3.4rem]" style={{ color: "hsl(20, 22%, 14%)" }}>
-                They were never just a{" "}
-                <span className="font-extrabold" style={{ color: "hsl(28, 46%, 44%)" }}>pet.</span>
+                Create a beautiful{" "}
+                <span className="font-extrabold" style={{ color: "hsl(28, 46%, 44%)" }}>tribute page</span>{" "}
+                for your pet in minutes
               </h1>
-              <p className="mx-auto mb-8 max-w-lg text-xl leading-relaxed text-foreground/80 md:text-2xl lg:mx-0">
-                Create a beautiful tribute to honor their life and keep their memory alive.
+              <p className="mx-auto mb-8 max-w-lg text-lg leading-relaxed text-foreground/80 md:text-xl lg:mx-0">
+                Answer a few questions and we'll turn your memories into a lasting memorial you can keep forever.
               </p>
               <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center lg:items-start lg:justify-start">
                 <Button
                   size="lg"
-                  className="px-10 py-6 text-lg"
+                  className="px-12 py-7 text-xl"
                   onClick={() => navigate("/create")}
                 >
-                  <CtaIcon className="mr-2 shrink-0" size={22} />
-                  Create a Tribute
+                  <CtaIcon className="mr-2 shrink-0" size={24} />
+                  Start Your Pet's Tribute
                 </Button>
               </div>
               <p className="mt-4 font-display text-sm tracking-wide text-muted-foreground">
-                Takes 2 minutes • No signup required
-              </p>
-              <p className="mt-3 font-display text-sm italic text-muted-foreground/70">
-                Loved by pet owners creating meaningful tributes
-              </p>
-              <p className="mt-6 font-display text-xs tracking-wide text-muted-foreground/60 lg:text-left">
-                Scroll to explore examples ↓
+                Takes less than 2 minutes
               </p>
             </motion.div>
 
@@ -100,7 +95,7 @@ const Landing = () => {
               className="relative scroll-mt-24"
             >
               <p className="mb-3 text-center font-display text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
-                Example Tribute
+                Your tribute will look like this
               </p>
               <div
                 className="overflow-hidden border-2 border-primary/20 bg-card shadow-2xl ring-1 ring-primary/10 transition-shadow"
