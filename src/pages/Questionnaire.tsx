@@ -707,7 +707,7 @@ const Questionnaire = () => {
                 trackEvent("prefill_continue_clicked", {
                   metadata: { quote: prefillQuote, source: "prefill_reveal" },
                 });
-                clearPrefillQuote();
+                // Keep vp_prefill_quote in storage; it is cleared after successful generation
                 setStep(0);
               }}
             >

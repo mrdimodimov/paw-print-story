@@ -7,7 +7,9 @@
 
 export const PREFILL_QUOTE_KEY = "vp_prefill_quote";
 
-/** A line is treated as a quote if it's wrapped in quotes OR is long/personal */
+const EMOTIONAL_KEYWORDS = ["miss", "love", "remember", "heart", "gone", "loss"];
+
+/** A line is treated as a quote if it's wrapped in quotes OR is long AND personal/emotional */
 export function isQuoteLine(s: string): boolean {
   const t = (s ?? "").trim();
   if (t.length < 3) return false;
@@ -17,9 +19,15 @@ export function isQuoteLine(s: string): boolean {
   const closers = ['"', "\u201D", "'", "\u2019"];
   const wrapped = openers.includes(first) && closers.includes(last);
   if (wrapped) return true;
+  if (t.length <= 40) return false;
   const lower = t.toLowerCase();
-  // Heuristic for unwrapped quote-like lines
-  return t.length > 40 && (lower.includes(" you") || lower.includes("you ") || lower.includes(" i ") || lower.startsWith("i "));
+  const hasPronoun =
+    lower.includes(" you") ||
+    lower.includes("you ") ||
+    lower.includes(" i ") ||
+    lower.startsWith("i ");
+  const hasEmotional = EMOTIONAL_KEYWORDS.some((k) => lower.includes(k));
+  return hasPronoun || hasEmotional;
 }
 
 /** Strip outer straight or curly quotes */
