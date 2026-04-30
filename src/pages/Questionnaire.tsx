@@ -397,19 +397,53 @@ const Questionnaire = () => {
           </div>
         );
 
-      case 2: {
+      case 2:
+        return (
+          <div className="space-y-5">
+            <div>
+              <Label>
+                A personal message to {form.pet_name || "your pet"}
+              </Label>
+              <p className="mt-1 mb-2 text-xs text-muted-foreground">
+                Even one sentence is enough.
+              </p>
+              <Textarea
+                className="min-h-[80px] transition-[min-height] duration-200 focus:min-h-[160px]"
+                placeholder="Say anything you'd like them to know..."
+                value={form.owner_message}
+                onChange={(e) => update("owner_message", e.target.value)}
+                rows={3}
+              />
+              <div className="mt-1.5 flex items-center justify-between gap-3">
+                <p className="text-xs text-muted-foreground/80">Short and simple is perfect.</p>
+                <AutofillButton
+                  field="owner_message"
+                  form={form}
+                  currentValue={form.owner_message || ""}
+                  onApply={(text) => update("owner_message", text)}
+                />
+              </div>
+            </div>
+          </div>
+        );
+
+      case 3: {
         const placeholders = [
           "One of your favorite moments together...",
           "A moment that always makes you smile...",
           "Something they used to do that you'll never forget...",
-          "A small habit or memory you loved...",
         ];
-        const visibleCount = showExtraMemories ? form.memories.length : Math.min(2, form.memories.length);
+        const visibleCount = showExtraMemories ? form.memories.length : 1;
+        const showRainbowBridge = tier === "pack" || tier === "legacy";
+        const allToneOptions = showRainbowBridge
+          ? [...TONE_OPTIONS, RAINBOW_BRIDGE_OPTION]
+          : TONE_OPTIONS;
         return (
-          <div className="space-y-5">
+          <div className="space-y-6">
+            {/* Main memory */}
             <div>
               <Label className="mb-3 block">
-                Share your favorite memories with {form.pet_name || "your pet"}
+                Share a favorite memory with {form.pet_name || "your pet"}
               </Label>
               <div className="mb-3 flex flex-wrap gap-2">
                 {MEMORY_STARTERS.map((s) => (
@@ -442,14 +476,13 @@ const Questionnaire = () => {
                   </div>
                 </div>
               ))}
-              <p className="mb-3 text-xs text-muted-foreground/80">Short and simple is perfect.</p>
               {!showExtraMemories ? (
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => {
                     setShowExtraMemories(true);
-                    if (form.memories.length < 3) addMemory();
+                    if (form.memories.length < 2) addMemory();
                   }}
                 >
                   + Add another memory
@@ -460,100 +493,34 @@ const Questionnaire = () => {
                 </Button>
               )}
             </div>
-            <div>
-              <Label>Any special habits or quirks?</Label>
-              <Textarea
-                className="min-h-[56px] transition-[min-height] duration-200 focus:min-h-[110px]"
-                placeholder="e.g., Always stole socks, slept in funny positions..."
-                value={form.special_habits}
-                onChange={(e) => update("special_habits", e.target.value)}
-                rows={2}
-              />
-              <div className="mt-1 flex justify-end">
-                <AutofillButton
-                  field="special_habits"
-                  form={form}
-                  currentValue={form.special_habits || ""}
-                  onApply={(text) => update("special_habits", text)}
-                />
-              </div>
-            </div>
-          </div>
-        );
-      }
 
-      case 3:
-        return (
-          <div className="space-y-5">
+            {/* Style */}
             <div>
-              <Label>Favorite activities or hobbies</Label>
-              <Textarea
-                className="min-h-[60px] transition-[min-height] duration-200 focus:min-h-[120px]"
-                placeholder="e.g. Chasing balls, sleeping in the sun..."
-                value={form.favorite_activities}
-                onChange={(e) => update("favorite_activities", e.target.value)}
-                rows={2}
-              />
-              <div className="mt-1.5 flex items-center justify-between gap-3">
-                <p className="text-xs text-muted-foreground/80">Short and simple is perfect.</p>
-                <AutofillButton
-                  field="favorite_activities"
-                  form={form}
-                  currentValue={form.favorite_activities || ""}
-                  onApply={(text) => update("favorite_activities", text)}
-                />
-              </div>
-            </div>
-            <div>
-              <Label>Favorite people or animal friends</Label>
-              <Textarea
-                className="min-h-[60px] transition-[min-height] duration-200 focus:min-h-[120px]"
-                placeholder="e.g. Best friends with the neighbor's cat, loved the mailman..."
-                value={form.favorite_people_or_animals}
-                onChange={(e) => update("favorite_people_or_animals", e.target.value)}
-                rows={2}
-              />
-              <div className="mt-1 flex justify-end">
-                <AutofillButton
-                  field="favorite_people_or_animals"
-                  form={form}
-                  currentValue={form.favorite_people_or_animals || ""}
-                  onApply={(text) => update("favorite_people_or_animals", text)}
-                />
-              </div>
-            </div>
-          </div>
-        );
-
-      case 4:
-        return (
-          <div className="space-y-5">
-            <div>
-              <Label>
-                A personal message to {form.pet_name || "your pet"} (optional)
+              <Label className="mb-3 block">
+                How would you like it to feel when you read it?
               </Label>
-              <p className="mt-1 mb-2 text-xs text-muted-foreground">
-                This is optional — even one sentence is enough.
-              </p>
-              <Textarea
-                className="min-h-[80px] transition-[min-height] duration-200 focus:min-h-[160px]"
-                placeholder="Say anything you'd like them to know..."
-                value={form.owner_message}
-                onChange={(e) => update("owner_message", e.target.value)}
-                rows={3}
-              />
-              <div className="mt-1.5 flex items-center justify-between gap-3">
-                <p className="text-xs text-muted-foreground/80">Short and simple is perfect.</p>
-                <AutofillButton
-                  field="owner_message"
-                  form={form}
-                  currentValue={form.owner_message || ""}
-                  onApply={(text) => update("owner_message", text)}
-                />
+              <div className="grid gap-3 sm:grid-cols-2">
+                {allToneOptions.map((opt) => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => update("tone", opt.value)}
+                    className={`rounded-lg border p-4 text-left transition-colors ${
+                      form.tone === opt.value
+                        ? "border-primary bg-accent"
+                        : "border-border bg-card hover:border-primary/50"
+                    }`}
+                  >
+                    <span className="font-display text-base font-semibold text-foreground">
+                      {opt.label}
+                    </span>
+                    <p className="mt-1 text-sm text-muted-foreground">{opt.desc}</p>
+                  </button>
+                ))}
               </div>
             </div>
 
-            {/* Optional details — moved here from Step 1 to reduce friction */}
+            {/* Optional details */}
             <div className="space-y-4 rounded-2xl border border-border/60 bg-accent/20 p-5">
               <p className="text-sm font-medium text-foreground">A few optional details</p>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -583,6 +550,36 @@ const Questionnaire = () => {
                   placeholder="Your first name"
                   value={form.owner_name}
                   onChange={(e) => update("owner_name", e.target.value)}
+                />
+              </div>
+              <div>
+                <Label className="text-xs text-muted-foreground">Special habits or quirks (optional)</Label>
+                <Textarea
+                  className="min-h-[56px] text-sm"
+                  placeholder="e.g., Always stole socks, slept in funny positions..."
+                  value={form.special_habits}
+                  onChange={(e) => update("special_habits", e.target.value)}
+                  rows={2}
+                />
+              </div>
+              <div>
+                <Label className="text-xs text-muted-foreground">Favorite activities (optional)</Label>
+                <Textarea
+                  className="min-h-[56px] text-sm"
+                  placeholder="e.g. Chasing balls, sleeping in the sun..."
+                  value={form.favorite_activities}
+                  onChange={(e) => update("favorite_activities", e.target.value)}
+                  rows={2}
+                />
+              </div>
+              <div>
+                <Label className="text-xs text-muted-foreground">Favorite people or animal friends (optional)</Label>
+                <Textarea
+                  className="min-h-[56px] text-sm"
+                  placeholder="e.g. Best friends with the neighbor's cat..."
+                  value={form.favorite_people_or_animals}
+                  onChange={(e) => update("favorite_people_or_animals", e.target.value)}
+                  rows={2}
                 />
               </div>
 
@@ -636,36 +633,6 @@ const Questionnaire = () => {
                   </>
                 )}
               </div>
-            </div>
-          </div>
-        );
-
-      case 5: {
-        const showRainbowBridge = tier === "pack" || tier === "legacy";
-        const allToneOptions = showRainbowBridge
-          ? [...TONE_OPTIONS, RAINBOW_BRIDGE_OPTION]
-          : TONE_OPTIONS;
-        return (
-          <div className="space-y-5">
-            <Label className="mb-3 block">Choose a tone for the tribute</Label>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {allToneOptions.map((opt) => (
-                <button
-                  key={opt.value}
-                  type="button"
-                  onClick={() => update("tone", opt.value)}
-                  className={`rounded-lg border p-4 text-left transition-colors ${
-                    form.tone === opt.value
-                      ? "border-primary bg-accent"
-                      : "border-border bg-card hover:border-primary/50"
-                  }`}
-                >
-                  <span className="font-display text-base font-semibold text-foreground">
-                    {opt.label}
-                  </span>
-                  <p className="mt-1 text-sm text-muted-foreground">{opt.desc}</p>
-                </button>
-              ))}
             </div>
           </div>
         );
