@@ -314,15 +314,19 @@ const SeoArticleLayout = ({
       <header className="border-b border-border/50">
         <div className="tribute-container flex items-center justify-between py-4">
           <BrandLogo size="sm" onClick={() => navigate("/")} />
-          <div className="flex flex-col items-end gap-0.5">
-            <Link
-              to="/create"
-              className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-4 py-2 text-sm font-medium text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
-            >
-              Start Your Pet's Tribute
-            </Link>
-            <span className="text-xs text-muted-foreground">It only takes a minute to begin.</span>
-          </div>
+          {isGriefPage ? (
+            <span className="text-xs text-muted-foreground italic">Take your time. Nothing is final.</span>
+          ) : (
+            <div className="flex flex-col items-end gap-0.5">
+              <Link
+                to="/create"
+                className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-4 py-2 text-sm font-medium text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+              >
+                Start Your Pet's Tribute
+              </Link>
+              <span className="text-xs text-muted-foreground">It only takes a minute to begin.</span>
+            </div>
+          )}
         </div>
       </header>
 
