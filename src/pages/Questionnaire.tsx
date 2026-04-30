@@ -282,6 +282,7 @@ const Questionnaire = () => {
   };
 
   const [showExtraMemories, setShowExtraMemories] = useState(false);
+  const [showOptionalDetails, setShowOptionalDetails] = useState(false);
 
   // Ensure at least 2 memory slots are visible by default
   useEffect(() => {
