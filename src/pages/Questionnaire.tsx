@@ -76,6 +76,47 @@ const defaultForm: TributeFormData = {
   tone: "warm",
 };
 
+// Single-line input that expands to a textarea on focus or once content is typed.
+// Keeps the optional details section feeling lightweight.
+function ExpandingField({
+  label,
+  placeholder,
+  value,
+  onChange,
+}: {
+  label: string;
+  placeholder: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  const [focused, setFocused] = useState(false);
+  const expanded = focused || (value && value.length > 0);
+  return (
+    <div>
+      <Label className="text-xs text-muted-foreground">{label} (optional)</Label>
+      {expanded ? (
+        <Textarea
+          autoFocus={focused}
+          className="mt-1 min-h-[64px] text-sm transition-all"
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onBlur={() => setFocused(false)}
+          rows={2}
+        />
+      ) : (
+        <Input
+          className="mt-1 h-9 text-sm"
+          placeholder={placeholder}
+          value={value}
+          onFocus={() => setFocused(true)}
+          onChange={(e) => onChange(e.target.value)}
+        />
+      )}
+    </div>
+  );
+}
+
 const Questionnaire = () => {
   const { isTestMode } = useTestMode();
   const navigate = useNavigate();
@@ -533,9 +574,9 @@ const Questionnaire = () => {
                 aria-expanded={showOptionalDetails}
               >
                 <div>
-                  <p className="text-sm font-medium text-foreground">Add more details (optional)</p>
+                  <p className="text-sm font-medium text-foreground">Add a few small details (optional)</p>
                   <p className="mt-0.5 text-xs text-muted-foreground">
-                    Quirks, activities, breed, years, your name — small touches that add color.
+                    Just a word or two helps make it even more personal.
                   </p>
                 </div>
                 <ChevronDown
@@ -544,36 +585,24 @@ const Questionnaire = () => {
               </button>
               {showOptionalDetails && (
                 <div className="space-y-4 px-5 pb-5">
-                  <div>
-                    <Label className="text-xs text-muted-foreground">Special habits or quirks (optional)</Label>
-                    <Textarea
-                      className="min-h-[56px] text-sm"
-                      placeholder="e.g., Always stole socks, slept in funny positions..."
-                      value={form.special_habits}
-                      onChange={(e) => update("special_habits", e.target.value)}
-                      rows={2}
-                    />
-                  </div>
-                  <div>
-                    <Label className="text-xs text-muted-foreground">Favorite activities (optional)</Label>
-                    <Textarea
-                      className="min-h-[56px] text-sm"
-                      placeholder="e.g. Chasing balls, sleeping in the sun..."
-                      value={form.favorite_activities}
-                      onChange={(e) => update("favorite_activities", e.target.value)}
-                      rows={2}
-                    />
-                  </div>
-                  <div>
-                    <Label className="text-xs text-muted-foreground">Favorite people or animal friends (optional)</Label>
-                    <Textarea
-                      className="min-h-[56px] text-sm"
-                      placeholder="e.g. Best friends with the neighbor's cat..."
-                      value={form.favorite_people_or_animals}
-                      onChange={(e) => update("favorite_people_or_animals", e.target.value)}
-                      rows={2}
-                    />
-                  </div>
+                  <ExpandingField
+                    label="Something they always did"
+                    placeholder='e.g., "stole socks", "waited by the door", "slept at my feet"'
+                    value={form.special_habits}
+                    onChange={(v) => update("special_habits", v)}
+                  />
+                  <ExpandingField
+                    label="A thing they loved"
+                    placeholder='e.g., "chasing leaves", "the back porch", "belly rubs"'
+                    value={form.favorite_activities}
+                    onChange={(v) => update("favorite_activities", v)}
+                  />
+                  <ExpandingField
+                    label="Someone they loved"
+                    placeholder='e.g., "my daughter", "the neighbor\u2019s cat"'
+                    value={form.favorite_people_or_animals}
+                    onChange={(v) => update("favorite_people_or_animals", v)}
+                  />
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
                       <Label className="text-xs text-muted-foreground">Breed (optional)</Label>
@@ -603,59 +632,56 @@ const Questionnaire = () => {
                       onChange={(e) => update("owner_name", e.target.value)}
                     />
                   </div>
+                  {/* Photo — tucked inside optional details to keep emotional flow uninterrupted */}
+                  <div className="border-t border-border/40 pt-4">
+                    <Label className="mb-1 block text-xs text-muted-foreground">Pet photo (optional)</Label>
+                    <p className="mb-2 text-xs text-muted-foreground/80">
+                      You can add a photo now or after your tribute is created.
+                      {tierConfig.photo_limit > 1 && (
+                        <> Up to {tierConfig.photo_limit} photos with your plan.</>
+                      )}
+                    </p>
+                    {form.photo_urls.length > 0 && (
+                      <div className="mb-3 flex flex-wrap gap-3">
+                        {form.photo_urls.map((url, i) => (
+                          <div key={i} className="group relative h-16 w-16 overflow-hidden rounded-lg border border-border">
+                            <img src={url} alt={`Pet photo ${i + 1}`} className="h-full w-full object-cover" />
+                            <button
+                              type="button"
+                              onClick={() => removePhoto(i)}
+                              className="absolute right-1 top-1 rounded-full bg-foreground/70 p-0.5 text-background opacity-0 transition-opacity group-hover:opacity-100"
+                              aria-label="Remove photo"
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {form.photo_urls.length < tierConfig.photo_limit && (
+                      <>
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          accept=".jpg,.jpeg,.png"
+                          multiple={tierConfig.photo_limit > 1}
+                          onChange={handlePhotoUpload}
+                          className="hidden"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          disabled={uploading}
+                          onClick={() => fileInputRef.current?.click()}
+                        >
+                          <ImagePlus className="mr-1.5 h-4 w-4" />
+                          {uploading ? "Uploading…" : "Choose Photo"}
+                        </Button>
+                      </>
+                    )}
+                  </div>
                 </div>
-              )}
-            </div>
-
-            {/* Photo — kept visible as its own block */}
-            <div className="rounded-2xl border border-border/60 bg-accent/20 p-5">
-              <Label className="mb-1 block text-sm">Pet Photo (optional)</Label>
-              <p className="mb-3 text-xs text-muted-foreground">
-                Add a photo to make the tribute more personal.
-                {tierConfig.photo_limit > 1 && (
-                  <> Up to {tierConfig.photo_limit} photos with your plan.</>
-                )}
-              </p>
-
-              {form.photo_urls.length > 0 && (
-                <div className="mb-3 flex flex-wrap gap-3">
-                  {form.photo_urls.map((url, i) => (
-                    <div key={i} className="group relative h-20 w-20 overflow-hidden rounded-lg border border-border">
-                      <img src={url} alt={`Pet photo ${i + 1}`} className="h-full w-full object-cover" />
-                      <button
-                        type="button"
-                        onClick={() => removePhoto(i)}
-                        className="absolute right-1 top-1 rounded-full bg-foreground/70 p-0.5 text-background opacity-0 transition-opacity group-hover:opacity-100"
-                        aria-label="Remove photo"
-                      >
-                        <X className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {form.photo_urls.length < tierConfig.photo_limit && (
-                <>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept=".jpg,.jpeg,.png"
-                    multiple={tierConfig.photo_limit > 1}
-                    onChange={handlePhotoUpload}
-                    className="hidden"
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    disabled={uploading}
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <ImagePlus className="mr-1.5 h-4 w-4" />
-                    {uploading ? "Uploading…" : "Choose Photo"}
-                  </Button>
-                </>
               )}
             </div>
           </div>

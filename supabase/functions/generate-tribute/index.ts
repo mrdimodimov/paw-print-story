@@ -184,11 +184,13 @@ function buildPrompt(data: TributeRequest): string {
   const toneDesc = toneDescriptions[data.tone] || toneDescriptions.warm;
 
   const sections: string[] = [];
-  if (data.memories) sections.push(`MEMORIES:\n${data.memories}`);
-  if (data.special_habits) sections.push(`HABITS & QUIRKS:\n${data.special_habits}`);
-  if (data.favorite_activities) sections.push(`WHAT THEY LOVED:\n${data.favorite_activities}`);
-  if (data.favorite_people_or_animals) sections.push(`SPECIAL BONDS:\n${data.favorite_people_or_animals}`);
-  if (data.owner_message) sections.push(`OWNER'S WORDS:\n"${data.owner_message}"`);
+  // PRIMARY narrative drivers (in priority order): memories, owner's message, tone.
+  if (data.memories) sections.push(`PRIMARY — MEMORIES (the heart of the tribute, build the narrative around these):\n${data.memories}`);
+  if (data.owner_message) sections.push(`PRIMARY — OWNER'S WORDS (weave directly, second highest priority):\n"${data.owner_message}"`);
+  // SECONDARY enhancers: small optional details. Reference lightly; never let them dominate.
+  if (data.special_habits) sections.push(`ENHANCER — HABITS & QUIRKS (light touch only, do not center the tribute on this):\n${data.special_habits}`);
+  if (data.favorite_activities) sections.push(`ENHANCER — WHAT THEY LOVED (light touch only):\n${data.favorite_activities}`);
+  if (data.favorite_people_or_animals) sections.push(`ENHANCER — SPECIAL BONDS (light touch only):\n${data.favorite_people_or_animals}`);
   if (data.tone_seed) sections.push(`EMOTIONAL SEED (a quote the owner connected with — REQUIRED USAGE): Open the tribute by weaving this exact quote, or a close paraphrase, into the very first paragraph so the reader immediately recognizes it. After that, let its mood echo through the rest of the piece. Quote: "${data.tone_seed}"`);
 
   let prompt = `Write a tribute for ${data.pet_name}, a ${data.pet_type}${data.breed && data.breed !== "unknown" ? ` (${data.breed})` : ""}, loved by ${data.owner_name}.
@@ -202,7 +204,9 @@ ${sections.join("\n\n")}
 ${getDepthHint(data)}
 
 TONE: ${toneDesc}
-TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.`;
+TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.
+
+INPUT PRIORITY (strict): 1) PRIMARY MEMORIES, 2) OWNER'S WORDS, 3) TONE. Build the emotional spine of the tribute from these three. ENHANCER fields (habits, what they loved, special bonds) must be lightly woven in as supporting color — never the main subject of a paragraph, never repeated, never used to pad length.`;
 
   if (data.include_social_post) {
     prompt += `\n\nAfter the tribute, on a new line write "---SOCIAL_POST---" followed by a short social media post (3–5 lines max) honoring ${data.pet_name}. Structure: Line 1 = emotional hook, Line 2 = specific memory detail from the tribute, Line 3 = reflective closing. Add 2–4 relevant hashtags and include @vellumpetapp. Make it personal, specific, and human — not generic or AI-like. Under 280 characters total.`;
