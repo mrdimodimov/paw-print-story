@@ -206,7 +206,11 @@ const Landing = () => {
 
                 <button
                   type="button"
-                  onClick={() => navigate("/create")}
+                  onClick={() =>
+                    navigate(
+                      `/create?name=${encodeURIComponent(demoName)}&trait=${encodeURIComponent(demoPersonality)}&memory=${encodeURIComponent(demoMemory)}`
+                    )
+                  }
                   className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary/80 hover:underline"
                 >
                   Continue this tribute →

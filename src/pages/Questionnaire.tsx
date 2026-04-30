@@ -88,6 +88,26 @@ const Questionnaire = () => {
   const [step, setStep] = useState(-1); // -1 = intro screen, -2 = prefill reveal
   const [form, setForm] = useState<TributeFormData>(defaultForm);
   const [prefillQuote, setPrefillQuote] = useState<string | null>(null);
+  const prefilledName = searchParams.get("name") || "";
+  const prefilledTrait = searchParams.get("trait") || "";
+  const prefilledMemory = searchParams.get("memory") || "";
+  const hasDemoPrefill = !!(prefilledName || prefilledTrait || prefilledMemory);
+
+  // Prefill from homepage interactive demo (?name=&trait=&memory=)
+  useEffect(() => {
+    if (!hasDemoPrefill) return;
+    setForm((prev) => ({
+      ...prev,
+      pet_name: prefilledName || prev.pet_name,
+      personality_traits: prefilledTrait
+        ? Array.from(new Set([...prev.personality_traits, prefilledTrait]))
+        : prev.personality_traits,
+      memories: prefilledMemory
+        ? [prefilledMemory, ...prev.memories.slice(1)]
+        : prev.memories,
+    }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Read prefill quote from localStorage on mount; if present and the user
   // arrived via ?prefill=1, show a dedicated reveal screen first.
@@ -742,6 +762,24 @@ const Questionnaire = () => {
             <p className="mb-10 max-w-md text-base text-muted-foreground">
               This will only take 2 minutes. We'll guide you every step of the way.
             </p>
+            {hasDemoPrefill && (
+              <div className="mb-8 w-full max-w-md rounded-2xl border border-primary/20 bg-primary/5 p-4 text-left">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">
+                  ✓ We started this for you
+                </p>
+                <ul className="space-y-1 text-sm text-foreground/80">
+                  {prefilledName && (
+                    <li><span className="text-muted-foreground">Name:</span> {prefilledName}</li>
+                  )}
+                  {prefilledTrait && (
+                    <li><span className="text-muted-foreground">Personality:</span> {prefilledTrait}</li>
+                  )}
+                  {prefilledMemory && (
+                    <li><span className="text-muted-foreground">Memory:</span> {prefilledMemory}</li>
+                  )}
+                </ul>
+              </div>
+            )}
             <Button
               size="lg"
               className="px-8 py-6 text-lg shadow-glow"
