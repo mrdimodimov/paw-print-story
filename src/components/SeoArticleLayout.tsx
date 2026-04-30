@@ -815,6 +815,34 @@ const SeoArticleLayout = ({
           </p>
         </div>
       </footer>
+
+      {/* Floating selection bar */}
+      <AnimatePresence>
+        {selectedQuote && (
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 60 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-x-0 bottom-0 z-40 border-t border-border/60 bg-background/95 px-4 py-3 shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.18)] backdrop-blur-md"
+          >
+            <div className="mx-auto flex max-w-3xl flex-col items-center justify-between gap-3 sm:flex-row sm:gap-4">
+              <div className="min-w-0 flex-1 text-center sm:text-left">
+                <p className="text-sm font-semibold text-foreground">You chose something meaningful</p>
+                <p className="truncate text-xs italic text-muted-foreground">"{selectedQuote}"</p>
+              </div>
+              <Link
+                to="/create?prefill=1"
+                onClick={() => trackEvent("prefill_continue_clicked", { metadata: { source: "floating_bar", slug } })}
+                className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--cta-from)),hsl(var(--cta-to)))] px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+              >
+                Continue with this quote
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
