@@ -11,7 +11,7 @@ import {
   detectTimeout,
 } from "@/lib/funnel-tracking";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight, Sparkles, ImagePlus, X, Shield, Heart } from "lucide-react";
+import { ArrowLeft, ArrowRight, Sparkles, ImagePlus, X, Shield, Heart, ChevronDown } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
