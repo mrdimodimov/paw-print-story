@@ -107,8 +107,64 @@ const Landing = () => {
               className="relative scroll-mt-24"
             >
               <p className="mb-3 text-center font-display text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
-                Your tribute will look like this
+                Here's a preview of your tribute
               </p>
+
+              {/* Interactive chips */}
+              <div className="mb-4 space-y-2.5">
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <span className="text-xs font-medium text-muted-foreground">Name:</span>
+                  {NAMES.map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      onClick={() => setDemoName(n)}
+                      className={`rounded-full border px-3 py-1 text-xs font-medium transition-all ${
+                        demoName === n
+                          ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                          : "border-border bg-background text-foreground/70 hover:border-primary/50 hover:text-foreground"
+                      }`}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <span className="text-xs font-medium text-muted-foreground">Personality:</span>
+                  {PERSONALITIES.map((p) => (
+                    <button
+                      key={p}
+                      type="button"
+                      onClick={() => setDemoPersonality(p)}
+                      className={`rounded-full border px-3 py-1 text-xs font-medium transition-all ${
+                        demoPersonality === p
+                          ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                          : "border-border bg-background text-foreground/70 hover:border-primary/50 hover:text-foreground"
+                      }`}
+                    >
+                      {p}
+                    </button>
+                  ))}
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <span className="text-xs font-medium text-muted-foreground">Memory:</span>
+                  {MEMORIES.map((m, i) => (
+                    <button
+                      key={m}
+                      type="button"
+                      onClick={() => setDemoMemory(m)}
+                      className={`rounded-full border px-3 py-1 text-xs font-medium transition-all ${
+                        demoMemory === m
+                          ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                          : "border-border bg-background text-foreground/70 hover:border-primary/50 hover:text-foreground"
+                      }`}
+                    >
+                      {["Door greeter", "Sock thief", "Foot warmer"][i]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div
                 className="overflow-hidden border-2 border-primary/20 bg-card shadow-2xl ring-1 ring-primary/10 transition-shadow"
                 style={{ borderRadius: "20px", padding: "1.85rem" }}
@@ -117,39 +173,51 @@ const Landing = () => {
                 <div className="mb-5 overflow-hidden" style={{ borderRadius: "14px" }}>
                   <img
                     src={tributeLuna}
-                    alt="Luna — example pet tribute"
+                    alt="Example pet tribute"
                     className="aspect-[4/3] w-full object-cover"
                     loading="eager"
                   />
                 </div>
 
-                {/* Tribute text excerpt */}
-                <p className="mb-1 font-display text-lg font-semibold text-foreground">
-                  Luna
-                </p>
-                <p className="mb-4 text-xs tracking-wide text-muted-foreground/70">
-                  Example tribute
-                </p>
-                <p className="font-display text-[0.92rem] leading-[1.85] text-foreground/85">
-                  She had a way of knowing exactly when you needed her. Not with
-                  grand gestures — just a quiet arrival at your feet, a warm
-                  weight against your leg that said,{" "}
-                  <em className="text-primary/70">"I'm here."</em>
-                </p>
-                <p className="mt-4 font-display text-[0.92rem] leading-[1.85] text-foreground/85 blur-preview-text">
-                  Mornings started with the sound of her paws on the kitchen
-                  floor. She'd sit by the door and wait — not impatiently, but
-                  like she trusted you'd always come back.
-                </p>
-                <span
-                  className="mt-4 inline-block cursor-pointer text-sm font-medium text-primary hover:underline"
-                  onClick={() => navigate("/example-tribute")}
+                {/* Tribute text excerpt — animated */}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`${demoName}-${demoPersonality}-${demoMemory}`}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
+                  >
+                    <p className="mb-1 font-display text-lg font-semibold text-foreground">
+                      {demoName}
+                    </p>
+                    <p className="mb-4 text-xs tracking-wide text-muted-foreground/70">
+                      Your tribute preview
+                    </p>
+                    <p className="font-display text-[0.92rem] leading-[1.85] text-foreground/85">
+                      {demoName} was {demoPersonality.toLowerCase()} in a way that
+                      filled every room. I'll always remember{" "}
+                      <em className="text-primary/70">{demoMemory}</em> — the
+                      small moment that said everything.
+                    </p>
+                    <p className="mt-4 font-display text-[0.92rem] leading-[1.85] text-foreground/85 blur-preview-text">
+                      There was a quiet language between us, written in glances
+                      and warm weight against my leg, that no one else could
+                      read.
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
+
+                <button
+                  type="button"
+                  onClick={() => navigate("/create")}
+                  className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary/80 hover:underline"
                 >
-                  Read full tribute →
-                </span>
+                  Continue this tribute →
+                </button>
               </div>
               <p className="mt-4 text-center font-display text-sm italic text-muted-foreground">
-                This is what you'll create.
+                Tap the chips above to see it change.
               </p>
               <div className="pointer-events-none absolute -inset-6 -z-10 rounded-3xl bg-primary/10 blur-3xl" />
             </motion.div>
