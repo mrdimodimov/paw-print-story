@@ -262,8 +262,8 @@ const Questionnaire = () => {
 
   const encouragementMessage = (() => {
     if (step === 1) return "You're doing great ❤️";
-    if (step === 2) return "You're halfway there";
-    if (step === 3) return "Almost done";
+    if (step === 2) return "This is already becoming something beautiful";
+    if (step === 3) return "You're almost ready to see it come to life";
     return null;
   })();
 
