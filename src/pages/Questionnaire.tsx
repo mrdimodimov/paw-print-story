@@ -910,7 +910,7 @@ const Questionnaire = () => {
                 Your purchase is protected by our 7-Day Tribute Satisfaction Guarantee.
               </p>
               <Button onClick={handleGenerate}>
-                <Sparkles className="mr-1 h-4 w-4" /> Generate Tribute
+                <Sparkles className="mr-1 h-4 w-4" /> Create My Tribute
               </Button>
             </div>
           )}
