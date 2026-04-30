@@ -104,7 +104,19 @@ export async function generateTribute(
         "Content-Type": "application/json",
         Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
       },
-      body: JSON.stringify({ ...vars, job_id: jobId, previous_job_id: previousJobId }),
+      body: JSON.stringify({
+        ...vars,
+        job_id: jobId,
+        previous_job_id: previousJobId,
+        // Optional emotional seed quote captured from SEO pages
+        tone_seed: (() => {
+          try {
+            return localStorage.getItem("vp_prefill_quote") || undefined;
+          } catch {
+            return undefined;
+          }
+        })(),
+      }),
     });
   } catch (e) {
     if (jobId) await updateJobStatus(jobId, "failed", { error_message: "Network error" });
