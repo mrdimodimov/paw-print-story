@@ -8,57 +8,52 @@ const WhatToWriteWhenDogDies = () => (
     meta={{
       title: "What to Write When a Dog Dies | Memorial Writing Guide",
       description:
-        "Struggling with what to write when a dog dies? Read this guide with examples and tips for writing a heartfelt dog memorial.",
+        "Short messages, a simple template, and one-line tributes you can use when a dog dies — plus how to turn them into a full memorial.",
     }}
     heading="What to Write When a Dog Dies: A Gentle Guide"
-    intro="Writing about your dog can help process grief and preserve memories. Dogs are woven into the fabric of everyday life — the morning routines, the evening walks, the quiet moments on the couch. When they're gone, writing something down can be a way to hold onto what mattered most."
+    intro="When a dog dies, the words rarely come easily. Below are short messages you can use right now, a simple template to write your own, and a one-line tribute for when that's all you can manage."
     contextualLinks={[
       { text: "Dog memorial quotes", href: "/dog-memorial-quotes" },
       { text: "Pet sympathy messages", href: "/pet-sympathy-messages" },
       { text: "Pet memorial quotes", href: "/pet-memorial-quotes" },
       { text: "Create a tribute", href: "/create" },
     ]}
-    exampleTitle="Example Messages & Tributes"
+    exampleTitle="Short messages you can use right now"
     exampleBody={[
-      "\"You were my best friend.\"",
-      "\"Thank you for every moment.\"",
-      "\"I miss the sound of your paws on the kitchen floor.\"",
-      "\"You were not just a dog. You were family.\"",
-      "\"Thirteen years of love, adventure, and an impressive number of stolen snacks. We love you, Daisy. Always.\"",
+      '"You were my best friend, and you always will be."',
+      '"Thank you for every walk, every wag, every quiet moment beside me."',
+      '"I miss the sound of your paws on the kitchen floor."',
+      '"You were not just a dog. You were family."',
+      '"Forever my good boy."',
+      '"The house is quieter, but my heart is full of you."',
+      '"I would give anything for one more day with you."',
+      '"Run free. I love you."',
     ]}
-    howToWriteIntro="You don't need to be a writer to honor your dog's memory. Here are simple ways to get started."
+    howToWriteIntro="A simple way to write your tribute"
     howToWriteBody={[
-      "Be honest — write the first thing that comes to mind. That instinct is often the most emotional starting point.",
-      "Keep it simple. A few true sentences will always mean more than something polished but impersonal.",
-      "Focus on memories — the day you brought them home, a daily routine, their favourite spot on the couch.",
-      "Write as though you're telling a friend about your dog. Warm, natural, and unforced.",
+      "Use this fill-in-the-blank template — it works for a card, a caption, or a memorial page:",
+      '"[Name] was my [role: best friend / shadow / co-pilot] for [number] years. I will always remember [a small moment]. Thank you for [what they gave you]. I love you, [Name]."',
+      "Example:",
+      '"Daisy was my shadow for thirteen years. I will always remember the way she waited by the door every afternoon at 5pm. Thank you for making every ordinary day feel like home. I love you, Daisy."',
     ]}
     tips={[
       {
-        heading: "Start with the first memory",
-        body: "Write down the first thing that comes to mind — don't overthink it.",
+        heading: "If you can only write one sentence",
+        body: '"Thank you for every single day, [Name] — I will love you for the rest of mine."',
       },
       {
-        heading: "Describe your daily routines",
-        body: "Morning walks, dinner time, the spot on the couch — these everyday moments deserve to be remembered.",
-      },
-      {
-        heading: "Include the funny moments",
-        body: "A stolen shoe, a failed jump, a ridiculous sleeping position — humor makes a tribute feel complete.",
-      },
-      {
-        heading: "Write conversationally",
-        body: "Imagine you're telling a friend about your dog. Keep it warm and natural.",
+        heading: "Make it personal in 10 seconds",
+        body: "Swap one generic word for a specific detail: a name, a habit, a spot in the house, a time of day. Specifics are what make a tribute feel like them.",
       },
       {
         heading: "End with love",
-        body: "A thank you, a farewell, or a simple 'I love you' is often the most powerful way to close.",
+        body: "A simple 'I love you' or 'Thank you' is often the most powerful way to close.",
       },
     ]}
     outroHeading="Create a Meaningful Tribute for Your Dog"
-    outro="Create a meaningful tribute page for your dog on VellumPet. Share a few memories and we'll craft a heartfelt memorial you can keep forever. VellumPet helps pet owners create beautiful online memorial pages to honor their pets."
+    outro="Pick a line that feels right, and we'll turn it into a full memorial page for your dog — with photos, stories, and a tribute written in your voice."
     definitionHeading="What Should You Write When a Dog Dies?"
-    definition="What to write when a dog dies refers to messages and tributes written to honor a dog after it passes away."
+    definition="What to write when a dog dies refers to short messages, tributes, and memorial notes that honor a dog after they pass away."
     faqs={[
       { question: "What should I write when my dog dies?", answer: "Write honestly and from the heart. Share a favourite memory and what they meant to you." },
       { question: "How do you write a tribute?", answer: "Share memories and feelings — their personality, daily routines, and the bond you shared." },
