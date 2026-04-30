@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Heart, ArrowRight } from "lucide-react";
 import { BRAND } from "@/lib/brand";
+import { InteractiveQuoteBlock, PrefillFloatingBar } from "@/components/InteractiveQuoteBlock";
 
 const section = (delay = 0) => ({
   initial: { opacity: 0, y: 16 },
@@ -14,9 +15,7 @@ const section = (delay = 0) => ({
 });
 
 const QuoteBlock = ({ text }: { text: string }) => (
-  <blockquote className="border-l-2 border-primary/30 pl-5 py-1">
-    <p className="text-foreground/90 leading-relaxed italic">{text}</p>
-  </blockquote>
+  <InteractiveQuoteBlock text={text} slug="/rainbow-bridge-quotes" />
 );
 
 const InlineCta = ({
