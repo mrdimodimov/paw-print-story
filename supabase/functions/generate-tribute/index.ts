@@ -204,7 +204,9 @@ ${sections.join("\n\n")}
 ${getDepthHint(data)}
 
 TONE: ${toneDesc}
-TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.`;
+TARGET LENGTH: ${data.word_count_min}–${data.word_count_max} words.
+
+INPUT PRIORITY (strict): 1) PRIMARY MEMORIES, 2) OWNER'S WORDS, 3) TONE. Build the emotional spine of the tribute from these three. ENHANCER fields (habits, what they loved, special bonds) must be lightly woven in as supporting color — never the main subject of a paragraph, never repeated, never used to pad length.`;
 
   if (data.include_social_post) {
     prompt += `\n\nAfter the tribute, on a new line write "---SOCIAL_POST---" followed by a short social media post (3–5 lines max) honoring ${data.pet_name}. Structure: Line 1 = emotional hook, Line 2 = specific memory detail from the tribute, Line 3 = reflective closing. Add 2–4 relevant hashtags and include @vellumpetapp. Make it personal, specific, and human — not generic or AI-like. Under 280 characters total.`;
