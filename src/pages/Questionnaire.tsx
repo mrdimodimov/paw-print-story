@@ -88,6 +88,26 @@ const Questionnaire = () => {
   const [step, setStep] = useState(-1); // -1 = intro screen, -2 = prefill reveal
   const [form, setForm] = useState<TributeFormData>(defaultForm);
   const [prefillQuote, setPrefillQuote] = useState<string | null>(null);
+  const prefilledName = searchParams.get("name") || "";
+  const prefilledTrait = searchParams.get("trait") || "";
+  const prefilledMemory = searchParams.get("memory") || "";
+  const hasDemoPrefill = !!(prefilledName || prefilledTrait || prefilledMemory);
+
+  // Prefill from homepage interactive demo (?name=&trait=&memory=)
+  useEffect(() => {
+    if (!hasDemoPrefill) return;
+    setForm((prev) => ({
+      ...prev,
+      pet_name: prefilledName || prev.pet_name,
+      personality_traits: prefilledTrait
+        ? Array.from(new Set([...prev.personality_traits, prefilledTrait]))
+        : prev.personality_traits,
+      memories: prefilledMemory
+        ? [prefilledMemory, ...prev.memories.slice(1)]
+        : prev.memories,
+    }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Read prefill quote from localStorage on mount; if present and the user
   // arrived via ?prefill=1, show a dedicated reveal screen first.
