@@ -227,7 +227,7 @@ const TributePage = () => {
         trackCreateError("Generation", "unknown");
         setGenerating(false);
       },
-    }, prevJobId, isPublicRef.current);
+    }, prevJobId, isPublicRef.current, cached || undefined);
   };
 
   useEffect(() => {
