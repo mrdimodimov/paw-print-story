@@ -149,6 +149,10 @@ const TributePage = () => {
     setTribute(null);
     setRecoveryMessage(null);
 
+    // Consume the pre-generated AI result (if any) on the first call only.
+    // Regen paths (Add a memory, Test mode, etc.) always go through fresh AI.
+    const cached = preGeneratedRef.current;
+    preGeneratedRef.current = null;
     generateTribute(data, tierConfig, {
       onDelta: (text) => {
         setStreamingText((prev) => prev + text);
