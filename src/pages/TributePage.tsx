@@ -583,6 +583,21 @@ const TributePage = () => {
   }
 
   // Generating / streaming state
+  if (preGenTransition) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background px-4">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="font-display text-lg text-foreground/80"
+        >
+          Bringing this to life…
+        </motion.p>
+      </div>
+    );
+  }
+
   if (generating) {
     return (
       <div className="flex min-h-screen flex-col items-center bg-background px-4 pt-24">
