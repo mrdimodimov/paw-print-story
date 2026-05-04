@@ -172,6 +172,9 @@ const TributePage = () => {
         setStreamingText((prev) => prev + text);
       },
       onDone: async (result) => {
+        // Hold the brief reveal beat before swapping in the tribute UI.
+        await minRevealDelay;
+        setPreGenTransition(false);
         setTribute(result);
         setEditedStory(result.story);
         setGenerating(false);
