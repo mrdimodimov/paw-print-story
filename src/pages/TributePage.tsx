@@ -156,8 +156,19 @@ const TributePage = () => {
     // Regen paths (Add a memory, Test mode, etc.) always go through fresh AI.
     const cached = preGeneratedRef.current;
     preGeneratedRef.current = null;
+
+    // When using a cached tribute, show a brief intentional reveal beat
+    // ("Bringing this to life…") instead of the full streaming experience.
+    const usingCached = !!cached;
+    if (usingCached) setPreGenTransition(true);
+    const minRevealDelay = usingCached
+      ? new Promise<void>((r) => setTimeout(r, 350))
+      : Promise.resolve();
+
     generateTribute(data, tierConfig, {
       onDelta: (text) => {
+        // Suppress streaming UI when we already have the full cached text
+        if (usingCached) return;
         setStreamingText((prev) => prev + text);
       },
       onDone: async (result) => {
