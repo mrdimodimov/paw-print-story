@@ -81,6 +81,9 @@ const TributePage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedStory, setEditedStory] = useState("");
   const [generating, setGenerating] = useState(false);
+  // Subtle overlay shown when we have a pre-generated tribute and want a brief,
+  // intentional reveal beat instead of the full "writing…" experience.
+  const [preGenTransition, setPreGenTransition] = useState(false);
   const [loading, setLoading] = useState(false);
   const [recoveryMessage, setRecoveryMessage] = useState<string | null>(null);
   const [additionalMemory, setAdditionalMemory] = useState("");
@@ -153,11 +156,25 @@ const TributePage = () => {
     // Regen paths (Add a memory, Test mode, etc.) always go through fresh AI.
     const cached = preGeneratedRef.current;
     preGeneratedRef.current = null;
+
+    // When using a cached tribute, show a brief intentional reveal beat
+    // ("Bringing this to life…") instead of the full streaming experience.
+    const usingCached = !!cached;
+    if (usingCached) setPreGenTransition(true);
+    const minRevealDelay = usingCached
+      ? new Promise<void>((r) => setTimeout(r, 350))
+      : Promise.resolve();
+
     generateTribute(data, tierConfig, {
       onDelta: (text) => {
+        // Suppress streaming UI when we already have the full cached text
+        if (usingCached) return;
         setStreamingText((prev) => prev + text);
       },
       onDone: async (result) => {
+        // Hold the brief reveal beat before swapping in the tribute UI.
+        await minRevealDelay;
+        setPreGenTransition(false);
         setTribute(result);
         setEditedStory(result.story);
         setGenerating(false);
@@ -223,6 +240,7 @@ const TributePage = () => {
         }
       },
       onError: (error) => {
+        setPreGenTransition(false);
         toast.error(error);
         trackCreateError("Generation", "unknown");
         setGenerating(false);
@@ -565,6 +583,21 @@ const TributePage = () => {
   }
 
   // Generating / streaming state
+  if (preGenTransition) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background px-4">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="font-display text-lg text-foreground/80"
+        >
+          Bringing this to life…
+        </motion.p>
+      </div>
+    );
+  }
+
   if (generating) {
     return (
       <div className="flex min-h-screen flex-col items-center bg-background px-4 pt-24">
