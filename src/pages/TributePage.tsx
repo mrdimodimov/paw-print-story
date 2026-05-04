@@ -81,6 +81,9 @@ const TributePage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedStory, setEditedStory] = useState("");
   const [generating, setGenerating] = useState(false);
+  // Subtle overlay shown when we have a pre-generated tribute and want a brief,
+  // intentional reveal beat instead of the full "writing…" experience.
+  const [preGenTransition, setPreGenTransition] = useState(false);
   const [loading, setLoading] = useState(false);
   const [recoveryMessage, setRecoveryMessage] = useState<string | null>(null);
   const [additionalMemory, setAdditionalMemory] = useState("");
