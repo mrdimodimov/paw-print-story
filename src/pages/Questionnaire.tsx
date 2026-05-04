@@ -539,6 +539,56 @@ const Questionnaire = () => {
               </p>
             </div>
 
+            {/* Photo — highlighted, recommended */}
+            <div className="rounded-2xl border border-border/60 bg-accent/40 p-6">
+              <Label className="mb-1 block text-base font-semibold text-foreground">
+                Add a photo of {form.pet_name || "your pet"} <span className="font-normal text-muted-foreground">(recommended)</span>
+              </Label>
+              <p className="mb-4 text-sm text-muted-foreground">
+                This makes your tribute feel much more personal.
+                {tierConfig.photo_limit > 1 && (
+                  <> Up to {tierConfig.photo_limit} photos with your plan.</>
+                )}
+              </p>
+              {form.photo_urls.length > 0 && (
+                <div className="mb-4 flex flex-wrap gap-3">
+                  {form.photo_urls.map((url, i) => (
+                    <div key={i} className="group relative h-20 w-20 overflow-hidden rounded-lg border border-border">
+                      <img src={url} alt={`Pet photo ${i + 1}`} className="h-full w-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => removePhoto(i)}
+                        className="absolute right-1 top-1 rounded-full bg-foreground/70 p-0.5 text-background opacity-0 transition-opacity group-hover:opacity-100"
+                        aria-label="Remove photo"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {form.photo_urls.length < tierConfig.photo_limit && (
+                <>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".jpg,.jpeg,.png"
+                    multiple={tierConfig.photo_limit > 1}
+                    onChange={handlePhotoUpload}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    disabled={uploading}
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <ImagePlus className="mr-1.5 h-4 w-4" />
+                    {uploading ? "Uploading…" : form.photo_urls.length > 0 ? "Add another photo" : "Choose Photo"}
+                  </Button>
+                </>
+              )}
+            </div>
+
             {/* Style */}
             <div>
               <Label className="mb-3 block">
@@ -631,55 +681,6 @@ const Questionnaire = () => {
                       value={form.owner_name}
                       onChange={(e) => update("owner_name", e.target.value)}
                     />
-                  </div>
-                  {/* Photo — tucked inside optional details to keep emotional flow uninterrupted */}
-                  <div className="border-t border-border/40 pt-4">
-                    <Label className="mb-1 block text-xs text-muted-foreground">Pet photo (optional)</Label>
-                    <p className="mb-2 text-xs text-muted-foreground/80">
-                      You can add a photo now or after your tribute is created.
-                      {tierConfig.photo_limit > 1 && (
-                        <> Up to {tierConfig.photo_limit} photos with your plan.</>
-                      )}
-                    </p>
-                    {form.photo_urls.length > 0 && (
-                      <div className="mb-3 flex flex-wrap gap-3">
-                        {form.photo_urls.map((url, i) => (
-                          <div key={i} className="group relative h-16 w-16 overflow-hidden rounded-lg border border-border">
-                            <img src={url} alt={`Pet photo ${i + 1}`} className="h-full w-full object-cover" />
-                            <button
-                              type="button"
-                              onClick={() => removePhoto(i)}
-                              className="absolute right-1 top-1 rounded-full bg-foreground/70 p-0.5 text-background opacity-0 transition-opacity group-hover:opacity-100"
-                              aria-label="Remove photo"
-                            >
-                              <X className="h-3 w-3" />
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {form.photo_urls.length < tierConfig.photo_limit && (
-                      <>
-                        <input
-                          ref={fileInputRef}
-                          type="file"
-                          accept=".jpg,.jpeg,.png"
-                          multiple={tierConfig.photo_limit > 1}
-                          onChange={handlePhotoUpload}
-                          className="hidden"
-                        />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          disabled={uploading}
-                          onClick={() => fileInputRef.current?.click()}
-                        >
-                          <ImagePlus className="mr-1.5 h-4 w-4" />
-                          {uploading ? "Uploading…" : "Choose Photo"}
-                        </Button>
-                      </>
-                    )}
                   </div>
                 </div>
               )}
