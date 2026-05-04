@@ -28,7 +28,8 @@ import { useTestMode } from "@/hooks/use-test-mode";
 import { TEST_PRESETS } from "@/lib/test-presets";
 import { captureTesterSource, trackEvent } from "@/lib/analytics";
 import { readPrefillQuote, clearPrefillQuote } from "@/lib/quote-prefill";
-import type { TributeFormData, TributeStyle } from "@/lib/types";
+import type { TributeFormData, TributeStyle, GeneratedTribute } from "@/lib/types";
+import { streamTributeAI } from "@/lib/tribute-api";
 
 const PERSONALITY_OPTIONS = [
   "Loyal", "Playful", "Gentle", "Adventurous", "Funny", "Cuddly",
