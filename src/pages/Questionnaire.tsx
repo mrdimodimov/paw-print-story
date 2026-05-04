@@ -189,6 +189,16 @@ const Questionnaire = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const [cropOpen, setCropOpen] = useState(false);
+  const [petPhotoPreview, setPetPhotoPreview] = useState<string | null>(null);
+
+  // Revoke any active object URL when it changes or on unmount to avoid leaks
+  useEffect(() => {
+    return () => {
+      if (petPhotoPreview && petPhotoPreview.startsWith("blob:")) {
+        URL.revokeObjectURL(petPhotoPreview);
+      }
+    };
+  }, [petPhotoPreview]);
 
   // Fire `trackStepMounted` whenever the user enters a new step.
   // The `intro` pseudo-step (step === -1) is treated as the funnel landing.
