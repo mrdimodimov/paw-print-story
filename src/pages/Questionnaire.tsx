@@ -189,6 +189,16 @@ const Questionnaire = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const [cropOpen, setCropOpen] = useState(false);
+  const [petPhotoPreview, setPetPhotoPreview] = useState<string | null>(null);
+
+  // Revoke any active object URL when it changes or on unmount to avoid leaks
+  useEffect(() => {
+    return () => {
+      if (petPhotoPreview && petPhotoPreview.startsWith("blob:")) {
+        URL.revokeObjectURL(petPhotoPreview);
+      }
+    };
+  }, [petPhotoPreview]);
 
   // Fire `trackStepMounted` whenever the user enters a new step.
   // The `intro` pseudo-step (step === -1) is treated as the funnel landing.
@@ -249,6 +259,11 @@ const Questionnaire = () => {
     const objectUrl = URL.createObjectURL(file);
     setCropSrc(objectUrl);
     setCropOpen(true);
+    // Show an immediate local preview (will be replaced by cropped version)
+    setPetPhotoPreview((prev) => {
+      if (prev && prev.startsWith("blob:")) URL.revokeObjectURL(prev);
+      return objectUrl;
+    });
     // Reset input so same file can be re-selected
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
@@ -258,6 +273,12 @@ const Questionnaire = () => {
     setCropSrc(null);
     setUploading(true);
 
+    // Swap preview to the cropped local blob immediately for instant feedback
+    const croppedPreviewUrl = URL.createObjectURL(croppedFile);
+    setPetPhotoPreview((prev) => {
+      if (prev && prev.startsWith("blob:")) URL.revokeObjectURL(prev);
+      return croppedPreviewUrl;
+    });
     const ext = croppedFile.name.split(".").pop() || "jpg";
     const path = `${crypto.randomUUID()}.${ext}`;
     const startedAt = Date.now();
@@ -293,6 +314,13 @@ const Questionnaire = () => {
 
   const removePhoto = (index: number) => {
     update("photo_urls", form.photo_urls.filter((_, i) => i !== index));
+    // If removing the only/last photo, clear the local preview as well
+    if (form.photo_urls.length <= 1) {
+      setPetPhotoPreview((prev) => {
+        if (prev && prev.startsWith("blob:")) URL.revokeObjectURL(prev);
+        return null;
+      });
+    }
   };
 
   const canProceed = () => {
@@ -550,10 +578,31 @@ const Questionnaire = () => {
                   <> Up to {tierConfig.photo_limit} photos with your plan.</>
                 )}
               </p>
-              {form.photo_urls.length > 0 && (
+
+              {/* Live preview — uses local object URL for instant feedback */}
+              <AnimatePresence mode="wait">
+                {petPhotoPreview && (
+                  <motion.div
+                    key={petPhotoPreview}
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="mb-4 overflow-hidden rounded-xl border border-border/60 bg-card shadow-soft"
+                  >
+                    <img
+                      src={petPhotoPreview}
+                      alt={`Preview of ${form.pet_name || "your pet"}`}
+                      className="h-48 w-full object-cover"
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {form.photo_urls.length > 1 && (
                 <div className="mb-4 flex flex-wrap gap-3">
                   {form.photo_urls.map((url, i) => (
-                    <div key={i} className="group relative h-20 w-20 overflow-hidden rounded-lg border border-border">
+                    <div key={i} className="group relative h-16 w-16 overflow-hidden rounded-lg border border-border">
                       <img src={url} alt={`Pet photo ${i + 1}`} className="h-full w-full object-cover" />
                       <button
                         type="button"
@@ -567,6 +616,7 @@ const Questionnaire = () => {
                   ))}
                 </div>
               )}
+
               {form.photo_urls.length < tierConfig.photo_limit && (
                 <>
                   <input
@@ -583,9 +633,24 @@ const Questionnaire = () => {
                     onClick={() => fileInputRef.current?.click()}
                   >
                     <ImagePlus className="mr-1.5 h-4 w-4" />
-                    {uploading ? "Uploading…" : form.photo_urls.length > 0 ? "Add another photo" : "Choose Photo"}
+                    {uploading
+                      ? "Uploading…"
+                      : petPhotoPreview
+                        ? "Change photo"
+                        : "Choose Photo"}
                   </Button>
                 </>
+              )}
+
+              {petPhotoPreview && !uploading && (
+                <motion.p
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="mt-3 text-sm text-foreground/80"
+                >
+                  ✓ Photo added — this will appear in your tribute
+                </motion.p>
               )}
             </div>
 
