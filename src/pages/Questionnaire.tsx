@@ -273,6 +273,12 @@ const Questionnaire = () => {
     setCropSrc(null);
     setUploading(true);
 
+    // Swap preview to the cropped local blob immediately for instant feedback
+    const croppedPreviewUrl = URL.createObjectURL(croppedFile);
+    setPetPhotoPreview((prev) => {
+      if (prev && prev.startsWith("blob:")) URL.revokeObjectURL(prev);
+      return croppedPreviewUrl;
+    });
     const ext = croppedFile.name.split(".").pop() || "jpg";
     const path = `${crypto.randomUUID()}.${ext}`;
     const startedAt = Date.now();
