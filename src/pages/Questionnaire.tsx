@@ -314,6 +314,13 @@ const Questionnaire = () => {
 
   const removePhoto = (index: number) => {
     update("photo_urls", form.photo_urls.filter((_, i) => i !== index));
+    // If removing the only/last photo, clear the local preview as well
+    if (form.photo_urls.length <= 1) {
+      setPetPhotoPreview((prev) => {
+        if (prev && prev.startsWith("blob:")) URL.revokeObjectURL(prev);
+        return null;
+      });
+    }
   };
 
   const canProceed = () => {
