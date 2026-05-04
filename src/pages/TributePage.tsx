@@ -65,6 +65,12 @@ const TributePage = () => {
   const isPublicRef = useRef<boolean>(
     (location.state as { isPublic?: boolean })?.isPublic || false
   );
+  // One-shot cached AI result handed off from the questionnaire pre-generation.
+  // Consumed by runGeneration on the first call, then nulled so any regen path
+  // (Add memory, Test mode, etc.) goes through the normal AI streaming.
+  const preGeneratedRef = useRef<GeneratedTribute | null>(
+    (location.state as { preGenerated?: GeneratedTribute })?.preGenerated || null
+  );
   const isTestMode = searchParams.get("test") === "true" ||
     searchParams.get("preview") === "founder" ||
     !!(location.state as { isTestMode?: boolean })?.isTestMode;
