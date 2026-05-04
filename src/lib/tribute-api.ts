@@ -74,25 +74,26 @@ export async function loadJobById(id: string) {
   return data;
 }
 
-export async function generateTribute(
+/**
+ * Stream the tribute AI output ONLY.
+ *
+ * Side-effect free with respect to the persistence layer:
+ * - does NOT acquire the global generation lock
+ * - does NOT create a generation_jobs row
+ * - does NOT insert into tributes / public_tributes
+ * - does NOT send the "ready" email
+ *
+ * Use this for safe background pre-generation. Pair with persistGeneratedTribute()
+ * when the user actually commits (clicks the final CTA).
+ */
+export async function streamTributeAI(
   form: TributeFormData,
   tier: TierConfig,
-  callbacks: StreamCallbacks,
-  previousJobId?: string,
-  isPublic?: boolean
-) {
-  if (!acquireLock()) {
-    callbacks.onError("A tribute is already being generated. Please wait for it to finish.");
-    return;
-  }
-
-  // Create job record
-  const jobId = await createJob(form, tier);
-  if (jobId) {
-    localStorage.setItem(JOB_KEY, jobId);
-    await updateJobStatus(jobId, "generating");
-  }
-
+  callbacks: {
+    onDelta?: (text: string) => void;
+    signal?: AbortSignal;
+  } = {},
+): Promise<{ result: GeneratedTribute; fullText: string } | { error: string }> {
   const vars = buildPromptVariables(form, tier);
   const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-tribute`;
 
@@ -100,15 +101,13 @@ export async function generateTribute(
   try {
     resp = await fetch(url, {
       method: "POST",
+      signal: callbacks.signal,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
       },
       body: JSON.stringify({
         ...vars,
-        job_id: jobId,
-        previous_job_id: previousJobId,
-        // Optional emotional seed quote captured from SEO pages
         tone_seed: (() => {
           try {
             return localStorage.getItem("vp_prefill_quote") || undefined;
@@ -119,26 +118,15 @@ export async function generateTribute(
       }),
     });
   } catch (e) {
-    if (jobId) await updateJobStatus(jobId, "failed", { error_message: "Network error" });
-    releaseLock();
-    callbacks.onError("Network error. Please check your connection and try again.");
-    return;
+    if ((e as any)?.name === "AbortError") return { error: "aborted" };
+    return { error: "Network error" };
   }
 
   if (!resp.ok) {
     const err = await resp.json().catch(() => ({ error: "Generation failed" }));
-    if (jobId) await updateJobStatus(jobId, "failed", { error_message: err.error || "Generation failed" });
-    releaseLock();
-    callbacks.onError(err.error || `Error ${resp.status}`);
-    return;
+    return { error: err.error || `Error ${resp.status}` };
   }
-
-  if (!resp.body) {
-    if (jobId) await updateJobStatus(jobId, "failed", { error_message: "No response body" });
-    releaseLock();
-    callbacks.onError("No response body");
-    return;
-  }
+  if (!resp.body) return { error: "No response body" };
 
   const reader = resp.body.getReader();
   const decoder = new TextDecoder();
@@ -172,7 +160,7 @@ export async function generateTribute(
           const content = parsed.choices?.[0]?.delta?.content as string | undefined;
           if (content) {
             fullText += content;
-            callbacks.onDelta(content);
+            callbacks.onDelta?.(content);
           }
         } catch {
           textBuffer = line + "\n" + textBuffer;
@@ -181,7 +169,6 @@ export async function generateTribute(
       }
     }
 
-    // Flush remaining buffer
     if (textBuffer.trim()) {
       for (let raw of textBuffer.split("\n")) {
         if (!raw) continue;
@@ -195,23 +182,42 @@ export async function generateTribute(
           const content = parsed.choices?.[0]?.delta?.content as string | undefined;
           if (content) {
             fullText += content;
-            callbacks.onDelta(content);
+            callbacks.onDelta?.(content);
           }
         } catch { /* ignore */ }
       }
     }
   } catch (e) {
-    if (jobId) await updateJobStatus(jobId, "failed", { error_message: "Stream disconnected" });
-    releaseLock();
-    callbacks.onError("The tribute stream was interrupted. Please try again.");
-    return;
+    if ((e as any)?.name === "AbortError") return { error: "aborted" };
+    return { error: "Stream interrupted" };
   }
 
-  // Parse sections from the full text
-  const result = parseGeneratedOutput(fullText);
+  return { result: parseGeneratedOutput(fullText), fullText };
+}
 
+/**
+ * Persist a generated tribute (DB + email + job tracking).
+ * Acquires the global lock just for the duration of the persistence step.
+ *
+ * Use this on its own when you already have a pre-generated tribute (e.g. from
+ * streamTributeAI) and just need to commit it.
+ */
+export async function persistGeneratedTribute(
+  form: TributeFormData,
+  tier: TierConfig,
+  result: GeneratedTribute,
+  options: { isPublic?: boolean; previousJobId?: string } = {},
+): Promise<{ tributeId?: string; jobId?: string; slug?: string; error?: string }> {
+  if (!acquireLock()) {
+    return { error: "A tribute is already being generated. Please wait for it to finish." };
+  }
 
-  // Persist tribute to database with slug collision retry
+  const jobId = await createJob(form, tier);
+  if (jobId) {
+    localStorage.setItem(JOB_KEY, jobId);
+    await updateJobStatus(jobId, "generating");
+  }
+
   let tributeId: string | undefined;
   let tributeSlug: string | undefined;
   const baseSlug = generateMemorialSlug(form.pet_name, {
@@ -245,7 +251,7 @@ export async function generateTribute(
         short_caption: result.short_caption || null,
         photo_urls: form.photo_urls,
         form_data: form as any,
-        is_public: isPublic || false,
+        is_public: options.isPublic || false,
         tester_source: getTesterSource(),
       } as any).select("id, slug").single();
 
@@ -253,7 +259,6 @@ export async function generateTribute(
         tributeId = data.id;
         tributeSlug = data.slug ?? undefined;
 
-        // Always pre-insert into public_tributes with full data (unpaid, private)
         const safeStory =
           result.story && result.story.length > 30
             ? result.story
@@ -282,7 +287,6 @@ export async function generateTribute(
 
         break;
       }
-      // If error is a unique constraint violation, retry with suffix
       if (error && !error.message?.includes("duplicate")) {
         console.warn("Failed to persist tribute:", error.message);
         break;
@@ -293,7 +297,6 @@ export async function generateTribute(
     }
   }
 
-  // Update job as completed
   if (jobId) {
     await updateJobStatus(jobId, "completed", {
       tribute_story: result.story,
@@ -303,7 +306,6 @@ export async function generateTribute(
     });
   }
 
-  // Fire-and-forget "ready" email. Must never block job completion.
   if (tributeId) {
     try {
       await supabase.functions.invoke("send-transactional-email", {
@@ -319,13 +321,65 @@ export async function generateTribute(
     }
   }
 
-  // Clear the SEO prefill quote now that generation succeeded
   try {
     localStorage.removeItem("vp_prefill_quote");
   } catch { /* ignore */ }
 
   releaseLock();
-  callbacks.onDone({ ...result, tributeId, jobId, slug: tributeSlug });
+  return { tributeId, jobId: jobId ?? undefined, slug: tributeSlug };
+}
+
+/**
+ * Original combined flow: stream + persist. Preserved for existing callers (TributePage).
+ */
+export async function generateTribute(
+  form: TributeFormData,
+  tier: TierConfig,
+  callbacks: StreamCallbacks,
+  previousJobId?: string,
+  isPublic?: boolean,
+  preGenerated?: GeneratedTribute,
+) {
+  // Fast path: caller already pre-generated the AI output, just persist.
+  if (preGenerated) {
+    // Replay the cached story as deltas so the existing UI's streaming animation still feels alive.
+    if (preGenerated.story) callbacks.onDelta(preGenerated.story);
+    const persisted = await persistGeneratedTribute(form, tier, preGenerated, {
+      isPublic,
+      previousJobId,
+    });
+    if (persisted.error) {
+      callbacks.onError(persisted.error);
+      return;
+    }
+    callbacks.onDone({
+      ...preGenerated,
+      tributeId: persisted.tributeId,
+      jobId: persisted.jobId,
+      slug: persisted.slug,
+    });
+    return;
+  }
+
+  const streamResult = await streamTributeAI(form, tier, { onDelta: callbacks.onDelta });
+  if ("error" in streamResult) {
+    callbacks.onError(streamResult.error === "aborted" ? "Generation was cancelled." : streamResult.error);
+    return;
+  }
+  const persisted = await persistGeneratedTribute(form, tier, streamResult.result, {
+    isPublic,
+    previousJobId,
+  });
+  if (persisted.error) {
+    callbacks.onError(persisted.error);
+    return;
+  }
+  callbacks.onDone({
+    ...streamResult.result,
+    tributeId: persisted.tributeId,
+    jobId: persisted.jobId,
+    slug: persisted.slug,
+  });
 }
 
 function parseGeneratedOutput(text: string): GeneratedTribute {

@@ -65,6 +65,12 @@ const TributePage = () => {
   const isPublicRef = useRef<boolean>(
     (location.state as { isPublic?: boolean })?.isPublic || false
   );
+  // One-shot cached AI result handed off from the questionnaire pre-generation.
+  // Consumed by runGeneration on the first call, then nulled so any regen path
+  // (Add memory, Test mode, etc.) goes through the normal AI streaming.
+  const preGeneratedRef = useRef<GeneratedTribute | null>(
+    (location.state as { preGenerated?: GeneratedTribute })?.preGenerated || null
+  );
   const isTestMode = searchParams.get("test") === "true" ||
     searchParams.get("preview") === "founder" ||
     !!(location.state as { isTestMode?: boolean })?.isTestMode;
@@ -143,6 +149,10 @@ const TributePage = () => {
     setTribute(null);
     setRecoveryMessage(null);
 
+    // Consume the pre-generated AI result (if any) on the first call only.
+    // Regen paths (Add a memory, Test mode, etc.) always go through fresh AI.
+    const cached = preGeneratedRef.current;
+    preGeneratedRef.current = null;
     generateTribute(data, tierConfig, {
       onDelta: (text) => {
         setStreamingText((prev) => prev + text);
@@ -217,7 +227,7 @@ const TributePage = () => {
         trackCreateError("Generation", "unknown");
         setGenerating(false);
       },
-    }, prevJobId, isPublicRef.current);
+    }, prevJobId, isPublicRef.current, cached || undefined);
   };
 
   useEffect(() => {

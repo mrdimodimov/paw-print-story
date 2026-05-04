@@ -28,7 +28,8 @@ import { useTestMode } from "@/hooks/use-test-mode";
 import { TEST_PRESETS } from "@/lib/test-presets";
 import { captureTesterSource, trackEvent } from "@/lib/analytics";
 import { readPrefillQuote, clearPrefillQuote } from "@/lib/quote-prefill";
-import type { TributeFormData, TributeStyle } from "@/lib/types";
+import type { TributeFormData, TributeStyle, GeneratedTribute } from "@/lib/types";
+import { streamTributeAI } from "@/lib/tribute-api";
 
 const PERSONALITY_OPTIONS = [
   "Loyal", "Playful", "Gentle", "Adventurous", "Funny", "Cuddly",
@@ -353,6 +354,64 @@ const Questionnaire = () => {
   const [showExtraMemories, setShowExtraMemories] = useState(false);
   const [showOptionalDetails, setShowOptionalDetails] = useState(false);
 
+  // ───────── Background pre-generation (single attempt per session) ─────────
+  // Calls the AI streaming endpoint only — never persists, never holds the lock.
+  // If the user clicks "Create My Tribute" before editing memory/tone,
+  // we hand the cached result to TributePage and skip a second AI call.
+  const preGenRef = useRef<{
+    result: GeneratedTribute | null;
+    abort: AbortController | null;
+    started: boolean;
+    seedMemory: string;
+    seedTone: string;
+  }>({ result: null, abort: null, started: false, seedMemory: "", seedTone: "" });
+  const [preGeneratedTribute, setPreGeneratedTribute] = useState<GeneratedTribute | null>(null);
+
+  const primaryMemory = (form.memories.find((m) => m.trim().length >= 10) || "").trim();
+
+  // Trigger ONCE when Step 4 (index 3) has the minimum signal: memory + tone.
+  useEffect(() => {
+    if (step !== 3) return;
+    if (preGenRef.current.started) return;
+    if (!primaryMemory || primaryMemory.length < 10) return;
+    if (!form.tone) return;
+
+    preGenRef.current.started = true;
+    preGenRef.current.seedMemory = primaryMemory;
+    preGenRef.current.seedTone = form.tone;
+
+    const ac = new AbortController();
+    preGenRef.current.abort = ac;
+
+    streamTributeAI(form, tierConfig, { signal: ac.signal })
+      .then((res) => {
+        if (ac.signal.aborted) return;
+        if ("error" in res) return; // Silent failure — fallback to normal generation on CTA.
+        preGenRef.current.result = res.result;
+        setPreGeneratedTribute(res.result);
+      })
+      .catch(() => { /* silent */ });
+
+    return () => {
+      ac.abort();
+    };
+    // Intentionally only re-evaluate on step change — invalidation handled below.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
+
+  // Invalidate cached pre-generation if memory or tone changes after the attempt started.
+  useEffect(() => {
+    if (!preGenRef.current.started) return;
+    const memoryChanged = primaryMemory !== preGenRef.current.seedMemory;
+    const toneChanged = form.tone !== preGenRef.current.seedTone;
+    if (memoryChanged || toneChanged) {
+      preGenRef.current.abort?.abort();
+      preGenRef.current.result = null;
+      // Per spec: discard cached result, do NOT auto-regenerate.
+      setPreGeneratedTribute(null);
+    }
+  }, [primaryMemory, form.tone]);
+
   // Ensure at least 2 memory slots are visible by default
   useEffect(() => {
     if (form.memories.length < 2) {
@@ -369,7 +428,15 @@ const Questionnaire = () => {
     const testerSource = sessionStorage.getItem("tester_source");
     const testerParam = testerSource ? `&tester=${testerSource}` : "";
     navigate(`/tribute?tier=${tier}${isTestMode ? "&test=true" : ""}${testerParam}`, {
-      state: { formData: form, isPublic: isTestMode ? false : isPublic, email: email.trim() || undefined, isTestMode },
+      state: {
+        formData: form,
+        isPublic: isTestMode ? false : isPublic,
+        email: email.trim() || undefined,
+        isTestMode,
+        // If we have a cached AI result that still matches the user's inputs,
+        // hand it off so TributePage can skip the second AI call.
+        preGenerated: preGeneratedTribute || undefined,
+      },
     });
   };
 
