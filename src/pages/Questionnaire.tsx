@@ -1095,6 +1095,30 @@ const Questionnaire = () => {
               <Button onClick={handleGenerate}>
                 <Sparkles className="mr-1 h-4 w-4" /> Create My Tribute
               </Button>
+              <AnimatePresence>
+                {preGeneratedTribute?.story && (
+                  <motion.div
+                    key="tribute-glimpse"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
+                    className="mt-4 w-full max-w-md rounded-2xl border border-border/60 bg-muted/40 p-4 text-left"
+                  >
+                    <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      A glimpse of your tribute
+                    </p>
+                    <p className="font-display text-sm leading-relaxed text-foreground/85 line-clamp-3">
+                      {preGeneratedTribute.story
+                        .split(/\n\s*\n/)[0]
+                        .split("\n")
+                        .slice(0, 3)
+                        .join(" ")
+                        .trim()}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           )}
         </div>
