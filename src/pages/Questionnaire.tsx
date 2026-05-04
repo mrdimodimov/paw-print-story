@@ -428,7 +428,15 @@ const Questionnaire = () => {
     const testerSource = sessionStorage.getItem("tester_source");
     const testerParam = testerSource ? `&tester=${testerSource}` : "";
     navigate(`/tribute?tier=${tier}${isTestMode ? "&test=true" : ""}${testerParam}`, {
-      state: { formData: form, isPublic: isTestMode ? false : isPublic, email: email.trim() || undefined, isTestMode },
+      state: {
+        formData: form,
+        isPublic: isTestMode ? false : isPublic,
+        email: email.trim() || undefined,
+        isTestMode,
+        // If we have a cached AI result that still matches the user's inputs,
+        // hand it off so TributePage can skip the second AI call.
+        preGenerated: preGeneratedTribute || undefined,
+      },
     });
   };
 
