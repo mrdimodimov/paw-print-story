@@ -259,6 +259,11 @@ const Questionnaire = () => {
     const objectUrl = URL.createObjectURL(file);
     setCropSrc(objectUrl);
     setCropOpen(true);
+    // Show an immediate local preview (will be replaced by cropped version)
+    setPetPhotoPreview((prev) => {
+      if (prev && prev.startsWith("blob:")) URL.revokeObjectURL(prev);
+      return objectUrl;
+    });
     // Reset input so same file can be re-selected
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
