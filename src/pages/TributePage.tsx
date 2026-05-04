@@ -240,6 +240,7 @@ const TributePage = () => {
         }
       },
       onError: (error) => {
+        setPreGenTransition(false);
         toast.error(error);
         trackCreateError("Generation", "unknown");
         setGenerating(false);
